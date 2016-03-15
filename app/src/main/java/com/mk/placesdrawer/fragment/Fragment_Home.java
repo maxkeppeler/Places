@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Fragment_1 extends Fragment {
+public class Fragment_Home extends Fragment {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager layoutManager;

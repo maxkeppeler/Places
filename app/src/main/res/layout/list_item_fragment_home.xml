@@ -43,7 +43,7 @@
                 android:id="@+id/colorizedFrame"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingTop="@dimen/activity_margin"
                 android:paddingBottom="@dimen/activity_margin"
                 android:paddingLeft="@dimen/activity_margin"
@@ -52,7 +52,7 @@
 
                 <TextView
                     android:id="@+id/textViewLocation"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:text="Location"
@@ -62,7 +62,7 @@
 
                 <TextView
                     android:id="@+id/textViewSight"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/textViewLocation"
                     android:layout_marginTop="4dp"
@@ -70,16 +70,6 @@
                     android:text="Sight"
                     android:textSize="11sp" />
 
-                <TextView
-                    android:id="@+id/textViewDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/textViewSight"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="sans-serif"
-                    android:text="Description"
-                    android:maxLines="2"
-                    android:textSize="14sp" />
             </LinearLayout>
 
 
