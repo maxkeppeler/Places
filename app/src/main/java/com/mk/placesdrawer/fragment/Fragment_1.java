@@ -1,5 +1,6 @@
 package com.mk.placesdrawer.fragment;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -58,6 +59,7 @@ public class Fragment_1 extends Fragment {
 
         layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
+
     }
 
 

@@ -25,7 +25,14 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:design:23.2.0'
 
+    compile 'com.android.support:cardview-v7:23.2.0'
+
     compile('com.mikepenz:materialdrawer:5.1.3@aar') {
+        transitive = true
+    }
+
+    //TODO Add theming options for the users (primary, primarydark, accent)
+    compile('com.github.afollestad:app-theme-engine:1.0.0@aar') {
         transitive = true
     }
 
@@ -33,8 +40,9 @@ dependencies {
     compile 'com.mikepenz:fontawesome-typeface:4.4.0.1@aar'
     compile 'com.mikepenz:octicons-typeface:3.0.0.1@aar'
 
-
+    compile 'com.balysv:material-ripple:1.0.2'
 
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
+
 }

@@ -1,7 +1,10 @@
 package com.mk.placesdrawer.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -11,6 +14,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.afollestad.appthemeengine.ATEActivity;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -23,7 +27,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.fragment.Fragment_1;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ATEActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
