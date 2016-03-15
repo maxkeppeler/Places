@@ -34,7 +34,7 @@
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="250dp"
                 android:scaleType="centerCrop" />
 
             </com.balysv.materialripple.MaterialRippleLayout>
@@ -43,14 +43,17 @@
                 android:id="@+id/colorizedFrame"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingTop="@dimen/activity_margin"
+                android:paddingBottom="@dimen/activity_margin"
+                android:paddingLeft="@dimen/activity_margin"
+                android:paddingRight="@dimen/activity_margin"
+                >
 
                 <TextView
                     android:id="@+id/textViewLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
                     android:fontFamily="sans-serif-medium"
                     android:text="Location"
                     android:textColor="#87000000"
@@ -62,7 +65,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/textViewLocation"
-                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="4dp"
                     android:fontFamily="sans-serif"
                     android:text="Sight"
@@ -73,9 +75,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/textViewSight"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
                     android:layout_marginTop="8dp"
                     android:fontFamily="sans-serif"
                     android:text="Description"
