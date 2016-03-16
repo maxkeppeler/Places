@@ -24,7 +24,7 @@
             android:orientation="vertical">
 
             <com.balysv.materialripple.MaterialRippleLayout
-                android:id="@+id/ripple"
+                android:id="@+id/ripple2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mrl_rippleOverlay="true"
@@ -36,46 +36,13 @@
                 app:mrl_rippleFadeDuration="475"
                 app:mrl_rippleDelayClick="true">
 
-                <ImageView
+                <com.mk.placesdrawer.view.TouchImageView
                     android:id="@+id/bigImageView"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
+                    android:layout_height="450dp"
                     android:scaleType="centerCrop" />
 
             </com.balysv.materialripple.MaterialRippleLayout>
-
-            <LinearLayout
-                android:id="@+id/colorizedFrame"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/activity_margin"
-                android:paddingBottom="@dimen/activity_margin"
-                android:paddingLeft="@dimen/activity_margin"
-                android:paddingRight="@dimen/activity_margin"
-                >
-
-                <TextView
-                    android:id="@+id/textViewLocation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Location"
-                    android:textColor="#87000000"
-                    android:textSize="20sp"
-                    android:textStyle="normal" />
-
-                <TextView
-                    android:id="@+id/textViewSight"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/textViewLocation"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="sans-serif"
-                    android:text="Sight"
-                    android:textSize="11sp" />
-
-            </LinearLayout>
 
 
         </LinearLayout>

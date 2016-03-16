@@ -165,8 +165,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //TODO - method for a later refresh option button in the toolbar
     private void loadPlacesList() {
-
         new DrawerPlaces.DownloadJSON(new PlacesListInterface() {
             @Override
             public void checkPlacesListCreation(boolean result) {

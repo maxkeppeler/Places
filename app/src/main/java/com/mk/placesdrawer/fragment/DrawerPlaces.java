@@ -56,9 +56,9 @@ public class DrawerPlaces extends Fragment {
             }
         }
         try {
-            layout = (ViewGroup) inflater.inflate(R.layout.drawer_home, container, false);
+            layout = (ViewGroup) inflater.inflate(R.layout.drawer_places, container, false);
         } catch (InflateException e) {
-            // Do nothing
+
         }
 
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.recyclerView);

@@ -11,11 +11,12 @@ public class PlacesList {
 
     public static void createPlacesList(ArrayList<String> locations, ArrayList<String> sights, ArrayList<String> descriptions,
                                             ArrayList<String> urls
-    ) {
+                                        ) {
+
         try {
             for (int i = 0; i < locations.size(); i++) {
-                PlacesItem wallItem =
-                        new PlacesItem(
+
+                PlacesItem wallItem = new PlacesItem(
 
                                 locations.get(i),
                                 sights.get(i),
@@ -29,7 +30,7 @@ public class PlacesList {
         }
     }
 
-    public static void createPlacesList(ArrayList<PlacesItem> placesLists) {
+    public static void createPlacesList(ArrayList<PlacesItem> placesList) {
         PlacesList.placesList = placesList;
     }
 

@@ -25,22 +25,20 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
 
         void onClick(PlacesViewHolder view, int index, boolean longClick);
     }
+    private List<PlacesItem> placesList;
+    private Activity mContext;
+
     private final ClickListener mCallback;
 
-    private List<PlacesItem> placesList;
-    private Context mContext;
-    private final ClickListener mCallBack;
-
-    public PlacesAdapter(Activity context, ClickListener mCallBack) {
-        this.mCallback = mCallBack;
+    public PlacesAdapter(Activity context, ClickListener callBack) {
         this.mContext = context;
-        this.mCallBack = mCallBack;
+        this.mCallback = callBack;
     }
 
     @Override
-    public PlacesViewHolder onCreateViewHolder(ViewGroup viewGroup, int index) {
-        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        return new PlacesViewHolder(inflater.inflate(R.layout.drawer_places_list_item, viewGroup, false));
+    public PlacesViewHolder onCreateViewHolder(ViewGroup parent, int index) {
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        return new PlacesViewHolder(inflater.inflate(R.layout.drawer_places_list_item, parent, false));
     }
 
     public void setData(ArrayList<PlacesItem> wallsList) {
@@ -52,19 +50,29 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
     public void onBindViewHolder(final PlacesViewHolder placesViewHolder, int index) {
         PlacesItem placeItem = placesList.get(index);
 
+
         placesViewHolder.location.setText(placeItem.getLocation());
         placesViewHolder.sight.setText(placeItem.getSight());
+        placesViewHolder.desc.setText(placeItem.getDescription());
 
         final String imgPlaceUrl = placeItem.getImgPlaceUrl();
 
         //TODO - issue when the app starts for the first time. The cards are on the left and are then build after the images loads. Looks weird.
-
+/*
         Glide.with(mContext)
                 .load(imgPlaceUrl)
                 .override(1400, 1094)
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder)
                 .into(placesViewHolder.image);
+
+*/
+
+        Glide.with(mContext)
+                .load(imgPlaceUrl)
+                .asBitmap()
+                .into(placesViewHolder.image);
+
     }
 
 
@@ -74,7 +82,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
     }
 
 
-    public class PlacesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class PlacesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         public final View view;
 
@@ -95,6 +103,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
             view.setOnClickListener(this);
         }
 
+
         @Override
         public void onClick(View v) {
             int index = getLayoutPosition();
@@ -102,9 +111,12 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
                 mCallback.onClick(this, index, false);
         }
 
-
+        @Override
+        public boolean onLongClick(View v) {
+            int index = getLayoutPosition();
+            if (mCallback != null)
+                mCallback.onClick(this, index, true);
+            return false;
+        }
     }
-
-
-
 }
