@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
@@ -57,22 +59,22 @@ public class MainActivity extends AppCompatActivity {
 
         new DrawerBuilder().withActivity(this).build();
 
-        PrimaryDrawerItem item1 = new PrimaryDrawerItem().
+        PrimaryDrawerItem home = new PrimaryDrawerItem().
                 withName(R.string.drawer_item_home).
                 withIcon(GoogleMaterial.Icon.gmd_home).
                 withIdentifier(1);
 
-        PrimaryDrawerItem item2 = new PrimaryDrawerItem().
+        PrimaryDrawerItem submit = new PrimaryDrawerItem().
                 withName(R.string.drawer_item_submit).
                 withIcon(GoogleMaterial.Icon.gmd_local_post_office).
                 withIdentifier(2);
 
-        PrimaryDrawerItem item3 = new PrimaryDrawerItem().
+        PrimaryDrawerItem about = new PrimaryDrawerItem().
                 withName(R.string.drawer_item_about).
                 withIcon(GoogleMaterial.Icon.gmd_account).
                 withIdentifier(3);
 
-        PrimaryDrawerItem item4 = new PrimaryDrawerItem().
+        PrimaryDrawerItem settings = new PrimaryDrawerItem().
                 withName(R.string.drawer_item_settings).
                 withIcon(GoogleMaterial.Icon.gmd_settings).
                 withIdentifier(4);
@@ -82,15 +84,17 @@ public class MainActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .addDrawerItems(
-                        item1,
-                        item2,
+                        home,
+                        submit,
                         new DividerDrawerItem(),
-                        item3,
-                        item4
+                        about,
+                        settings
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+
+
 
                         if (drawerItem != null) {
                             Intent intent = null;
@@ -129,7 +133,9 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         //Default selection at the start of the app
-        result.setSelection(1);
+        if (result != null) {
+            result.setSelection(1);
+        }
     }
 
     public interface PlacesListInterface {
