@@ -6,10 +6,12 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
+import com.bumptech.glide.Glide;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.model.PlacesListItem;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -41,14 +43,13 @@ public class PlacesListViewAdapter extends RecyclerView.Adapter<PlacesListRowHol
         placesListRowHolder.location.setText(Html.fromHtml(placeItem.getTitle()));
         placesListRowHolder.sight.setText(Html.fromHtml(placeItem.getWhat()));
 
+        //TODO - issue when the app starts for the first time. The cards are on the left and are then build after the images loads. Looks weird.
 
-        Picasso.with(mContext)
+        Glide.with(mContext)
                 .load(placeItem.getImage())
-
-                .resize(1400, 1094)                 //TODO adjust the width resize value automatically to the users screen width
-                .onlyScaleDown()
-                .error(R.drawable.placeholder)
+                .override(1400, 1094)
                 .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
                 .into(placesListRowHolder.image);
 
     }

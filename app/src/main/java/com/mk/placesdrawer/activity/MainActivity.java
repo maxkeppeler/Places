@@ -21,6 +21,7 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mk.placesdrawer.R;
+import com.mk.placesdrawer.fragment.Fragment_About;
 import com.mk.placesdrawer.fragment.Fragment_Home;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentV^iew(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -50,10 +51,10 @@ public class MainActivity extends AppCompatActivity {
 
         //if you want to update the items at a later time it is recommended to keep it in a variable
         PrimaryDrawerItem item1 = new PrimaryDrawerItem().withName(R.string.drawer_item_home).withIcon(GoogleMaterial.Icon.gmd_home).withIdentifier(1);
-        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withName(R.string.drawer_item_submit).withIcon(GoogleMaterial.Icon.gmd_mail_send);
+        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withName(R.string.drawer_item_submit).withIcon(GoogleMaterial.Icon.gmd_local_post_office).withIdentifier(2);
 
-        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withName(R.string.drawer_item_about).withIcon(GoogleMaterial.Icon.gmd_face);
-        PrimaryDrawerItem item4 = new PrimaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(GoogleMaterial.Icon.gmd_settings);
+        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withName(R.string.drawer_item_about).withIcon(GoogleMaterial.Icon.gmd_account).withIdentifier(3);
+        PrimaryDrawerItem item4 = new PrimaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(GoogleMaterial.Icon.gmd_settings).withIdentifier(4);
 
         //create the drawer and remember the `Drawer` result object
         Drawer result = new DrawerBuilder()
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 case 1:   fragment = new Fragment_Home();    break;
                                 case 2:   fragment = new Fragment_Home();    break;
-                                case 3:   fragment = new Fragment_Home();    break;
+                                case 3:   fragment = new Fragment_About();    break;
                                 case 4:   fragment = new Fragment_Home();    break;
                                 case 5:   fragment = new Fragment_Home();    break;
 
