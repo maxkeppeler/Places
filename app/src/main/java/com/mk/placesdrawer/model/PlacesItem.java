@@ -48,7 +48,7 @@ public class PlacesItem implements Parcelable {
 
     @Override
     public int describeContents() {
-        return 0;
+        return PlacesList.getPlacesList().size();
     }
 
 

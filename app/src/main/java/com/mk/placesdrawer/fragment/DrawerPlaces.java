@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -38,10 +39,12 @@ import java.util.TimerTask;
 
 public class DrawerPlaces extends Fragment {
 
-    private static RecyclerView mRecyclerView;
-    private static Activity context;
-    public static PlacesAdapter mAdapter;
     private static ViewGroup layout;
+    public static PlacesAdapter mAdapter;
+    private static RecyclerView mRecyclerView;
+    private static RecyclerView.LayoutManager layoutManager;
+    private static Activity context;
+
     private static boolean worked;
 
     @Override
@@ -49,26 +52,18 @@ public class DrawerPlaces extends Fragment {
 
         context = getActivity();
 
-        if (layout != null) {
-            ViewGroup parent = (ViewGroup) layout.getParent();
-            if (parent != null) {
-                parent.removeView(layout);
-            }
-        }
-        try {
             layout = (ViewGroup) inflater.inflate(R.layout.drawer_places, container, false);
-        } catch (InflateException e) {
+            layoutManager = new LinearLayoutManager(getActivity());
 
-        }
 
-        mRecyclerView = (RecyclerView) layout.findViewById(R.id.recyclerView);
-        mRecyclerView.setHasFixedSize(true);
+            mRecyclerView = (RecyclerView) layout.findViewById(R.id.recyclerView);
+            mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setLayoutManager(layoutManager);
+            setupLayout(true);
+            mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.setVisibility(View.VISIBLE);
 
-        setupRecyclerView(false, 0);
 
-        mRecyclerView.setVisibility(View.GONE);
-
-        setupLayout(false);
 
         return layout;
     }
@@ -233,16 +228,6 @@ public class DrawerPlaces extends Fragment {
             if (wi != null)
                 wi.checkPlacesListCreation(worked);
         }
-    }
-
-    private static void setupRecyclerView(boolean updating, int newColumns) {
-
-        mRecyclerView.setHasFixedSize(true);
-
-        if (mRecyclerView.getVisibility() != View.VISIBLE) {
-            mRecyclerView.setVisibility(View.VISIBLE);
-        }
-
     }
 
 }
