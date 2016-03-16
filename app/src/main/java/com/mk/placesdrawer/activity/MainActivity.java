@@ -1,6 +1,7 @@
 package com.mk.placesdrawer.activity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,16 +22,22 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mk.placesdrawer.R;
-import com.mk.placesdrawer.fragment.Fragment_About;
-import com.mk.placesdrawer.fragment.Fragment_Home;
+import com.mk.placesdrawer.fragment.DrawerHome;
+import com.mk.placesdrawer.fragment.DrawerPlaces;
+import com.mk.placesdrawer.model.PlacesList;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static AppCompatActivity context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+
+        context = this;
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -38,12 +45,6 @@ public class MainActivity extends AppCompatActivity {
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.header)
-                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-                    @Override
-                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
-                        return false;
-                    }
-                })
                 .build();
 
 
@@ -82,13 +83,13 @@ public class MainActivity extends AppCompatActivity {
 
                             switch ((int) drawerItem.getIdentifier()) {
 
-                                case 1:   fragment = new Fragment_Home();    break;
-                                case 2:   fragment = new Fragment_Home();    break;
-                                case 3:   fragment = new Fragment_About();    break;
-                                case 4:   fragment = new Fragment_Home();    break;
-                                case 5:   fragment = new Fragment_Home();    break;
+                                case 1:   fragment = new DrawerPlaces();    break;
+                                case 2:   fragment = new DrawerPlaces();    break;
+                                case 3:   fragment = new DrawerHome();    break;
+                                case 4:   fragment = new DrawerPlaces();    break;
+                                case 5:   fragment = new DrawerPlaces();    break;
 
-                                default:  fragment = new Fragment_Home();
+                                default:  fragment = new DrawerPlaces();
                             }
 
                             transaction.replace(R.id.container, fragment);
@@ -110,6 +111,13 @@ public class MainActivity extends AppCompatActivity {
         //(Otherwise you have to go again in the home section in order to let the content load)
         result.setSelection(1);
 
+        loadPlacesList();
+
+    }
+
+    public interface PlacesListInterface {
+
+        void checkPlacesListCreation(boolean result);
     }
 
     @Override
@@ -133,5 +141,20 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void loadPlacesList() {
+
+        new DrawerPlaces.DownloadJSON(new PlacesListInterface() {
+            @Override
+            public void checkPlacesListCreation(boolean result) {
+                if (DrawerPlaces.mAdapter != null) {
+                    DrawerPlaces.mAdapter.notifyDataSetChanged();
+                }
+            }
+        }, context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+
+
 
 }
