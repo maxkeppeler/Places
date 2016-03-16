@@ -31,8 +31,7 @@ dependencies {
         transitive = true
     }
 
-    //TODO Add theming options for the users (primary, primarydark, accent)
-    compile('com.github.afollestad:app-theme-engine:1.0.0@aar') {
+    compile('com.github.afollestad.material-dialogs:core:0.8.5.7@aar') {
         transitive = true
     }
 

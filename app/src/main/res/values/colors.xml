@@ -6,10 +6,26 @@
 
 
 
+
     <color name="white_transparent">#00ffffff</color>
-
-
-
     <color name="default_app_bg">#1b1c1f</color>
     <color name="default_card_darktheme">#26282c</color>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </resources>

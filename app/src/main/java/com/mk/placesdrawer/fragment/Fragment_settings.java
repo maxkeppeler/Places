@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.mk.placesdrawer.R;
 
-public class Fragment_settings extends Fragment {
+public class Fragment_Settings extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

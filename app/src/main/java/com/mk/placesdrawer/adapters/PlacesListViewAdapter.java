@@ -30,7 +30,7 @@ public class PlacesListViewAdapter extends RecyclerView.Adapter<PlacesListRowHol
 
     @Override
     public PlacesListRowHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_fragment_1, null);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_fragment_home, null);
         return new PlacesListRowHolder(v);
     }
 
@@ -40,13 +40,12 @@ public class PlacesListViewAdapter extends RecyclerView.Adapter<PlacesListRowHol
 
         placesListRowHolder.location.setText(Html.fromHtml(placeItem.getTitle()));
         placesListRowHolder.sight.setText(Html.fromHtml(placeItem.getWhat()));
-        placesListRowHolder.desc.setText(Html.fromHtml(placeItem.getDesc()));
 
 
         Picasso.with(mContext)
                 .load(placeItem.getImage())
-                        //.resize(622, 384)
-                .resize(1200, 894)
+
+                .resize(1400, 1094)                 //TODO adjust the width resize value automatically to the users screen width
                 .onlyScaleDown()
                 .error(R.drawable.placeholder)
                 .placeholder(R.drawable.placeholder)
