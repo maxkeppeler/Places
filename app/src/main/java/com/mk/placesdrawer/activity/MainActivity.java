@@ -30,9 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static AppCompatActivity context;
 
-    FragmentManager manager = getSupportFragmentManager();
-    FragmentTransaction transaction = manager.beginTransaction();
-    Fragment fragment;
+
 
 
 
@@ -94,30 +92,24 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
 
-
-
-                        if (drawerItem != null) {
+                            if (drawerItem != null) {
                             Intent intent = null;
 
-                            if (drawerItem.getIdentifier() == 1) {
-                                fragment = new DrawerPlaces();
-                            }
+                                FragmentManager manager = getSupportFragmentManager();
+                                FragmentTransaction transaction = manager.beginTransaction();
+                                Fragment fragment;
 
-                            if (drawerItem.getIdentifier() == 2) {
-                                fragment = new DrawerPlaces();
-                            }
+                                switch ( (int) drawerItem.getIdentifier()) {
 
-                            if (drawerItem.getIdentifier() == 3) {
-                                fragment = new DrawerPlaces();
-                            }
+                                    case 1: fragment = new DrawerPlaces(); break;
+                                    case 2: fragment = new DrawerPlaces(); break;
+                                    case 3: fragment = new DrawerPlaces(); break;
+                                    case 4: fragment = new DrawerPlaces(); break;
+                                    case 5: fragment = new DrawerPlaces(); break;
 
-                            if (drawerItem.getIdentifier() == 4) {
-                                fragment = new DrawerPlaces();
-                            }
+                                    default: fragment = new DrawerPlaces();
+                                }
 
-                            else {
-                                fragment = new DrawerPlaces();
-                            }
 
                             transaction.replace(R.id.container, fragment);
                             transaction.commit();
@@ -133,9 +125,8 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         //Default selection at the start of the app
-        if (result != null) {
-            result.setSelection(1);
-        }
+        result.setSelection(1);
+
     }
 
     public interface PlacesListInterface {
