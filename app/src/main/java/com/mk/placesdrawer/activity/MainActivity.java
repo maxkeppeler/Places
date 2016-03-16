@@ -30,6 +30,14 @@ public class MainActivity extends AppCompatActivity {
 
     private static AppCompatActivity context;
 
+    FragmentManager manager = getSupportFragmentManager();
+    FragmentTransaction transaction = manager.beginTransaction();
+    Fragment fragment;
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -47,17 +55,28 @@ public class MainActivity extends AppCompatActivity {
                 .withHeaderBackground(R.drawable.header)
                 .build();
 
-
         new DrawerBuilder().withActivity(this).build();
 
-        //if you want to update the items at a later time it is recommended to keep it in a variable
-        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withName(R.string.drawer_item_home).withIcon(GoogleMaterial.Icon.gmd_home).withIdentifier(1);
-        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withName(R.string.drawer_item_submit).withIcon(GoogleMaterial.Icon.gmd_local_post_office).withIdentifier(2);
+        PrimaryDrawerItem item1 = new PrimaryDrawerItem().
+                withName(R.string.drawer_item_home).
+                withIcon(GoogleMaterial.Icon.gmd_home).
+                withIdentifier(1);
 
-        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withName(R.string.drawer_item_about).withIcon(GoogleMaterial.Icon.gmd_account).withIdentifier(3);
-        PrimaryDrawerItem item4 = new PrimaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(GoogleMaterial.Icon.gmd_settings).withIdentifier(4);
+        PrimaryDrawerItem item2 = new PrimaryDrawerItem().
+                withName(R.string.drawer_item_submit).
+                withIcon(GoogleMaterial.Icon.gmd_local_post_office).
+                withIdentifier(2);
 
-        //create the drawer and remember the `Drawer` result object
+        PrimaryDrawerItem item3 = new PrimaryDrawerItem().
+                withName(R.string.drawer_item_about).
+                withIcon(GoogleMaterial.Icon.gmd_account).
+                withIdentifier(3);
+
+        PrimaryDrawerItem item4 = new PrimaryDrawerItem().
+                withName(R.string.drawer_item_settings).
+                withIcon(GoogleMaterial.Icon.gmd_settings).
+                withIdentifier(4);
+
         Drawer result = new DrawerBuilder()
                 .withAccountHeader(headerResult)
                 .withActivity(this)
@@ -73,23 +92,27 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
 
-                        FragmentManager manager = getSupportFragmentManager();
-                        FragmentTransaction transaction = manager.beginTransaction();
-                        Fragment fragment;
-
                         if (drawerItem != null) {
-
                             Intent intent = null;
 
-                            switch ((int) drawerItem.getIdentifier()) {
+                            if (drawerItem.getIdentifier() == 1) {
+                                fragment = new DrawerPlaces();
+                            }
 
-                                case 1:   fragment = new DrawerPlaces();    break;
-                                case 2:   fragment = new DrawerPlaces();    break;
-                                case 3:   fragment = new DrawerHome();    break;
-                                case 4:   fragment = new DrawerPlaces();    break;
-                                case 5:   fragment = new DrawerPlaces();    break;
+                            if (drawerItem.getIdentifier() == 2) {
+                                fragment = new DrawerPlaces();
+                            }
 
-                                default:  fragment = new DrawerPlaces();
+                            if (drawerItem.getIdentifier() == 3) {
+                                fragment = new DrawerPlaces();
+                            }
+
+                            if (drawerItem.getIdentifier() == 4) {
+                                fragment = new DrawerPlaces();
+                            }
+
+                            else {
+                                fragment = new DrawerPlaces();
                             }
 
                             transaction.replace(R.id.container, fragment);
@@ -100,19 +123,13 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
 
-
                         return false;
-
                     }
                 })
                 .build();
 
-        //Default selection for the app drawer, when the app starts.
-        //(Otherwise you have to go again in the home section in order to let the content load)
+        //Default selection at the start of the app
         result.setSelection(1);
-
-        loadPlacesList();
-
     }
 
     public interface PlacesListInterface {

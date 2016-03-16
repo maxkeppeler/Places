@@ -227,6 +227,9 @@ public class DrawerPlaces extends Fragment {
                 setupLayout(true);
             }
 
+                setupLayout(true);
+
+
             if (wi != null)
                 wi.checkPlacesListCreation(worked);
         }
