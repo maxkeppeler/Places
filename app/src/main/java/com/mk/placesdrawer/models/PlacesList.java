@@ -12,7 +12,7 @@ public class PlacesList {
     // I understood the principle of this method
     public static void createPlacesList(ArrayList<String> locations,
                                         ArrayList<String> sights,
-                                        ArrayList<String> descriptions,
+                                       // ArrayList<String> descriptions,
                                         ArrayList<String> urls
                                         )
     {
@@ -26,7 +26,7 @@ public class PlacesList {
 
                                 locations.get(i),
                                 sights.get(i),
-                                descriptions.get(i),
+                             //   descriptions.get(i),
                                 urls.get(i)
                                 );
 

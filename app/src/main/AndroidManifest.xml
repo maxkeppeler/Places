@@ -23,6 +23,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Full View - Places Activity -->
+        <activity
+            android:name=".activity.PlacesViewerActivity"
+            android:label="@string/title_activity_detailed_places"
+            android:theme="@style/AppTheme"/>
+
     </application>
 
 </manifest>

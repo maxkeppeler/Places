@@ -23,6 +23,7 @@
     <string name="developer">Maximilian Keppeler</string>
     <string name="developer_desc">Maximilian Keppeler</string>
     <string name="json_file_url">https://drive.google.com/uc?id=0B6ky9fzTGl9XNFBhTTlxU2hhQmM</string>
+    <string name="title_activity_detailed_places">Places Viewer</string>
 
 
 </resources>

@@ -102,21 +102,6 @@ public class DrawerPlaces extends Fragment {
                                 @Override
                                 public void onClick(PlacesAdapter.PlacesViewHolder view,
                                                     int position, boolean longClick) {
-                                    if (longClick) {
-
-                                        PlacesItem wallItem = PlacesList.getPlacesList().get(position);
-
-                                        Glide.with(context)
-                                                .load(wallItem.getImgPlaceUrl())
-                                                .asBitmap()
-                                                .into(new SimpleTarget<Bitmap>() {
-                                                    @Override
-                                                    public void onResourceReady(final Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                                                        if (resource != null) {
-                                                        }
-                                                    }
-                                                });
-                                    } else {
 
                                         final Intent intent = new Intent(context, PlacesViewerActivity.class);
 
@@ -140,10 +125,9 @@ public class DrawerPlaces extends Fragment {
                                                 e.printStackTrace();
                                             }
 
-                                            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, view.image, ViewCompat.getTransitionName(view.image));
-                                            context.startActivity(intent, options.toBundle());
-                                        } else {
-                                        }
+                                            //ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, view.image, ViewCompat.getTransitionName(view.image));
+                                            //context.startActivity(intent, options.toBundle());
+                                            context.startActivity(intent);
                                     }
                                 }
                             });
@@ -243,7 +227,7 @@ public class DrawerPlaces extends Fragment {
                         // ArrayList receives per object/ per loop the following strings/ values from the json object
                         places.add(new PlacesItem(
                                 json.getString("location"),
-                                json.getString("description"),
+                              //  json.getString("description"),
                                 json.getString("sight"),
                                 json.getString("url")
                                                  )

@@ -53,16 +53,12 @@ import java.io.FileInputStream;
 
 public class PlacesViewerActivity extends AppCompatActivity {
 
-    private boolean mLastTheme, mLastNavBar;
-
     private PlacesItem item;
 
     private RelativeLayout layout;
-    private static File downloadsFolder;
+
     private static MaterialDialog dialogApply;
     private Toolbar toolbar;
-
-    private static LinearLayout toHide1, toHide2;
 
     private Activity context;
 
@@ -94,7 +90,7 @@ public class PlacesViewerActivity extends AppCompatActivity {
         TouchImageView mPhoto = (TouchImageView) findViewById(R.id.bigImageView);
         ViewCompat.setTransitionName(mPhoto, transitionName);
 
-        layout = (RelativeLayout) findViewById(R.id.relativeLayout);
+        layout = (RelativeLayout) findViewById(R.id.linearLayout);
 
         Bitmap bmp = null;
         String filename = getIntent().getStringExtra("image");
@@ -112,6 +108,7 @@ public class PlacesViewerActivity extends AppCompatActivity {
                     .load(item.getImgPlaceUrl())
                     .placeholder(d)
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .override(1400, 1094)
                     .fitCenter()
                     .into(mPhoto);
 
@@ -157,10 +154,8 @@ public class PlacesViewerActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             //Crop request
-            if (toHide1 != null && toHide2 != null) {
-                toHide1.setVisibility(View.VISIBLE);
-                toHide2.setVisibility(View.VISIBLE);
-            }
+
+
         }
     }
 
