@@ -20,21 +20,12 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mk.placesdrawer.R;
-import com.mk.placesdrawer.fragment.DrawerHome;
 import com.mk.placesdrawer.fragment.DrawerPlaces;
-import com.mk.placesdrawer.model.PlacesList;
 
 public class MainActivity extends AppCompatActivity {
 
     private static AppCompatActivity context;
-
-
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

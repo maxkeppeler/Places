@@ -1,4 +1,4 @@
-package com.mk.placesdrawer.model;
+package com.mk.placesdrawer.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

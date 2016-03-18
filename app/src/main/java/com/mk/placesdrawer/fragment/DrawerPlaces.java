@@ -17,14 +17,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.activity.PlacesViewerActivity;
 import com.mk.placesdrawer.utilities.JSONParser;
 import com.mk.placesdrawer.utilities.Utils;
 import com.mk.placesdrawer.activity.MainActivity;
 import com.mk.placesdrawer.adapters.PlacesAdapter;
-import com.mk.placesdrawer.model.PlacesItem;
-import com.mk.placesdrawer.model.PlacesList;
+import com.mk.placesdrawer.models.PlacesItem;
+import com.mk.placesdrawer.models.PlacesList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,10 +42,15 @@ import java.util.TimerTask;
 
 public class DrawerPlaces extends Fragment {
 
+    //Declare Layout, Adapter, RecyclerView in order to
     private static ViewGroup layout;
-    public static PlacesAdapter mAdapter;
     private static RecyclerView mRecyclerView;
-    private static RecyclerView.LayoutManager layoutManager;
+    public static PlacesAdapter mAdapter;
+
+    //Is a layout manager necessary?
+    //private static RecyclerView.LayoutManager layoutManager;
+    //private static LinearLayoutManager layoutManager;
+
     private static Activity context;
 
     private static boolean worked;
@@ -52,18 +60,32 @@ public class DrawerPlaces extends Fragment {
 
         context = getActivity();
 
+        if (layout != null) {
+            ViewGroup parent = (ViewGroup) layout.getParent();
+            if (parent != null) {
+                parent.removeView(layout);
+            }
+        }
+
+        try {
             layout = (ViewGroup) inflater.inflate(R.layout.drawer_places, container, false);
-            layoutManager = new LinearLayoutManager(getActivity());
+        } catch (InflateException e) {
+            // Do nothing
+        }
 
+        mRecyclerView = (RecyclerView) layout.findViewById(R.id.placecRecyclerView);
 
-            mRecyclerView = (RecyclerView) layout.findViewById(R.id.recyclerView);
-            mRecyclerView.setHasFixedSize(true);
-            mRecyclerView.setLayoutManager(layoutManager);
-            setupLayout(true);
-            mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+        mRecyclerView.setHasFixedSize(true);
+
+        if (mRecyclerView.getVisibility() != View.VISIBLE) {
             mRecyclerView.setVisibility(View.VISIBLE);
+        }
 
+        mRecyclerView.setVisibility(View.GONE);
 
+        setupLayout(false);
 
         return layout;
     }
@@ -80,6 +102,21 @@ public class DrawerPlaces extends Fragment {
                                 @Override
                                 public void onClick(PlacesAdapter.PlacesViewHolder view,
                                                     int position, boolean longClick) {
+                                    if (longClick) {
+
+                                        PlacesItem wallItem = PlacesList.getPlacesList().get(position);
+
+                                        Glide.with(context)
+                                                .load(wallItem.getImgPlaceUrl())
+                                                .asBitmap()
+                                                .into(new SimpleTarget<Bitmap>() {
+                                                    @Override
+                                                    public void onResourceReady(final Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                                        if (resource != null) {
+                                                        }
+                                                    }
+                                                });
+                                    } else {
 
                                         final Intent intent = new Intent(context, PlacesViewerActivity.class);
 
@@ -89,28 +126,34 @@ public class DrawerPlaces extends Fragment {
                                         Bitmap bitmap;
 
                                         if (view.image.getDrawable() != null) {
+
                                             bitmap = Utils.drawableToBitmap(view.image.getDrawable());
+
                                             try {
                                                 String filename = "temp.png";
                                                 FileOutputStream stream = context.openFileOutput(filename, Context.MODE_PRIVATE);
                                                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                                                 stream.close();
                                                 intent.putExtra("image", filename);
+
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                             }
 
                                             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, view.image, ViewCompat.getTransitionName(view.image));
                                             context.startActivity(intent, options.toBundle());
-
-
+                                        } else {
+                                        }
                                     }
                                 }
                             });
 
                     mAdapter.setData(PlacesList.getPlacesList());
                     mRecyclerView.setAdapter(mAdapter);
-                    mRecyclerView.setVisibility(View.VISIBLE);
+
+                    if (Utils.hasNetwork(context)) {
+                        mRecyclerView.setVisibility(View.VISIBLE);
+                    }
 
                 }
             });
@@ -118,7 +161,10 @@ public class DrawerPlaces extends Fragment {
             context.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    if (mAdapter != null) {
+                    }
                     if (layout != null) {
+
                         if (fromTask) {
                             Timer timer = new Timer();
                             timer.schedule(new TimerTask() {
@@ -144,8 +190,8 @@ public class DrawerPlaces extends Fragment {
     public static class DownloadJSON extends AsyncTask<Void, Void, Void> {
 
         final MainActivity.PlacesListInterface wi;
-        private final static ArrayList<PlacesItem> places = new ArrayList<>();
 
+        private final static ArrayList<PlacesItem> places = new ArrayList<>();
         private Context taskContext;
 
         private WeakReference<Activity> wrActivity;
@@ -174,36 +220,46 @@ public class DrawerPlaces extends Fragment {
             }
         }
 
+        // I understood the principle of this method
         @Override
         protected Void doInBackground(Void... params) {
 
-            JSONObject json = JSONParser.getJSONFromURL(
-                    Utils.getStringFromResources(taskContext,
-                            R.string.json_file_url));
+            // Create new JSONObject (json) by getting the current context and the json raw file link
+            JSONObject json = JSONParser.getJSONFromURL(Utils.getStringFromResources(taskContext, R.string.json_file_url));
 
+            // When json is null, find the array....
             if (json != null) {
                 try {
-                    // Locate the array name in JSON
+
+                    // ...with the name "places"
                     JSONArray jsonarray = json.getJSONArray("places");
 
+                    // loop, grabbing all json objects out of the "places"
                     for (int i = 0; i < jsonarray.length(); i++) {
-                        json = jsonarray.getJSONObject(i);
-                        // Retrieve JSON Objects
 
+                        // Retrieve JSON Objects
+                        json = jsonarray.getJSONObject(i);
+
+                        // ArrayList receives per object/ per loop the following strings/ values from the json object
                         places.add(new PlacesItem(
                                 json.getString("location"),
-                                json.getString("sight"),
                                 json.getString("description"),
-                                json.getString("imgPlacesUrl")));
+                                json.getString("sight"),
+                                json.getString("url")
+                                                 )
+                        );
 
                     }
 
+                    // Created new ArrayList out for all the Array Lists for all strings / values of each object
                     PlacesList.createPlacesList(places);
 
                     worked = true;
+
                 } catch (JSONException e) {
                     worked = false;
                 }
+
             } else {
                 worked = false;
             }
@@ -215,15 +271,12 @@ public class DrawerPlaces extends Fragment {
         protected void onPostExecute(Void args) {
 
             endTime = System.currentTimeMillis();
-            Utils.showLog("Places Task completed in: " +
+            Utils.showLog("Walls Task completed in: " +
                     String.valueOf((endTime - startTime) / 1000) + " secs.");
 
             if (layout != null) {
                 setupLayout(true);
             }
-
-                setupLayout(true);
-
 
             if (wi != null)
                 wi.checkPlacesListCreation(worked);

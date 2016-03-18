@@ -44,7 +44,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.mk.placesdrawer.R;
-import com.mk.placesdrawer.model.PlacesItem;
+import com.mk.placesdrawer.models.PlacesItem;
 import com.mk.placesdrawer.view.TouchImageView;
 
 import java.io.File;

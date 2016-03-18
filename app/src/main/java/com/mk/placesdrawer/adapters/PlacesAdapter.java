@@ -1,7 +1,12 @@
 package com.mk.placesdrawer.adapters;
 
 import android.app.Activity;
-import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.placesdrawer.R;
-import com.mk.placesdrawer.model.PlacesItem;
+import com.mk.placesdrawer.models.PlacesItem;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by florentchampigny on 24/04/15.
@@ -25,7 +30,8 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
 
         void onClick(PlacesViewHolder view, int index, boolean longClick);
     }
-    private List<PlacesItem> placesList;
+
+    private ArrayList<PlacesItem> placesList;
     private Activity mContext;
 
     private final ClickListener mCallback;
@@ -41,56 +47,54 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
         return new PlacesViewHolder(inflater.inflate(R.layout.drawer_places_list_item, parent, false));
     }
 
-    public void setData(ArrayList<PlacesItem> wallsList) {
-        this.placesList = wallsList;
+    public void setData(ArrayList<PlacesItem> placesList) {
+        this.placesList = placesList;
         notifyDataSetChanged();
     }
 
     @Override
-    public void onBindViewHolder(final PlacesViewHolder placesViewHolder, int index) {
+    public void onBindViewHolder(final PlacesViewHolder holder, int index) {
+
         PlacesItem placeItem = placesList.get(index);
-
-
-        placesViewHolder.location.setText(placeItem.getLocation());
-        placesViewHolder.sight.setText(placeItem.getSight());
-        placesViewHolder.desc.setText(placeItem.getDescription());
+        holder.location.setText(placeItem.getLocation());
+        holder.sight.setText(placeItem.getSight());
+        //holder.desc.setText(placeItem.getDescription());
 
         final String imgPlaceUrl = placeItem.getImgPlaceUrl();
 
-        //TODO - issue when the app starts for the first time. The cards are on the left and are then build after the images loads. Looks weird.
-/*
+/*      Old
         Glide.with(mContext)
                 .load(imgPlaceUrl)
                 .override(1400, 1094)
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder)
-                .into(placesViewHolder.image);
+                .into(holder.image);
 
 */
 
-        Glide.with(mContext)
-                .load(imgPlaceUrl)
-                .asBitmap()
-                .into(placesViewHolder.image);
+        Glide.with(mContext).load(imgPlaceUrl).asBitmap().into(new BitmapImageViewTarget(holder.image) {
+            @Override
+            protected void setResource(Bitmap resource) {
+                    TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(mContext.getResources(), resource)});
+                    holder.image.setImageDrawable(td);
+                    td.startTransition(250);
+            }
+        });
 
     }
 
 
     @Override
     public int getItemCount() {
-        return placesList.size();
+        return placesList == null ? 0 : placesList.size();
     }
 
 
     public class PlacesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         public final View view;
-
         public final ImageView image;
-
-        public final TextView location;
-        public final TextView sight;
-        public final TextView desc;
+        public final TextView location, sight; //, desc;
 
         PlacesViewHolder(View v) {
             super(v);
@@ -99,8 +103,10 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
             image = (ImageView) view.findViewById(R.id.imageView);
             location = (TextView) view.findViewById(R.id.textViewLocation);
             sight = (TextView) view.findViewById(R.id.textViewSight);
-            desc = (TextView) view.findViewById(R.id.textViewDescription);
+            //desc = (TextView) view.findViewById(R.id.textViewDescription);
+
             view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
         }
 
 
