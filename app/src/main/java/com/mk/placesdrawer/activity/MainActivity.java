@@ -2,6 +2,7 @@ package com.mk.placesdrawer.activity;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -31,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
     private static String drawer1, drawer2, drawer3, drawer4;
     private static String drawerWrong;
 
+    // TODO Differnt Toolbar and Status Bar color depending on the current fragment.
+    // Places - Dark Grey Toolbar and Status Bar
+    // Submit - Red
+    // Settings - Blue Grey
+    // Just an example, and just an idea... I will think about it
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +52,12 @@ public class MainActivity extends AppCompatActivity {
         drawer3 = getResources().getString(R.string.app_about);
         drawer4 = getResources().getString(R.string.app_settings);
         drawerWrong = getResources().getString(R.string.app_wrong);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = this.getWindow();
+            window.setNavigationBarColor(getResources().getColor(R.color.navigationBar));
+        }
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -110,10 +124,12 @@ public class MainActivity extends AppCompatActivity {
                                 case 3: fragment = new DrawerHome();
                                     break;
 
-                                case 4: fragment = new DrawerHome();
+                                case 4:
+                                    fragment = new DrawerHome();
                                     break;
 
-                                default: fragment = new DrawerPlaces();
+                                default:
+                                    fragment = new DrawerPlaces();
                             }
 
                             transaction.replace(R.id.container, fragment);
@@ -147,7 +163,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
@@ -166,7 +181,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.toolbar_actions, menu);
         return true;
     }
 
@@ -177,10 +193,13 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.reload) {
+            DrawerPlaces.reloadPlaces(context);
+            loadPlacesList();
             return true;
         }
+
+
 
         return super.onOptionsItemSelected(item);
     }

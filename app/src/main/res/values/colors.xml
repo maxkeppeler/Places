@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+
+    <!-- GOOGLE PLUS RED
+    <color name="colorPrimary">#db4437</color>
+    <color name="colorPrimaryDark">#c53929</color>
+    <color name="colorPrimaryLight">#e75144</color>
+       -->
+    <color name="colorPrimary">#212121</color>
+    <color name="colorPrimaryDark">#212121</color>
+    <color name="colorPrimaryLight">#212121</color>
+
+    <color name="colorAccent">#db4437</color>
+
+    <color name="navigationBar">#212121</color>
+    
+    <!--<color name="appBackgroundColor">#FF1B1C1F</color>-->
+    <color name="appBackgroundColor">#FFEAEAEA</color>
+    <!--<color name="cardBackground">#26282c</color>-->
+    <color name="cardBackground">#fff</color>
 
     <color name="snackbar">#424242</color>
 
@@ -13,6 +28,28 @@
     <color name="default_card_darktheme">#26282c</color>
 
 
+
+    <!-- Material Drawer -->
+
+    <!-- Default colors -->
+    <color name="material_drawer_primary">@color/colorPrimary</color>
+    <color name="material_drawer_primary_dark">@color/colorPrimaryDark</color>
+    <color name="material_drawer_primary_light">@color/colorPrimaryLight</color>
+    <color name="material_drawer_accent">@color/colorAccent</color>
+
+    <color name="material_drawer_background">#F9F9F9</color>
+
+    <!-- Default text & items colors -->
+    <color name="material_drawer_primary_text">#DE000000</color>
+    <color name="material_drawer_primary_icon">#8A000000</color>
+    <color name="material_drawer_secondary_text">#8A000000</color>
+    <color name="material_drawer_hint_text">#42000000</color>
+    <color name="material_drawer_divider">#1F000000</color>
+
+    <!-- Default drawer colors -->
+    <color name="material_drawer_selected">#E8E8E8</color>
+    <color name="material_drawer_selected_text">@color/colorPrimary</color>
+    <color name="material_drawer_header_selection_text">#FFF</color>
 
 
 

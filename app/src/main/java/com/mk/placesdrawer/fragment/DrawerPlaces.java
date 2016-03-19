@@ -42,6 +42,8 @@ import java.util.TimerTask;
 
 public class DrawerPlaces extends Fragment {
 
+    // TODO - content only loads when there's a mobile internet connection. Not with wifi. Whyever.
+
     //Declare Layout, Adapter, RecyclerView in order to
     private static ViewGroup layout;
     private static RecyclerView mRecyclerView;
@@ -169,6 +171,16 @@ public class DrawerPlaces extends Fragment {
     }
 
 
+    public static void reloadPlaces(Activity context) {
+        mRecyclerView.setVisibility(View.GONE);
+        if (Utils.hasNetwork(context)) {
+            Utils.showSimpleSnackbar(context, layout,
+                    context.getResources().getString(R.string.reload_places));
+        } else {
+            Utils.showSimpleSnackbar(context, layout,
+                    context.getResources().getString(R.string.no_internet));
+        }
+    }
 
     // DownloadJSON AsyncTask
     public static class DownloadJSON extends AsyncTask<Void, Void, Void> {
