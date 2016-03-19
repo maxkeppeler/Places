@@ -16,8 +16,18 @@
     <string name="action_filter">Filter</string>
     <string name="action_sort">Sort</string>
 
+    <string name="header_url">http://bit.ly/1UqVqsn</string>
 
-
+    <string-array name="headerUrl">
+        <item></item>
+        <item>http://bit.ly/1R5Skb4</item> <!-- Trees Image -->
+        <item>http://bit.ly/1R7D0cG</item> <!-- Earth Image -->
+        <item>http://bit.ly/22pFyvf</item> <!-- Hills Image -->
+        <item>http://bit.ly/1R5WejZ</item>
+        <item>http://bit.ly/1RtpTQ2</item>
+        <item>http://bit.ly/21ARq7O</item>
+        <item>http://bit.ly/1RtpYmN</item>
+    </string-array>
 
     <string name="location">Location</string>
 

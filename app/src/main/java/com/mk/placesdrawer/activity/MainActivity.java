@@ -13,8 +13,9 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
-import android.view.WindowManager;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -22,9 +23,12 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.fragment.DrawerHome;
 import com.mk.placesdrawer.fragment.DrawerPlaces;
+
+import java.util.Random;
 
 import static com.mikepenz.google_material_typeface_library.GoogleMaterial.*;
 
@@ -33,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
     private static AppCompatActivity context;
     private static String drawer1, drawer2, drawer3, drawer4;
     private static String drawerWrong;
+    private int currentDrawerItem;
+    private String[] urlHeaderArray;
+    private Random generator;
+
 
     // TODO Differnt Toolbar and Status Bar color depending on the current fragment.
     // Places - Dark Grey Toolbar and Status Bar
@@ -46,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         context = this;
+
+        changeHeaderPicture();
 
         drawer1 = getResources().getString(R.string.app_places);
         drawer2 = getResources().getString(R.string.app_submit);
@@ -62,10 +72,7 @@ public class MainActivity extends AppCompatActivity {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        AccountHeader headerResult = new AccountHeaderBuilder()
-                .withActivity(this)
-                .withHeaderBackground(R.drawable.header)
-                .build();
+
 
         new DrawerBuilder().withActivity(this).build();
 
@@ -92,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 withIdentifier(4);
 
         Drawer result = new DrawerBuilder()
-                .withAccountHeader(headerResult)
+                .withAccountHeader(changeHeaderPicture())
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .addDrawerItems(
@@ -135,7 +142,8 @@ public class MainActivity extends AppCompatActivity {
                             transaction.replace(R.id.container, fragment);
                             transaction.commit();
 
-                            toolbar.setTitle(toolbarText((int) drawerItem.getIdentifier()));
+                            currentDrawerItem = (int) drawerItem.getIdentifier();
+                            toolbar.setTitle(toolbarText(currentDrawerItem));
 
                             if (intent != null) {
                                 MainActivity.this.startActivity(intent);
@@ -180,28 +188,33 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
         getMenuInflater().inflate(R.menu.toolbar_actions, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        super.onOptionsItemSelected(item);
+
         int id = item.getItemId();
 
-        if (id == R.id.reload) {
-            DrawerPlaces.reloadPlaces(context);
-            loadPlacesList();
-            return true;
+        switch (id) {
+
+            case R.id.filter:
+                break;
+
+            case R.id.sort:
+                break;
+
+            case R.id.reload:
+                DrawerPlaces.reloadPlaces(context);
+                loadPlacesList();
+                break;
+
+            case R.id.changelog:
+                break;
         }
-
-
-
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     //TODO - method for a later refresh option button in the toolbar
@@ -216,5 +229,37 @@ public class MainActivity extends AppCompatActivity {
         }, context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    public AccountHeader changeHeaderPicture() {
+
+
+        generator = new Random();
+
+        urlHeaderArray = getResources().getStringArray(R.array.headerUrl);
+        String rnb = urlHeaderArray[generator.nextInt(urlHeaderArray.length)];
+
+        final AccountHeader headerResult = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withProfileImagesClickable(true)
+                .withOnAccountHeaderSelectionViewClickListener(new AccountHeader.OnAccountHeaderSelectionViewClickListener() {
+                    @Override
+                    public boolean onClick(View view, IProfile profile) {
+                        changeHeaderPicture();
+                        return false;
+                    }
+                })
+                .build();
+
+        ImageView cover = headerResult.getHeaderBackgroundView();
+
+        Glide.with(context)
+                .load(rnb)
+                .error(R.drawable.header)
+                .placeholder(R.drawable.header)
+                .override(912, 688)
+                .centerCrop()
+                .into(cover);
+
+        return headerResult;
+    }
 
 }
