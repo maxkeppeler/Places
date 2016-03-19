@@ -49,4 +49,5 @@ dependencies {
 
     compile 'com.android.support:customtabs:23.2.1'
 
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
 }

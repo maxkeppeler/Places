@@ -150,6 +150,6 @@ public class Utils {
     }
 
     public static void showLog(String s) {
-        Log.d("IconShowcase ", s);
+        Log.d("Places ", s);
     }
 }

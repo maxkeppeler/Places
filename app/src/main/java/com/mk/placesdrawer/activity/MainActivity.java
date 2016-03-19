@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -21,22 +20,30 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mk.placesdrawer.R;
+import com.mk.placesdrawer.fragment.DrawerHome;
 import com.mk.placesdrawer.fragment.DrawerPlaces;
+
+import static com.mikepenz.google_material_typeface_library.GoogleMaterial.*;
 
 public class MainActivity extends AppCompatActivity {
 
     private static AppCompatActivity context;
+    private static String drawer1, drawer2, drawer3, drawer4;
+    private static String drawerWrong;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
-
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-
         context = this;
+
+        drawer1 = getResources().getString(R.string.app_places);
+        drawer2 = getResources().getString(R.string.app_submit);
+        drawer3 = getResources().getString(R.string.app_about);
+        drawer4 = getResources().getString(R.string.app_settings);
+        drawerWrong = getResources().getString(R.string.app_wrong);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -48,24 +55,26 @@ public class MainActivity extends AppCompatActivity {
 
         new DrawerBuilder().withActivity(this).build();
 
-        PrimaryDrawerItem home = new PrimaryDrawerItem().
-                withName(R.string.drawer_item_home).
-                withIcon(GoogleMaterial.Icon.gmd_home).
+        // TODO find better, better matching, icons for the categories
+
+        final PrimaryDrawerItem item1 = new PrimaryDrawerItem().
+                withName(drawer1).
+                withIcon(Icon.gmd_home).
                 withIdentifier(1);
 
-        PrimaryDrawerItem submit = new PrimaryDrawerItem().
-                withName(R.string.drawer_item_submit).
-                withIcon(GoogleMaterial.Icon.gmd_local_post_office).
+        final PrimaryDrawerItem item2 = new PrimaryDrawerItem().
+                withName(drawer2).
+                withIcon(Icon.gmd_local_post_office).
                 withIdentifier(2);
 
-        PrimaryDrawerItem about = new PrimaryDrawerItem().
-                withName(R.string.drawer_item_about).
-                withIcon(GoogleMaterial.Icon.gmd_account).
+        final PrimaryDrawerItem item3 = new PrimaryDrawerItem().
+                withName(drawer3).
+                withIcon(Icon.gmd_account).
                 withIdentifier(3);
 
-        PrimaryDrawerItem settings = new PrimaryDrawerItem().
-                withName(R.string.drawer_item_settings).
-                withIcon(GoogleMaterial.Icon.gmd_settings).
+        final PrimaryDrawerItem item4 = new PrimaryDrawerItem().
+                withName(drawer4).
+                withIcon(Icon.gmd_settings).
                 withIdentifier(4);
 
         Drawer result = new DrawerBuilder()
@@ -73,37 +82,44 @@ public class MainActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .addDrawerItems(
-                        home,
-                        submit,
+                        item1,
+                        item2,
                         new DividerDrawerItem(),
-                        about,
-                        settings
+                        item3,
+                        item4
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
 
-                            if (drawerItem != null) {
+                        if (drawerItem != null) {
                             Intent intent = null;
 
-                                FragmentManager manager = getSupportFragmentManager();
-                                FragmentTransaction transaction = manager.beginTransaction();
-                                Fragment fragment;
+                            FragmentManager manager = getSupportFragmentManager();
+                            FragmentTransaction transaction = manager.beginTransaction();
+                            Fragment fragment;
 
-                                switch ( (int) drawerItem.getIdentifier()) {
+                            switch ((int) drawerItem.getIdentifier()) {
 
-                                    case 1: fragment = new DrawerPlaces(); break;
-                                    case 2: fragment = new DrawerPlaces(); break;
-                                    case 3: fragment = new DrawerPlaces(); break;
-                                    case 4: fragment = new DrawerPlaces(); break;
-                                    case 5: fragment = new DrawerPlaces(); break;
+                                case 1: fragment = new DrawerPlaces();
+                                    break;
 
-                                    default: fragment = new DrawerPlaces();
-                                }
+                                case 2: fragment = new DrawerHome();
+                                    break;
 
+                                case 3: fragment = new DrawerHome();
+                                    break;
+
+                                case 4: fragment = new DrawerHome();
+                                    break;
+
+                                default: fragment = new DrawerPlaces();
+                            }
 
                             transaction.replace(R.id.container, fragment);
                             transaction.commit();
+
+                            toolbar.setTitle(toolbarText((int) drawerItem.getIdentifier()));
 
                             if (intent != null) {
                                 MainActivity.this.startActivity(intent);
@@ -115,9 +131,31 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .build();
 
-        //Default selection at the start of the app
-        result.setSelection(1);
+        // Default selection at the start of the app
+        if (result != null) {
+            result.setSelection(1);
+        }
+    }
 
+    public String toolbarText(int fragmentPosition) {
+        switch (fragmentPosition) {
+            case 1:  return drawer1;
+            case 2:  return drawer2;
+            case 3:  return drawer3;
+            case 4:  return drawer4;
+            default: return drawerWrong;
+        }
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 
     public interface PlacesListInterface {
@@ -158,8 +196,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }, context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
-
-
 
 
 }
