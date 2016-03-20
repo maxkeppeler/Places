@@ -17,6 +17,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.activity.PlacesViewerActivity;
 import com.mk.placesdrawer.utilities.JSONParser;
@@ -102,28 +106,44 @@ public class DrawerPlaces extends Fragment {
                                 public void onClick(PlacesAdapter.PlacesViewHolder view,
                                                     int position, boolean longClick) {
 
+                                    if (longClick) {
 
-                                    final Intent intent = new Intent(context, PlacesViewerActivity.class);
+                                        PlacesItem wallItem = PlacesList.getPlacesList().get(position);
 
-                                    intent.putExtra("item", PlacesList.getPlacesList().get(position));
-                                    intent.putExtra("transitionName", ViewCompat.getTransitionName(view.image));
+                                        Glide.with(context)
+                                                .load(wallItem.getImgPlaceUrl())
+                                                .asBitmap()
+                                                .into(new SimpleTarget<Bitmap>() {
+                                                    @Override
+                                                    public void onResourceReady(final Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                                        if (resource != null) {
+                                                        }
+                                                    }
+                                                });
+                                    } else {
 
-                                    Bitmap bitmap;
+                                        final Intent intent = new Intent(context, PlacesViewerActivity.class);
 
-                                    if (view.image.getDrawable() != null) {
-                                        bitmap = Utils.drawableToBitmap(view.image.getDrawable());
-                                        try {
-                                            String filename = "temp.png";
-                                            FileOutputStream stream = context.openFileOutput(filename, Context.MODE_PRIVATE);
-                                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                            stream.close();
-                                            intent.putExtra("image", filename);
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
+                                        intent.putExtra("item", PlacesList.getPlacesList().get(position));
+                                        intent.putExtra("transitionName", ViewCompat.getTransitionName(view.image));
+
+                                        Bitmap bitmap;
+
+                                        if (view.image.getDrawable() != null) {
+                                            bitmap = Utils.drawableToBitmap(view.image.getDrawable());
+                                            try {
+                                                String filename = "temp.png";
+                                                FileOutputStream stream = context.openFileOutput(filename, Context.MODE_PRIVATE);
+                                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                                stream.close();
+                                                intent.putExtra("image", filename);
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+
+                                            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, view.image, ViewCompat.getTransitionName(view.image));
+                                            context.startActivity(intent, options.toBundle());
                                         }
-
-                                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, view.image, ViewCompat.getTransitionName(view.image));
-                                        context.startActivity(intent, options.toBundle());
                                     }
                                 }
                             });

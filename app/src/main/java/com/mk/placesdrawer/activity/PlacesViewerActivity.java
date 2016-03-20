@@ -36,6 +36,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -45,25 +47,36 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.models.PlacesItem;
+import com.mk.placesdrawer.utilities.Preferences;
 import com.mk.placesdrawer.view.TouchImageView;
 
 import java.io.File;
 import java.io.FileInputStream;
 
+import me.zhanghai.android.materialprogressbar.internal.ThemeUtils;
+
 
 public class PlacesViewerActivity extends AppCompatActivity {
 
     private PlacesItem item;
+
     private RelativeLayout layout;
-    private Toolbar toolbar;
+    private static Preferences mPrefs;
     private Activity context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
         super.onCreate(savedInstanceState);
 
         context = this;
+
+        mPrefs = new Preferences(context);
 
         Intent intent = getIntent();
         String transitionName = intent.getStringExtra("transitionName");
@@ -72,21 +85,11 @@ public class PlacesViewerActivity extends AppCompatActivity {
 
         setContentView(R.layout.drawer_places_viewer_activity);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("");
-            getSupportActionBar().setHomeButtonEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-
 
         TouchImageView mPhoto = (TouchImageView) findViewById(R.id.bigImageView);
         ViewCompat.setTransitionName(mPhoto, transitionName);
 
-        layout = (RelativeLayout) findViewById(R.id.linearLayout);
+        layout = (RelativeLayout) findViewById(R.id.viewerLayout);
 
         Bitmap bmp = null;
         String filename = getIntent().getStringExtra("image");

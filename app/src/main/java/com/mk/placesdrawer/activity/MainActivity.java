@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +28,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.fragment.DrawerHome;
 import com.mk.placesdrawer.fragment.DrawerPlaces;
+import com.mk.placesdrawer.utilities.Utils;
 
 import java.util.Random;
 
@@ -39,8 +41,9 @@ public class MainActivity extends AppCompatActivity {
     private static String drawerWrong;
     private int currentDrawerItem;
     private String[] urlHeaderArray;
-    private Random generator;
 
+
+    public boolean placesPicker = true;
 
     // TODO Differnt Toolbar and Status Bar color depending on the current fragment.
     // Places - Dark Grey Toolbar and Status Bar
@@ -55,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         context = this;
 
-        changeHeaderPicture();
+        urlHeaderArray = getResources().getStringArray(R.array.headerUrlWiFi);
 
         drawer1 = getResources().getString(R.string.app_places);
         drawer2 = getResources().getString(R.string.app_submit);
@@ -98,8 +101,23 @@ public class MainActivity extends AppCompatActivity {
                 withIcon(Icon.gmd_settings).
                 withIdentifier(4);
 
+        final AccountHeader header;
+
+        header = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withOnAccountHeaderSelectionViewClickListener(new AccountHeader.OnAccountHeaderSelectionViewClickListener() {
+                    @Override
+                    public boolean onClick(View view, IProfile profile) {
+
+                        return false;
+                    }
+                })
+                .build();
+
+        changeHeader(header);
+
         Drawer result = new DrawerBuilder()
-                .withAccountHeader(changeHeaderPicture())
+                .withAccountHeader(header)
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .addDrawerItems(
@@ -229,34 +247,16 @@ public class MainActivity extends AppCompatActivity {
         }, context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public AccountHeader changeHeaderPicture() {
-
-        generator = new Random();
-
-        urlHeaderArray = getResources().getStringArray(R.array.headerUrl);
-        String rnb = urlHeaderArray[generator.nextInt(urlHeaderArray.length)];
-
-        final AccountHeader headerResult = new AccountHeaderBuilder()
-                .withActivity(this)
-                .withProfileImagesClickable(true)
-                .withOnAccountHeaderSelectionViewClickListener(new AccountHeader.OnAccountHeaderSelectionViewClickListener() {
-                    @Override
-                    public boolean onClick(View view, IProfile profile) {
-                        changeHeaderPicture();
-                        return false;
-                    }
-                })
-                .build();
+    public AccountHeader changeHeader(AccountHeader headerResult) {
 
         ImageView cover = headerResult.getHeaderBackgroundView();
 
-        Glide.with(context)
-                .load(rnb)
-                .error(R.drawable.header)
-                .placeholder(R.drawable.header)
-                .override(912, 688)
-                .centerCrop()
-                .into(cover);
+            Random r = new Random();
+            String rnb = urlHeaderArray[r.nextInt(urlHeaderArray.length)];
+
+            Glide.with(context)
+                    .load(rnb)
+                    .error(R.drawable.header).placeholder(R.drawable.header).override(912, 688).centerCrop().into(cover);
 
         return headerResult;
     }

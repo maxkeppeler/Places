@@ -18,16 +18,21 @@
 
     <string name="header_url">http://bit.ly/1UqVqsn</string>
 
-    <string-array name="headerUrl">
-        <item></item>
-        <item>http://bit.ly/1R5Skb4</item> <!-- Trees Image -->
-        <item>http://bit.ly/1R7D0cG</item> <!-- Earth Image -->
-        <item>http://bit.ly/22pFyvf</item> <!-- Hills Image -->
+    <!-- Header Urls, when user has WiFi -->
+    <string-array name="headerUrlWiFi">
+        <item>http://bit.ly/1R5Skb4</item>
+        <item>http://bit.ly/1R7D0cG</item>
+        <item>http://bit.ly/22pFyvf</item>
         <item>http://bit.ly/1R5WejZ</item>
         <item>http://bit.ly/1RtpTQ2</item>
         <item>http://bit.ly/21ARq7O</item>
         <item>http://bit.ly/1RtpYmN</item>
     </string-array>
+
+    <!-- Header Url, when user has only mobile internet. If there's no internet at all, placeholder will be displayed -->
+    <string name="headerUrlMobileInternet">http://bit.ly/1RtpYmN</string>
+
+
 
     <string name="location">Location</string>
 
