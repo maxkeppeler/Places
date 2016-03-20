@@ -48,4 +48,87 @@
     </style>
 
 
+    <style name="LinearLayoutForTexts">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/activity_margin</item>
+        <item name="android:paddingBottom">@dimen/activity_margin</item>
+        <item name="android:paddingLeft">@dimen/activity_margin</item>
+        <item name="android:paddingRight">@dimen/activity_margin</item>
+        <item name="android:orientation">vertical</item>
+
+    </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Text Styles -->
+
+    <style name="TextViewHeadline">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/textSizeTitle</item>
+        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+
+    <style name="TextViewTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/textSizeTitle</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+
+    <style name="TextViewSubheading">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/textSizeSubheading</item>
+        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+
+    <style name="TextViewBody2">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/textSizeBody</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+
+    <style name="TextViewBody1">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/textSizeBody</item>
+        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+
+    <style name="TextViewCaption">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/textSizeCaption</item>
+        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+
 </resources>

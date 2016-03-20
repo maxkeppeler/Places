@@ -69,10 +69,13 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder)
                 .into(holder.image);
-
 */
 
-        Glide.with(mContext).load(imgPlaceUrl).asBitmap().into(new BitmapImageViewTarget(holder.image) {
+        Glide.with(mContext)
+                .load(imgPlaceUrl)
+                .asBitmap()
+                .override(2022, 1784)
+                .into(new BitmapImageViewTarget(holder.image) {
             @Override
             protected void setResource(Bitmap resource) {
                     TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(mContext.getResources(), resource)});

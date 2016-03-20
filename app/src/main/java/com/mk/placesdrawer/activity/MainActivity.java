@@ -231,7 +231,6 @@ public class MainActivity extends AppCompatActivity {
 
     public AccountHeader changeHeaderPicture() {
 
-
         generator = new Random();
 
         urlHeaderArray = getResources().getStringArray(R.array.headerUrl);

@@ -54,12 +54,8 @@ import java.io.FileInputStream;
 public class PlacesViewerActivity extends AppCompatActivity {
 
     private PlacesItem item;
-
     private RelativeLayout layout;
-
-    private static MaterialDialog dialogApply;
     private Toolbar toolbar;
-
     private Activity context;
 
     @Override
@@ -111,8 +107,6 @@ public class PlacesViewerActivity extends AppCompatActivity {
                     .override(1400, 1094)
                     .fitCenter()
                     .into(mPhoto);
-
-
     }
 
     @Override
@@ -154,8 +148,6 @@ public class PlacesViewerActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             //Crop request
-
-
         }
     }
 

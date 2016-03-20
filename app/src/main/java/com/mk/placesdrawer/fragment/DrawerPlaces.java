@@ -14,14 +14,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.InflateException;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.activity.PlacesViewerActivity;
 import com.mk.placesdrawer.utilities.JSONParser;
@@ -107,31 +102,28 @@ public class DrawerPlaces extends Fragment {
                                 public void onClick(PlacesAdapter.PlacesViewHolder view,
                                                     int position, boolean longClick) {
 
-                                        final Intent intent = new Intent(context, PlacesViewerActivity.class);
 
-                                        intent.putExtra("item", PlacesList.getPlacesList().get(position));
-                                        intent.putExtra("transitionName", ViewCompat.getTransitionName(view.image));
+                                    final Intent intent = new Intent(context, PlacesViewerActivity.class);
 
-                                        Bitmap bitmap;
+                                    intent.putExtra("item", PlacesList.getPlacesList().get(position));
+                                    intent.putExtra("transitionName", ViewCompat.getTransitionName(view.image));
 
-                                        if (view.image.getDrawable() != null) {
+                                    Bitmap bitmap;
 
-                                            bitmap = Utils.drawableToBitmap(view.image.getDrawable());
+                                    if (view.image.getDrawable() != null) {
+                                        bitmap = Utils.drawableToBitmap(view.image.getDrawable());
+                                        try {
+                                            String filename = "temp.png";
+                                            FileOutputStream stream = context.openFileOutput(filename, Context.MODE_PRIVATE);
+                                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                            stream.close();
+                                            intent.putExtra("image", filename);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
 
-                                            try {
-                                                String filename = "temp.png";
-                                                FileOutputStream stream = context.openFileOutput(filename, Context.MODE_PRIVATE);
-                                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                                stream.close();
-                                                intent.putExtra("image", filename);
-
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                            }
-
-                                            //ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, view.image, ViewCompat.getTransitionName(view.image));
-                                            //context.startActivity(intent, options.toBundle());
-                                            context.startActivity(intent);
+                                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, view.image, ViewCompat.getTransitionName(view.image));
+                                        context.startActivity(intent, options.toBundle());
                                     }
                                 }
                             });
