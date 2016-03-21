@@ -37,6 +37,7 @@
        <color name="material_drawer_background">#F9F9F9</color>
     -->
 
+    <color name="default_system_selection_background">#fff</color>
     <color name="material_drawer_background">#303030</color>
 
     <color name="material_drawer_primary_text">#DEFFFFFF</color>
