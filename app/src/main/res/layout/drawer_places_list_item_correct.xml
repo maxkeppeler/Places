@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:foreground="?selectableItemBackground">
 
-        <FrameLayout
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/ripple"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <com.balysv.materialripple.MaterialRippleLayout
-                android:id="@+id/ripple"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mrl_rippleOverlay="true"
-                app:mrl_rippleColor="@color/colorPrimaryDark"
-                app:mrl_rippleDuration="950"
-                app:mrl_rippleAlpha="0.2"
-                app:mrl_rippleDimension="10dp"
-                app:mrl_rippleHover="true"
-                app:mrl_rippleFadeDuration="475">
+            app:mrl_rippleOverlay="true"
+            app:mrl_rippleColor="@color/rippleColor"
+            app:mrl_rippleDuration="950"
+            app:mrl_rippleAlpha="0.2"
+            app:mrl_rippleDimension="10dp"
+            app:mrl_rippleHover="true"
+            app:mrl_rippleFadeDuration="475">
 
             <ImageView
                 android:id="@+id/imageView"
@@ -29,29 +25,28 @@
                 android:background="@color/colorPrimary"
                 android:scaleType="centerCrop" />
 
-            </com.balysv.materialripple.MaterialRippleLayout>
+        </com.balysv.materialripple.MaterialRippleLayout>
 
-            <LinearLayout
-                android:id="@+id/colorizedFrame"
-                style="@style/LinearLayoutForTexts"
-                android:layout_gravity="bottom"
-                android:background="@color/cardDarkOverlay">
+        <LinearLayout
+            android:id="@+id/colorizedFrame"
+            style="@style/LinearLayoutForTexts"
+            android:layout_gravity="bottom"
+            android:background="@color/cardDarkOverlay" >
 
-                <TextView
-                    android:id="@+id/textViewLocation"
-                    style="@style/TextViewTitle"
-                    android:text="Location"
-                    android:textColor="@color/textPrimary" />
+            <TextView
+                android:id="@+id/textViewLocation"
+                style="@style/TextViewTitle"
+                android:text="Location"
+                android:textColor="@color/textPrimary" />
 
-                <TextView
-                    android:id="@+id/textViewSight"
-                    style="@style/TextViewBody1"
-                    android:layout_below="@id/textViewLocation"
-                    android:layout_marginTop="4dp"
-                    android:text="Sight"
-                    android:textColor="@color/textPrimary"/>
+            <TextView
+                android:id="@+id/textViewSight"
+                style="@style/TextViewBody1"
+                android:layout_below="@id/textViewLocation"
+                android:layout_marginTop="4dp"
+                android:text="Sight"
+                android:textColor="@color/textPrimary"/>
 
-            </LinearLayout>
+        </LinearLayout>
 
-        </FrameLayout>
-</LinearLayout>
+</FrameLayout>

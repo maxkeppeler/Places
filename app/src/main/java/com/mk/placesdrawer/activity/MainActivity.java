@@ -89,28 +89,22 @@ public class MainActivity extends AppCompatActivity {
         // TODO find better, better matching, icons for the categories
 
         final PrimaryDrawerItem itemPlaces = new PrimaryDrawerItem()
-                .withName(drawerPlaces)
-                .withIcon(Icon.gmd_home).withIdentifier(1);
+                .withName(drawerPlaces).withIcon(Icon.gmd_home).withIdentifier(1);
 
         final PrimaryDrawerItem itemFavorite = new PrimaryDrawerItem()
-                .withName(drawerFavorite)
-                .withIcon(Icon.gmd_favorite).withIdentifier(2);
+                .withName(drawerFavorite).withIcon(Icon.gmd_favorite).withIdentifier(2);
 
         final PrimaryDrawerItem itemSubmit = new PrimaryDrawerItem()
-                .withName(drawerSubmit)
-                .withIcon(Icon.gmd_local_post_office).withIdentifier(3);
+                .withName(drawerSubmit).withIcon(Icon.gmd_local_post_office).withIdentifier(3);
 
         final PrimaryDrawerItem itemAbout = new PrimaryDrawerItem()
-                .withName(drawerAbout)
-                .withIcon(Icon.gmd_account).withIdentifier(4);
+                .withName(drawerAbout).withIcon(Icon.gmd_account).withIdentifier(4);
 
         final PrimaryDrawerItem itemFeedback = new PrimaryDrawerItem()
-                .withName(drawerFeedback)
-                .withIcon(Icon.gmd_chart_donut).withIdentifier(5);
+                .withName(drawerFeedback).withIcon(Icon.gmd_chart_donut).withIdentifier(5);
 
         final PrimaryDrawerItem itemSettings = new PrimaryDrawerItem()
-                .withName(drawerSettings)
-                .withIcon(Icon.gmd_settings).withIdentifier(6);
+                .withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(6);
 
         final AccountHeader header;
 
@@ -121,23 +115,26 @@ public class MainActivity extends AppCompatActivity {
 
         changeHeader(header);
 
+        // TODO (Maybe) add MultiDrawer and replace it with the current one
+
         result = new DrawerBuilder()
                 .withAccountHeader(header)
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .withSelectedItem(1)  // Default selected item
                 .addDrawerItems(
-                        itemPlaces.withBadgeStyle(
-                                new BadgeStyle()        // TODO, only Cyan, when current item is 1, otherwise no background color
-                                        .withTextColor(Color.WHITE)
-                                        .withColorRes(R.color.md_cyan_500)
-                                        .withCornersDp(100000).withPadding(20)),
-                        itemFavorite.withBadgeStyle(
-                                new BadgeStyle()        // TODO, only Cyan, when current item is 2, otherwise no background color
-                                        .withTextColor(Color.WHITE)
-                                        .withColorRes(R.color.md_cyan_500)
-                                        .withCornersDp(100000).withPadding(20)),
-
+                        itemPlaces
+                                        .withBadgeStyle(
+                                        new BadgeStyle()        // TODO, only Cyan, when current item is 1, otherwise no background color
+                                                .withTextColor(Color.WHITE)
+                                                .withColorRes(R.color.md_cyan_500)
+                                                .withCornersDp(100000).withPadding(20)),
+                        itemFavorite.
+                                        withBadgeStyle(
+                                        new BadgeStyle()        // TODO, only Cyan, when current item is 2, otherwise no background color
+                                                .withTextColor(Color.WHITE)
+                                                .withColorRes(R.color.md_cyan_500)
+                                                .withCornersDp(100000).withPadding(20)),
                         itemSubmit,
                         new DividerDrawerItem(),
                         itemAbout,
@@ -157,26 +154,19 @@ public class MainActivity extends AppCompatActivity {
 
                             switch ((int) drawerItem.getIdentifier()) {
 
-                                case 1: fragment = new DrawerPlaces();
-                                    break;
+                                case 1: fragment = new DrawerPlaces(); break;
 
-                                case 2: fragment = new DrawerHome();
-                                    break;
+                                case 2: fragment = new DrawerHome(); break;
 
-                                case 3: fragment = new DrawerHome();
-                                    break;
+                                case 3: fragment = new DrawerHome(); break;
 
-                                case 4: fragment = new DrawerHome();
-                                    break;
+                                case 4: fragment = new DrawerHome(); break;
 
-                                case 5: fragment = new DrawerHome();
-                                    break;
+                                case 5: fragment = new DrawerHome(); break;
 
-                                case 6: fragment = new DrawerHome();
-                                    break;
+                                case 6: fragment = new DrawerHome(); break;
 
-                                default:
-                                    fragment = new DrawerPlaces();
+                                default: fragment = new DrawerPlaces();
                             }
 
                             transaction.replace(R.id.container, fragment);
@@ -203,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO HELP NEEDED get actual correct PlacesList SIZE goes wrong. It keeps being 0 or the amount doubles itself after every reload. I tried many methods and ideas, but nothing worked
         // result.updateBadge(1, new StringHolder("    " + PlacesList.getPlacesList().size() + "    "));
+
     }
 
     public String toolbarText(int fragmentPosition) {
@@ -213,11 +204,9 @@ public class MainActivity extends AppCompatActivity {
             case 4:  return drawerAbout;
             case 5:  return drawerFeedback;
             case 6:  return drawerSettings;
-
             default: return drawerWrong;
         }
     }
-
 
     @Override
     public void onBackPressed() {

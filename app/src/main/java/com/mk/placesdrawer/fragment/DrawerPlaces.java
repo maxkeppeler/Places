@@ -12,6 +12,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,27 +99,14 @@ public class DrawerPlaces extends Fragment {
             context.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+
                     mAdapter = new PlacesAdapter(context,
                             new PlacesAdapter.ClickListener() {
                                 @Override
                                 public void onClick(PlacesAdapter.PlacesViewHolder view,
                                                     int position, boolean longClick) {
 
-                                    if (longClick) {
-
-                                        PlacesItem wallItem = PlacesList.getPlacesList().get(position);
-
-                                        Glide.with(context)
-                                                .load(wallItem.getImgPlaceUrl())
-                                                .asBitmap()
-                                                .into(new SimpleTarget<Bitmap>() {
-                                                    @Override
-                                                    public void onResourceReady(final Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                                                        if (resource != null) {
-                                                        }
-                                                    }
-                                                });
-                                    } else {
+                                        Log.d("Short CLICK", ": works ------------d12--");
 
                                         final Intent intent = new Intent(context, PlacesViewerActivity.class);
 
@@ -139,9 +127,9 @@ public class DrawerPlaces extends Fragment {
                                                 e.printStackTrace();
                                             }
 
-                                            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, view.image, ViewCompat.getTransitionName(view.image));
-                                            context.startActivity(intent, options.toBundle());
-                                        }
+
+                                            context.startActivity(intent);
+
                                     }
                                 }
                             });

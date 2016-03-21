@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.placesdrawer.R;
@@ -76,13 +77,13 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
                 .asBitmap()
                 .override(2022, 1784)
                 .into(new BitmapImageViewTarget(holder.image) {
-            @Override
-            protected void setResource(Bitmap resource) {
-                    TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(mContext.getResources(), resource)});
-                    holder.image.setImageDrawable(td);
-                    td.startTransition(250);
-            }
-        });
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(mContext.getResources(), resource)});
+                        holder.image.setImageDrawable(td);
+                        td.startTransition(250);
+                    }
+                });
 
     }
 
