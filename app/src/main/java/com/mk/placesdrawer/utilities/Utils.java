@@ -38,6 +38,7 @@ import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsServiceConnection;
@@ -158,6 +159,11 @@ public class Utils extends Activity {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
+
+    public static boolean newerThan(int version) {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
     }
 
 }

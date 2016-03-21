@@ -15,7 +15,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,15 +32,10 @@ import com.mikepenz.materialdrawer.holder.StringHolder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mk.placesdrawer.R;
-import com.mk.placesdrawer.adapters.PlacesAdapter;
 import com.mk.placesdrawer.fragment.DrawerHome;
 import com.mk.placesdrawer.fragment.DrawerPlaces;
-import com.mk.placesdrawer.models.PlacesItem;
-import com.mk.placesdrawer.models.PlacesList;
-import com.mk.placesdrawer.utilities.ApplicationBase;
-import com.mk.placesdrawer.utilities.Preferences;
+import com.mk.placesdrawer.utilities.Utils;
 
 import java.util.Random;
 
@@ -50,13 +44,12 @@ import static com.mikepenz.google_material_typeface_library.GoogleMaterial.*;
 public class MainActivity extends AppCompatActivity {
 
     private static AppCompatActivity context;
-    private static String drawer1, drawer2, drawer3, drawer4;
+    private static String drawerPlaces, drawerSubmit;
+    private static String drawerAbout, drawerFeedback, drawerSettings;
     private static String drawerWrong;
     private int currentDrawerItem;
     private String[] urlHeaderArray;
     private static  Drawer result;
-    private static Preferences mPrefs;
-
     public boolean placesPicker = true;
 
     // TODO Differnt Toolbar and Status Bar color depending on the current fragment.
@@ -72,16 +65,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         context = this;
 
-        urlHeaderArray = getResources().getStringArray(R.array.headerUrlWiFi);
+        urlHeaderArray = getResources().getStringArray(R.array.headerUrl);
 
-        drawer1 = getResources().getString(R.string.app_places);
-        drawer2 = getResources().getString(R.string.app_submit);
-        drawer3 = getResources().getString(R.string.app_about);
-        drawer4 = getResources().getString(R.string.app_settings);
+        drawerPlaces = getResources().getString(R.string.app_places);
+        drawerSubmit = getResources().getString(R.string.app_submit);
+        drawerAbout = getResources().getString(R.string.app_about);
+        drawerFeedback = getResources().getString(R.string.app_Feedback);
+        drawerSettings = getResources().getString(R.string.app_settings);
         drawerWrong = getResources().getString(R.string.app_wrong);
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Utils.newerThan(Build.VERSION_CODES.KITKAT)) {
             Window window = this.getWindow();
             window.setNavigationBarColor(getResources().getColor(R.color.navigationBar));
         }
@@ -93,38 +87,31 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO find better, better matching, icons for the categories
 
-        final PrimaryDrawerItem item1 = new PrimaryDrawerItem()
-                .withName(drawer1)
-                .withIcon(Icon.gmd_home)
-                .withIdentifier(1);
+        final PrimaryDrawerItem itemPlaces = new PrimaryDrawerItem()
+                .withName(drawerPlaces)
+                .withIcon(Icon.gmd_home).withIdentifier(1);
 
-        final PrimaryDrawerItem item2 = new PrimaryDrawerItem()
-                .withName(drawer2)
-                .withIcon(Icon.gmd_local_post_office)
-                .withIdentifier(2);
+        final PrimaryDrawerItem itemSubmit = new PrimaryDrawerItem()
+                .withName(drawerSubmit)
+                .withIcon(Icon.gmd_local_post_office).withIdentifier(2);
 
-        final PrimaryDrawerItem item3 = new PrimaryDrawerItem()
-                .withName(drawer3)
-                .withIcon(Icon.gmd_account)
-                .withIdentifier(3);
+        final PrimaryDrawerItem itemAbout = new PrimaryDrawerItem()
+                .withName(drawerAbout)
+                .withIcon(Icon.gmd_account).withIdentifier(3);
 
-        final PrimaryDrawerItem item4 = new PrimaryDrawerItem()
-                .withName(drawer4)
-                .withIcon(Icon.gmd_settings)
-                .withIdentifier(4);
+        final PrimaryDrawerItem itemFeedback = new PrimaryDrawerItem()
+                .withName(drawerFeedback)
+                .withIcon(Icon.gmd_arrow_right).withIdentifier(4);
+
+        final PrimaryDrawerItem itemSettings = new PrimaryDrawerItem()
+                .withName(drawerSettings)
+                .withIcon(Icon.gmd_settings).withIdentifier(5);
 
         final AccountHeader header;
 
         header = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withSelectionSecondLine("by Maximilian Keppeler")
-                .withOnAccountHeaderSelectionViewClickListener(new AccountHeader.OnAccountHeaderSelectionViewClickListener() {
-                    @Override
-                    public boolean onClick(View view, IProfile profile) {
-
-                        return false;
-                    }
-                })
                 .build();
 
         changeHeader(header);
@@ -135,12 +122,16 @@ public class MainActivity extends AppCompatActivity {
                 .withToolbar(toolbar)
                 .withSelectedItem(1)  // Default selected item
                 .addDrawerItems(
-                        item1.withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_cyan_500).withCornersDp(100000).withPadding(20)),
-                        item2.withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_cyan_500).withCornersDp(100000).withPadding(20)),
-                        //item2,
+                        itemPlaces.withBadgeStyle(
+                                new BadgeStyle()        // TODO, only Cyan, when current item is 1, otherwise no background color
+                                        .withTextColor(Color.WHITE)
+                                        .withColorRes(R.color.md_cyan_500)
+                                        .withCornersDp(100000).withPadding(20)),
+                        itemSubmit,
                         new DividerDrawerItem(),
-                        item3,
-                        item4
+                        itemAbout,
+                        itemFeedback,
+                        itemSettings
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -182,9 +173,6 @@ public class MainActivity extends AppCompatActivity {
                                 MainActivity.this.startActivity(intent);
                             }
                         }
-
-
-
                         return false;
                     }
                 })
@@ -196,17 +184,18 @@ public class MainActivity extends AppCompatActivity {
 
         result.updateBadge(1, new StringHolder("    " + "212" + "    "));
 
-        // TODO get actual correct PlacesList SIZE goes wrong. It keeps beeing 0 or the amount doubles itself after every reload
-        // TODO need help, tried many methods and ideas, but nothing worked
+        // TODO HELP NEEDED get actual correct PlacesList SIZE goes wrong. It keeps being 0 or the amount doubles itself after every reload. I tried many methods and ideas, but nothing worked
         // result.updateBadge(1, new StringHolder("    " + PlacesList.getPlacesList().size() + "    "));
     }
 
     public String toolbarText(int fragmentPosition) {
         switch (fragmentPosition) {
-            case 1:  return drawer1;
-            case 2:  return drawer2;
-            case 3:  return drawer3;
-            case 4:  return drawer4;
+            case 1:  return drawerPlaces;
+            case 2:  return drawerSubmit;
+            case 3:  return drawerAbout;
+            case 4:  return drawerFeedback;
+            case 5:  return drawerSettings;
+
             default: return drawerWrong;
         }
     }
@@ -292,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
                     .load(rnb)
                     .asBitmap()
                     .override(912, 688)
-                    .centerCrop() //.error(R.drawable.header).placeholder(R.drawable.header)
+                    .centerCrop()
                     .into(new BitmapImageViewTarget(cover) {
                         @Override
                         protected void setResource(Bitmap resource) {

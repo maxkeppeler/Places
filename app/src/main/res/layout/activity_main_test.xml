@@ -12,8 +12,6 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <!-- TODO - fixing the odd issue, that the toolbar casts a shadow on the statusbar. WTF Google?-->
-
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"

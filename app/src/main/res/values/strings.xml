@@ -8,6 +8,7 @@
     <string name="app_submit">Submit</string>
     <string name="app_about">About</string>
     <string name="app_settings">Settings</string>
+    <string name="app_Feedback">Feedback</string>
     <string name="app_wrong">Sorry, you are lost</string>
 
 
@@ -16,10 +17,9 @@
     <string name="action_filter">Filter</string>
     <string name="action_sort">Sort</string>
 
-    <string name="header_url">http://bit.ly/1UqVqsn</string>
 
-    <!-- Header Urls, when user has WiFi -->
-    <string-array name="headerUrlWiFi">
+    <!-- Header Urls, when user has Internet -->
+    <string-array name="headerUrl">
         <item>http://bit.ly/1R5Skb4</item>
         <item>http://bit.ly/1R7D0cG</item>
         <item>http://bit.ly/22pFyvf</item>
@@ -28,10 +28,6 @@
         <item>http://bit.ly/21ARq7O</item>
         <item>http://bit.ly/1RtpYmN</item>
     </string-array>
-
-    <!-- Header Url, when user has only mobile internet. If there's no internet at all, placeholder will be displayed -->
-    <string name="headerUrlMobileInternet">http://bit.ly/1RtpYmN</string>
-
 
 
     <string name="location">Location</string>

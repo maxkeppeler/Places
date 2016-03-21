@@ -43,8 +43,6 @@ import java.util.TimerTask;
 
 public class DrawerPlaces extends Fragment {
 
-    // TODO - content only loads when there's a mobile internet connection. Not with wifi. Whyever.
-
     //Declare Layout, Adapter, RecyclerView in order to
     private static ViewGroup layout;
     private static RecyclerView mRecyclerView;
