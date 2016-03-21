@@ -50,4 +50,5 @@ public class PlacesList {
     public static void clearList() {
         placesList.clear();
     }
+
 }

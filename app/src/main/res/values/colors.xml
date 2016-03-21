@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- GOOGLE PLUS RED
+    <!-- Google Plus Red
     <color name="colorPrimary">#db4437</color>
     <color name="colorPrimaryDark">#c53929</color>
-    <color name="colorPrimaryLight">#e75144</color>
-       -->
-    <color name="colorPrimary">#212121</color>
-    <color name="colorPrimaryDark">#212121</color>
-    <color name="colorPrimaryLight">#212121</color>
-
     <color name="colorAccent">#db4437</color>
+    -->
+    <color name="colorPrimary">#212121</color>
+    <color name="colorPrimaryDark">@color/colorPrimary</color>
+    <color name="colorAccent">@color/md_cyan_500</color>
 
-    <color name="navigationBar">#212121</color>
-    
-    <!--<color name="appBackgroundColor">#FF1B1C1F</color>-->
+    <color name="rippleColor">@color/md_cyan_500</color>
+
+    <color name="navigationBar">@color/colorPrimary</color>
+    <color name="snackbar">@color/colorPrimaryDark</color>
+
     <color name="appBackgroundColor">#FFEAEAEA</color>
-    <!--<color name="cardBackground">#26282c</color>-->
     <color name="cardBackground">#fff</color>
-
-    <color name="snackbar">#424242</color>
 
     <color name="textPrimary">#fff</color>
 
@@ -36,29 +33,38 @@
     <color name="material_drawer_primary_dark">@color/colorPrimaryDark</color>
     <color name="material_drawer_primary_light">@color/colorPrimaryLight</color>
     <color name="material_drawer_accent">@color/colorAccent</color>
+    <!--
+       <color name="material_drawer_background">#F9F9F9</color>
+    -->
 
-    <color name="material_drawer_background">#F9F9F9</color>
+    <color name="material_drawer_background">#303030</color>
 
-    <!-- Default text & items colors -->
-    <color name="material_drawer_primary_text">#DE000000</color>
-    <color name="material_drawer_primary_icon">#8A000000</color>
-    <color name="material_drawer_secondary_text">#8A000000</color>
-    <color name="material_drawer_hint_text">#42000000</color>
-    <color name="material_drawer_divider">#1F000000</color>
+    <color name="material_drawer_primary_text">#DEFFFFFF</color>
+    <color name="material_drawer_primary_icon">#8AFFFFFF</color>
+    <color name="material_drawer_secondary_text">#8AFFFFFF</color>
+    <color name="material_drawer_hint_text">#42FFFFFF</color>
+    <color name="material_drawer_divider">#1FFFFFFF</color>
 
     <!-- Default drawer colors -->
-    <color name="material_drawer_selected">#E8E8E8</color>
-    <color name="material_drawer_selected_text">@color/colorPrimary</color>
+    <color name="material_drawer_selected">#202020</color>
+    <color name="material_drawer_selected_text">@color/accent</color>
     <color name="material_drawer_header_selection_text">#FFF</color>
 
 
 
 
 
+    <!-- Other colors -->
 
+    <!-- Grey -->
+    <color name="ownGreyPrimary">#212121</color>
+    <color name="ownGreyPrimaryDark">#212121</color>
+    <color name="ownGreyLight">#212121</color>
 
-
-
+    <!-- Google Plus Red -->
+    <color name="googlePlusColorPrimary">#db4437</color>
+    <color name="googlePlusColorPrimaryDark">#c53929</color>
+    <color name="googlePlusColorAccent">#db4437</color>
 
 
 

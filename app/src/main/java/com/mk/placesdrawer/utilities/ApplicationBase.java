@@ -51,6 +51,7 @@ public class ApplicationBase extends Application {
         if (mPrefs.getPlacesListLoaded()) {
             PlacesList.clearList();
             mPrefs.setPlacesListLoaded(!mPrefs.getPlacesListLoaded());
+
         }
 
         new DrawerPlaces.DownloadJSON(new MainActivity.PlacesListInterface() {

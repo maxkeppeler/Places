@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:mrl_rippleOverlay="true"
-            app:mrl_rippleColor="@color/colorPrimaryDark"
+            app:mrl_rippleColor="@color/rippleColor"
             app:mrl_rippleDuration="950"
             app:mrl_rippleAlpha="0.2"
             app:mrl_rippleDimension="10dp"

@@ -50,5 +50,4 @@ public class Preferences {
         return getSharedPreferences().getBoolean(PLACES_LIST_LOADED, false);
     }
 
-
 }
