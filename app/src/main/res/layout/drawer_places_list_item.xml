@@ -31,7 +31,7 @@
             android:id="@+id/colorizedFrame"
             style="@style/LinearLayoutForTexts"
             android:layout_gravity="bottom"
-            android:background="@color/cardDarkOverlay">
+            android:background="@color/cardDarkOverlay" >
 
             <TextView
                 android:id="@+id/textViewLocation"

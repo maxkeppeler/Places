@@ -44,7 +44,7 @@ import static com.mikepenz.google_material_typeface_library.GoogleMaterial.*;
 public class MainActivity extends AppCompatActivity {
 
     private static AppCompatActivity context;
-    private static String drawerPlaces, drawerSubmit;
+    private static String drawerPlaces, drawerSubmit, drawerFavorite;
     private static String drawerAbout, drawerFeedback, drawerSettings;
     private static String drawerWrong;
     private int currentDrawerItem;
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         urlHeaderArray = getResources().getStringArray(R.array.headerUrl);
 
         drawerPlaces = getResources().getString(R.string.app_places);
+        drawerFavorite = getResources().getString(R.string.app_favorite);
         drawerSubmit = getResources().getString(R.string.app_submit);
         drawerAbout = getResources().getString(R.string.app_about);
         drawerFeedback = getResources().getString(R.string.app_Feedback);
@@ -91,21 +92,25 @@ public class MainActivity extends AppCompatActivity {
                 .withName(drawerPlaces)
                 .withIcon(Icon.gmd_home).withIdentifier(1);
 
+        final PrimaryDrawerItem itemFavorite = new PrimaryDrawerItem()
+                .withName(drawerFavorite)
+                .withIcon(Icon.gmd_favorite).withIdentifier(2);
+
         final PrimaryDrawerItem itemSubmit = new PrimaryDrawerItem()
                 .withName(drawerSubmit)
-                .withIcon(Icon.gmd_local_post_office).withIdentifier(2);
+                .withIcon(Icon.gmd_local_post_office).withIdentifier(3);
 
         final PrimaryDrawerItem itemAbout = new PrimaryDrawerItem()
                 .withName(drawerAbout)
-                .withIcon(Icon.gmd_account).withIdentifier(3);
+                .withIcon(Icon.gmd_account).withIdentifier(4);
 
         final PrimaryDrawerItem itemFeedback = new PrimaryDrawerItem()
                 .withName(drawerFeedback)
-                .withIcon(Icon.gmd_arrow_right).withIdentifier(4);
+                .withIcon(Icon.gmd_chart_donut).withIdentifier(5);
 
         final PrimaryDrawerItem itemSettings = new PrimaryDrawerItem()
                 .withName(drawerSettings)
-                .withIcon(Icon.gmd_settings).withIdentifier(5);
+                .withIcon(Icon.gmd_settings).withIdentifier(6);
 
         final AccountHeader header;
 
@@ -127,6 +132,12 @@ public class MainActivity extends AppCompatActivity {
                                         .withTextColor(Color.WHITE)
                                         .withColorRes(R.color.md_cyan_500)
                                         .withCornersDp(100000).withPadding(20)),
+                        itemFavorite.withBadgeStyle(
+                                new BadgeStyle()        // TODO, only Cyan, when current item is 2, otherwise no background color
+                                        .withTextColor(Color.WHITE)
+                                        .withColorRes(R.color.md_cyan_500)
+                                        .withCornersDp(100000).withPadding(20)),
+
                         itemSubmit,
                         new DividerDrawerItem(),
                         itemAbout,
@@ -155,8 +166,13 @@ public class MainActivity extends AppCompatActivity {
                                 case 3: fragment = new DrawerHome();
                                     break;
 
-                                case 4:
-                                    fragment = new DrawerHome();
+                                case 4: fragment = new DrawerHome();
+                                    break;
+
+                                case 5: fragment = new DrawerHome();
+                                    break;
+
+                                case 6: fragment = new DrawerHome();
                                     break;
 
                                 default:
@@ -183,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         result.updateBadge(1, new StringHolder("    " + "212" + "    "));
+        result.updateBadge(2, new StringHolder("    " + "35" + "    "));
 
         // TODO HELP NEEDED get actual correct PlacesList SIZE goes wrong. It keeps being 0 or the amount doubles itself after every reload. I tried many methods and ideas, but nothing worked
         // result.updateBadge(1, new StringHolder("    " + PlacesList.getPlacesList().size() + "    "));
@@ -191,10 +208,11 @@ public class MainActivity extends AppCompatActivity {
     public String toolbarText(int fragmentPosition) {
         switch (fragmentPosition) {
             case 1:  return drawerPlaces;
-            case 2:  return drawerSubmit;
-            case 3:  return drawerAbout;
-            case 4:  return drawerFeedback;
-            case 5:  return drawerSettings;
+            case 2:  return drawerFavorite;
+            case 3:  return drawerSubmit;
+            case 4:  return drawerAbout;
+            case 5:  return drawerFeedback;
+            case 6:  return drawerSettings;
 
             default: return drawerWrong;
         }

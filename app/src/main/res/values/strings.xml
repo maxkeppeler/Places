@@ -5,6 +5,7 @@
 
     <!-- Drawer Item & Toolbar Text -->
     <string name="app_places">Places</string>
+    <string name="app_favorite">Favorite</string>
     <string name="app_submit">Submit</string>
     <string name="app_about">About</string>
     <string name="app_settings">Settings</string>
