@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:foreground="?selectableItemBackground">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?android:attr/selectableItemBackground">
 
     <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/ripple"
@@ -19,7 +15,7 @@
         app:mrl_rippleAlpha="0.2"
         app:mrl_rippleDimension="10dp"
         app:mrl_rippleHover="true"
-        app:mrl_rippleFadeDuration="475">
+        app:mrl_rippleFadeDuration="475" >
 
         <ImageView
             android:id="@+id/imageView"

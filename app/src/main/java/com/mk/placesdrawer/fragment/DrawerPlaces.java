@@ -17,6 +17,7 @@ import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
@@ -106,31 +107,24 @@ public class DrawerPlaces extends Fragment {
                                 public void onClick(PlacesAdapter.PlacesViewHolder view,
                                                     int position, boolean longClick) {
 
-                                        Log.d("Short CLICK", ": works ------------d12--");
+                                    if (longClick) {
+
+                                        Toast.makeText(context, "Long Click", Toast.LENGTH_SHORT).show();
+                                        Log.d("Long CLICK", ": Works");
 
                                         final Intent intent = new Intent(context, PlacesViewerActivity.class);
 
                                         intent.putExtra("item", PlacesList.getPlacesList().get(position));
                                         intent.putExtra("transitionName", ViewCompat.getTransitionName(view.image));
 
-                                        Bitmap bitmap;
+                                    } else {
 
-                                        if (view.image.getDrawable() != null) {
-                                            bitmap = Utils.drawableToBitmap(view.image.getDrawable());
-                                            try {
-                                                String filename = "temp.png";
-                                                FileOutputStream stream = context.openFileOutput(filename, Context.MODE_PRIVATE);
-                                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                                stream.close();
-                                                intent.putExtra("image", filename);
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                            }
-
-
-                                            context.startActivity(intent);
+                                        Toast.makeText(context, "Short Click", Toast.LENGTH_SHORT).show();
+                                        Log.d("Short CLICK", ": Works");
 
                                     }
+
+
                                 }
                             });
 

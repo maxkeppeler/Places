@@ -13,19 +13,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.placesdrawer.R;
+import com.mk.placesdrawer.activity.MainActivity;
 import com.mk.placesdrawer.models.PlacesItem;
 
 import java.util.ArrayList;
+import java.util.NavigableMap;
 
 /**
  * Created by florentchampigny on 24/04/15.
  */
 public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesViewHolder> {
+
+    private static Activity context;
 
     public interface ClickListener {
 
@@ -96,6 +101,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
 
     public class PlacesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
+        private MaterialRippleLayout mRipple;
         public final View view;
         public final ImageView image;
         public final TextView location, sight; //, desc;
@@ -104,13 +110,14 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
             super(v);
             view = v;
 
+            mRipple = (MaterialRippleLayout) view.findViewById(R.id.ripple);
             image = (ImageView) view.findViewById(R.id.imageView);
             location = (TextView) view.findViewById(R.id.textViewLocation);
             sight = (TextView) view.findViewById(R.id.textViewSight);
             //desc = (TextView) view.findViewById(R.id.textViewDescription);
 
-            view.setOnClickListener(this);
-            view.setOnLongClickListener(this);
+            mRipple.setOnClickListener(this);
+            mRipple.setOnLongClickListener(this);
         }
 
 
@@ -126,7 +133,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
             int index = getLayoutPosition();
             if (mCallback != null)
                 mCallback.onClick(this, index, true);
-            return false;
+            return true;
         }
     }
 }
