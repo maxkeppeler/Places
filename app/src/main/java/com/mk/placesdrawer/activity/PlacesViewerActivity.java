@@ -46,6 +46,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
@@ -62,6 +63,8 @@ import com.mk.placesdrawer.utilities.Preferences;
 import com.mk.placesdrawer.utilities.Utils;
 import com.mk.placesdrawer.view.TouchImageView;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 import java.io.FileInputStream;
 
@@ -72,7 +75,7 @@ public class PlacesViewerActivity extends AppCompatActivity {
 
     private PlacesItem item;
 
-    private RelativeLayout layout;
+
     private static Preferences mPrefs;
 
     private Toolbar toolbar;
@@ -104,13 +107,19 @@ public class PlacesViewerActivity extends AppCompatActivity {
         setContentView(R.layout.drawer_places_viewer_activity);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_transparent);
-        toolbar.setAlpha(0);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if (toolbar!= null) {
+            toolbar.setAlpha(0);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(false);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayUseLogoEnabled(false);
+        }
 
         TouchImageView mPhoto = (TouchImageView) findViewById(R.id.bigImageView);
         ViewCompat.setTransitionName(mPhoto, transitionName);
 
-        layout = (RelativeLayout) findViewById(R.id.viewerLayout);
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.viewerLayout);
 
         Bitmap bmp = null;
         String filename = getIntent().getStringExtra("image");
@@ -122,7 +131,8 @@ public class PlacesViewerActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
+        TextView location = (TextView)findViewById(R.id.textViewLocationViewer);
+        location.setText(item.getLocation());
 
         Glide.with(context)
                 .load(item.getImgPlaceUrl())

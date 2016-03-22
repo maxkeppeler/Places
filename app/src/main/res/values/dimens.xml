@@ -17,6 +17,10 @@
     <dimen name="card_elevation">4dp</dimen>
     <dimen name="card_radius">0dp</dimen>
 
+    <dimen name="textSizeDisplay4">112dp</dimen>
+    <dimen name="textSizeDisplay3">56dp</dimen>
+    <dimen name="textSizeDisplay2">45dp</dimen>
+    <dimen name="textSizeDisplay1">34dp</dimen>
     <dimen name="textSizeHeadline">24dp</dimen>
     <dimen name="textSizeTitle">20dp</dimen>
     <dimen name="textSizeSubheading">16dp</dimen>

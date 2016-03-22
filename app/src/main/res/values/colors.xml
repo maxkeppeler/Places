@@ -12,6 +12,8 @@
 
     <color name="rippleColor">@color/md_cyan_500</color>
 
+    <color name="drawableColor">#fff</color>
+
     <color name="navigationBar">@color/colorPrimary</color>
     <color name="snackbar">@color/colorPrimaryDark</color>
 

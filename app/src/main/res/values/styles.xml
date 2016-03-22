@@ -1,10 +1,9 @@
 <resources xmlns:http="http://schemas.android.com/tools">
 
     <style name="ToolbarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="windowActionBarOverlay">true</item>
-
-
+            <item name="android:windowContentOverlay">@null</item>
+            <item name="windowActionBarOverlay">true</item>
+            <item name="colorPrimary">@android:color/transparent</item>
     </style>
 
     <!-- Base application theme. -->
@@ -115,10 +114,43 @@
 
     <!-- Text Styles -->
 
+    <style name="TextViewDisplay4">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/textSizeDisplay4</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextViewDisplay3">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/textSizeDisplay3</item>
+        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextViewDisplay2">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/textSizeDisplay2</item>
+        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextViewDisplay1">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/textSizeDisplay1</item>
+        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+
     <style name="TextViewHeadline">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/textSizeTitle</item>
+        <item name="android:textSize">@dimen/textSizeHeadline</item>
         <item name="android:fontFamily">sans-serif-regular</item>
         <item name="android:textStyle">normal</item>
     </style>

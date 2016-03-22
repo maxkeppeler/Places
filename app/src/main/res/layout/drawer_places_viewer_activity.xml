@@ -19,7 +19,27 @@
                         android:background="@color/colorPrimary"
                         android:scaleType="centerCrop" />
 
-                    <android.support.v7.widget.Toolbar
+                <LinearLayout
+                    android:id="@+id/colorizedFrame"
+                    style="@style/LinearLayoutForTexts"
+                    android:layout_gravity="bottom"
+                    android:layout_below="@+id/frameLayout"
+                    android:background="@color/cardDarkOverlay" >
+
+                    <TextView
+                        android:id="@+id/textViewLocationViewer"
+                        style="@style/TextViewDisplay1"
+                        android:text="Place Big"
+                        android:paddingTop="@dimen/activity_margin"
+                        android:paddingBottom="@dimen/activity_margin"
+                        android:paddingLeft="@dimen/activity_margin"
+                        android:paddingRight="@dimen/activity_margin"
+                        android:textColor="@color/textPrimary" />
+
+                </LinearLayout>
+
+
+                <android.support.v7.widget.Toolbar
                         android:id="@+id/toolbar_transparent"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
@@ -27,32 +47,11 @@
                         android:elevation="0dp"
                         android:background="@android:color/transparent"
                         android:alpha="0"
-                        style="@style/ToolbarTheme" />
+                        android:theme="@style/ToolbarTheme" />
 
 
             </FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/colorizedFrame"
-        style="@style/LinearLayoutForTexts"
-        android:layout_below="@+id/frameLayout"
-        android:background="@color/colorAccent" >
-
-        <TextView
-            android:id="@+id/textViewLocation"
-            style="@style/TextViewTitle"
-            android:text="Location"
-            android:textColor="@color/textPrimary" />
-
-        <TextView
-            android:id="@+id/textViewSight"
-            style="@style/TextViewBody1"
-            android:layout_below="@id/textViewLocation"
-            android:layout_marginTop="4dp"
-            android:text="Sight"
-            android:textColor="@color/textPrimary"/>
-
-    </LinearLayout>
 
 </RelativeLayout>
 
