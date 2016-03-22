@@ -25,50 +25,25 @@ package com.mk.placesdrawer.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
-import com.mikepenz.google_material_typeface_library.GoogleMaterial;
-import com.mikepenz.iconics.IconicsDrawable;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.models.PlacesItem;
 import com.mk.placesdrawer.utilities.Preferences;
 import com.mk.placesdrawer.utilities.Utils;
 import com.mk.placesdrawer.view.TouchImageView;
-
-import org.w3c.dom.Text;
-
-import java.io.File;
-import java.io.FileInputStream;
-
-import me.zhanghai.android.materialprogressbar.internal.ThemeUtils;
 
 
 public class PlacesViewerActivity extends AppCompatActivity {
@@ -77,7 +52,7 @@ public class PlacesViewerActivity extends AppCompatActivity {
 
 
     private static Preferences mPrefs;
-
+    private ScrollView layout;
     private Toolbar toolbar;
 
     private MainActivity mainActivity;
@@ -93,6 +68,11 @@ public class PlacesViewerActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
 
+        if (Utils.newerThan(Build.VERSION_CODES.KITKAT)) {
+            Window window = this.getWindow();
+            window.setNavigationBarColor(getResources().getColor(R.color.navigationBar));
+        }
+
         super.onCreate(savedInstanceState);
 
         context = this;
@@ -104,7 +84,7 @@ public class PlacesViewerActivity extends AppCompatActivity {
 
         item = intent.getParcelableExtra("item");
 
-        setContentView(R.layout.drawer_places_viewer_activity);
+        setContentView(R.layout.drawer_places_list_item_page);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_transparent);
 
@@ -117,28 +97,21 @@ public class PlacesViewerActivity extends AppCompatActivity {
         }
 
         TouchImageView mPhoto = (TouchImageView) findViewById(R.id.bigImageView);
-        ViewCompat.setTransitionName(mPhoto, transitionName);
 
-        RelativeLayout layout = (RelativeLayout) findViewById(R.id.viewerLayout);
-
-        Bitmap bmp = null;
-        String filename = getIntent().getStringExtra("image");
-        try {
-            FileInputStream is = context.openFileInput(filename);
-            bmp = BitmapFactory.decodeStream(is);
-            is.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        layout = (ScrollView) findViewById(R.id.viewerLayout);
 
         TextView location = (TextView)findViewById(R.id.textViewLocationViewer);
-        location.setText(item.getLocation());
+
+        if (location != null) {
+            location.setText(item.getLocation());
+        }
 
         Glide.with(context)
                 .load(item.getImgPlaceUrl())
+                .override(3000, 2000)
                 .placeholder(R.drawable.placeholder)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .fitCenter()
+                .centerCrop()
                 .into(mPhoto);
 
     }
@@ -193,7 +166,7 @@ public class PlacesViewerActivity extends AppCompatActivity {
 
 
     private void closeViewer() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Utils.newerThan(Build.VERSION_CODES.LOLLIPOP)) {
             supportFinishAfterTransition();
         } else {
             finish();

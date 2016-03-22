@@ -10,15 +10,19 @@
     <color name="colorPrimaryDark">@color/colorPrimary</color>
     <color name="colorAccent">@color/md_cyan_500</color>
 
-    <color name="rippleColor">@color/md_cyan_500</color>
+    <color name="rippleColor">@color/colorAccent</color>
 
     <color name="drawableColor">#fff</color>
 
     <color name="navigationBar">@color/colorPrimary</color>
     <color name="snackbar">@color/colorPrimaryDark</color>
 
-    <color name="appBackgroundColor">#FFEAEAEA</color>
-    <color name="cardBackground">#fff</color>
+    <color name="appBackgroundColor">@color/colorPrimary</color>
+
+    <!-- Activity Places Viewer-->
+    <color name="backgroundColor">#303030</color>
+    <!--<color name="appBackgroundColor">#FFEAEAEA</color>-->
+    <color name="cardBackground">#424242</color>
 
     <color name="textPrimary">#fff</color>
 

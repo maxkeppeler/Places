@@ -13,17 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.placesdrawer.R;
-import com.mk.placesdrawer.activity.MainActivity;
 import com.mk.placesdrawer.models.PlacesItem;
 
 import java.util.ArrayList;
-import java.util.NavigableMap;
 
 /**
  * Created by florentchampigny on 24/04/15.
@@ -80,7 +78,9 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
         Glide.with(mContext)
                 .load(imgPlaceUrl)
                 .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(2022, 1784)
+
                 .into(new BitmapImageViewTarget(holder.image) {
                     @Override
                     protected void setResource(Bitmap resource) {
@@ -101,7 +101,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
 
     public class PlacesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-        private MaterialRippleLayout mRipple;
+        private MaterialRippleLayout ripple;
         public final View view;
         public final ImageView image;
         public final TextView location, sight; //, desc;
@@ -110,14 +110,14 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
             super(v);
             view = v;
 
-            mRipple = (MaterialRippleLayout) view.findViewById(R.id.ripple);
+            ripple = (MaterialRippleLayout) view.findViewById(R.id.ripple);
             image = (ImageView) view.findViewById(R.id.imageView);
             location = (TextView) view.findViewById(R.id.textViewLocation);
             sight = (TextView) view.findViewById(R.id.textViewSight);
             //desc = (TextView) view.findViewById(R.id.textViewDescription);
 
-            mRipple.setOnClickListener(this);
-            mRipple.setOnLongClickListener(this);
+            ripple.setOnClickListener(this);
+            ripple.setOnLongClickListener(this);
         }
 
 

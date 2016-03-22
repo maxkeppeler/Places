@@ -127,13 +127,13 @@ public class MainActivity extends AppCompatActivity {
                                         .withBadgeStyle(
                                         new BadgeStyle()        // TODO, only Cyan, when current item is 1, otherwise no background color
                                                 .withTextColor(Color.WHITE)
-                                                .withColorRes(R.color.md_cyan_500)
+                                                .withColorRes(R.color.colorAccent)
                                                 .withCornersDp(100000).withPadding(20)),
                         itemFavorite.
                                         withBadgeStyle(
                                         new BadgeStyle()        // TODO, only Cyan, when current item is 2, otherwise no background color
                                                 .withTextColor(Color.WHITE)
-                                                .withColorRes(R.color.md_cyan_500)
+                                                .withColorRes(R.color.colorAccent)
                                                 .withCornersDp(100000).withPadding(20)),
                         itemSubmit,
                         new DividerDrawerItem(),

@@ -48,6 +48,8 @@ import android.widget.ImageView;
 import android.widget.OverScroller;
 import android.widget.Scroller;
 
+import com.mk.placesdrawer.activity.PlacesViewerActivity;
+
 public class TouchImageView extends ImageView {
 
     private static final String DEBUG = "DEBUG";
@@ -73,6 +75,8 @@ public class TouchImageView extends ImageView {
     // saved prior to the screen rotating.
     //
     private Matrix matrix, prevMatrix;
+
+
 
     private enum State {NONE, DRAG, ZOOM, FLING, ANIMATE_ZOOM}
 

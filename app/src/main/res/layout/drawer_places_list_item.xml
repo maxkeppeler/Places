@@ -13,12 +13,6 @@
         app:mrl_rippleHover="true"
         app:mrl_rippleFadeDuration="475"
         app:mrl_rippleColor="@color/rippleColor" >
-        <!--app:mrl_rippleDuration="950"-->
-        <!--app:mrl_rippleAlpha="0.2"-->
-        <!--app:mrl_rippleDimension="10dp"-->
-        <!--app:mrl_rippleHover="true"-->
-        <!--app:mrl_rippleFadeDuration="475" -->
-
 
         <ImageView
             android:id="@+id/imageView"
