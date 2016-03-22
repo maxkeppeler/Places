@@ -1,18 +1,58 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/viewerLayout">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/viewerLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
 
                 <com.mk.placesdrawer.view.TouchImageView
-                    android:id="@+id/bigImageView"
-                    android:layout_width="match_parent"
-                    android:layout_height="450dp"
-                    android:scaleType="centerCrop" />
+                        android:id="@+id/bigImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="500dp"
+                        android:background="@color/colorPrimary"
+                        android:scaleType="centerCrop" />
 
-        </FrameLayout>
+                    <android.support.v7.widget.Toolbar
+                        android:id="@+id/toolbar_transparent"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:layout_marginTop="24dp"
+                        android:elevation="0dp"
+                        android:background="@android:color/transparent"
+                        android:alpha="0"
+                        style="@style/ToolbarTheme" />
+
+
+            </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/colorizedFrame"
+        style="@style/LinearLayoutForTexts"
+        android:layout_below="@+id/frameLayout"
+        android:background="@color/colorAccent" >
+
+        <TextView
+            android:id="@+id/textViewLocation"
+            style="@style/TextViewTitle"
+            android:text="Location"
+            android:textColor="@color/textPrimary" />
+
+        <TextView
+            android:id="@+id/textViewSight"
+            style="@style/TextViewBody1"
+            android:layout_below="@id/textViewLocation"
+            android:layout_marginTop="4dp"
+            android:text="Sight"
+            android:textColor="@color/textPrimary"/>
+
+    </LinearLayout>
 
 </RelativeLayout>
+

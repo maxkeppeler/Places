@@ -27,6 +27,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,20 +36,30 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.models.PlacesItem;
 import com.mk.placesdrawer.utilities.Preferences;
+import com.mk.placesdrawer.utilities.Utils;
 import com.mk.placesdrawer.view.TouchImageView;
 
 import java.io.File;
@@ -62,12 +74,18 @@ public class PlacesViewerActivity extends AppCompatActivity {
 
     private RelativeLayout layout;
     private static Preferences mPrefs;
+
+    private Toolbar toolbar;
+
+    private MainActivity mainActivity;
+
     private Activity context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+        if (Utils.newerThan(Build.VERSION_CODES.LOLLIPOP)) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
@@ -85,6 +103,9 @@ public class PlacesViewerActivity extends AppCompatActivity {
 
         setContentView(R.layout.drawer_places_viewer_activity);
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar_transparent);
+        toolbar.setAlpha(0);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TouchImageView mPhoto = (TouchImageView) findViewById(R.id.bigImageView);
         ViewCompat.setTransitionName(mPhoto, transitionName);
@@ -101,16 +122,17 @@ public class PlacesViewerActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Drawable d = new GlideBitmapDrawable(getResources(), bmp);
 
-            Glide.with(context)
-                    .load(item.getImgPlaceUrl())
-                    .placeholder(d)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .override(1400, 1094)
-                    .fitCenter()
-                    .into(mPhoto);
+
+        Glide.with(context)
+                .load(item.getImgPlaceUrl())
+                .placeholder(R.drawable.placeholder)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .fitCenter()
+                .into(mPhoto);
+
     }
+
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -132,6 +154,11 @@ public class PlacesViewerActivity extends AppCompatActivity {
         closeViewer();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_actions, menu);
+        return true;
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

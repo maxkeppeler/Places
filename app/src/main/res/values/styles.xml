@@ -1,5 +1,12 @@
 <resources xmlns:http="http://schemas.android.com/tools">
 
+    <style name="ToolbarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
+
+
+    </style>
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
@@ -10,7 +17,16 @@
         <item name="android:colorBackground">@color/appBackgroundColor</item>
         <item name="android:color">@color/appBackgroundColor</item>
 
+
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+
     </style>
+
+    <style name="TransparentToolbar" parent="AppTheme">
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
 
     <style name="CustomTheme" parent="MaterialDrawerTheme">
 
@@ -40,7 +56,11 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-
+    <style name="CustomActionBar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:windowActionBarOverlay">true</item>
+        <!-- Support library compatibility -->
+        <item name="windowActionBarOverlay">true</item>
+    </style>
 
     <style name="Card">
         <item name="android:layout_width">match_parent</item>

@@ -31,7 +31,7 @@
         <activity
             android:name=".activity.PlacesViewerActivity"
             android:label="@string/title_activity_detailed_places"
-            android:theme="@style/CustomTheme"/>
+            android:theme="@style/ToolbarTheme"/>
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
 

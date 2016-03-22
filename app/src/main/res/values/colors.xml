@@ -67,6 +67,9 @@
     <color name="googlePlusColorPrimaryDark">#c53929</color>
     <color name="googlePlusColorAccent">#db4437</color>
 
+    <!-- Transparent -->
+    <color name="transparent">#00ffffff</color>
+
 
 
 

@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private static String drawerWrong;
     private int currentDrawerItem;
     private String[] urlHeaderArray;
-    private static  Drawer result;
+    public static  Drawer result;
     public boolean placesPicker = true;
 
     // TODO Differnt Toolbar and Status Bar color depending on the current fragment.

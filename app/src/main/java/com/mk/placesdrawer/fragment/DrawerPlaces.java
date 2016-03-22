@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
@@ -19,10 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.activity.PlacesViewerActivity;
 import com.mk.placesdrawer.utilities.JSONParser;
@@ -36,7 +33,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileOutputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -112,19 +108,20 @@ public class DrawerPlaces extends Fragment {
                                         Toast.makeText(context, "Long Click", Toast.LENGTH_SHORT).show();
                                         Log.d("Long CLICK", ": Works");
 
-                                        final Intent intent = new Intent(context, PlacesViewerActivity.class);
-
-                                        intent.putExtra("item", PlacesList.getPlacesList().get(position));
-                                        intent.putExtra("transitionName", ViewCompat.getTransitionName(view.image));
-
                                     } else {
 
                                         Toast.makeText(context, "Short Click", Toast.LENGTH_SHORT).show();
                                         Log.d("Short CLICK", ": Works");
 
+                                        final Intent intent = new Intent(context, PlacesViewerActivity.class);
+
+                                        Log.d("Position", "" + position);
+
+                                        intent.putExtra("item", PlacesList.getPlacesList().get(position));
+                                        //intent.putExtra("transitionName", ViewCompat.getTransitionName(view.image));
+
+                                            context.startActivity(intent);
                                     }
-
-
                                 }
                             });
 
