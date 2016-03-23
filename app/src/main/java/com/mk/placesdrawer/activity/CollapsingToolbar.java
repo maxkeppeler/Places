@@ -2,14 +2,17 @@ package com.mk.placesdrawer.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.view.Menu;
@@ -20,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.models.PlacesItem;
@@ -75,13 +79,22 @@ public class CollapsingToolbar extends AppCompatActivity {
 
         final ImageView image = (ImageView) findViewById(R.id.image);
 
-        Glide.with(this)
+        Glide.with(context)
                 .load(itemImage)
 //                .override(3000, 2000)
-                .placeholder(R.drawable.placeholder)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+//                .placeholder(R.drawable.placeholder)
+                .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
-                .into(image);
+                .into(new BitmapImageViewTarget(image) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(getResources(), resource)});
+                        image.setImageDrawable(td);
+                        td.startTransition(1050);
+                    }
+
+                });
 
 
         if (getResources().getBoolean(R.bool.zoomCollapsingToolbarImage)) {

@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground">
+    android:background="@drawable/selectable_item_background" >
 
     <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/ripple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:mrl_rippleColor="@color/rippleColor"
+        app:mrl_rippleColor="@color/md_white_1000"
         app:mrl_rippleFadeDuration="475"
         app:mrl_rippleHover="true"
-        app:mrl_rippleOverlay="true">
+        app:mrl_rippleOverlay="true" >
 
         <ImageView
             android:id="@+id/imageView"
