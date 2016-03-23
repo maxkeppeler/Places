@@ -12,10 +12,9 @@ public class PlacesList {
     // I understood the principle of this method
     public static void createPlacesList(ArrayList<String> locations,
                                         ArrayList<String> sights,
-                                       // ArrayList<String> descriptions,
+                                        // ArrayList<String> descriptions,
                                         ArrayList<String> urls
-                                        )
-    {
+    ) {
 
         try {
 
@@ -24,11 +23,11 @@ public class PlacesList {
                 //
                 PlacesItem placesItem = new PlacesItem(
 
-                                locations.get(i),
-                                sights.get(i),
-                             //   descriptions.get(i),
-                                urls.get(i)
-                                );
+                        locations.get(i),
+                        sights.get(i),
+                        //   descriptions.get(i),
+                        urls.get(i)
+                );
 
                 // ArrayList placesList receives each placesItem
                 placesList.add(placesItem);

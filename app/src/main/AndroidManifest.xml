@@ -3,11 +3,11 @@
     package="com.mk.placesdrawer">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" > </uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" > </uses-permission>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" > </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
 
     <application
         android:name=".utilities.ApplicationBase"
@@ -31,16 +31,22 @@
         <activity
             android:name=".activity.PlacesViewerActivity"
             android:label="@string/title_activity_detailed_places"
-            android:theme="@style/ToolbarTheme"/>
-        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+            android:theme="@style/ToolbarTheme" />
+
+        <activity
+            android:name=".activity.CollapsingToolbar"
+            android:theme="@style/DetailView"
+            android:value=".activity.MainActivity">
+
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <meta-data android:name="com.mk.placesdrawer.GlideConfiguration"
-            android:value="GlideModule"/>
+        <meta-data
+            android:name="com.mk.placesdrawer.utilities.GlideConfiguration"
+            android:value="GlideModule" />
 
     </application>
 

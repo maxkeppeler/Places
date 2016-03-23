@@ -3,13 +3,9 @@ package com.mk.placesdrawer.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,13 +17,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.mk.placesdrawer.R;
-import com.mk.placesdrawer.activity.PlacesViewerActivity;
-import com.mk.placesdrawer.utilities.JSONParser;
-import com.mk.placesdrawer.utilities.Utils;
+import com.mk.placesdrawer.activity.CollapsingToolbar;
 import com.mk.placesdrawer.activity.MainActivity;
 import com.mk.placesdrawer.adapters.PlacesAdapter;
 import com.mk.placesdrawer.models.PlacesItem;
 import com.mk.placesdrawer.models.PlacesList;
+import com.mk.placesdrawer.utilities.JSONParser;
+import com.mk.placesdrawer.utilities.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,54 +37,17 @@ import java.util.TimerTask;
 
 public class DrawerPlaces extends Fragment {
 
+    public static PlacesAdapter mAdapter;
     //Declare Layout, Adapter, RecyclerView in order to
     private static ViewGroup layout;
     private static RecyclerView mRecyclerView;
-    public static PlacesAdapter mAdapter;
 
     //Is a layout manager necessary?
     //private static RecyclerView.LayoutManager layoutManager;
     //private static LinearLayoutManager layoutManager;
-
     private static Activity context;
 
     private static boolean worked;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-
-        context = getActivity();
-
-        if (layout != null) {
-            ViewGroup parent = (ViewGroup) layout.getParent();
-            if (parent != null) {
-                parent.removeView(layout);
-            }
-        }
-
-        try {
-            layout = (ViewGroup) inflater.inflate(R.layout.drawer_places, container, false);
-        } catch (InflateException e) {
-            // Do nothing
-        }
-
-        mRecyclerView = (RecyclerView) layout.findViewById(R.id.placecRecyclerView);
-
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-
-        mRecyclerView.setHasFixedSize(true);
-
-        if (mRecyclerView.getVisibility() != View.VISIBLE) {
-            mRecyclerView.setVisibility(View.VISIBLE);
-        }
-
-        mRecyclerView.setVisibility(View.GONE);
-
-        setupLayout(false);
-
-        return layout;
-    }
-
 
     private static void setupLayout(final boolean fromTask) {
 
@@ -113,6 +72,7 @@ public class DrawerPlaces extends Fragment {
                                         Toast.makeText(context, "Short Click", Toast.LENGTH_SHORT).show();
                                         Log.d("Short CLICK", ": Works");
 
+                                        /*
                                         final Intent intent = new Intent(context, PlacesViewerActivity.class);
 
                                         Log.d("Position", "" + position);
@@ -121,6 +81,19 @@ public class DrawerPlaces extends Fragment {
                                         //intent.putExtra("transitionName", ViewCompat.getTransitionName(view.image));
 
                                             context.startActivity(intent);
+
+
+                                    */
+
+                                        final Intent intent = new Intent(context, CollapsingToolbar.class);
+
+                                        Log.d("Position", "" + position);
+
+                                        intent.putExtra("item", PlacesList.getPlacesList().get(position));
+                                        //intent.putExtra("transitionName", ViewCompat.getTransitionName(view.image));
+
+                                        context.startActivity(intent);
+
                                     }
                                 }
                             });
@@ -161,7 +134,6 @@ public class DrawerPlaces extends Fragment {
         }
     }
 
-
     public static void reloadPlaces(Activity context) {
         mRecyclerView.setVisibility(View.GONE);
         if (Utils.hasNetwork(context)) {
@@ -173,17 +145,49 @@ public class DrawerPlaces extends Fragment {
         }
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
+
+        context = getActivity();
+
+        if (layout != null) {
+            ViewGroup parent = (ViewGroup) layout.getParent();
+            if (parent != null) {
+                parent.removeView(layout);
+            }
+        }
+
+        try {
+            layout = (ViewGroup) inflater.inflate(R.layout.drawer_places, container, false);
+        } catch (InflateException e) {
+            // Do nothing
+        }
+
+        mRecyclerView = (RecyclerView) layout.findViewById(R.id.placecRecyclerView);
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+        mRecyclerView.setHasFixedSize(true);
+
+        if (mRecyclerView.getVisibility() != View.VISIBLE) {
+            mRecyclerView.setVisibility(View.VISIBLE);
+        }
+
+        mRecyclerView.setVisibility(View.GONE);
+
+        setupLayout(false);
+
+        return layout;
+    }
+
     // DownloadJSON AsyncTask
     public static class DownloadJSON extends AsyncTask<Void, Void, Void> {
 
-        final MainActivity.PlacesListInterface wi;
-
         private final static ArrayList<PlacesItem> places = new ArrayList<>();
-        private Context taskContext;
-
-        private WeakReference<Activity> wrActivity;
-
         static long startTime, endTime;
+        final MainActivity.PlacesListInterface wi;
+        private Context taskContext;
+        private WeakReference<Activity> wrActivity;
 
         public DownloadJSON(MainActivity.PlacesListInterface wi, AppCompatActivity activity) {
             this.wi = wi;
@@ -229,11 +233,11 @@ public class DrawerPlaces extends Fragment {
 
                         // ArrayList receives per object/ per loop the following strings/ values from the json object
                         places.add(new PlacesItem(
-                                json.getString("location"),
-                              //  json.getString("description"),
-                                json.getString("sight"),
-                                json.getString("url")
-                                                 )
+                                        json.getString("location"),
+                                        //  json.getString("description"),
+                                        json.getString("sight"),
+                                        json.getString("url")
+                                )
                         );
 
                     }

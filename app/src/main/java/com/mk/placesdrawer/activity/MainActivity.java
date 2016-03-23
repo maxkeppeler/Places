@@ -15,9 +15,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 
@@ -35,22 +35,21 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.fragment.DrawerHome;
 import com.mk.placesdrawer.fragment.DrawerPlaces;
-import com.mk.placesdrawer.utilities.Utils;
+import com.mk.placesdrawer.utilities.Animations;
 
 import java.util.Random;
 
-import static com.mikepenz.google_material_typeface_library.GoogleMaterial.*;
+import static com.mikepenz.google_material_typeface_library.GoogleMaterial.Icon;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static Drawer result;
     private static AppCompatActivity context;
     private static String drawerPlaces, drawerSubmit, drawerFavorite;
     private static String drawerAbout, drawerFeedback, drawerSettings;
     private static String drawerWrong;
     private int currentDrawerItem;
     private String[] urlHeaderArray;
-    public static  Drawer result;
-    public boolean placesPicker = true;
 
     // TODO Differnt Toolbar and Status Bar color depending on the current fragment.
     // Places - Dark Grey Toolbar and Status Bar
@@ -76,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         drawerWrong = getResources().getString(R.string.app_wrong);
 
 
-        if (Utils.newerThan(Build.VERSION_CODES.KITKAT)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             window.setNavigationBarColor(getResources().getColor(R.color.navigationBar));
         }
@@ -124,13 +123,13 @@ public class MainActivity extends AppCompatActivity {
                 .withSelectedItem(1)  // Default selected item
                 .addDrawerItems(
                         itemPlaces
-                                        .withBadgeStyle(
+                                .withBadgeStyle(
                                         new BadgeStyle()        // TODO, only Cyan, when current item is 1, otherwise no background color
                                                 .withTextColor(Color.WHITE)
                                                 .withColorRes(R.color.colorAccent)
                                                 .withCornersDp(100000).withPadding(20)),
                         itemFavorite.
-                                        withBadgeStyle(
+                                withBadgeStyle(
                                         new BadgeStyle()        // TODO, only Cyan, when current item is 2, otherwise no background color
                                                 .withTextColor(Color.WHITE)
                                                 .withColorRes(R.color.colorAccent)
@@ -150,23 +149,36 @@ public class MainActivity extends AppCompatActivity {
 
                             FragmentManager manager = getSupportFragmentManager();
                             FragmentTransaction transaction = manager.beginTransaction();
-                            Fragment fragment;
+                            Fragment fragment = null;
 
                             switch ((int) drawerItem.getIdentifier()) {
 
-                                case 1: fragment = new DrawerPlaces(); break;
+                                case 1:
+                                    fragment = new DrawerPlaces();
+                                    break;
 
-                                case 2: fragment = new DrawerHome(); break;
+                                case 2:
+                                    fragment = new DrawerHome();
+                                    break;
 
-                                case 3: fragment = new DrawerHome(); break;
+                                case 3:
+                                    fragment = new DrawerHome();
+                                    break;
 
-                                case 4: fragment = new DrawerHome(); break;
+                                case 4:
+                                    fragment = new DrawerHome();
+                                    break;
 
-                                case 5: fragment = new DrawerHome(); break;
+                                case 5:
+                                    fragment = new DrawerHome();
+                                    break;
 
-                                case 6: fragment = new DrawerHome(); break;
+                                case 6:
+                                    fragment = new DrawerHome();
+                                    break;
 
-                                default: fragment = new DrawerPlaces();
+                                default:
+                                    fragment = new DrawerPlaces();
                             }
 
                             transaction.replace(R.id.container, fragment);
@@ -198,13 +210,20 @@ public class MainActivity extends AppCompatActivity {
 
     public String toolbarText(int fragmentPosition) {
         switch (fragmentPosition) {
-            case 1:  return drawerPlaces;
-            case 2:  return drawerFavorite;
-            case 3:  return drawerSubmit;
-            case 4:  return drawerAbout;
-            case 5:  return drawerFeedback;
-            case 6:  return drawerSettings;
-            default: return drawerWrong;
+            case 1:
+                return drawerPlaces;
+            case 2:
+                return drawerFavorite;
+            case 3:
+                return drawerSubmit;
+            case 4:
+                return drawerAbout;
+            case 5:
+                return drawerFeedback;
+            case 6:
+                return drawerSettings;
+            default:
+                return drawerWrong;
         }
     }
 
@@ -229,10 +248,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
-    }
-
-    public interface PlacesListInterface {
-        void checkPlacesListCreation(boolean result);
     }
 
     @Override
@@ -281,25 +296,33 @@ public class MainActivity extends AppCompatActivity {
 
         final ImageView cover = headerResult.getHeaderBackgroundView();
 
-            Random r = new Random();
-            String rnb = urlHeaderArray[r.nextInt(urlHeaderArray.length)];
+        Random r = new Random();
+        String rnb = urlHeaderArray[r.nextInt(urlHeaderArray.length)];
 
-            Glide.with(context)
-                    .load(rnb)
-                    .asBitmap()
-                    .override(912, 688)
-                    .centerCrop()
-                    .into(new BitmapImageViewTarget(cover) {
-                        @Override
-                        protected void setResource(Bitmap resource) {
-                            TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(getResources(), resource)});
-                            cover.setImageDrawable(td);
-                            td.startTransition(1050);
-                        }
+        Glide.with(context)
+                .load(rnb)
+                .asBitmap()
+                .override(912, 688)
+                .centerCrop()
+                .into(new BitmapImageViewTarget(cover) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(getResources(), resource)});
+                        cover.setImageDrawable(td);
+                        td.startTransition(50);
+                    }
 
-                    });
+                });
+
+        if (this.getResources().getBoolean(R.bool.zoomHeader)) {
+            Animations.zoomInAndOut(context, cover);
+        }
 
         return headerResult;
+    }
+
+    public interface PlacesListInterface {
+        void checkPlacesListCreation(boolean result);
     }
 
 }

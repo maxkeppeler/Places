@@ -24,7 +24,6 @@
 package com.mk.placesdrawer.utilities;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -34,11 +33,8 @@ import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsServiceConnection;
@@ -50,7 +46,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mk.placesdrawer.R;
-import com.mk.placesdrawer.activity.MainActivity;
 
 /**
  * With a little help from Aidan Follestad (afollestad)
@@ -69,7 +64,6 @@ public class Utils extends Activity {
     public static String getAppPackageName(Context context) {
         return context.getPackageName();
     }
-
 
 
     public static boolean isAppInstalled(Context context, String packageName) {
@@ -159,11 +153,6 @@ public class Utils extends Activity {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-    }
-
-
-    public static boolean newerThan(int version) {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
     }
 
 }

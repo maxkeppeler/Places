@@ -4,28 +4,35 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="colorPrimary">@android:color/transparent</item>
-
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
         <item name="android:colorBackground">@color/backgroundColor</item>
         <item name="android:color">@color/backgroundColor</item>
 
     </style>
 
-    <!-- Base application theme. -->
+    <style name="DetailView" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/backgroundColor</item>
+        <item name="android:color">@color/backgroundColor</item>
+        <item name="colorControlHighlight">@color/accent_translucent</item> 
+        <item name="selectableItemBackground">@drawable/selectable_item_background</item>
+        <item name="android:selectableItemBackground">@drawable/selectable_item_background</item>
+    </style>
+
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
         <item name="android:colorBackground">@color/appBackgroundColor</item>
         <item name="android:color">@color/appBackgroundColor</item>
-
-
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-
     </style>
 
     <style name="TransparentToolbar" parent="AppTheme">
@@ -85,6 +92,16 @@
         <item name="android:clickable">true</item>
     </style>
 
+    <style name="FabStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/activity_margin</item>
+        <item name="android:src">@drawable/ic_changelog</item>
+        <item name="borderWidth">0dp</item>
+        <item name="elevation">6dp</item>
+        <item name="pressedTranslationZ">12dp</item>
+        <item name="rippleColor">@android:color/white</item>
+    </style>
 
     <style name="RecyclerView">
         <item name="android:layout_width">match_parent</item>

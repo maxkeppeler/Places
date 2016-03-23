@@ -48,10 +48,8 @@ import com.mk.placesdrawer.view.TouchImageView;
 
 public class PlacesViewerActivity extends AppCompatActivity {
 
-    private PlacesItem item;
-
-
     private static Preferences mPrefs;
+    private PlacesItem item;
     private ScrollView layout;
     private Toolbar toolbar;
 
@@ -63,12 +61,12 @@ public class PlacesViewerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
 
-        if (Utils.newerThan(Build.VERSION_CODES.LOLLIPOP)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
 
-        if (Utils.newerThan(Build.VERSION_CODES.KITKAT)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             window.setNavigationBarColor(getResources().getColor(R.color.navigationBar));
         }
@@ -88,7 +86,7 @@ public class PlacesViewerActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_transparent);
 
-        if (toolbar!= null) {
+        if (toolbar != null) {
             toolbar.setAlpha(0);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(false);
@@ -100,7 +98,7 @@ public class PlacesViewerActivity extends AppCompatActivity {
 
         layout = (ScrollView) findViewById(R.id.viewerLayout);
 
-        TextView location = (TextView)findViewById(R.id.textViewLocationViewer);
+        TextView location = (TextView) findViewById(R.id.textViewLocationViewer);
 
         if (location != null) {
             location.setText(item.getLocation());
@@ -142,6 +140,7 @@ public class PlacesViewerActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.toolbar_actions, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -166,7 +165,7 @@ public class PlacesViewerActivity extends AppCompatActivity {
 
 
     private void closeViewer() {
-        if (Utils.newerThan(Build.VERSION_CODES.LOLLIPOP)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             supportFinishAfterTransition();
         } else {
             finish();

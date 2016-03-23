@@ -1,83 +1,82 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/viewerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.mk.placesdrawer.view.TouchImageView
-            android:id="@+id/bigImageView"
+        <FrameLayout
+            android:id="@+id/frameLayout"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:background="@color/colorPrimary"
-            android:scaleType="centerCrop" />
+            android:layout_height="wrap_content">
+
+            <com.mk.placesdrawer.view.TouchImageView
+                android:id="@+id/bigImageView"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:background="@color/colorPrimary"
+                android:scaleType="centerCrop" />
+
+            <LinearLayout
+                style="@style/LinearLayoutForTexts"
+                android:layout_below="@+id/frameLayout"
+                android:layout_gravity="bottom">
+
+                <TextView
+                    android:id="@+id/textViewLocationViewer"
+                    style="@style/TextViewDisplay1"
+                    android:paddingBottom="@dimen/activity_margin"
+                    android:paddingLeft="@dimen/activity_margin"
+                    android:paddingRight="@dimen/activity_margin"
+                    android:paddingTop="@dimen/activity_margin"
+                    android:text="Location"
+                    android:textColor="@color/textPrimary" />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_transparent"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginTop="24dp"
+                android:alpha="0"
+                android:background="@android:color/transparent"
+                android:elevation="0dp"
+                android:theme="@style/ToolbarTheme" />
+
+        </FrameLayout>
 
         <LinearLayout
-            style="@style/LinearLayoutForTexts"
+            android:id="@+id/colorizedFrame"
+            style="@style/LinearLayoutForViews"
             android:layout_below="@+id/frameLayout"
-            android:layout_gravity="bottom" >
+            android:layout_gravity="bottom">
 
-            <TextView
-                android:id="@+id/textViewLocationViewer"
-                style="@style/TextViewDisplay1"
-                android:paddingBottom="@dimen/activity_margin"
-                android:paddingLeft="@dimen/activity_margin"
-                android:paddingRight="@dimen/activity_margin"
-                android:paddingTop="@dimen/activity_margin"
-                android:text="Location"
-                android:textColor="@color/textPrimary" />
+            <android.support.v7.widget.CardView
+                style="@style/Card"
+                android:layout_height="1000dp">
+
+                <ListView
+                    android:id="@+id/listView"
+                    style="@style/ListView" />
+
+                <TextView
+                    android:id="@+id/textViewLocationOther"
+                    style="@style/TextViewBody2"
+                    android:paddingBottom="@dimen/activity_margin"
+                    android:paddingLeft="@dimen/activity_margin"
+                    android:paddingRight="@dimen/activity_margin"
+                    android:paddingTop="@dimen/activity_margin"
+                    android:text="Location"
+                    android:textColor="@color/textPrimary" />
+
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_transparent"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_marginTop="24dp"
-            android:alpha="0"
-            android:background="@android:color/transparent"
-            android:elevation="0dp"
-            android:theme="@style/ToolbarTheme" />
-
-    </FrameLayout>
-
-    <LinearLayout
-        android:id="@+id/colorizedFrame"
-        style="@style/LinearLayoutForViews"
-        android:layout_below="@+id/frameLayout"
-        android:layout_gravity="bottom" >
-
-        <android.support.v7.widget.CardView
-            android:layout_height="1000dp"
-            style="@style/Card">
-
-            <ListView
-                android:id="@+id/listView"
-                style="@style/ListView" />
-
-            <TextView
-                android:id="@+id/textViewLocationOther"
-                style="@style/TextViewBody2"
-                android:paddingBottom="@dimen/activity_margin"
-                android:paddingLeft="@dimen/activity_margin"
-                android:paddingRight="@dimen/activity_margin"
-                android:paddingTop="@dimen/activity_margin"
-                android:text="Location"
-                android:textColor="@color/textPrimary" />
-
-        </android.support.v7.widget.CardView>
-
-    </LinearLayout>
 
     </LinearLayout>
 

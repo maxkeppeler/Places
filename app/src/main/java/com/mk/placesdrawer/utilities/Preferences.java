@@ -42,12 +42,12 @@ public class Preferences {
         return context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
 
-    public void setPlacesListLoaded(boolean loaded) {
-        getSharedPreferences().edit().putBoolean(PLACES_LIST_LOADED, loaded).apply();
-    }
-
     public boolean getPlacesListLoaded() {
         return getSharedPreferences().getBoolean(PLACES_LIST_LOADED, false);
+    }
+
+    public void setPlacesListLoaded(boolean loaded) {
+        getSharedPreferences().edit().putBoolean(PLACES_LIST_LOADED, loaded).apply();
     }
 
 }

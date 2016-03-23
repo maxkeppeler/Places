@@ -1,4 +1,4 @@
-package com.mk.placesdrawer;
+package com.mk.placesdrawer.utilities;
 
 import android.content.Context;
 
@@ -17,7 +17,7 @@ public class GlideConfiguration implements GlideModule {
         // Apply options to the builder here.
 
         // Need, so it uses the same high quality decode format as Picasso uses it at default
-        builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888);
+      //  builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888);
     }
 
     @Override

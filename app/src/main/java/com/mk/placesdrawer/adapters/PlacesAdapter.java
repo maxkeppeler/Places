@@ -29,16 +29,9 @@ import java.util.ArrayList;
 public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesViewHolder> {
 
     private static Activity context;
-
-    public interface ClickListener {
-
-        void onClick(PlacesViewHolder view, int index, boolean longClick);
-    }
-
+    private final ClickListener mCallback;
     private ArrayList<PlacesItem> placesList;
     private Activity mContext;
-
-    private final ClickListener mCallback;
 
     public PlacesAdapter(Activity context, ClickListener callBack) {
         this.mContext = context;
@@ -60,38 +53,25 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
     public void onBindViewHolder(final PlacesViewHolder holder, int index) {
 
         PlacesItem placeItem = placesList.get(index);
-        holder.location.setText(placeItem.getLocation());
-        holder.sight.setText(placeItem.getSight());
-        //holder.desc.setText(placeItem.getDescription());
-
         final String imgPlaceUrl = placeItem.getImgPlaceUrl();
-
-/*      Old
-        Glide.with(mContext)
-                .load(imgPlaceUrl)
-                .override(1400, 1094)
-                .placeholder(R.drawable.placeholder)
-                .error(R.drawable.placeholder)
-                .into(holder.image);
-*/
 
         Glide.with(mContext)
                 .load(imgPlaceUrl)
                 .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .override(2022, 1784)
-
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .override(1022, 784)
                 .into(new BitmapImageViewTarget(holder.image) {
                     @Override
                     protected void setResource(Bitmap resource) {
                         TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(mContext.getResources(), resource)});
                         holder.image.setImageDrawable(td);
-                        td.startTransition(250);
+                        td.startTransition(1050);
                     }
                 });
 
+        holder.location.setText(placeItem.getLocation());
+        holder.sight.setText(placeItem.getSight());
     }
-
 
     @Override
     public int getItemCount() {
@@ -99,12 +79,17 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
     }
 
 
+    public interface ClickListener {
+
+        void onClick(PlacesViewHolder view, int index, boolean longClick);
+    }
+
     public class PlacesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-        private MaterialRippleLayout ripple;
         public final View view;
         public final ImageView image;
         public final TextView location, sight; //, desc;
+        private MaterialRippleLayout ripple;
 
         PlacesViewHolder(View v) {
             super(v);

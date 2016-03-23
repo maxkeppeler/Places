@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Option to enable zoom in and out animation on images -->
+    <bool name="zoomHeader">true</bool>
+    <bool name="zoomCollapsingToolbarImage">true</bool>
+
+
+</resources>

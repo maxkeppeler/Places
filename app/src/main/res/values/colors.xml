@@ -30,6 +30,7 @@
     <color name="default_app_bg">#1b1c1f</color>
     <color name="default_card_darktheme">#26282c</color>
 
+    <color name="accent_translucent">#80FFEB3B</color>
 
 
     <!-- Material Drawer -->
@@ -58,9 +59,6 @@
     <color name="material_drawer_header_selection_text">#FFF</color>
 
 
-
-
-
     <!-- Other colors -->
 
     <!-- Grey -->
@@ -75,11 +73,6 @@
 
     <!-- Transparent -->
     <color name="transparent">#00ffffff</color>
-
-
-
-
-
 
 
 </resources>

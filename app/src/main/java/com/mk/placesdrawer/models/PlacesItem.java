@@ -30,6 +30,13 @@ public class PlacesItem implements Parcelable {
 
     }
 
+    protected PlacesItem(Parcel in) {
+        location = in.readString();
+        sight = in.readString();
+        //description = in.readString();
+        imgPlaceUrl = in.readString();
+    }
+
     public String getLocation() {
         return location;
     }
@@ -51,14 +58,6 @@ public class PlacesItem implements Parcelable {
         return PlacesList.getPlacesList().size();
     }
 
-
-    protected PlacesItem(Parcel in) {
-        location = in.readString();
-        sight = in.readString();
-        //description = in.readString();
-        imgPlaceUrl = in.readString();
-    }
-
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(location);
@@ -66,11 +65,6 @@ public class PlacesItem implements Parcelable {
         //dest.writeString(description);
         dest.writeString(imgPlaceUrl);
     }
-
-
-
-
-
 
 
 }
