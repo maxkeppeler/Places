@@ -48,7 +48,7 @@
 
         <!-- ...and here we setting appcompat’s color theming attrs -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
         <!-- MaterialDrawer specific values -->

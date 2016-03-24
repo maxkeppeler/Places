@@ -2,6 +2,7 @@ package com.mk.placesdrawer.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -11,20 +12,23 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.models.PlacesItem;
 import com.mk.placesdrawer.utilities.Animations;
@@ -41,13 +45,10 @@ public class CollapsingToolbar extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
+//            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setNavigationBarColor(getResources().getColor(R.color.navigationBar));
+            window.setStatusBarColor(getResources().getColor(R.color.colorStatusBarOverlay));
         }
 
         context = this;
@@ -59,7 +60,7 @@ public class CollapsingToolbar extends AppCompatActivity {
 
         item = intent.getParcelableExtra("item");
 
-        String itemImage = item.getImgPlaceUrl();
+        final String itemImage = item.getImgPlaceUrl();
         String itemTitle = item.getLocation();
 
         ViewCompat.setTransitionName(findViewById(R.id.app_bar_layout), itemImage);
@@ -82,20 +83,18 @@ public class CollapsingToolbar extends AppCompatActivity {
         Glide.with(context)
                 .load(itemImage)
 //                .override(3000, 2000)
-//                .placeholder(R.drawable.placeholder)
                 .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .centerCrop()
                 .into(new BitmapImageViewTarget(image) {
                     @Override
                     protected void setResource(Bitmap resource) {
                         TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(getResources(), resource)});
                         image.setImageDrawable(td);
-                        td.startTransition(1050);
+                        td.startTransition(750);
+                        new Palette.Builder(resource).generate(paletteAsyncListener);
                     }
-
                 });
-
 
         if (getResources().getBoolean(R.bool.zoomCollapsingToolbarImage)) {
             Animations.zoomInAndOut(context, image);
@@ -160,5 +159,35 @@ public class CollapsingToolbar extends AppCompatActivity {
             finish();
         }
     }
+
+    public Palette.PaletteAsyncListener paletteAsyncListener =
+            new Palette.PaletteAsyncListener() {
+
+                @Override
+                public void onGenerated(Palette palette) {
+                    if (palette == null) return;
+
+                        int defaultRippleColor = ContextCompat.getColor(context, R.color.rippleColorView);
+                        int defaultFabColor = ContextCompat.getColor(context, R.color.rippleColorView);
+
+                        int defaultNavigationBar = ContextCompat.getColor(context, R.color.colorPrimary);
+                        int defaultToolbar = ContextCompat.getColor(context, R.color.colorPrimary);
+                        int defaultStatusBar = ContextCompat.getColor(context, R.color.colorStatusBarOverlay);
+
+                        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+                        fab.setRippleColor(palette.getLightVibrantColor(defaultRippleColor));
+                        fab.setBackgroundTintList(ColorStateList.valueOf(palette.getVibrantColor(defaultFabColor)));
+
+                        collapsingToolbarLayout.setContentScrimColor(palette.getVibrantColor(defaultToolbar));
+                        collapsingToolbarLayout.setStatusBarScrimColor(palette.getVibrantColor(defaultStatusBar));
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            Window window = getWindow();
+                            window.setNavigationBarColor(palette.getVibrantColor(defaultNavigationBar));
+                        } else {
+                            Log.d("Palette is null", "CollapsingToolbar.java");
+                        }
+                }
+            };
 
 }

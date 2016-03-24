@@ -6,13 +6,19 @@
     <color name="colorPrimaryDark">#c53929</color>
     <color name="colorAccent">#db4437</color>
     -->
+    <color name="colorStatusBarOverlay">#1e212121</color>
+    <color name="rippleColorView">#28ffffff</color>
+    <color name="fabColor">@color/colorPrimary</color>
+
+
     <color name="colorPrimary">#212121</color>
-    <color name="colorPrimaryDark">@color/colorPrimary</color>
+    <color name="colorPrimaryDark">#161616</color>
     <color name="colorAccent">@color/md_cyan_500</color>
 
     <color name="rippleColor">@color/colorAccent</color>
 
     <color name="drawableColor">#fff</color>
+
 
     <color name="navigationBar">@color/colorPrimary</color>
     <color name="snackbar">@color/colorPrimaryDark</color>
