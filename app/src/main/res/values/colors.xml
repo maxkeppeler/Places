@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+
+    <!-- TODO REORGANIZE COLORS DAMN -->
+
+
     <!-- Google Plus Red
     <color name="colorPrimary">#db4437</color>
     <color name="colorPrimaryDark">#c53929</color>
     <color name="colorAccent">#db4437</color>
     -->
     <color name="colorStatusBarOverlay">#1e212121</color>
-    <color name="rippleColorView">#28ffffff</color>
+    <color name="colorStatusBar">@color/colorPrimaryDark</color>
+    <color name="rippleColorView">@color/accent</color>
     <color name="fabColor">@color/colorPrimary</color>
+    <color name="white">#fff</color>
 
 
     <color name="colorPrimary">#212121</color>
-    <color name="colorPrimaryDark">#161616</color>
+    <color name="colorPrimaryDark">#1e1e1e</color>
     <color name="colorAccent">@color/md_cyan_500</color>
 
     <color name="rippleColor">@color/colorAccent</color>

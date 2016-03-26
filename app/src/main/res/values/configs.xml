@@ -2,7 +2,8 @@
 <resources>
 
     <!-- Option to enable zoom in and out animation on images -->
-    <bool name="zoomHeader">true</bool>
+    <bool name="zoomDrawerHeader">true</bool>
+    <bool name="placesZoomItems">true</bool>
     <bool name="zoomCollapsingToolbarImage">true</bool>
 
 

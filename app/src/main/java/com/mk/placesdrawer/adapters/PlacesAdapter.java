@@ -3,6 +3,7 @@ package com.mk.placesdrawer.adapters;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -16,32 +17,28 @@ import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.models.PlacesItem;
+import com.mk.placesdrawer.utilities.Animations;
 
 import java.util.ArrayList;
 
-/**
- * Created by florentchampigny on 24/04/15.
- */
 public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesViewHolder> {
 
-    private static Activity context;
-    private final ClickListener mCallback;
+    private final ClickListener callback;
     private ArrayList<PlacesItem> placesList;
-    private Activity mContext;
+    private Activity context;
 
     public PlacesAdapter(Activity context, ClickListener callBack) {
-        this.mContext = context;
-        this.mCallback = callBack;
+        this.context = context;
+        this.callback = callBack;
     }
 
     @Override
     public PlacesViewHolder onCreateViewHolder(ViewGroup parent, int index) {
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        return new PlacesViewHolder(inflater.inflate(R.layout.drawer_places_list_item, parent, false));
+        LayoutInflater inflater = LayoutInflater.from(context);
+        return new PlacesViewHolder(inflater.inflate(R.layout.drawer_places_item, parent, false));
     }
 
     public void setData(ArrayList<PlacesItem> placesList) {
@@ -55,19 +52,24 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
         PlacesItem placeItem = placesList.get(index);
         final String imgPlaceUrl = placeItem.getImgPlaceUrl();
 
-        Glide.with(mContext)
+        Glide.with(context)
                 .load(imgPlaceUrl)
                 .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(1022, 784)
                 .into(new BitmapImageViewTarget(holder.image) {
                     @Override
                     protected void setResource(Bitmap resource) {
-                        TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(mContext.getResources(), resource)});
+                        TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(context.getResources(), resource)});
                         holder.image.setImageDrawable(td);
                         td.startTransition(1050);
                     }
                 });
+
+        if (context.getResources().getBoolean(R.bool.placesZoomItems)) {
+            Animations.zoomInAndOut(context, holder.image);
+        }
+
 
         holder.location.setText(placeItem.getLocation());
         holder.sight.setText(placeItem.getSight());
@@ -86,20 +88,26 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
 
     public class PlacesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
+        Typeface typeface = Typeface.createFromAsset(context.getAssets(), "fonts/BreeSerif-Regular.ttf");
+
         public final View view;
         public final ImageView image;
-        public final TextView location, sight; //, desc;
+        public final TextView location, sight;
+        public final TextView desc;
         private MaterialRippleLayout ripple;
 
         PlacesViewHolder(View v) {
             super(v);
             view = v;
 
-            ripple = (MaterialRippleLayout) view.findViewById(R.id.ripple);
-            image = (ImageView) view.findViewById(R.id.imageView);
-            location = (TextView) view.findViewById(R.id.textViewLocation);
-            sight = (TextView) view.findViewById(R.id.textViewSight);
-            //desc = (TextView) view.findViewById(R.id.textViewDescription);
+
+            ripple = (MaterialRippleLayout) view.findViewById(R.id.rippleThumb);
+            image = (ImageView) view.findViewById(R.id.imageThumb);
+            location = (TextView) view.findViewById(R.id.locationThumb);
+                location.setTypeface(typeface);
+            sight = (TextView) view.findViewById(R.id.sightThumb);
+
+            desc = null;
 
             ripple.setOnClickListener(this);
             ripple.setOnLongClickListener(this);
@@ -109,15 +117,15 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
         @Override
         public void onClick(View v) {
             int index = getLayoutPosition();
-            if (mCallback != null)
-                mCallback.onClick(this, index, false);
+            if (callback != null)
+                callback.onClick(this, index, false);
         }
 
         @Override
         public boolean onLongClick(View v) {
             int index = getLayoutPosition();
-            if (mCallback != null)
-                mCallback.onClick(this, index, true);
+            if (callback != null)
+                callback.onClick(this, index, true);
             return true;
         }
     }

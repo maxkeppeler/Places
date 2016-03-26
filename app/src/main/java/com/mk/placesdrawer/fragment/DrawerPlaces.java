@@ -3,10 +3,13 @@ package com.mk.placesdrawer.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,7 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.mk.placesdrawer.R;
-import com.mk.placesdrawer.activity.CollapsingToolbar;
+import com.mk.placesdrawer.activity.DrawerPlacesDetail;
 import com.mk.placesdrawer.activity.MainActivity;
 import com.mk.placesdrawer.adapters.PlacesAdapter;
 import com.mk.placesdrawer.models.PlacesItem;
@@ -42,9 +45,6 @@ public class DrawerPlaces extends Fragment {
     private static ViewGroup layout;
     private static RecyclerView mRecyclerView;
 
-    //Is a layout manager necessary?
-    //private static RecyclerView.LayoutManager layoutManager;
-    //private static LinearLayoutManager layoutManager;
     private static Activity context;
 
     private static boolean worked;
@@ -72,20 +72,7 @@ public class DrawerPlaces extends Fragment {
                                         Toast.makeText(context, "Short Click", Toast.LENGTH_SHORT).show();
                                         Log.d("Short CLICK", ": Works");
 
-                                        /*
-                                        final Intent intent = new Intent(context, PlacesViewerActivity.class);
-
-                                        Log.d("Position", "" + position);
-
-                                        intent.putExtra("item", PlacesList.getPlacesList().get(position));
-                                        //intent.putExtra("transitionName", ViewCompat.getTransitionName(view.image));
-
-                                            context.startActivity(intent);
-
-
-                                    */
-
-                                        final Intent intent = new Intent(context, CollapsingToolbar.class);
+                                        final Intent intent = new Intent(context, DrawerPlacesDetail.class);
 
                                         Log.d("Position", "" + position);
 
@@ -146,6 +133,12 @@ public class DrawerPlaces extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 
         context = getActivity();
@@ -166,7 +159,6 @@ public class DrawerPlaces extends Fragment {
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.placecRecyclerView);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-
         mRecyclerView.setHasFixedSize(true);
 
         if (mRecyclerView.getVisibility() != View.VISIBLE) {
@@ -234,8 +226,8 @@ public class DrawerPlaces extends Fragment {
                         // ArrayList receives per object/ per loop the following strings/ values from the json object
                         places.add(new PlacesItem(
                                         json.getString("location"),
-                                        //  json.getString("description"),
                                         json.getString("sight"),
+                                        json.getString("description"),
                                         json.getString("url")
                                 )
                         );

@@ -27,14 +27,8 @@
             </intent-filter>
         </activity>
 
-        <!-- Full View - Places Activity -->
         <activity
-            android:name=".activity.PlacesViewerActivity"
-            android:label="@string/title_activity_detailed_places"
-            android:theme="@style/ToolbarTheme" />
-
-        <activity
-            android:name=".activity.CollapsingToolbar"
+            android:name=".activity.DrawerPlacesDetail"
             android:theme="@style/DetailView"
             android:value=".activity.MainActivity">
 

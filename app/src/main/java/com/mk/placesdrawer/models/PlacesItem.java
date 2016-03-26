@@ -22,10 +22,10 @@ public class PlacesItem implements Parcelable {
 
     private String location, sight, description, imgPlaceUrl;
 
-    public PlacesItem(String location, String sight, String imgPlaceUrl) {
+    public PlacesItem(String location, String sight, String description, String imgPlaceUrl) {
         this.location = location;
         this.sight = sight;
-        //this.description = description;
+        this.description = description;
         this.imgPlaceUrl = imgPlaceUrl;
 
     }
@@ -33,7 +33,7 @@ public class PlacesItem implements Parcelable {
     protected PlacesItem(Parcel in) {
         location = in.readString();
         sight = in.readString();
-        //description = in.readString();
+        description = in.readString();
         imgPlaceUrl = in.readString();
     }
 
@@ -62,7 +62,7 @@ public class PlacesItem implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(location);
         dest.writeString(sight);
-        //dest.writeString(description);
+        dest.writeString(description);
         dest.writeString(imgPlaceUrl);
     }
 

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.balysv.materialripple.MaterialRippleLayout
+    android:id="@+id/rippleThumb"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:mrl_rippleColor="@color/md_white_1000"
+    app:mrl_rippleDuration="450"
+    app:mrl_rippleFadeDuration="475"
+    app:mrl_rippleHover="true"
+    app:mrl_rippleOverlay="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:gravity="top">
+
+            <ImageView
+                android:id="@+id/placesDetailDrawable"
+                android:background="@drawable/ic_changelog"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="4dp"/>
+
+            <LinearLayout
+                android:layout_marginLeft="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/placesDetailTitle"
+                    style="@style/TextViewTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Details"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/placesDetailText"
+                    style="@style/TextViewBody1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="GPS"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.balysv.materialripple.MaterialRippleLayout>

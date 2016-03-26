@@ -302,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
         Glide.with(context)
                 .load(rnb)
                 .asBitmap()
-                .override(912, 688)
+//                .override(912, 688)
                 .centerCrop()
                 .into(new BitmapImageViewTarget(cover) {
                     @Override
@@ -314,7 +314,7 @@ public class MainActivity extends AppCompatActivity {
 
                 });
 
-        if (this.getResources().getBoolean(R.bool.zoomHeader)) {
+        if (this.getResources().getBoolean(R.bool.zoomDrawerHeader)) {
             Animations.zoomInAndOut(context, cover);
         }
 
