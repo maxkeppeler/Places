@@ -145,7 +145,6 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
 
                         if (drawerItem != null) {
-                            Intent intent = null;
 
                             FragmentManager manager = getSupportFragmentManager();
                             FragmentTransaction transaction = manager.beginTransaction();
@@ -153,28 +152,22 @@ public class MainActivity extends AppCompatActivity {
 
                             switch ((int) drawerItem.getIdentifier()) {
 
-                                case 1:
-                                    fragment = new DrawerPlaces();
+                                case 1: fragment = new DrawerPlaces();
                                     break;
 
-                                case 2:
-                                    fragment = new DrawerHome();
+                                case 2: fragment = new DrawerHome();
                                     break;
 
-                                case 3:
-                                    fragment = new DrawerHome();
+                                case 3: fragment = new DrawerHome();
                                     break;
 
-                                case 4:
-                                    fragment = new DrawerHome();
+                                case 4: fragment = new DrawerHome();
                                     break;
 
-                                case 5:
-                                    fragment = new DrawerHome();
+                                case 5: fragment = new DrawerHome();
                                     break;
 
-                                case 6:
-                                    fragment = new DrawerHome();
+                                case 6: fragment = new DrawerHome();
                                     break;
 
                                 default:
@@ -187,9 +180,7 @@ public class MainActivity extends AppCompatActivity {
                             currentDrawerItem = (int) drawerItem.getIdentifier();
                             toolbar.setTitle(toolbarText(currentDrawerItem));
 
-                            if (intent != null) {
-                                MainActivity.this.startActivity(intent);
-                            }
+
                         }
                         return false;
                     }
