@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +57,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
         Glide.with(context)
                 .load(imgPlaceUrl)
                 .asBitmap()
-                .override(1022, 784)
+//                .override(1022, 784)
 //                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
 //                .skipMemoryCache(true)
                 .into(new BitmapImageViewTarget(holder.image) {
@@ -64,7 +65,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
                     protected void setResource(Bitmap resource) {
                         TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(context.getResources(), resource)});
                         holder.image.setImageDrawable(td);
-                        td.startTransition(1050);
+                        td.startTransition(550);
                     }
                 });
 

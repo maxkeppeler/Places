@@ -46,6 +46,7 @@ public class DrawerPlaces extends Fragment {
     private static RecyclerView mRecyclerView;
 
     private static Activity context;
+    private DrawerPlaces drawerPlaces;
 
     private static boolean worked;
 
@@ -73,8 +74,6 @@ public class DrawerPlaces extends Fragment {
                                         Log.d("Short CLICK", ": Works");
 
                                         final Intent intent = new Intent(context, DrawerPlacesDetail.class);
-
-                                        Log.d("Position", "" + position);
 
                                         intent.putExtra("item", PlacesList.getPlacesList().get(position));
                                         //intent.putExtra("transitionName", ViewCompat.getTransitionName(view.image));
@@ -155,6 +154,8 @@ public class DrawerPlaces extends Fragment {
         } catch (InflateException e) {
             // Do nothing
         }
+
+        Log.d("INSGESAMT", "" + PlacesList.getPlacesList().size());
 
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.placecRecyclerView);
 
@@ -267,6 +268,10 @@ public class DrawerPlaces extends Fragment {
 
             if (wi != null)
                 wi.checkPlacesListCreation(worked);
+
+            Intent mIntent = new Intent(context, MainActivity.class);
+            mIntent.putExtra("size", PlacesList.getPlacesList().size());
+            context.startActivity(mIntent);
         }
     }
 

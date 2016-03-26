@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +36,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.fragment.DrawerHome;
 import com.mk.placesdrawer.fragment.DrawerPlaces;
+import com.mk.placesdrawer.models.PlacesItem;
 import com.mk.placesdrawer.utilities.Animations;
 
 import java.util.Random;
@@ -190,11 +192,13 @@ public class MainActivity extends AppCompatActivity {
             result.setSelection(1);
         }
 
-        result.updateBadge(1, new StringHolder("    " + "212" + "    "));
-        result.updateBadge(2, new StringHolder("    " + "35" + "    "));
+        Intent mIntent = getIntent();
+        int size = mIntent.getIntExtra("size", -1);
 
-        // TODO HELP NEEDED get actual correct PlacesList SIZE goes wrong. It keeps being 0 or the amount doubles itself after every reload. I tried many methods and ideas, but nothing worked
-        // result.updateBadge(1, new StringHolder("    " + PlacesList.getPlacesList().size() + "    "));
+        result.updateBadge(1, new StringHolder("    " + size + "    "));
+//        result.updateBadge(2, new StringHolder("    " + "35" + "    "));
+
+//        TODO add Favorite option 
 
     }
 
