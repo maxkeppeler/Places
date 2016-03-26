@@ -16,6 +16,11 @@
     <color name="fabColor">@color/colorPrimary</color>
     <color name="white">#fff</color>
 
+    <color name="primaryText">#DEFFFFFF</color>
+    <color name="primaryIcon">#8AFFFFFF</color>
+    <color name="secondaryText">#8AFFFFFF</color>
+    <color name="hintText">#42FFFFFF</color>
+    <color name="divider">#1FFFFFFF</color>
 
     <color name="colorPrimary">#212121</color>
     <color name="colorPrimaryDark">#1e1e1e</color>

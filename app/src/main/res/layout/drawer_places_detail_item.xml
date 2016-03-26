@@ -23,7 +23,6 @@
 
             <ImageView
                 android:id="@+id/placesDetailDrawable"
-                android:background="@drawable/ic_changelog"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="4dp"/>
@@ -49,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="GPS"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/primaryText" />
 
             </LinearLayout>
 

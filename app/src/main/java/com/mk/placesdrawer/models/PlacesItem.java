@@ -20,12 +20,25 @@ public class PlacesItem implements Parcelable {
         }
     };
 
-    private String location, sight, description, imgPlaceUrl;
+    private String country, state, city, religion;
+    private String location, sight, description;
+    private String imgPlaceUrl;
 
-    public PlacesItem(String location, String sight, String description, String imgPlaceUrl) {
+    public PlacesItem(String location,
+                      String sight,
+                      String description,
+                      String country,
+                      String state,
+                      String city,
+                      String religion,
+                      String imgPlaceUrl) {
         this.location = location;
         this.sight = sight;
         this.description = description;
+        this.country = country;
+        this.state = state;
+        this.city = city;
+        this.religion = religion;
         this.imgPlaceUrl = imgPlaceUrl;
 
     }
@@ -34,23 +47,76 @@ public class PlacesItem implements Parcelable {
         location = in.readString();
         sight = in.readString();
         description = in.readString();
+        country = in.readString();
+        state = in.readString();
+        city = in.readString();
+        religion = in.readString();
         imgPlaceUrl = in.readString();
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+
+    public String getReligion() {
+        return religion;
+    }
+
+    public void setReligion(String religion) {
+        this.religion = religion;
     }
 
     public String getLocation() {
         return location;
     }
 
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public String getSight() {
         return sight;
+    }
+
+    public void setSight(String sight) {
+        this.sight = sight;
     }
 
     public String getDescription() {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getImgPlaceUrl() {
         return imgPlaceUrl;
+    }
+
+    public void setImgPlaceUrl(String imgPlaceUrl) {
+        this.imgPlaceUrl = imgPlaceUrl;
     }
 
     @Override
@@ -63,6 +129,10 @@ public class PlacesItem implements Parcelable {
         dest.writeString(location);
         dest.writeString(sight);
         dest.writeString(description);
+        dest.writeString(country);
+        dest.writeString(state);
+        dest.writeString(city);
+        dest.writeString(religion);
         dest.writeString(imgPlaceUrl);
     }
 

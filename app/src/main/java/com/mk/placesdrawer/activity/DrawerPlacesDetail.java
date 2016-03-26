@@ -39,6 +39,8 @@ import com.mk.placesdrawer.models.PlacesDetailItem;
 import com.mk.placesdrawer.models.PlacesItem;
 import com.mk.placesdrawer.widgets.SquareImageView;
 
+import java.util.Arrays;
+
 public class DrawerPlacesDetail extends AppCompatActivity {
 
     public static Toolbar toolbar;
@@ -46,7 +48,6 @@ public class DrawerPlacesDetail extends AppCompatActivity {
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private FloatingActionButton fab;
     private TextView placeDescTitle, placesDescText, placeInfoTitle;
-
 
 
 
@@ -75,21 +76,23 @@ public class DrawerPlacesDetail extends AppCompatActivity {
 //        Start of Details CardView / RecyclerView
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewInfoDetails);
 
-        if (item.getSight().equals("City")) {
-            PlacesDetailItem itemsData[] = {  // Add new Items
-                    // Country, State, Counties, Coordinates,
-                    // Area - Total - Land - Water - Metro
-                    //Population - Total - Rank -
+        String position;
+        String[] positionArray = {   item.getCountry(), item.getState(), item.getCity()    };
+        position = Arrays.toString(positionArray).replace("[", "").replace("]", "").replace(",", "  ~ ");
 
-                    // TODO when a variable is null, don't add this new Item
-                    new PlacesDetailItem("Country", item.getSight(), R.drawable.ic_changelog),
-                    new PlacesDetailItem(item.getLocation(), item.getSight(), R.drawable.ic_changelog),
-                    new PlacesDetailItem(item.getLocation(), item.getSight(), R.drawable.ic_changelog),
-                    new PlacesDetailItem(item.getLocation(), item.getSight(), R.drawable.ic_changelog),
-                    new PlacesDetailItem(item.getLocation(), item.getSight(), R.drawable.ic_changelog),
-                    new PlacesDetailItem(item.getLocation(), item.getSight(), R.drawable.ic_changelog),
-                    new PlacesDetailItem(item.getLocation(), item.getSight(), R.drawable.ic_changelog),
-                    new PlacesDetailItem(item.getSight(), item.getLocation(), R.drawable.ic_filter),
+
+        if (item.getSight().equals("City")) {
+            PlacesDetailItem itemsData[] = {
+                    new PlacesDetailItem("Location", position, R.drawable.ic_location),
+                    new PlacesDetailItem("Religion", item.getReligion(), R.drawable.ic_religion),
+            };
+            finishRecycler(recyclerView, itemsData);
+        }
+
+        if (item.getSight().equals("National Park")) {
+            PlacesDetailItem itemsData[] = {
+                    new PlacesDetailItem("Location", position, R.drawable.ic_location),
+//                    new PlacesDetailItem("Religion", item.getReligion(), R.drawable.ic_religion),
             };
             finishRecycler(recyclerView, itemsData);
         }
@@ -130,14 +133,15 @@ public class DrawerPlacesDetail extends AppCompatActivity {
         Glide.with(context)
                 .load(itemImage)
                 .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .skipMemoryCache(true)
                 .centerCrop()
                 .into(new BitmapImageViewTarget(image) {
                     @Override
                     protected void setResource(Bitmap resource) {
                         TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(getResources(), resource)});
                         image.setImageDrawable(td);
-                        td.startTransition(750);
+                        td.startTransition(450);
                         new Palette.Builder(resource).generate(paletteAsyncListener);
                     }
                 });

@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.models.PlacesItem;
@@ -55,8 +56,9 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
         Glide.with(context)
                 .load(imgPlaceUrl)
                 .asBitmap()
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(1022, 784)
+//                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+//                .skipMemoryCache(true)
                 .into(new BitmapImageViewTarget(holder.image) {
                     @Override
                     protected void setResource(Bitmap resource) {
@@ -69,7 +71,6 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
         if (context.getResources().getBoolean(R.bool.placesZoomItems)) {
             Animations.zoomInAndOut(context, holder.image);
         }
-
 
         holder.location.setText(placeItem.getLocation());
         holder.sight.setText(placeItem.getSight());
@@ -90,10 +91,11 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
 
         Typeface typeface = Typeface.createFromAsset(context.getAssets(), "fonts/BreeSerif-Regular.ttf");
 
+
         public final View view;
         public final ImageView image;
-        public final TextView location, sight;
-        public final TextView desc;
+        public final TextView location, sight, desc;
+        public final TextView country, state, city, religion;
         private MaterialRippleLayout ripple;
 
         PlacesViewHolder(View v) {
@@ -108,6 +110,10 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
             sight = (TextView) view.findViewById(R.id.sightThumb);
 
             desc = null;
+            country = null;
+            state = null;
+            city = null;
+            religion = null;
 
             ripple.setOnClickListener(this);
             ripple.setOnLongClickListener(this);
