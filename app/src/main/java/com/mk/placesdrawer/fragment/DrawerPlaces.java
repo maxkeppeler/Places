@@ -155,11 +155,12 @@ public class DrawerPlaces extends Fragment {
             // Do nothing
         }
 
-        Log.d("INSGESAMT", "" + PlacesList.getPlacesList().size());
 
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.placecRecyclerView);
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+//        TODO let the user deside if 1, 2 or 3 columns and if reserved or normal
+        mRecyclerView.setLayoutManager(new GridLayoutManager(context, 2, 1, false));
         mRecyclerView.setHasFixedSize(true);
 
         if (mRecyclerView.getVisibility() != View.VISIBLE) {

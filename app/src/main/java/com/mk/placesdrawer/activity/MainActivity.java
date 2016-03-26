@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
         result.updateBadge(1, new StringHolder("    " + size + "    "));
 //        result.updateBadge(2, new StringHolder("    " + "35" + "    "));
 
-//        TODO add Favorite option 
+//        TODO add Favorite option
 
     }
 
