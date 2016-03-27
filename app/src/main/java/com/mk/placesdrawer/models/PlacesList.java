@@ -1,5 +1,7 @@
 package com.mk.placesdrawer.models;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -51,11 +53,14 @@ public class PlacesList {
     }
 
     public static ArrayList<PlacesItem> getPlacesList() {
+
         return placesList;
     }
 
     public static void clearList() {
         placesList.clear();
     }
+
+
 
 }

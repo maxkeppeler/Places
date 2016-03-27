@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.mk.placesdrawer.R;
 
-public class DrawerHome extends Fragment {
+public class DrawerAbout extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

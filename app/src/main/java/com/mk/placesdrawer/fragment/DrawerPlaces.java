@@ -28,6 +28,8 @@ import com.mk.placesdrawer.models.PlacesList;
 import com.mk.placesdrawer.utilities.JSONParser;
 import com.mk.placesdrawer.utilities.Utils;
 
+import junit.framework.Test;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,13 +42,17 @@ import java.util.TimerTask;
 
 public class DrawerPlaces extends Fragment {
 
+
+
+
     public static PlacesAdapter mAdapter;
     //Declare Layout, Adapter, RecyclerView in order to
     private static ViewGroup layout;
     private static RecyclerView mRecyclerView;
 
     private static Activity context;
-    private DrawerPlaces drawerPlaces;
+    private  DrawerPlaces context2;
+
 
     private static boolean worked;
 
@@ -118,19 +124,18 @@ public class DrawerPlaces extends Fragment {
         }
     }
 
-    public static void reloadPlaces(Activity context) {
-        mRecyclerView.setVisibility(View.GONE);
-        if (Utils.hasNetwork(context)) {
-            Utils.showSimpleSnackbar(context, layout, "Wait a second, Places will be reloaded.");
-        } else {
-            Utils.showSimpleSnackbar(context, layout,
-                    context.getResources().getString(R.string.no_internet));
-        }
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((MainActivity) DrawerPlaces
+                .getActivity())
+                .setData(10);
+
+        context2 = this;
+
+        ((MainActivity) DrawerPlaces.context)﻿
+
         setHasOptionsMenu(true);
     }
 
@@ -217,6 +222,14 @@ public class DrawerPlaces extends Fragment {
                     JSONArray jsonarray = json.getJSONArray("places");
 
                     // loop, grabbing all json objects out of the "places"
+
+//                    Intent one = new Intent(context, MainActivity.class);
+//                    one.putExtra("size", jsonarray.length());
+//                    context.startActivity(one);
+                    Log.d("adsad", "doInBackground: " + jsonarray.length());
+
+
+
                     for (int i = 0; i < jsonarray.length(); i++) {
 
                         // Retrieve JSON Objects
@@ -255,16 +268,9 @@ public class DrawerPlaces extends Fragment {
 
         @Override
         protected void onPostExecute(Void args) {
-
             endTime = System.currentTimeMillis();
             Utils.showLog("Walls Task completed in: " +
                     String.valueOf((endTime - startTime) / 1000) + " secs.");
-
-//            Log.d("SIZE", "onPostExecute: " + PlacesList.getPlacesList().size());
-
-//            Intent mIntent = new Intent(context, MainActivity.class);
-//            mIntent.putExtra("size", PlacesList.getPlacesList().size());
-//            context.startActivity(mIntent);
 
 
             if (layout != null) {
@@ -276,7 +282,5 @@ public class DrawerPlaces extends Fragment {
 
         }
     }
-
-
 
 }

@@ -1,6 +1,7 @@
 package com.mk.placesdrawer.adapters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -21,7 +22,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.placesdrawer.R;
+import com.mk.placesdrawer.activity.MainActivity;
 import com.mk.placesdrawer.models.PlacesItem;
+import com.mk.placesdrawer.models.PlacesList;
 import com.mk.placesdrawer.utilities.Animations;
 
 import java.util.ArrayList;
@@ -135,4 +138,5 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
             return true;
         }
     }
+
 }

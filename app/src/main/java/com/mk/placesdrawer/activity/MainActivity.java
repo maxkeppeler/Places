@@ -7,7 +7,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,10 +34,13 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mk.placesdrawer.R;
-import com.mk.placesdrawer.fragment.DrawerHome;
+import com.mk.placesdrawer.adapters.PlacesAdapter;
+import com.mk.placesdrawer.fragment.DrawerAbout;
 import com.mk.placesdrawer.fragment.DrawerPlaces;
+import com.mk.placesdrawer.models.PlacesList;
 import com.mk.placesdrawer.utilities.Animations;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import static com.mikepenz.google_material_typeface_library.GoogleMaterial.Icon;
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private static String drawerWrong;
     private int currentDrawerItem;
     private String[] urlHeaderArray;
+    private int data;
 
     // TODO Differnt Toolbar and Status Bar color depending on the current fragment.
     // Places - Dark Grey Toolbar and Status Bar
@@ -64,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         context = this;
+
 
         urlHeaderArray = getResources().getStringArray(R.array.headerUrl);
 
@@ -159,23 +164,23 @@ public class MainActivity extends AppCompatActivity {
                                     break;
 
                                 case 2:
-                                    fragment = new DrawerHome();
+                                    fragment = new DrawerAbout();
                                     break;
 
                                 case 3:
-                                    fragment = new DrawerHome();
+                                    fragment = new DrawerAbout();
                                     break;
 
                                 case 4:
-                                    fragment = new DrawerHome();
+                                    fragment = new DrawerAbout();
                                     break;
 
                                 case 5:
-                                    fragment = new DrawerHome();
+                                    fragment = new DrawerAbout();
                                     break;
 
                                 case 6:
-                                    fragment = new DrawerHome();
+                                    fragment = new DrawerAbout();
                                     break;
 
                                 default:
@@ -204,11 +209,18 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-//      TODO intent restarts MainActivity, UI restarts
-//        Intent mIntent = getIntent();
-//        int size = mIntent.getIntExtra("size", -1);
-
-//        result.updateBadge(1, new StringHolder("    " + String.valueOf(size) + "    "));
+        Intent in = new Intent();
+        int dburl = in.getIntExtra("size", -1);
+////
+//////      TODO intent restarts MainActivity, UI restarts
+////
+//
+//        Intent one = new Intent(context, MainActivity.class);
+//        one.putExtra("size", PlacesList.getPlacesList().size());
+//        context.startActivity(one);
+//
+//        Log.d("SIZE MAIN", "onCreate: " + DrawerPlaces.getJsonArraySize());
+//        result.updateBadge(1, new StringHolder("    " + String.valueOf(DrawerPlaces.getJsonArraySize()) + "    "));
 //            result.updateBadge(1, new StringHolder("    " + size + "    "));
 //        result.updateBadge(2, new StringHolder("    " + "35" + "    "));
 
@@ -271,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
         switch (id) {
             case R.id.filter:       filterDialog();     break;
             case R.id.sort:         sortDialog();       break;
-            case R.id.changelog:    changelogDialog();  break;
+            case R.id.changelog:    changeLogDialog();  break;
         }
         return true;
     }
@@ -320,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
         void checkPlacesListCreation(boolean result);
     }
 
-    public void changelogDialog() {
+    public void changeLogDialog() {
 
         new MaterialDialog.Builder(this)
                 .title(R.string.changelogTitle)
@@ -353,5 +365,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void setData(int data){
+        this.data = data;
+    }
 
 }
