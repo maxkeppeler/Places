@@ -1,10 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Option to enable zoom in and out animation on images -->
+    <!-- ////////////  ANIMATIONS   \\\\\\\\\\\\\ -->
+
     <bool name="zoomDrawerHeader">true</bool>
     <bool name="placesZoomItems">true</bool>
     <bool name="zoomCollapsingToolbarImage">true</bool>
+
+
+
+
+
+
+    <!-- ////////////  SORT   \\\\\\\\\\\\\ -->
+
+
+
+
+
+    <!-- ////////////  FILTER   \\\\\\\\\\\\\ -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 </resources>

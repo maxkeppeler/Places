@@ -1,9 +1,9 @@
 <resources>
 
 
-    <string name="app_name">Places</string>
+    <!-- ////////////   MATERIAL DRAWER   \\\\\\\\\\\\\ -->
 
-    <!-- Drawer Item & Toolbar Text -->
+    <!-- Drawer Items -->
     <string name="app_places">Places</string>
     <string name="app_favorite">Favorite</string>
     <string name="app_submit">Submit</string>
@@ -12,14 +12,7 @@
     <string name="app_Feedback">Feedback</string>
     <string name="app_wrong">Sorry, you are lost</string>
 
-
-    <string name="action_reload">Reload</string>
-    <string name="action_changelog">Changelog</string>
-    <string name="action_filter">Filter</string>
-    <string name="action_sort">Sort</string>
-
-
-    <!-- Header Urls, when user has Internet -->
+    <!-- Header Images (URLs) -->
     <string-array name="headerUrl">
         <item>http://bit.ly/1R5Skb4</item>
         <item>http://bit.ly/1R7D0cG</item>
@@ -31,16 +24,116 @@
     </string-array>
 
 
-    <string name="location">Location</string>
 
-    <!-- About Section -->
-    <string name="developer">Maximilian Keppeler</string>
-    <string name="developer_desc">Maximilian Keppeler</string>
+    <!-- ////////////  Toolbar   \\\\\\\\\\\\\ -->
+
+    <!--  Toolbar Texts -->
+    <string name="action_changelog">Changelog</string>
+    <string name="action_filter">Filter</string>
+    <string name="action_sort">Sort</string>
+
+
+
+    <!-- ////////////   DIALOGS   \\\\\\\\\\\\\ -->
+
+    <!-- Changelog Dialog -->
+    <string name="changelogTitle">Changelog</string>
+    <array  name="changelogContentArray">
+
+        <item><![CDATA[
+        v0.8 Beta
+        \n • Change 1
+        \n • Change 2
+        ]]>
+        </item>
+
+        <item><![CDATA[
+        v0.7 Beta
+        \n • Change 1
+        \n • Change 2
+        ]]>
+        </item>
+
+        <item><![CDATA[
+        v0.6 Beta
+        \n • Change 1
+        \n • Change 2
+        ]]>
+        </item>
+
+        <item><![CDATA[
+        v0.5 Beta
+        \n • Change 1
+        \n • Change 2
+        ]]>
+        </item>
+
+        <item><![CDATA[
+        v0.4 Beta
+        \n • Change 1
+        \n • Change 2
+        ]]>
+        </item>
+
+        <item><![CDATA[
+        v0.3 Beta
+        \n • Change 1
+        \n • Change 2
+        ]]>
+        </item>
+
+        <item><![CDATA[
+        v0.2 Beta
+        \n • Change 1
+        \n • Change 2
+        ]]>
+        </item>
+
+        <item><![CDATA[
+        v0.1 Beta
+        \n • Change 1
+        \n • Change 2
+        ]]>
+        </item>
+    </array>
+
+    <!-- Sort Dialog -->
+    <string name="sortTitle">Sort</string>
+    <string name="sortPositive">Apply Changes</string>
+
+    <!-- Filter Dialog -->
+    <string name="filterTitle">Filter</string>
+    <string name="filterPositive">Apply Changes</string>
+    <string name="agree">Back</string>
+
+
+
+    <!-- ////////////   APP SECTIONS   \\\\\\\\\\\\\ -->
+
+    <!-- Places -->
     <string name="json_file_url">https://drive.google.com/uc?id=0B6ky9fzTGl9XNFBhTTlxU2hhQmM</string>
     <string name="title_activity_detailed_places">Places Viewer</string>
 
-    <string name="reload_places">Wait a second, places will be reloaded.</string>
+    <!-- About -->
+    <string name="developer">Maximilian Keppeler</string>
+    <string name="developer_desc">Maximilian Keppeler</string>
+
+    <!-- Other App Strings -->
+    <string name="app_name">Places</string>
     <string name="no_internet">No Internet Connection</string>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 </resources>

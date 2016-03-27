@@ -57,9 +57,8 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
         Glide.with(context)
                 .load(imgPlaceUrl)
                 .asBitmap()
-//                .override(1022, 784)
-//                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-//                .skipMemoryCache(true)
+                .override(1022, 784)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(new BitmapImageViewTarget(holder.image) {
                     @Override
                     protected void setResource(Bitmap resource) {

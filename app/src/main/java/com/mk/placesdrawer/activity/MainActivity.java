@@ -15,13 +15,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -36,7 +36,6 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.fragment.DrawerHome;
 import com.mk.placesdrawer.fragment.DrawerPlaces;
-import com.mk.placesdrawer.models.PlacesItem;
 import com.mk.placesdrawer.utilities.Animations;
 
 import java.util.Random;
@@ -147,28 +146,36 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
 
                         if (drawerItem != null) {
+                            Intent intent = null;
+
                             FragmentManager manager = getSupportFragmentManager();
                             FragmentTransaction transaction = manager.beginTransaction();
                             Fragment fragment = null;
 
                             switch ((int) drawerItem.getIdentifier()) {
 
-                                case 1: fragment = new DrawerPlaces();
+                                case 1:
+                                    fragment = new DrawerPlaces();
                                     break;
 
-                                case 2: fragment = new DrawerHome();
+                                case 2:
+                                    fragment = new DrawerHome();
                                     break;
 
-                                case 3: fragment = new DrawerHome();
+                                case 3:
+                                    fragment = new DrawerHome();
                                     break;
 
-                                case 4: fragment = new DrawerHome();
+                                case 4:
+                                    fragment = new DrawerHome();
                                     break;
 
-                                case 5: fragment = new DrawerHome();
+                                case 5:
+                                    fragment = new DrawerHome();
                                     break;
 
-                                case 6: fragment = new DrawerHome();
+                                case 6:
+                                    fragment = new DrawerHome();
                                     break;
 
                                 default:
@@ -181,6 +188,10 @@ public class MainActivity extends AppCompatActivity {
                             currentDrawerItem = (int) drawerItem.getIdentifier();
                             toolbar.setTitle(toolbarText(currentDrawerItem));
 
+                            if (intent != null) {
+                            MainActivity.this.startActivity(intent);
+                            }
+
 
                         }
                         return false;
@@ -192,10 +203,13 @@ public class MainActivity extends AppCompatActivity {
             result.setSelection(1);
         }
 
-        Intent mIntent = getIntent();
-        int size = mIntent.getIntExtra("size", -1);
 
-        result.updateBadge(1, new StringHolder("    " + size + "    "));
+//      TODO intent restarts MainActivity, UI restarts
+//        Intent mIntent = getIntent();
+//        int size = mIntent.getIntExtra("size", -1);
+
+//        result.updateBadge(1, new StringHolder("    " + String.valueOf(size) + "    "));
+//            result.updateBadge(1, new StringHolder("    " + size + "    "));
 //        result.updateBadge(2, new StringHolder("    " + "35" + "    "));
 
 //        TODO add Favorite option
@@ -253,38 +267,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
-
         int id = item.getItemId();
-
         switch (id) {
-
-            case R.id.filter:
-                break;
-
-            case R.id.sort:
-                break;
-
-            case R.id.reload:
-                DrawerPlaces.reloadPlaces(context);
-                loadPlacesList();
-                break;
-
-            case R.id.changelog:
-                break;
+            case R.id.filter:       filterDialog();     break;
+            case R.id.sort:         sortDialog();       break;
+            case R.id.changelog:    changelogDialog();  break;
         }
         return true;
     }
 
-    private void loadPlacesList() {
-        new DrawerPlaces.DownloadJSON(new PlacesListInterface() {
-            @Override
-            public void checkPlacesListCreation(boolean result) {
-                if (DrawerPlaces.mAdapter != null) {
-                    DrawerPlaces.mAdapter.notifyDataSetChanged();
-                }
-            }
-        }, context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
+//    private void loadPlacesList() {
+//        new DrawerPlaces.DownloadJSON(new PlacesListInterface() {
+//            @Override
+//            public void checkPlacesListCreation(boolean result) {
+//                if (DrawerPlaces.mAdapter != null) {
+//                    DrawerPlaces.mAdapter.notifyDataSetChanged();
+//                }
+//            }
+//        }, context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//    }
 
     public AccountHeader changeHeader(AccountHeader headerResult) {
 
@@ -296,14 +297,14 @@ public class MainActivity extends AppCompatActivity {
         Glide.with(context)
                 .load(rnb)
                 .asBitmap()
-//                .override(912, 688)
+                .override(912, 688)
                 .centerCrop()
                 .into(new BitmapImageViewTarget(cover) {
                     @Override
                     protected void setResource(Bitmap resource) {
                         TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(getResources(), resource)});
                         cover.setImageDrawable(td);
-                        td.startTransition(50);
+                        td.startTransition(400);
                     }
 
                 });
@@ -318,5 +319,39 @@ public class MainActivity extends AppCompatActivity {
     public interface PlacesListInterface {
         void checkPlacesListCreation(boolean result);
     }
+
+    public void changelogDialog() {
+
+        new MaterialDialog.Builder(this)
+                .title(R.string.changelogTitle)
+                .items(R.array.changelogContentArray)
+                .positiveText(R.string.agree)
+                .show();
+    }
+
+
+    public void sortDialog() {
+
+        boolean wrapInScrollView = true;
+        new MaterialDialog.Builder(this)
+                .title(R.string.sortTitle)
+                .customView(R.layout.dialog_sort, wrapInScrollView)
+                .positiveText(R.string.sortPositive)
+                .show();
+
+    }
+
+    public void filterDialog() {
+
+        boolean wrapInScrollView = true;
+        new MaterialDialog.Builder(this)
+                .title(R.string.filterTitle)
+                .customView(R.layout.dialog_sort, wrapInScrollView)
+                .positiveText(R.string.filterPositive)
+                .show();
+
+    }
+
+
 
 }

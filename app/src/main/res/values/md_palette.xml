@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- google's material design colours from
-    http://www.google.com/design/spec/style/color.html#color-ui-color-palette -->
+    <!-- Google Plus Red -->
+    <color name="ownGreyPrimary">#212121</color>
+    <color name="ownGreyPrimaryDark">#212121</color>
+    <color name="ownGreyLight">#212121</color>
+
+    <!-- Google Plus Red -->
+    <color name="pmw_red_500">#db4437</color>
+    <color name="pmw_red_700">#c53929</color>
+    <color name="pmw_red_400">#db4437</color>
+
 
     <!--reds-->
     <color name="md_red_50">#FFEBEE</color>

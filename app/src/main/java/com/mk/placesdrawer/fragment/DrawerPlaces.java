@@ -66,17 +66,15 @@ public class DrawerPlaces extends Fragment {
                                     if (longClick) {
 
                                         Toast.makeText(context, "Long Click", Toast.LENGTH_SHORT).show();
-                                        Log.d("Long CLICK", ": Works");
 
                                     } else {
 
+//
                                         Toast.makeText(context, "Short Click", Toast.LENGTH_SHORT).show();
-                                        Log.d("Short CLICK", ": Works");
 
+//                                        Intent to open the DrawerPlacesDetail View
                                         final Intent intent = new Intent(context, DrawerPlacesDetail.class);
-
                                         intent.putExtra("item", PlacesList.getPlacesList().get(position));
-                                        //intent.putExtra("transitionName", ViewCompat.getTransitionName(view.image));
 
                                         context.startActivity(intent);
 
@@ -123,8 +121,7 @@ public class DrawerPlaces extends Fragment {
     public static void reloadPlaces(Activity context) {
         mRecyclerView.setVisibility(View.GONE);
         if (Utils.hasNetwork(context)) {
-            Utils.showSimpleSnackbar(context, layout,
-                    context.getResources().getString(R.string.reload_places));
+            Utils.showSimpleSnackbar(context, layout, "Wait a second, Places will be reloaded.");
         } else {
             Utils.showSimpleSnackbar(context, layout,
                     context.getResources().getString(R.string.no_internet));
@@ -158,9 +155,9 @@ public class DrawerPlaces extends Fragment {
 
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.placecRecyclerView);
 
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
 //        TODO let the user deside if 1, 2 or 3 columns and if reserved or normal
-        mRecyclerView.setLayoutManager(new GridLayoutManager(context, 2, 1, false));
+//        mRecyclerView.setLayoutManager(new GridLayoutManager(context, 2, 1, false));
         mRecyclerView.setHasFixedSize(true);
 
         if (mRecyclerView.getVisibility() != View.VISIBLE) {
@@ -263,6 +260,13 @@ public class DrawerPlaces extends Fragment {
             Utils.showLog("Walls Task completed in: " +
                     String.valueOf((endTime - startTime) / 1000) + " secs.");
 
+//            Log.d("SIZE", "onPostExecute: " + PlacesList.getPlacesList().size());
+
+//            Intent mIntent = new Intent(context, MainActivity.class);
+//            mIntent.putExtra("size", PlacesList.getPlacesList().size());
+//            context.startActivity(mIntent);
+
+
             if (layout != null) {
                 setupLayout(true);
             }
@@ -270,10 +274,9 @@ public class DrawerPlaces extends Fragment {
             if (wi != null)
                 wi.checkPlacesListCreation(worked);
 
-            Intent mIntent = new Intent(context, MainActivity.class);
-            mIntent.putExtra("size", PlacesList.getPlacesList().size());
-            context.startActivity(mIntent);
         }
     }
+
+
 
 }

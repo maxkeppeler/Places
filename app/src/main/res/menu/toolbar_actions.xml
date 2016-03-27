@@ -17,17 +17,10 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/reload"
-        android:icon="@drawable/ic_reload"
-        android:orderInCategory="-1"
-        android:title="@string/action_reload"
-        app:showAsAction="ifRoom" />
-
-    <item
         android:id="@+id/changelog"
         android:icon="@drawable/ic_changelog"
         android:orderInCategory="-1"
         android:title="@string/action_changelog"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
 </menu>
