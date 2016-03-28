@@ -128,20 +128,19 @@ public class DrawerPlaces extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MainActivity) DrawerPlaces
-                .getActivity())
-                .setData(10);
-
-        context2 = this;
-
-        ((MainActivity) DrawerPlaces.context)﻿
+//        ((MainActivity) DrawerPlaces
+//                .getActivity())
+//                .setData(10);
+//
+//        context2 = this;
+//
+//        ((MainActivity) DrawerPlaces.context)﻿
 
         setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-
         context = getActivity();
 
         if (layout != null) {
@@ -160,9 +159,9 @@ public class DrawerPlaces extends Fragment {
 
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.placecRecyclerView);
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
 //        TODO let the user deside if 1, 2 or 3 columns and if reserved or normal
-//        mRecyclerView.setLayoutManager(new GridLayoutManager(context, 2, 1, false));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(context, 2, 1, false));
         mRecyclerView.setHasFixedSize(true);
 
         if (mRecyclerView.getVisibility() != View.VISIBLE) {
@@ -282,5 +281,10 @@ public class DrawerPlaces extends Fragment {
 
         }
     }
+
+
+
+
+
 
 }

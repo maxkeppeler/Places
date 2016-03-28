@@ -10,8 +10,10 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
@@ -21,6 +23,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -48,7 +51,7 @@ public class DrawerPlacesDetail extends AppCompatActivity {
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private FloatingActionButton fab;
     private TextView placeDescTitle, placesDescText, placeInfoTitle;
-
+    private PlacesItem item;
 
 
     @Override
@@ -66,7 +69,7 @@ public class DrawerPlacesDetail extends AppCompatActivity {
         setContentView(R.layout.drawer_places_detail);
 
         Intent intent = getIntent();
-        PlacesItem item = intent.getParcelableExtra("item");
+        item = intent.getParcelableExtra("item");
 
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/BreeSerif-Regular.ttf");
 
@@ -92,15 +95,9 @@ public class DrawerPlacesDetail extends AppCompatActivity {
         if (item.getSight().equals("National Park")) {
             PlacesDetailItem itemsData[] = {
                     new PlacesDetailItem("Location", position, R.drawable.ic_location),
-//                    new PlacesDetailItem("Religion", item.getReligion(), R.drawable.ic_religion),
             };
             finishRecycler(recyclerView, itemsData);
         }
-
-
-
-
-//        End of Details CardView / RecyclerView
 
         ViewCompat.setTransitionName(findViewById(R.id.appBarLayout), itemImage);
         supportPostponeEnterTransition();
@@ -118,10 +115,18 @@ public class DrawerPlacesDetail extends AppCompatActivity {
         placesDescText = (TextView) findViewById(R.id.descDetailView);
         placesDescText.setText(item.getDescription());
 
-
-
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setVisibility(View.INVISIBLE);
+
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.d("Floating Action Button", "onClick: works ");
+
+            }
+        });
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbar);
         collapsingToolbarLayout.setTitle(itemLocation);
@@ -190,7 +195,8 @@ public class DrawerPlacesDetail extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_actions, menu);
+        menu.clear();
+        getMenuInflater().inflate(R.menu.toolbar_drawer_details, menu);
         return true;
     }
 
@@ -199,6 +205,13 @@ public class DrawerPlacesDetail extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 closeViewer();
+                break;
+            case R.id.share:
+                share();
+//                TODO
+                break;
+            case R.id.launch:
+//                TODO
                 break;
         }
         return true;
@@ -212,6 +225,15 @@ public class DrawerPlacesDetail extends AppCompatActivity {
         }
     }
 
+    public void share() {
+//        TODO Fix
+        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        share.setType("image/*");
+        share.putExtra(Intent.EXTRA_SUBJECT, "Places - " + item.getLocation());
+        share.putExtra(Intent.EXTRA_TEXT, item.getDescription());
+        share.putExtra(Intent.EXTRA_STREAM, item.getImgPlaceUrl());
+        startActivity(Intent.createChooser(share, "Share Place"));
+    }
     private int getAColor(Palette palette) {
 
         final int defaultColor = getResources().getColor(R.color.colorPrimary);
@@ -228,11 +250,7 @@ public class DrawerPlacesDetail extends AppCompatActivity {
                 @Override
                 public void onGenerated(Palette palette) {
                     if (palette == null) return;
-
                     int generatedColor = getAColor(palette);
-
-//                    placeDescTitle.setTextColor(generatedColor);
-//                    placeInfoTitle.setTextColor(generatedColor);
 
                     fab.setRippleColor(generatedColor);
                     fab.setBackgroundTintList(ColorStateList.valueOf(generatedColor));
@@ -241,12 +259,12 @@ public class DrawerPlacesDetail extends AppCompatActivity {
                     fab.startAnimation(animation);
 
                     collapsingToolbarLayout.setContentScrimColor(generatedColor);
+
                     if (generatedColor != getResources().getColor(R.color.colorPrimary)) {
                         collapsingToolbarLayout.setStatusBarScrimColor(generatedColor);
                     } else {
                         collapsingToolbarLayout.setStatusBarScrimColor(getResources().getColor(R.color.colorPrimaryDark));
                     }
-
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         Window window = getWindow();

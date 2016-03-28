@@ -28,6 +28,8 @@
     <!-- ////////////  Toolbar   \\\\\\\\\\\\\ -->
 
     <!--  Toolbar Texts -->
+    <string name="action_share">Share</string>
+    <string name="action_launch">Launch</string>
     <string name="action_changelog">Changelog</string>
     <string name="action_filter">Filter</string>
     <string name="action_sort">Sort</string>
@@ -121,19 +123,7 @@
     <!-- Other App Strings -->
     <string name="app_name">Places</string>
     <string name="no_internet">No Internet Connection</string>
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <string name="send_to" />
 
 
 </resources>

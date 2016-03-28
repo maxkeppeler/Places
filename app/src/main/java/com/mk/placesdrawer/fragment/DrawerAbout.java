@@ -28,6 +28,7 @@ public class DrawerAbout extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.toolbar_empty, menu);
+        menu.clear();
+        inflater.inflate(R.menu.toolbar_drawer_details, menu);
     }
 }

@@ -56,12 +56,6 @@ public class MainActivity extends AppCompatActivity {
     private String[] urlHeaderArray;
     private int data;
 
-    // TODO Differnt Toolbar and Status Bar color depending on the current fragment.
-    // Places - Dark Grey Toolbar and Status Bar
-    // Submit - Red
-    // Settings - Blue Grey
-    // Just an example, and just an idea... I will think about it
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         // TODO find better, better matching, icons for the categories
 
         final PrimaryDrawerItem itemPlaces = new PrimaryDrawerItem()
-                .withName(drawerPlaces).withIcon(Icon.gmd_home).withIdentifier(1);
+                .withName(drawerPlaces).withIcon(Icon.gmd_landscape).withIdentifier(1);
 
         final PrimaryDrawerItem itemFavorite = new PrimaryDrawerItem()
                 .withName(drawerFavorite).withIcon(Icon.gmd_favorite).withIdentifier(2);
