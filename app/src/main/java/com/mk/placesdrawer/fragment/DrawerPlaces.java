@@ -3,14 +3,14 @@ package com.mk.placesdrawer.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.InflateException;
@@ -28,8 +28,6 @@ import com.mk.placesdrawer.models.PlacesList;
 import com.mk.placesdrawer.utilities.JSONParser;
 import com.mk.placesdrawer.utilities.Utils;
 
-import junit.framework.Test;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,8 +40,8 @@ import java.util.TimerTask;
 
 public class DrawerPlaces extends Fragment {
 
-
-
+    private static int columns = 1, direction = 1;
+    private static boolean reversed = false;
 
     public static PlacesAdapter mAdapter;
     //Declare Layout, Adapter, RecyclerView in order to
@@ -52,7 +50,6 @@ public class DrawerPlaces extends Fragment {
 
     private static Activity context;
     private  DrawerPlaces context2;
-
 
     private static boolean worked;
 
@@ -153,7 +150,6 @@ public class DrawerPlaces extends Fragment {
         try {
             layout = (ViewGroup) inflater.inflate(R.layout.drawer_places, container, false);
         } catch (InflateException e) {
-            // Do nothing
         }
 
 
@@ -161,7 +157,8 @@ public class DrawerPlaces extends Fragment {
 
 //        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
 //        TODO let the user deside if 1, 2 or 3 columns and if reserved or normal
-        mRecyclerView.setLayoutManager(new GridLayoutManager(context, 2, 1, false));
+
+        mRecyclerView.setLayoutManager(new GridLayoutManager(context, columns, direction, reversed));
         mRecyclerView.setHasFixedSize(true);
 
         if (mRecyclerView.getVisibility() != View.VISIBLE) {
@@ -282,8 +279,16 @@ public class DrawerPlaces extends Fragment {
         }
     }
 
+    public static void changeColumns(int i) {
+        columns = i;
+        mRecyclerView.setLayoutManager(new GridLayoutManager(context, columns, direction, reversed));
+    }
 
-
+    public static void changeDirection(int i) {
+        direction = i;
+        columns = 2;
+        mRecyclerView.setLayoutManager(new GridLayoutManager(context, columns, i, reversed));
+    }
 
 
 

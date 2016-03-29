@@ -18,7 +18,7 @@
         <ImageView
             android:id="@+id/imageThumb"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="310dp"
             android:background="@color/colorPrimary"
             android:scaleType="centerCrop" />
 

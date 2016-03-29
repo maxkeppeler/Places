@@ -2,6 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <item
         android:id="@+id/sort"
         android:icon="@drawable/ic_sort"
@@ -17,10 +18,17 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/column"
+        android:icon="@drawable/ic_columns"
+        android:orderInCategory="-1"
+        android:title="@string/action_column"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/changelog"
         android:icon="@drawable/ic_changelog"
         android:orderInCategory="-1"
         android:title="@string/action_changelog"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
 </menu>

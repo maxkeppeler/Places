@@ -42,10 +42,12 @@
     <color name="accent_translucent">#80FFEB3B</color>
 
 
+    <color name="textShadow">#3f000000</color>
 
     <!-- ////////////  OTHER COLORS   \\\\\\\\\\\\\ -->
 
     <color name="white">#fff</color>
+    <color name="black">#000000</color>
     <color name="drawableColor">#fff</color>
     <color name="transparent">#00ffffff</color>
 

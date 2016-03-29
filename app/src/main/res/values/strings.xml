@@ -28,11 +28,14 @@
     <!-- ////////////  Toolbar   \\\\\\\\\\\\\ -->
 
     <!--  Toolbar Texts -->
+    <string name="action_download">Download</string>
     <string name="action_share">Share</string>
     <string name="action_launch">Launch</string>
     <string name="action_changelog">Changelog</string>
     <string name="action_filter">Filter</string>
     <string name="action_sort">Sort</string>
+    <string name="action_column">Columns</string>
+    <string name="action_direction">Swipe Direction</string>
 
 
 
@@ -108,7 +111,13 @@
     <string name="filterPositive">Apply Changes</string>
     <string name="agree">Back</string>
 
-
+    <!-- Columns Dialog -->
+    <string name="columnsTitle">Filter</string>
+    <array name="columnsArray">
+        <item>1 column (recommended)</item>
+        <item>2 columns</item>
+        <item>3 columns</item>
+    </array>
 
     <!-- ////////////   APP SECTIONS   \\\\\\\\\\\\\ -->
 
@@ -124,6 +133,11 @@
     <string name="app_name">Places</string>
     <string name="no_internet">No Internet Connection</string>
     <string name="send_to" />
+    <string name="walls_save_location" />
+    <string name="ok" />
+    <string name="permission_contacts_rationale">Contacts permissions are needed to demonstrate access.</string>
+    <string name="permision_available_contacts">Contacts permissions are needed to demonstrate access.</string>
+    <string name="permissions_not_granted">Contacts permissions are needed to demonstrate access.</string>
 
 
 </resources>

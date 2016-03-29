@@ -30,6 +30,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -92,11 +93,15 @@ public class Utils extends Activity {
         context.startActivity(intent);
     }
 
-    public static void openLinkInChromeCustomTab(Context context, String link) {
+    public static void openLinkInChromeCustomTab(Context context, String link, int color) {
         final CustomTabsClient[] mClient = new CustomTabsClient[1];
         final CustomTabsSession[] mCustomTabsSession = new CustomTabsSession[1];
         CustomTabsServiceConnection mCustomTabsServiceConnection;
         CustomTabsIntent customTabsIntent;
+
+
+//        ComponentName myService = startService(new Intent(this, myClass.class));
+//        bindService(new Intent(this, myClass.class), myServiceConn, BIND_AUTO_CREATE);
 
         mCustomTabsServiceConnection = new CustomTabsServiceConnection() {
             @Override
@@ -114,7 +119,7 @@ public class Utils extends Activity {
 
         CustomTabsClient.bindCustomTabsService(context, "com.android.chrome", mCustomTabsServiceConnection);
         customTabsIntent = new CustomTabsIntent.Builder(mCustomTabsSession[0])
-                .setToolbarColor(R.color.colorPrimary)
+                .setToolbarColor(color)
                 .setShowTitle(true)
                 .build();
 

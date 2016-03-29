@@ -14,7 +14,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,18 +28,14 @@ import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.holder.BadgeStyle;
-import com.mikepenz.materialdrawer.holder.StringHolder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mk.placesdrawer.R;
-import com.mk.placesdrawer.adapters.PlacesAdapter;
 import com.mk.placesdrawer.fragment.DrawerAbout;
 import com.mk.placesdrawer.fragment.DrawerPlaces;
-import com.mk.placesdrawer.models.PlacesList;
 import com.mk.placesdrawer.utilities.Animations;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import static com.mikepenz.google_material_typeface_library.GoogleMaterial.Icon;
@@ -275,6 +270,7 @@ public class MainActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
         int id = item.getItemId();
         switch (id) {
+            case R.id.column:       columnsDialog();    break;
             case R.id.filter:       filterDialog();     break;
             case R.id.sort:         sortDialog();       break;
             case R.id.changelog:    changeLogDialog();  break;
@@ -358,9 +354,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void columnsDialog() {
 
-    public void setData(int data){
-        this.data = data;
+        new MaterialDialog.Builder(this)
+                .title(R.string.columnsTitle)
+                .items(R.array.columnsArray)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
+                        DrawerPlaces.changeColumns(i + 1);
+                    }
+                })
+                .show();
     }
+
+
+
 
 }
