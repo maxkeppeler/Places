@@ -265,7 +265,16 @@ public class DrawerPlacesDetail extends AppCompatActivity {
                 closeViewer();
                 break;
             case R.id.download:
-                download();
+
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    Log.i(TAG, "Storage permissions have NOT been granted. Requesting permissions.");
+                    requestStoragePermissions();
+
+                } else {
+                    download();
+                }
+
                 break;
             case R.id.share:
                 share();
@@ -287,13 +296,6 @@ public class DrawerPlacesDetail extends AppCompatActivity {
 
     public void download() {
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            Log.i(TAG, "Storage permissions have NOT been granted. Requesting permissions.");
-            requestStoragePermissions();
-
-        } else {
-
             Log.i(TAG, "Storage permissions have already been granted. Loading Bitmap.");
             Glide.with(context)
                     .load(item.getImgPlaceUrl())
@@ -307,7 +309,6 @@ public class DrawerPlacesDetail extends AppCompatActivity {
                             }
                         }
                     });
-        }
     }
 
     public void saveWallpaper(final String location, final Bitmap bitmap) {
