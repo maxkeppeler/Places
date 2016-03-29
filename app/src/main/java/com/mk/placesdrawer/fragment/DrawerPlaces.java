@@ -284,12 +284,4 @@ public class DrawerPlaces extends Fragment {
         mRecyclerView.setLayoutManager(new GridLayoutManager(context, columns, direction, reversed));
     }
 
-    public static void changeDirection(int i) {
-        direction = i;
-        columns = 2;
-        mRecyclerView.setLayoutManager(new GridLayoutManager(context, columns, i, reversed));
-    }
-
-
-
 }

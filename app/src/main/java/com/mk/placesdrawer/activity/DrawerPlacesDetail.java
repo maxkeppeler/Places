@@ -2,25 +2,18 @@ package com.mk.placesdrawer.activity;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -35,12 +28,8 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
-import android.text.StaticLayout;
-import android.text.TextPaint;
 import android.transition.Slide;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -73,12 +62,11 @@ import java.util.Arrays;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class DrawerPlacesDetail extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+public class DrawerPlacesDetail extends AppCompatActivity {
 
-    private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 0;
+    private static final int REQUEST_STORAGE = 0;
 
-    private static String[] PERMISSION_WRITE_EXTERNAL_STORAGE = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private static String[] PERMISSION_STORAGE = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
 
     @Bind(R.id.fab) FloatingActionButton fab;
@@ -133,6 +121,16 @@ public class DrawerPlacesDetail extends AppCompatActivity implements ActivityCom
             window.setNavigationBarColor(getResources().getColor(R.color.navigationBar));
             window.setStatusBarColor(getResources().getColor(R.color.colorStatusBarOverlay));
         }
+
+
+
+        if (layout != null) {
+            ViewGroup parent = (ViewGroup) layout.getParent();
+            if (parent != null) {
+                parent.removeView(layout);
+            }
+        }
+
 
         context = this;
         initActivityTransitions();
@@ -290,17 +288,13 @@ public class DrawerPlacesDetail extends AppCompatActivity implements ActivityCom
     public void download() {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             Log.i(TAG, "Storage permissions have NOT been granted. Requesting permissions.");
-            requestContactsPermissions();
+            requestStoragePermissions();
 
         } else {
 
-            Log.i(TAG, "Storage permissions have already been granted. Displaying contact details.");
-
-
+            Log.i(TAG, "Storage permissions have already been granted. Loading Bitmap.");
             Glide.with(context)
                     .load(item.getImgPlaceUrl())
                     .asBitmap()
@@ -314,7 +308,6 @@ public class DrawerPlacesDetail extends AppCompatActivity implements ActivityCom
                         }
                     });
         }
-
     }
 
     public void saveWallpaper(final String location, final Bitmap bitmap) {
@@ -363,6 +356,7 @@ public class DrawerPlacesDetail extends AppCompatActivity implements ActivityCom
     }
 
     public void launch() {
+//            TODO Fix
         Utils.openLinkInChromeCustomTab(context, "http://www.google.com/search?q=" + item.getLocation(), generatedColor);
     }
 
@@ -387,33 +381,22 @@ public class DrawerPlacesDetail extends AppCompatActivity implements ActivityCom
         return palette.getVibrantColor(vibrantLight);
     }
 
-    private void requestContactsPermissions() {
-        // BEGIN_INCLUDE(contacts_permission_request)
+    private void requestStoragePermissions() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.READ_CONTACTS)
-                || ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.WRITE_CONTACTS)) {
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
-            // Provide an additional rationale to the user if the permission was not granted
-            // and the user would benefit from additional context for the use of the permission.
-            // For example, if the request has been denied previously.
-            Log.i(TAG,
-                    "Displaying contacts permission rationale to provide additional context.");
-
-            // Display a SnackBar with an explanation and a button to trigger the request.
             Snackbar.make(layout, R.string.permission_contacts_rationale,
                     Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.ok, new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             ActivityCompat
-                                    .requestPermissions(context, PERMISSION_WRITE_EXTERNAL_STORAGE,
-                                            REQUEST_WRITE_EXTERNAL_STORAGE);
+                                    .requestPermissions(context, PERMISSION_STORAGE, REQUEST_STORAGE);
                         }
                     })
                     .show();
         } else {
-            ActivityCompat.requestPermissions(this, PERMISSION_WRITE_EXTERNAL_STORAGE, REQUEST_WRITE_EXTERNAL_STORAGE);
+            ActivityCompat.requestPermissions(this, PERMISSION_STORAGE, REQUEST_STORAGE);
         }
     }
 
@@ -421,7 +404,7 @@ public class DrawerPlacesDetail extends AppCompatActivity implements ActivityCom
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
 
-        if (requestCode == REQUEST_WRITE_EXTERNAL_STORAGE) {
+        if (requestCode == REQUEST_STORAGE) {
             Log.i(TAG, "Received response for contact permissions request.");
             if (PermissionUtil.verifyPermissions(grantResults)) {
                 Snackbar.make(layout, R.string.permision_available_contacts,
