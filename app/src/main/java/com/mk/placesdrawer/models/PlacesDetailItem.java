@@ -1,21 +1,11 @@
 package com.mk.placesdrawer.models;
 
-import java.util.Arrays;
-
-/**
- * Created by Max on 26.03.16.
- */
 public class PlacesDetailItem {
 
-    private String text;
-    private String title;
+    private String text, title;
     private int drawable;
 
-
-
     public PlacesDetailItem(String title, String text, int drawable) {
-
-
         this.title = title;
         this.text = text;
         this.drawable = drawable;

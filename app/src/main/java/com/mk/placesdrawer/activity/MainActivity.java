@@ -32,9 +32,10 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mk.placesdrawer.R;
+import com.mk.placesdrawer.adapters.PlacesAdapter;
 import com.mk.placesdrawer.fragment.DrawerAbout;
 import com.mk.placesdrawer.fragment.DrawerPlaces;
-import com.mk.placesdrawer.utilities.Animations;
+import com.mk.placesdrawer.utilities.Animation;
 
 import java.util.Random;
 
@@ -302,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         if (this.getResources().getBoolean(R.bool.zoomDrawerHeader)) {
-            Animations.zoomInAndOut(context, cover);
+            Animation.zoomInAndOut(context, cover);
         }
 
         return headerResult;
@@ -350,6 +351,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
 
+                        if (i == 1) {
+                            PlacesAdapter.filterCategory();
+                        }
                     }
                 })
                 .show();

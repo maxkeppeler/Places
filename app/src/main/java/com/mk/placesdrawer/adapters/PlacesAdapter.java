@@ -1,7 +1,7 @@
 package com.mk.placesdrawer.adapters;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -10,7 +10,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +21,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.placesdrawer.R;
-import com.mk.placesdrawer.activity.MainActivity;
 import com.mk.placesdrawer.models.PlacesItem;
-import com.mk.placesdrawer.models.PlacesList;
-import com.mk.placesdrawer.utilities.Animations;
+import com.mk.placesdrawer.utilities.Animation;
 
 import java.util.ArrayList;
 
@@ -33,6 +30,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
 
     private final ClickListener callback;
     private ArrayList<PlacesItem> placesList;
+    private ArrayList<PlacesItem> feedItemList;
     private Activity context;
 
     public PlacesAdapter(Activity context, ClickListener callBack) {
@@ -47,6 +45,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
     }
 
     public void setData(ArrayList<PlacesItem> placesList) {
+
         this.placesList = placesList;
         notifyDataSetChanged();
     }
@@ -72,7 +71,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
                 });
 
         if (context.getResources().getBoolean(R.bool.placesZoomItems)) {
-            Animations.zoomInAndOut(context, holder.image);
+            Animation.zoomInAndOut(context, holder.image);
         }
 
         holder.location.setText(placeItem.getLocation());
@@ -83,7 +82,6 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
     public int getItemCount() {
         return placesList == null ? 0 : placesList.size();
     }
-
 
     public interface ClickListener {
 
@@ -109,7 +107,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
             ripple = (MaterialRippleLayout) view.findViewById(R.id.rippleThumb);
             image = (ImageView) view.findViewById(R.id.imageThumb);
             location = (TextView) view.findViewById(R.id.locationThumb);
-                location.setTypeface(typeface);
+            location.setTypeface(typeface);
             sight = (TextView) view.findViewById(R.id.sightThumb);
 
             desc = null;
@@ -137,6 +135,23 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
                 callback.onClick(this, index, true);
             return true;
         }
+    }
+
+
+
+    public ArrayList<PlacesItem> filterMyList(String category) {
+
+        for (int i = 0; i < placesList.size(); i++) {
+
+            for (PlacesItem placesItem : placesList) {
+                if (!placesItem.getSight().equals(category)) notifyItemRemoved(i);
+            }
+        }
+    return placesList;
+}
+    public void updateRecyclerData(ArrayList<PlacesItem> placesList) {
+        this.placesList = placesList;
+        notifyDataSetChanged();
     }
 
 }

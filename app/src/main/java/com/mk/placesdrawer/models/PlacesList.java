@@ -3,6 +3,7 @@ package com.mk.placesdrawer.models;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Max on 16.03.16.
@@ -10,8 +11,8 @@ import java.util.ArrayList;
 public class PlacesList {
 
     private static ArrayList<PlacesItem> placesList = new ArrayList<>();
+    private static String category;
 
-    // I understood the principle of this method
     public static void createPlacesList(ArrayList<String> locations,
                                         ArrayList<String> sights,
                                         ArrayList<String> descriptions,
@@ -25,8 +26,6 @@ public class PlacesList {
         try {
 
             for (int i = 0; i < locations.size(); i++) {
-
-                //
                 PlacesItem placesItem = new PlacesItem(
 
                         locations.get(i),
@@ -38,22 +37,18 @@ public class PlacesList {
                         religion.get(i),
                         urls.get(i)
                 );
-
-                // ArrayList placesList receives each placesItem
                 placesList.add(placesItem);
             }
         } catch (IndexOutOfBoundsException e) {
-            //Do nothing
         }
     }
 
-    public static void createPlacesList(ArrayList<PlacesItem> placesList) {
-        // Local ArrayList<PlacesItem> variable gets the value from the parameter variable
+    public static void createPlacesList(ArrayList<PlacesItem> placesList, String category) {
         PlacesList.placesList = placesList;
+        PlacesList.category = category;
     }
 
     public static ArrayList<PlacesItem> getPlacesList() {
-
         return placesList;
     }
 

@@ -20,9 +20,9 @@ public class PlacesItem implements Parcelable {
         }
     };
 
-    private String country, state, city, religion;
-    private String location, sight, description;
-    private String imgPlaceUrl;
+    private String  country, state, city, religion,
+                    location, sight, description,
+                    imgPlaceUrl;
 
     public PlacesItem(String location,
                       String sight,
@@ -32,6 +32,7 @@ public class PlacesItem implements Parcelable {
                       String city,
                       String religion,
                       String imgPlaceUrl) {
+
         this.location = location;
         this.sight = sight;
         this.description = description;
@@ -62,37 +63,29 @@ public class PlacesItem implements Parcelable {
         return state;
     }
 
-
     public String getCity() {
         return city;
     }
-
-
 
     public String getReligion() {
         return religion;
     }
 
-
     public String getLocation() {
         return location;
     }
-
 
     public String getSight() {
         return sight;
     }
 
-
     public String getDescription() {
         return description;
     }
 
-
     public String getImgPlaceUrl() {
         return imgPlaceUrl;
     }
-
 
     @Override
     public int describeContents() {
@@ -110,6 +103,5 @@ public class PlacesItem implements Parcelable {
         dest.writeString(religion);
         dest.writeString(imgPlaceUrl);
     }
-
 
 }

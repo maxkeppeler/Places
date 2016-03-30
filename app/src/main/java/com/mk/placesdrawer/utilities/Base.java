@@ -32,7 +32,7 @@ import com.mk.placesdrawer.fragment.DrawerPlaces;
 import com.mk.placesdrawer.models.PlacesList;
 
 
-public class ApplicationBase extends Application {
+public class Base extends Application {
 
     private Context context;
     private Preferences mPrefs;

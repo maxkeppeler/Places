@@ -175,6 +175,7 @@ public class DrawerPlaces extends Fragment {
     // DownloadJSON AsyncTask
     public static class DownloadJSON extends AsyncTask<Void, Void, Void> {
 
+        private final static ArrayList<PlacesItem> filterPlaces = new ArrayList<>();
         private final static ArrayList<PlacesItem> places = new ArrayList<>();
         static long startTime, endTime;
         final MainActivity.PlacesListInterface wi;
@@ -203,35 +204,18 @@ public class DrawerPlaces extends Fragment {
             }
         }
 
-        // I understood the principle of this method
         @Override
         protected Void doInBackground(Void... params) {
 
-            // Create new JSONObject (json) by getting the current context and the json raw file link
             JSONObject json = JSONParser.getJSONFromURL(Utils.getStringFromResources(taskContext, R.string.json_file_url));
-
-            // When json is null, find the array....
             if (json != null) {
                 try {
-
-                    // ...with the name "places"
                     JSONArray jsonarray = json.getJSONArray("places");
-
-                    // loop, grabbing all json objects out of the "places"
-
-//                    Intent one = new Intent(context, MainActivity.class);
-//                    one.putExtra("size", jsonarray.length());
-//                    context.startActivity(one);
-                    Log.d("adsad", "doInBackground: " + jsonarray.length());
-
-
 
                     for (int i = 0; i < jsonarray.length(); i++) {
 
-                        // Retrieve JSON Objects
                         json = jsonarray.getJSONObject(i);
 
-                        // ArrayList receives per object/ per loop the following strings/ values from the json object
                         places.add(new PlacesItem(
                                         json.getString("location"),
                                         json.getString("sight"),
@@ -245,10 +229,7 @@ public class DrawerPlaces extends Fragment {
                         );
 
                     }
-
-                    // Created new ArrayList out for all the Array Lists for all strings / values of each object
-                    PlacesList.createPlacesList(places);
-
+                    PlacesList.createPlacesList(places, "all");
                     worked = true;
 
                 } catch (JSONException e) {
@@ -258,7 +239,6 @@ public class DrawerPlaces extends Fragment {
             } else {
                 worked = false;
             }
-
             return null;
         }
 
