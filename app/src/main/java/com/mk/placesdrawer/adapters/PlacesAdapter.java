@@ -138,20 +138,11 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
     }
 
 
-
-    public ArrayList<PlacesItem> filterMyList(String category) {
-
-        for (int i = 0; i < placesList.size(); i++) {
-
-            for (PlacesItem placesItem : placesList) {
-                if (!placesItem.getSight().equals(category)) notifyItemRemoved(i);
-            }
-        }
-    return placesList;
-}
     public void updateRecyclerData(ArrayList<PlacesItem> placesList) {
         this.placesList = placesList;
         notifyDataSetChanged();
     }
+
+
 
 }

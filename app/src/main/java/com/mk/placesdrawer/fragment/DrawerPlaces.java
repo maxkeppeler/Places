@@ -44,13 +44,9 @@ public class DrawerPlaces extends Fragment {
     private static boolean reversed = false;
 
     public static PlacesAdapter mAdapter;
-    //Declare Layout, Adapter, RecyclerView in order to
     private static ViewGroup layout;
     private static RecyclerView mRecyclerView;
-
     private static Activity context;
-    private  DrawerPlaces context2;
-
     private static boolean worked;
 
     private static void setupLayout(final boolean fromTask) {
@@ -87,6 +83,7 @@ public class DrawerPlaces extends Fragment {
 
                     mAdapter.setData(PlacesList.getPlacesList());
                     mRecyclerView.setAdapter(mAdapter);
+
 
                     if (Utils.hasNetwork(context)) {
                         mRecyclerView.setVisibility(View.VISIBLE);
@@ -125,13 +122,6 @@ public class DrawerPlaces extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        ((MainActivity) DrawerPlaces
-//                .getActivity())
-//                .setData(10);
-//
-//        context2 = this;
-//
-//        ((MainActivity) DrawerPlaces.context)﻿
 
         setHasOptionsMenu(true);
     }
@@ -152,7 +142,6 @@ public class DrawerPlaces extends Fragment {
         } catch (InflateException e) {
         }
 
-
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.placecRecyclerView);
 
 //        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -168,6 +157,8 @@ public class DrawerPlaces extends Fragment {
         mRecyclerView.setVisibility(View.GONE);
 
         setupLayout(false);
+
+
 
         return layout;
     }

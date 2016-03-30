@@ -352,7 +352,6 @@ public class MainActivity extends AppCompatActivity {
                     public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
 
                         if (i == 1) {
-                            PlacesAdapter.filterCategory();
                         }
                     }
                 })
