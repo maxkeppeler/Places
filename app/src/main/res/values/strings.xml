@@ -101,18 +101,29 @@
         ]]>
         </item>
     </array>
-
-    <!-- Sort Dialog -->
-    <string name="sortTitle">Sort</string>
-    <string name="sortPositive">Apply Changes</string>
+    <string name="changelogAgree">Excellent</string>
 
     <!-- Filter Dialog -->
     <string name="filterTitle">Filter</string>
     <string name="filterPositive">Apply Changes</string>
-    <string name="agree">Back</string>
+    <array name="filterContentArray">
+        <item>Select a sight category</item>
+        <item>Select a country</item>
+    </array>
+
+    <!-- Category Dialog -->
+    <string name="categoryTitle">Filter</string>
+    <string name="categoryPositive">Apply Changes</string>
+    <array name="categoryContentArray">
+        <item>City</item>
+        <item>Park</item>
+        <item>National Park</item>
+        <item>Landscape</item>
+    </array>
+
 
     <!-- Columns Dialog -->
-    <string name="columnsTitle">Filter</string>
+    <string name="columnsTitle">Amount Of Columns</string>
     <array name="columnsArray">
         <item>1 column (recommended)</item>
         <item>2 columns</item>

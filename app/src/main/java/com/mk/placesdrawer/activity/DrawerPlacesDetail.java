@@ -42,9 +42,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.adapters.PlacesDetailAdapter;
 import com.mk.placesdrawer.models.PlacesDetailItem;
@@ -76,11 +74,12 @@ public class DrawerPlacesDetail extends AppCompatActivity {
     @Bind(R.id.descDetailView) TextView placesDescText;
     @Bind(R.id.placeInfoTitle) TextView placeInfoTitle;
 
-    Typeface typeface;
+    private Typeface typeface;
     private ViewGroup layout;
     private Activity context;
     private PlacesItem item;
     private static int generatedColor;
+    private Bitmap dBitmap;
 
     public static final String TAG = "DrawerPlacesDetail";
 
@@ -122,15 +121,12 @@ public class DrawerPlacesDetail extends AppCompatActivity {
             window.setStatusBarColor(getResources().getColor(R.color.colorStatusBarOverlay));
         }
 
-
-
         if (layout != null) {
             ViewGroup parent = (ViewGroup) layout.getParent();
             if (parent != null) {
                 parent.removeView(layout);
             }
         }
-
 
         context = this;
         initActivityTransitions();
@@ -195,7 +191,7 @@ public class DrawerPlacesDetail extends AppCompatActivity {
         Glide.with(context)
                 .load(itemImage)
                 .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .skipMemoryCache(true)
                 .centerCrop()
                 .into(new BitmapImageViewTarget(image) {
@@ -203,6 +199,7 @@ public class DrawerPlacesDetail extends AppCompatActivity {
                     protected void setResource(Bitmap resource) {
                         TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(getResources(), resource)});
                         assert image != null;
+                        dBitmap = resource;
                         image.setImageDrawable(td);
                         td.startTransition(450);
                         new Palette.Builder(resource).generate(paletteAsyncListener);
@@ -254,7 +251,7 @@ public class DrawerPlacesDetail extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.clear();
-        getMenuInflater().inflate(R.menu.toolbar_drawer_details, menu);
+        getMenuInflater().inflate(R.menu.toolbar_places_details, menu);
         return true;
     }
 
@@ -272,7 +269,7 @@ public class DrawerPlacesDetail extends AppCompatActivity {
                     requestStoragePermissions();
 
                 } else {
-                    download();
+                    saveImage();
                 }
 
                 break;
@@ -294,33 +291,18 @@ public class DrawerPlacesDetail extends AppCompatActivity {
         }
     }
 
-    public void download() {
+    public void saveImage() {
 
-            Log.i(TAG, "Storage permissions have already been granted. Loading Bitmap.");
-            Glide.with(context)
-                    .load(item.getImgPlaceUrl())
-                    .asBitmap()
-                    .into(new SimpleTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                            if (resource != null) {
-                                saveWallpaper(item.getLocation(), resource);
-                                Log.d(TAG, "In der onResourceReady Methode, Bitmap wird geladen. ");
-                            }
-                        }
-                    });
-    }
-
-    public void saveWallpaper(final String location, final Bitmap bitmap) {
+        Log.i(TAG, "Storage permissions have already been granted. Loading Bitmap.");
 
 //        Text overlay over the orginal bitmap
-        float textSize = 0.111979f * (bitmap.getWidth())/1.6f;
+        float textSize = 0.111979f * (dBitmap.getWidth())/1.6f;
         Log.d(TAG, "Text size was adjusted to the image width: " + textSize);
 
-        float marginLeft = 0.07421875f * bitmap.getWidth();
+        float marginLeft = 0.07421875f * dBitmap.getWidth();
         Log.d(TAG, "Margin (left) size was adjusted to the image width: " + marginLeft);
 
-        Canvas canvas = new Canvas(bitmap);
+        Canvas canvas = new Canvas(dBitmap);
         Paint paint = new Paint();
         paint.setColor(getResources().getColor(R.color.white));
         paint.setAlpha(255);
@@ -328,10 +310,10 @@ public class DrawerPlacesDetail extends AppCompatActivity {
         paint.setTextSize(textSize);
         paint.setShadowLayer(12, 0, 12, getResources().getColor(R.color.textShadow));
         paint.setTextAlign(Paint.Align.LEFT);
-        canvas.drawText(location, marginLeft, bitmap.getHeight() - paint.getTextSize(), paint);
+        canvas.drawText(item.getLocation(), marginLeft, dBitmap.getHeight() - paint.getTextSize(), paint);
 
         OutputStream fOut = null;
-        String imageName = location + " .jpg";
+        String imageName = item.getLocation() + " .jpg";
         File path = new File(Environment.getExternalStorageDirectory().toString());
         File myDir = new File(path, getResources().getString(R.string.app_name));
 
@@ -345,8 +327,8 @@ public class DrawerPlacesDetail extends AppCompatActivity {
                 fOut = new FileOutputStream(file);
                 Log.d(TAG, "Download: Image was saved.");
 
-//            Compress image, when not succesfull, error.
-                if (!bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut)) {
+//            Compress image, when not successful, error.
+                if (!dBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut)) {
                     Log.d(TAG, "Download: Image was NOT saved: "+ path + imageName);
                 }
 
@@ -382,6 +364,7 @@ public class DrawerPlacesDetail extends AppCompatActivity {
         return palette.getVibrantColor(vibrantLight);
     }
 
+//    TODO permissions don't work, you can press ok or no, and app will crash whatever you will do
     private void requestStoragePermissions() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)) {

@@ -51,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
     private String[] urlHeaderArray;
     private int data;
 
+    public static final String TAG = "MainActivity";
+    public static final String TAG_DIALOG = "MainActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,39 +86,29 @@ public class MainActivity extends AppCompatActivity {
         // TODO find better, better matching, icons for the categories
 
         final PrimaryDrawerItem itemPlaces = new PrimaryDrawerItem()
-                .withName(drawerPlaces).withIcon(Icon.gmd_landscape).withIdentifier(1);
+                .withName(drawerPlaces).withIcon(Icon.gmd_place).withIdentifier(1);
 
         final PrimaryDrawerItem itemFavorite = new PrimaryDrawerItem()
                 .withName(drawerFavorite).withIcon(Icon.gmd_favorite).withIdentifier(2);
 
         final PrimaryDrawerItem itemSubmit = new PrimaryDrawerItem()
-                .withName(drawerSubmit).withIcon(Icon.gmd_local_post_office).withIdentifier(3);
+                .withName(drawerSubmit).withIcon(Icon.gmd_contact_mail).withIdentifier(3);
 
         final PrimaryDrawerItem itemAbout = new PrimaryDrawerItem()
-                .withName(drawerAbout).withIcon(Icon.gmd_account).withIdentifier(4);
+                .withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(4);
 
         final PrimaryDrawerItem itemFeedback = new PrimaryDrawerItem()
-                .withName(drawerFeedback).withIcon(Icon.gmd_chart_donut).withIdentifier(5);
+                .withName(drawerFeedback).withIcon(Icon.gmd_feedback).withIdentifier(5);
 
         final PrimaryDrawerItem itemSettings = new PrimaryDrawerItem()
                 .withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(6);
 
         final AccountHeader header;
 
-        header = new AccountHeaderBuilder()
-                .withActivity(this)
-                .withSelectionSecondLine("by Maximilian Keppeler")
-                .build();
-
+        header = new AccountHeaderBuilder().withActivity(this).withSelectionSecondLine("by Maximilian Keppeler").build();
         changeHeader(header);
 
-        // TODO (Maybe) add MultiDrawer and replace it with the current one
-
-        result = new DrawerBuilder()
-                .withAccountHeader(header)
-                .withActivity(this)
-                .withToolbar(toolbar)
-                .withSelectedItem(1)  // Default selected item
+        result = new DrawerBuilder().withAccountHeader(header).withActivity(this).withToolbar(toolbar).withSelectedItem(1)
                 .addDrawerItems(
                         itemPlaces
                                 .withBadgeStyle(
@@ -213,8 +206,6 @@ public class MainActivity extends AppCompatActivity {
 //            result.updateBadge(1, new StringHolder("    " + size + "    "));
 //        result.updateBadge(2, new StringHolder("    " + "35" + "    "));
 
-//        TODO add Favorite option
-
     }
 
     public String toolbarText(int fragmentPosition) {
@@ -261,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_actions, menu);
+        getMenuInflater().inflate(R.menu.toolbar_places, menu);
         return true;
     }
 
@@ -270,9 +261,8 @@ public class MainActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
         int id = item.getItemId();
         switch (id) {
-            case R.id.column:       columnsDialog();    break;
             case R.id.filter:       filterDialog();     break;
-            case R.id.sort:         sortDialog();       break;
+            case R.id.column:       columnsDialog();    break;
             case R.id.changelog:    changeLogDialog();  break;
         }
         return true;
@@ -327,32 +317,58 @@ public class MainActivity extends AppCompatActivity {
         new MaterialDialog.Builder(this)
                 .title(R.string.changelogTitle)
                 .items(R.array.changelogContentArray)
-                .positiveText(R.string.agree)
+                .positiveText(R.string.changelogAgree)
                 .show();
     }
 
-
-    public void sortDialog() {
-
-        boolean wrapInScrollView = true;
-        new MaterialDialog.Builder(this)
-                .title(R.string.sortTitle)
-                .customView(R.layout.dialog_sort, wrapInScrollView)
-                .positiveText(R.string.sortPositive)
-                .show();
-
-    }
 
     public void filterDialog() {
 
-        boolean wrapInScrollView = true;
         new MaterialDialog.Builder(this)
                 .title(R.string.filterTitle)
-                .customView(R.layout.dialog_sort, wrapInScrollView)
-                .positiveText(R.string.filterPositive)
+                .items(R.array.filterContentArray)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
+                        if (i == 0) categoryDialog();
+                        if (i == 1) countryDialog();
+
+
+                    }
+                })
                 .show();
 
     }
+
+
+    public void categoryDialog() {
+
+        new MaterialDialog.Builder(this)
+                .title(R.string.categoryTitle)
+                .items(R.array.categoryContentArray)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
+
+                    }
+                })
+                .show();
+    }
+
+    public void countryDialog() {
+
+        new MaterialDialog.Builder(this)
+                .title(R.string.filterTitle)
+                .items(R.array.filterContentArray)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
+
+                    }
+                })
+                .show();
+    }
+
 
     public void columnsDialog() {
 

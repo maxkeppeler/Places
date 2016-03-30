@@ -30,7 +30,7 @@ public class Preferences {
 
     private static final String
             PREFERENCES_NAME = "DASHBOARD_PREFERENCES",
-            PLACES_LIST_LOADED = "walls_list_loaded";
+            PLACES_LIST_LOADED = "PLACES_LIST_LOADED";
 
     private final Context context;
 

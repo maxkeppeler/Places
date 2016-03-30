@@ -29,6 +29,6 @@ public class DrawerAbout extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-        inflater.inflate(R.menu.toolbar_drawer_details, menu);
+        inflater.inflate(R.menu.toolbar_places_details, menu);
     }
 }
