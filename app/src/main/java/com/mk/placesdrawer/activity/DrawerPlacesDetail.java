@@ -45,8 +45,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.adapters.PlacesDetailAdapter;
-import com.mk.placesdrawer.models.PlacesDetailItem;
-import com.mk.placesdrawer.models.PlacesItem;
+import com.mk.placesdrawer.models.PlaceDetail;
+import com.mk.placesdrawer.models.Place;
 import com.mk.placesdrawer.utilities.PermissionUtil;
 import com.mk.placesdrawer.utilities.Utils;
 import com.mk.placesdrawer.widgets.SquareImageView;
@@ -65,6 +65,8 @@ public class DrawerPlacesDetail extends AppCompatActivity {
     private static final int REQUEST_STORAGE = 0;
 
     private static String[] PERMISSION_STORAGE = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    String location, sight, desc, imageUrl,
+            position, country, state, city, religion;
 
 
     @Bind(R.id.fab) FloatingActionButton fab;
@@ -77,7 +79,7 @@ public class DrawerPlacesDetail extends AppCompatActivity {
     private Typeface typeface;
     private ViewGroup layout;
     private Activity context;
-    private PlacesItem item;
+    private Place item;
     private static int generatedColor;
     private Bitmap dBitmap;
 
@@ -129,6 +131,7 @@ public class DrawerPlacesDetail extends AppCompatActivity {
         }
 
         context = this;
+
         initActivityTransitions();
         setContentView(R.layout.drawer_places_detail);
 
@@ -137,34 +140,38 @@ public class DrawerPlacesDetail extends AppCompatActivity {
         Intent intent = getIntent();
         item = intent.getParcelableExtra("item");
 
-        typeface = Typeface.createFromAsset(getAssets(), "fonts/BreeSerif-Regular.ttf");
+        location = item.getLocation();
+        sight = item.getSight();
+        desc = item.getDescription();
+        imageUrl = item.getImgPlaceUrl();
+        country = item.getCountry();
+        state = item.getState();
+        city = item.getCity();
+        religion = item.getReligion();
 
-        final String itemImage = item.getImgPlaceUrl();
-        final String itemLocation = item.getLocation();
+        typeface = Utils.getTypeface(context, 1);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewInfoDetails);
 
-        String position;
-        String[] positionArray = {item.getCountry(), item.getState(), item.getCity()};
+        String[] positionArray = {country, state, city};
         position = Arrays.toString(positionArray).replace("[", "").replace("]", "").replace(",", "  ~ ");
 
-
-        if (item.getSight().equals("City")) {
-            PlacesDetailItem itemsData[] = {
-                    new PlacesDetailItem("Location", position, R.drawable.ic_location),
-                    new PlacesDetailItem("Religion", item.getReligion(), R.drawable.ic_religion),
+        if (sight.equals("City")) {
+            PlaceDetail itemsData[] = {
+                    new PlaceDetail("Location", position, R.drawable.ic_location),
+                    new PlaceDetail("Religion", religion, R.drawable.ic_religion),
             };
             finishRecycler(recyclerView, itemsData);
         }
 
-        if (item.getSight().equals("National Park")) {
-            PlacesDetailItem itemsData[] = {
-                    new PlacesDetailItem("Location", position, R.drawable.ic_location),
+        if (sight.equals("National Park")) {
+            PlaceDetail itemsData[] = {
+                    new PlaceDetail("Location", position, R.drawable.ic_location),
             };
             finishRecycler(recyclerView, itemsData);
         }
 
-        ViewCompat.setTransitionName(findViewById(R.id.appBarLayout), itemImage);
+        ViewCompat.setTransitionName(findViewById(R.id.appBarLayout), imageUrl);
         supportPostponeEnterTransition();
 
         setSupportActionBar(toolbar);
@@ -173,7 +180,7 @@ public class DrawerPlacesDetail extends AppCompatActivity {
 
         placeDescTitle.setTypeface(typeface);
         placeInfoTitle.setTypeface(typeface);
-        placesDescText.setText(item.getDescription());
+        placesDescText.setText(desc);
         fab.setVisibility(View.INVISIBLE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,14 +189,14 @@ public class DrawerPlacesDetail extends AppCompatActivity {
             }
         });
 
-        collapsingToolbarLayout.setTitle(itemLocation);
+        collapsingToolbarLayout.setTitle(location);
         collapsingToolbarLayout.setCollapsedTitleTypeface(typeface);
         collapsingToolbarLayout.setExpandedTitleTypeface(typeface);
 
         final SquareImageView image = (SquareImageView) findViewById(R.id.image);
 
         Glide.with(context)
-                .load(itemImage)
+                .load(imageUrl)
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .skipMemoryCache(true)
@@ -207,7 +214,7 @@ public class DrawerPlacesDetail extends AppCompatActivity {
                 });
     }
 
-    private void finishRecycler(RecyclerView recyclerView, PlacesDetailItem itemsData[]) {
+    private void finishRecycler(RecyclerView recyclerView, PlaceDetail itemsData[]) {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         PlacesDetailAdapter mAdapter = new PlacesDetailAdapter(itemsData);
         recyclerView.setAdapter(mAdapter);
@@ -292,7 +299,6 @@ public class DrawerPlacesDetail extends AppCompatActivity {
     }
 
     public void saveImage() {
-
         Log.i(TAG, "Storage permissions have already been granted. Loading Bitmap.");
 
 //        Text overlay over the orginal bitmap
@@ -310,10 +316,10 @@ public class DrawerPlacesDetail extends AppCompatActivity {
         paint.setTextSize(textSize);
         paint.setShadowLayer(12, 0, 12, getResources().getColor(R.color.textShadow));
         paint.setTextAlign(Paint.Align.LEFT);
-        canvas.drawText(item.getLocation(), marginLeft, dBitmap.getHeight() - paint.getTextSize(), paint);
+        canvas.drawText(location, marginLeft, dBitmap.getHeight() - paint.getTextSize(), paint);
 
         OutputStream fOut = null;
-        String imageName = item.getLocation() + " .jpg";
+        String imageName = location + " .jpg";
         File path = new File(Environment.getExternalStorageDirectory().toString());
         File myDir = new File(path, getResources().getString(R.string.app_name));
 
@@ -340,16 +346,16 @@ public class DrawerPlacesDetail extends AppCompatActivity {
 
     public void launch() {
 //            TODO Fix
-        Utils.openLinkInChromeCustomTab(context, "http://www.google.com/search?q=" + item.getLocation(), generatedColor);
+        Utils.openLinkInChromeCustomTab(context, "http://www.google.com/search?q=" + location, generatedColor);
     }
 
     public void share() {
 //        TODO Fix
         Intent share = new Intent(android.content.Intent.ACTION_SEND);
         share.setType("image/*");
-        share.putExtra(Intent.EXTRA_SUBJECT, "Places - " + item.getLocation());
-        share.putExtra(Intent.EXTRA_TEXT, item.getDescription());
-        share.putExtra(Intent.EXTRA_STREAM, item.getImgPlaceUrl());
+        share.putExtra(Intent.EXTRA_SUBJECT, "Places - " + location);
+        share.putExtra(Intent.EXTRA_TEXT, desc);
+        share.putExtra(Intent.EXTRA_STREAM, imageUrl);
         startActivity(Intent.createChooser(share, "Share Place"));
     }
 

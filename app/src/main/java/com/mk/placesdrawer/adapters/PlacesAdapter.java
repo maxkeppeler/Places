@@ -1,10 +1,8 @@
 package com.mk.placesdrawer.adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -21,16 +19,16 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.placesdrawer.R;
-import com.mk.placesdrawer.models.PlacesItem;
+import com.mk.placesdrawer.models.Place;
 import com.mk.placesdrawer.utilities.Animation;
+import com.mk.placesdrawer.utilities.Utils;
 
 import java.util.ArrayList;
 
 public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesViewHolder> {
 
     private final ClickListener callback;
-    private ArrayList<PlacesItem> placesList;
-    private ArrayList<PlacesItem> feedItemList;
+    private ArrayList<Place> placesList;
     private Activity context;
 
     public PlacesAdapter(Activity context, ClickListener callBack) {
@@ -44,7 +42,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
         return new PlacesViewHolder(inflater.inflate(R.layout.drawer_places_item, parent, false));
     }
 
-    public void setData(ArrayList<PlacesItem> placesList) {
+    public void setData(ArrayList<Place> placesList) {
 
         this.placesList = placesList;
         notifyDataSetChanged();
@@ -53,7 +51,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
     @Override
     public void onBindViewHolder(final PlacesViewHolder holder, int index) {
 
-        PlacesItem placeItem = placesList.get(index);
+        Place placeItem = placesList.get(index);
         final String imgPlaceUrl = placeItem.getImgPlaceUrl();
 
         Glide.with(context)
@@ -84,14 +82,10 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
     }
 
     public interface ClickListener {
-
         void onClick(PlacesViewHolder view, int index, boolean longClick);
     }
 
     public class PlacesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-
-        Typeface typeface = Typeface.createFromAsset(context.getAssets(), "fonts/BreeSerif-Regular.ttf");
-
 
         public final View view;
         public final ImageView image;
@@ -103,11 +97,10 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
             super(v);
             view = v;
 
-
             ripple = (MaterialRippleLayout) view.findViewById(R.id.rippleThumb);
             image = (ImageView) view.findViewById(R.id.imageThumb);
             location = (TextView) view.findViewById(R.id.locationThumb);
-            location.setTypeface(typeface);
+            location.setTypeface(Utils.getTypeface(context, 1));
             sight = (TextView) view.findViewById(R.id.sightThumb);
 
             desc = null;
@@ -136,13 +129,4 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
             return true;
         }
     }
-
-
-    public void updateRecyclerData(ArrayList<PlacesItem> placesList) {
-        this.placesList = placesList;
-        notifyDataSetChanged();
-    }
-
-
-
 }

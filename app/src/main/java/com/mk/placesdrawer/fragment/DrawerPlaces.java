@@ -3,16 +3,13 @@ package com.mk.placesdrawer.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +20,8 @@ import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.activity.DrawerPlacesDetail;
 import com.mk.placesdrawer.activity.MainActivity;
 import com.mk.placesdrawer.adapters.PlacesAdapter;
-import com.mk.placesdrawer.models.PlacesItem;
-import com.mk.placesdrawer.models.PlacesList;
+import com.mk.placesdrawer.models.Place;
+import com.mk.placesdrawer.models.PlaceList;
 import com.mk.placesdrawer.utilities.JSONParser;
 import com.mk.placesdrawer.utilities.Utils;
 
@@ -51,7 +48,7 @@ public class DrawerPlaces extends Fragment {
 
     private static void setupLayout(final boolean fromTask) {
 
-        if (PlacesList.getPlacesList() != null && PlacesList.getPlacesList().size() > 0) {
+        if (PlaceList.getPlacesList() != null && PlaceList.getPlacesList().size() > 0) {
             context.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -73,7 +70,7 @@ public class DrawerPlaces extends Fragment {
 
 //                                        Intent to open the DrawerPlacesDetail View
                                         final Intent intent = new Intent(context, DrawerPlacesDetail.class);
-                                        intent.putExtra("item", PlacesList.getPlacesList().get(position));
+                                        intent.putExtra("item", PlaceList.getPlacesList().get(position));
 
                                         context.startActivity(intent);
 
@@ -81,7 +78,7 @@ public class DrawerPlaces extends Fragment {
                                 }
                             });
 
-                    mAdapter.setData(PlacesList.getPlacesList());
+                    mAdapter.setData(PlaceList.getPlacesList());
                     mRecyclerView.setAdapter(mAdapter);
 
 
@@ -166,8 +163,8 @@ public class DrawerPlaces extends Fragment {
     // DownloadJSON AsyncTask
     public static class DownloadJSON extends AsyncTask<Void, Void, Void> {
 
-        private final static ArrayList<PlacesItem> filterPlaces = new ArrayList<>();
-        private final static ArrayList<PlacesItem> places = new ArrayList<>();
+        private final static ArrayList<Place> filterPlaces = new ArrayList<>();
+        private final static ArrayList<Place> places = new ArrayList<>();
         static long startTime, endTime;
         final MainActivity.PlacesListInterface wi;
         private Context taskContext;
@@ -207,7 +204,7 @@ public class DrawerPlaces extends Fragment {
 
                         json = jsonarray.getJSONObject(i);
 
-                        places.add(new PlacesItem(
+                        places.add(new Place(
                                         json.getString("location"),
                                         json.getString("sight"),
                                         json.getString("description"),
@@ -220,7 +217,7 @@ public class DrawerPlaces extends Fragment {
                         );
 
                     }
-                    PlacesList.createPlacesList(places, "all");
+                    PlaceList.createPlacesList(places);
                     worked = true;
 
                 } catch (JSONException e) {

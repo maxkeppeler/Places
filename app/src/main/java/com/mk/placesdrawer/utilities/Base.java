@@ -29,7 +29,7 @@ import android.os.AsyncTask;
 
 import com.mk.placesdrawer.activity.MainActivity;
 import com.mk.placesdrawer.fragment.DrawerPlaces;
-import com.mk.placesdrawer.models.PlacesList;
+import com.mk.placesdrawer.models.PlaceList;
 
 
 public class Base extends Application {
@@ -49,7 +49,7 @@ public class Base extends Application {
     private void loadPlacesList() {
 
         if (mPrefs.getPlacesListLoaded()) {
-            PlacesList.clearList();
+            PlaceList.clearList();
             mPrefs.setPlacesListLoaded(!mPrefs.getPlacesListLoaded());
 
         }

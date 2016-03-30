@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,10 +33,10 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mk.placesdrawer.R;
-import com.mk.placesdrawer.adapters.PlacesAdapter;
 import com.mk.placesdrawer.fragment.DrawerAbout;
 import com.mk.placesdrawer.fragment.DrawerPlaces;
 import com.mk.placesdrawer.utilities.Animation;
+import com.mk.placesdrawer.utilities.Dialogs;
 
 import java.util.Random;
 
@@ -199,32 +200,24 @@ public class MainActivity extends AppCompatActivity {
 ////
 //
 //        Intent one = new Intent(context, MainActivity.class);
-//        one.putExtra("size", PlacesList.getPlacesList().size());
+//        one.putExtra("size", PlaceList.getPlacesList().size());
 //        context.startActivity(one);
 //
 //        Log.d("SIZE MAIN", "onCreate: " + DrawerPlaces.getJsonArraySize());
 //        result.updateBadge(1, new StringHolder("    " + String.valueOf(DrawerPlaces.getJsonArraySize()) + "    "));
 //            result.updateBadge(1, new StringHolder("    " + size + "    "));
 //        result.updateBadge(2, new StringHolder("    " + "35" + "    "));
-
     }
 
     public String toolbarText(int fragmentPosition) {
         switch (fragmentPosition) {
-            case 1:
-                return drawerPlaces;
-            case 2:
-                return drawerFavorite;
-            case 3:
-                return drawerSubmit;
-            case 4:
-                return drawerAbout;
-            case 5:
-                return drawerFeedback;
-            case 6:
-                return drawerSettings;
-            default:
-                return drawerWrong;
+            case 1: return drawerPlaces;
+            case 2: return drawerFavorite;
+            case 3: return drawerSubmit;
+            case 4: return drawerAbout;
+            case 5: return drawerFeedback;
+            case 6: return drawerSettings;
+            default: return drawerWrong;
         }
     }
 
@@ -262,23 +255,12 @@ public class MainActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
         int id = item.getItemId();
         switch (id) {
-            case R.id.filter:       filterDialog();     break;
-            case R.id.column:       columnsDialog();    break;
-            case R.id.changelog:    changeLogDialog();  break;
+            case R.id.filter:       Dialogs.filterDialog(this);     break;
+            case R.id.column:       Dialogs.columnsDialog(this);    break;
+            case R.id.changelog:    Dialogs.showChangelog(this);    break;
         }
         return true;
     }
-
-//    private void loadPlacesList() {
-//        new DrawerPlaces.DownloadJSON(new PlacesListInterface() {
-//            @Override
-//            public void checkPlacesListCreation(boolean result) {
-//                if (DrawerPlaces.mAdapter != null) {
-//                    DrawerPlaces.mAdapter.notifyDataSetChanged();
-//                }
-//            }
-//        }, context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-//    }
 
     public AccountHeader changeHeader(AccountHeader headerResult) {
 
@@ -312,82 +294,5 @@ public class MainActivity extends AppCompatActivity {
     public interface PlacesListInterface {
         void checkPlacesListCreation(boolean result);
     }
-
-    public void changeLogDialog() {
-
-        new MaterialDialog.Builder(this)
-                .title(R.string.changelogTitle)
-                .items(R.array.changelogContentArray)
-                .positiveText(R.string.changelogAgree)
-                .show();
-    }
-
-
-    public void filterDialog() {
-
-        new MaterialDialog.Builder(this)
-                .title(R.string.filterTitle)
-                .items(R.array.filterContentArray)
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
-                        if (i == 0) categoryDialog();
-                        if (i == 1) countryDialog();
-
-
-                    }
-                })
-                .show();
-
-    }
-
-
-    public void categoryDialog() {
-
-        new MaterialDialog.Builder(this)
-                .title(R.string.categoryTitle)
-                .items(R.array.categoryContentArray)
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
-
-                        if (i == 1) {
-                        }
-                    }
-                })
-                .show();
-    }
-
-    public void countryDialog() {
-
-        new MaterialDialog.Builder(this)
-                .title(R.string.filterTitle)
-                .items(R.array.filterContentArray)
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
-
-                    }
-                })
-                .show();
-    }
-
-
-    public void columnsDialog() {
-
-        new MaterialDialog.Builder(this)
-                .title(R.string.columnsTitle)
-                .items(R.array.columnsArray)
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
-                        DrawerPlaces.changeColumns(i + 1);
-                    }
-                })
-                .show();
-    }
-
-
-
 
 }

@@ -1,16 +1,10 @@
 package com.mk.placesdrawer.models;
 
-import android.util.Log;
-
 import java.util.ArrayList;
-import java.util.List;
 
-/**
- * Created by Max on 16.03.16.
- */
-public class PlacesList {
+public class PlaceList {
 
-    private static ArrayList<PlacesItem> placesList = new ArrayList<>();
+    private static ArrayList<Place> placesList = new ArrayList<>();
     private static String category;
 
     public static void createPlacesList(ArrayList<String> locations,
@@ -22,11 +16,10 @@ public class PlacesList {
                                         ArrayList<String> religion,
                                         ArrayList<String> urls
     ) {
-
         try {
 
             for (int i = 0; i < locations.size(); i++) {
-                PlacesItem placesItem = new PlacesItem(
+                Place place = new Place(
 
                         locations.get(i),
                         sights.get(i),
@@ -37,18 +30,17 @@ public class PlacesList {
                         religion.get(i),
                         urls.get(i)
                 );
-                placesList.add(placesItem);
+                placesList.add(place);
             }
         } catch (IndexOutOfBoundsException e) {
         }
     }
 
-    public static void createPlacesList(ArrayList<PlacesItem> placesList, String category) {
-        PlacesList.placesList = placesList;
-        PlacesList.category = category;
+    public static void createPlacesList(ArrayList<Place> placesList) {
+        PlaceList.placesList = placesList;
     }
 
-    public static ArrayList<PlacesItem> getPlacesList() {
+    public static ArrayList<Place> getPlacesList() {
         return placesList;
     }
 

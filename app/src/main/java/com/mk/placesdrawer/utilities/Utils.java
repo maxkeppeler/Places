@@ -69,6 +69,7 @@ public class Utils extends Activity {
     }
     public static void openLinkInChromeCustomTab(Context context, String link, int color) {
 
+//        TODO fix chrome custom works, make it myself to learn
 
 //        final CustomTabsClient[] mClient = new CustomTabsClient[1];
 //        final CustomTabsSession[] mCustomTabsSession = new CustomTabsSession[1];

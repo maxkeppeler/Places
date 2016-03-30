@@ -43,68 +43,18 @@
 
     <!-- Changelog Dialog -->
     <string name="changelogTitle">Changelog</string>
-    <array  name="changelogContentArray">
-
-        <item><![CDATA[
+    <string name="changelogContent">
+        <![CDATA[
         v0.8 Beta
-        \n • Change 1
-        \n • Change 2
-        ]]>
-        </item>
+        \n • Fixed many issues
+        \n • Fixed changelog
+        ]]></string>
 
-        <item><![CDATA[
-        v0.7 Beta
-        \n • Change 1
-        \n • Change 2
-        ]]>
-        </item>
-
-        <item><![CDATA[
-        v0.6 Beta
-        \n • Change 1
-        \n • Change 2
-        ]]>
-        </item>
-
-        <item><![CDATA[
-        v0.5 Beta
-        \n • Change 1
-        \n • Change 2
-        ]]>
-        </item>
-
-        <item><![CDATA[
-        v0.4 Beta
-        \n • Change 1
-        \n • Change 2
-        ]]>
-        </item>
-
-        <item><![CDATA[
-        v0.3 Beta
-        \n • Change 1
-        \n • Change 2
-        ]]>
-        </item>
-
-        <item><![CDATA[
-        v0.2 Beta
-        \n • Change 1
-        \n • Change 2
-        ]]>
-        </item>
-
-        <item><![CDATA[
-        v0.1 Beta
-        \n • Change 1
-        \n • Change 2
-        ]]>
-        </item>
-    </array>
-    <string name="changelogAgree">Excellent</string>
+    <string name="changelogPositive">Excellent</string>
+    <string name="changelogNegative">Rate</string>
 
     <!-- Filter Dialog -->
-    <string name="filterTitle">Filter</string>
+    <string name="filterTitle">Filter by</string>
     <string name="filterPositive">Apply Changes</string>
     <array name="filterContentArray">
         <item>Select a sight category</item>
@@ -112,9 +62,9 @@
     </array>
 
     <!-- Category Dialog -->
-    <string name="categoryTitle">Filter</string>
+    <string name="sightTitle">Filter by</string>
     <string name="categoryPositive">Apply Changes</string>
-    <array name="categoryContentArray">
+    <array name="sightContentArray">
         <item>City</item>
         <item>Park</item>
         <item>National Park</item>

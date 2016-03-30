@@ -1,11 +1,11 @@
 package com.mk.placesdrawer.models;
 
-public class PlacesDetailItem {
+public class PlaceDetail {
 
     private String text, title;
     private int drawable;
 
-    public PlacesDetailItem(String title, String text, int drawable) {
+    public PlaceDetail(String title, String text, int drawable) {
         this.title = title;
         this.text = text;
         this.drawable = drawable;

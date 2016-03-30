@@ -6,17 +6,17 @@ import android.os.Parcelable;
 /**
  * Created by maximiliankeppeler1 on 06.01.16.
  */
-public class PlacesItem implements Parcelable {
+public class Place implements Parcelable {
 
-    public static final Creator<PlacesItem> CREATOR = new Creator<PlacesItem>() {
+    public static final Creator<Place> CREATOR = new Creator<Place>() {
         @Override
-        public PlacesItem createFromParcel(Parcel in) {
-            return new PlacesItem(in);
+        public Place createFromParcel(Parcel in) {
+            return new Place(in);
         }
 
         @Override
-        public PlacesItem[] newArray(int size) {
-            return new PlacesItem[size];
+        public Place[] newArray(int size) {
+            return new Place[size];
         }
     };
 
@@ -24,14 +24,14 @@ public class PlacesItem implements Parcelable {
                     location, sight, description,
                     imgPlaceUrl;
 
-    public PlacesItem(String location,
-                      String sight,
-                      String description,
-                      String country,
-                      String state,
-                      String city,
-                      String religion,
-                      String imgPlaceUrl) {
+    public Place(String location,
+                 String sight,
+                 String description,
+                 String country,
+                 String state,
+                 String city,
+                 String religion,
+                 String imgPlaceUrl) {
 
         this.location = location;
         this.sight = sight;
@@ -44,7 +44,7 @@ public class PlacesItem implements Parcelable {
 
     }
 
-    protected PlacesItem(Parcel in) {
+    protected Place(Parcel in) {
         location = in.readString();
         sight = in.readString();
         description = in.readString();
@@ -89,7 +89,7 @@ public class PlacesItem implements Parcelable {
 
     @Override
     public int describeContents() {
-        return PlacesList.getPlacesList().size();
+        return PlaceList.getPlacesList().size();
     }
 
     @Override

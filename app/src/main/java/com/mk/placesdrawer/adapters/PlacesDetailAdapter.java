@@ -8,15 +8,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mk.placesdrawer.R;
-import com.mk.placesdrawer.models.PlacesDetailItem;
+import com.mk.placesdrawer.models.PlaceDetail;
 
 /**
  * Created by Max on 26.03.16.
  */
 public class PlacesDetailAdapter extends RecyclerView.Adapter<PlacesDetailAdapter.ViewHolder> {
-    private PlacesDetailItem[] itemsData;
+    private PlaceDetail[] itemsData;
 
-    public PlacesDetailAdapter(PlacesDetailItem[] itemsData) {
+    public PlacesDetailAdapter(PlaceDetail[] itemsData) {
         this.itemsData = itemsData;
     }
 
