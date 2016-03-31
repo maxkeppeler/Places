@@ -40,13 +40,15 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.adapters.PlacesDetailAdapter;
-import com.mk.placesdrawer.models.PlaceDetail;
 import com.mk.placesdrawer.models.Place;
+import com.mk.placesdrawer.models.PlaceDetail;
+import com.mk.placesdrawer.utilities.Dialogs;
 import com.mk.placesdrawer.utilities.PermissionUtil;
 import com.mk.placesdrawer.utilities.Utils;
 import com.mk.placesdrawer.widgets.SquareImageView;
@@ -69,19 +71,26 @@ public class DrawerPlacesDetail extends AppCompatActivity {
             position, country, state, city, religion;
 
 
-    @Bind(R.id.fab) FloatingActionButton fab;
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.collapsingToolbar) CollapsingToolbarLayout collapsingToolbarLayout;
-    @Bind(R.id.placeDescTitle) TextView placeDescTitle;
-    @Bind(R.id.descDetailView) TextView placesDescText;
-    @Bind(R.id.placeInfoTitle) TextView placeInfoTitle;
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.collapsingToolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    @Bind(R.id.placeDescTitle)
+    TextView placeDescTitle;
+    @Bind(R.id.descDetailView)
+    TextView placesDescText;
+    @Bind(R.id.placeInfoTitle)
+    TextView placeInfoTitle;
 
     private Typeface typeface;
     private ViewGroup layout;
     private Activity context;
     private Place item;
     private static int generatedColor;
-    private Bitmap dBitmap;
+
+    private Bitmap dBitmap = null;
 
     public static final String TAG = "DrawerPlacesDetail";
 
@@ -206,10 +215,10 @@ public class DrawerPlacesDetail extends AppCompatActivity {
                     protected void setResource(Bitmap resource) {
                         TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(getResources(), resource)});
                         assert image != null;
-                        dBitmap = resource;
                         image.setImageDrawable(td);
                         td.startTransition(450);
                         new Palette.Builder(resource).generate(paletteAsyncListener);
+                        dBitmap = resource;
                     }
                 });
     }
@@ -277,7 +286,7 @@ public class DrawerPlacesDetail extends AppCompatActivity {
                     requestStoragePermissions();
 
                 } else {
-                    saveImage();
+                    Dialogs.saveImageDialog(context, dBitmap, location);
                 }
 
                 break;
@@ -285,7 +294,6 @@ public class DrawerPlacesDetail extends AppCompatActivity {
                 share();
                 break;
             case R.id.launch:
-//                launch();
                 Utils.openLinkInChromeCustomTab(context, "http://www.google.com/search?q=" + location, generatedColor);
                 break;
         }
@@ -300,56 +308,7 @@ public class DrawerPlacesDetail extends AppCompatActivity {
         }
     }
 
-    public void saveImage() {
-        Log.i(TAG, "Storage permissions have already been granted. Loading Bitmap.");
 
-//        Text overlay over the orginal bitmap
-        float textSize = 0.111979f * (dBitmap.getWidth())/1.6f;
-        Log.d(TAG, "Text size was adjusted to the image width: " + textSize);
-
-        float marginLeft = 0.07421875f * dBitmap.getWidth();
-        Log.d(TAG, "Margin (left) size was adjusted to the image width: " + marginLeft);
-
-        Canvas canvas = new Canvas(dBitmap);
-        Paint paint = new Paint();
-        paint.setColor(getResources().getColor(R.color.white));
-        paint.setAlpha(255);
-        paint.setTypeface(typeface);
-        paint.setTextSize(textSize);
-        paint.setShadowLayer(12, 0, 12, getResources().getColor(R.color.textShadow));
-        paint.setTextAlign(Paint.Align.LEFT);
-        canvas.drawText(location, marginLeft, dBitmap.getHeight() - paint.getTextSize(), paint);
-
-        OutputStream fOut = null;
-        String imageName = location + " .jpg";
-        File path = new File(Environment.getExternalStorageDirectory().toString());
-        File myDir = new File(path, getResources().getString(R.string.app_name));
-
-//        If no folder exists with the name "Places", it will be created
-        if (!myDir.exists()) myDir.mkdir();
-
-//        Create image with the given path and image name
-        File file = new File(myDir, imageName);
-
-        try {
-                fOut = new FileOutputStream(file);
-                Log.d(TAG, "Download: Image was saved.");
-
-//            Compress image, when not successful, error.
-                if (!dBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut)) {
-                    Log.d(TAG, "Download: Image was NOT saved: "+ path + imageName);
-                }
-
-            } catch (FileNotFoundException e) {
-                Log.d(TAG, "Download: Image: Exception");
-                e.printStackTrace();
-            }
-    }
-
-    public void launch() {
-//            TODO Fix
-        Utils.openLinkInChromeCustomTab(context, "http://www.google.com/search?q=" + location, generatedColor);
-    }
 
     public void share() {
 //        TODO Fix
@@ -372,7 +331,7 @@ public class DrawerPlacesDetail extends AppCompatActivity {
         return palette.getVibrantColor(vibrantLight);
     }
 
-//    TODO permissions don't work, you can press ok or no, and app will crash whatever you will do
+    //    TODO permissions don't work, you can press ok or no, and app will crash whatever you will do
     private void requestStoragePermissions() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
