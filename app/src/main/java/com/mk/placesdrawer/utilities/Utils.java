@@ -29,6 +29,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -69,38 +70,31 @@ public class Utils extends Activity {
     }
     public static void openLinkInChromeCustomTab(Context context, String link, int color) {
 
-//        TODO fix chrome custom works, make it myself to learn
+        final CustomTabsClient[] mClient = new CustomTabsClient[1];
+        final CustomTabsSession[] mCustomTabsSession = new CustomTabsSession[1];
 
-//        final CustomTabsClient[] mClient = new CustomTabsClient[1];
-//        final CustomTabsSession[] mCustomTabsSession = new CustomTabsSession[1];
-//        CustomTabsServiceConnection mCustomTabsServiceConnection;
-//        CustomTabsIntent customTabsIntent;
-//
-//
-////        ComponentName myService = startService(new Intent(this, myClass.class));
-////        bindService(new Intent(this, myClass.class), myServiceConn, BIND_AUTO_CREATE);
-//
-//        mCustomTabsServiceConnection = new CustomTabsServiceConnection() {
-//            @Override
-//            public void onCustomTabsServiceConnected(ComponentName componentName, CustomTabsClient customTabsClient) {
-//                mClient[0] = customTabsClient;
-//                mClient[0].warmup(0L);
-//                mCustomTabsSession[0] = mClient[0].newSession(null);
-//            }
-//
-//            @Override
-//            public void onServiceDisconnected(ComponentName name) {
-//                mClient[0] = null;
-//            }
-//        };
-//
-//        CustomTabsClient.bindCustomTabsService(context, "com.android.chrome", mCustomTabsServiceConnection);
-//        customTabsIntent = new CustomTabsIntent.Builder(mCustomTabsSession[0])
-//                .setToolbarColor(color)
-//                .setShowTitle(true)
-//                .build();
-//
-//        customTabsIntent.launchUrl((Activity) context, Uri.parse(link));
+        CustomTabsServiceConnection mCustomTabsServiceConnection = new CustomTabsServiceConnection() {
+            @Override
+            public void onCustomTabsServiceConnected(ComponentName componentName, CustomTabsClient customTabsClient) {
+                mClient[0] = customTabsClient;
+                mClient[0].warmup(0L);
+                mCustomTabsSession[0] = mClient[0].newSession(null);
+            }
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                mClient[0] = null;
+            }
+        };
+
+        CustomTabsClient.bindCustomTabsService(context, "com.android.chrome", mCustomTabsServiceConnection);
+        CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder(mCustomTabsSession[0])
+                .setToolbarColor(color)
+                .setShowTitle(true)
+                .addDefaultShareMenuItem()
+                .build();
+
+        customTabsIntent.launchUrl( (Activity) context, Uri.parse(link));
+        context.unbindService(mCustomTabsServiceConnection);
     }
 
     public static String getStringFromResources(Context context, int id) {

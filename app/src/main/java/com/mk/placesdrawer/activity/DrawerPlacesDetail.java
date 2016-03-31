@@ -248,6 +248,7 @@ public class DrawerPlacesDetail extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+
     }
 
     @Override
@@ -284,7 +285,8 @@ public class DrawerPlacesDetail extends AppCompatActivity {
                 share();
                 break;
             case R.id.launch:
-                launch();
+//                launch();
+                Utils.openLinkInChromeCustomTab(context, "http://www.google.com/search?q=" + location, generatedColor);
                 break;
         }
         return true;
