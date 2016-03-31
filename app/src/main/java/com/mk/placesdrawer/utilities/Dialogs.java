@@ -126,6 +126,7 @@ public class Dialogs {
 
     public static void saveImageDialog(final Context context, final Bitmap bitmap, final String location) {
 
+//        TODO Why the fuck does the download image replace the current bitmap, download from the url with glide? I never have used the variable
         new MaterialDialog.Builder(context)
                 .title(R.string.saveImageTitle)
                 .items(R.array.saveImageContentArray)
@@ -145,12 +146,14 @@ public class Dialogs {
 
     private static void saveImage(Bitmap bitmap, int index, Context context, String location) {
 
+        //        TODO Why the fuck does the download image replace the current bitmap, download from the url with glide? I never have used the variable
+
         OutputStream fOut = null;
         String imageName = location + " .jpg";
         File path = new File(Environment.getExternalStorageDirectory().toString());
         File myDir = new File(path, context.getResources().getString(R.string.app_name));
 
-        if (index == 2) {
+        if (index == 2) {  // with text overlay
             imageName = location + " lo.jpg";
 
             float textSize = 0.111979f * (bitmap.getWidth()) / 1.6f;

@@ -53,10 +53,6 @@ import com.mk.placesdrawer.utilities.PermissionUtil;
 import com.mk.placesdrawer.utilities.Utils;
 import com.mk.placesdrawer.widgets.SquareImageView;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.Arrays;
 
 import butterknife.Bind;
