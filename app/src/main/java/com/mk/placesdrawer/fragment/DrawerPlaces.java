@@ -17,9 +17,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.mk.placesdrawer.R;
-import com.mk.placesdrawer.activity.DrawerPlacesDetail;
+import com.mk.placesdrawer.activity.PlaceDetailActivity;
 import com.mk.placesdrawer.activity.MainActivity;
-import com.mk.placesdrawer.adapters.PlacesAdapter;
+import com.mk.placesdrawer.adapters.PlaceAdapter;
 import com.mk.placesdrawer.models.Place;
 import com.mk.placesdrawer.models.PlaceList;
 import com.mk.placesdrawer.utilities.JSONParser;
@@ -39,8 +39,7 @@ public class DrawerPlaces extends Fragment {
 
     private static int columns = 1, direction = 1;
     private static boolean reversed = false;
-
-    public static PlacesAdapter mAdapter;
+    public static PlaceAdapter mAdapter;
     private static ViewGroup layout;
     private static RecyclerView mRecyclerView;
     private static Activity context;
@@ -53,39 +52,30 @@ public class DrawerPlaces extends Fragment {
                 @Override
                 public void run() {
 
-                    mAdapter = new PlacesAdapter(context,
-                            new PlacesAdapter.ClickListener() {
+                    mAdapter = new PlaceAdapter(context,
+                            new PlaceAdapter.ClickListener() {
                                 @Override
-                                public void onClick(PlacesAdapter.PlacesViewHolder view,
+                                public void onClick(PlaceAdapter.PlacesViewHolder view,
                                                     int position, boolean longClick) {
 
                                     if (longClick) {
-
                                         Toast.makeText(context, "Long Click", Toast.LENGTH_SHORT).show();
-
                                     } else {
 
-//
                                         Toast.makeText(context, "Short Click", Toast.LENGTH_SHORT).show();
-
-//                                        Intent to open the DrawerPlacesDetail View
-                                        final Intent intent = new Intent(context, DrawerPlacesDetail.class);
+                                        final Intent intent = new Intent(context, PlaceDetailActivity.class);
                                         intent.putExtra("item", PlaceList.getPlacesList().get(position));
 
                                         context.startActivity(intent);
-
                                     }
                                 }
                             });
 
                     mAdapter.setData(PlaceList.getPlacesList());
                     mRecyclerView.setAdapter(mAdapter);
-
-
                     if (Utils.hasNetwork(context)) {
                         mRecyclerView.setVisibility(View.VISIBLE);
                     }
-
                 }
             });
         } else {
@@ -140,10 +130,6 @@ public class DrawerPlaces extends Fragment {
         }
 
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.placecRecyclerView);
-
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-//        TODO let the user deside if 1, 2 or 3 columns and if reserved or normal
-
         mRecyclerView.setLayoutManager(new GridLayoutManager(context, columns, direction, reversed));
         mRecyclerView.setHasFixedSize(true);
 

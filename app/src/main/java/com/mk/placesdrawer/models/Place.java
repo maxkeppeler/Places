@@ -20,9 +20,9 @@ public class Place implements Parcelable {
         }
     };
 
-    private String  country, state, city, religion,
-                    location, sight, description,
-                    imgPlaceUrl;
+    private String country, state, city, religion,
+            location, sight, description,
+            imgPlaceUrl;
 
     public Place(String location,
                  String sight,
@@ -42,6 +42,23 @@ public class Place implements Parcelable {
         this.religion = religion;
         this.imgPlaceUrl = imgPlaceUrl;
 
+    }
+
+    @Override
+    public int describeContents() {
+        return PlaceList.getPlacesList().size();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(location);
+        dest.writeString(sight);
+        dest.writeString(description);
+        dest.writeString(country);
+        dest.writeString(state);
+        dest.writeString(city);
+        dest.writeString(religion);
+        dest.writeString(imgPlaceUrl);
     }
 
     protected Place(Parcel in) {
@@ -86,22 +103,4 @@ public class Place implements Parcelable {
     public String getImgPlaceUrl() {
         return imgPlaceUrl;
     }
-
-    @Override
-    public int describeContents() {
-        return PlaceList.getPlacesList().size();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(location);
-        dest.writeString(sight);
-        dest.writeString(description);
-        dest.writeString(country);
-        dest.writeString(state);
-        dest.writeString(city);
-        dest.writeString(religion);
-        dest.writeString(imgPlaceUrl);
-    }
-
 }

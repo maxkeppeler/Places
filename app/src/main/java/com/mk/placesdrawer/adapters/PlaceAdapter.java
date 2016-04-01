@@ -25,13 +25,13 @@ import com.mk.placesdrawer.utilities.Utils;
 
 import java.util.ArrayList;
 
-public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesViewHolder> {
+public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHolder> {
 
     private final ClickListener callback;
     private ArrayList<Place> placesList;
     private Activity context;
 
-    public PlacesAdapter(Activity context, ClickListener callBack) {
+    public PlaceAdapter(Activity context, ClickListener callBack) {
         this.context = context;
         this.callback = callBack;
     }

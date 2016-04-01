@@ -13,26 +13,21 @@ import com.mk.placesdrawer.models.PlaceDetail;
 /**
  * Created by Max on 26.03.16.
  */
-public class PlacesDetailAdapter extends RecyclerView.Adapter<PlacesDetailAdapter.ViewHolder> {
+public class PlaceDetailAdapter extends RecyclerView.Adapter<PlaceDetailAdapter.ViewHolder> {
     private PlaceDetail[] itemsData;
 
-    public PlacesDetailAdapter(PlaceDetail[] itemsData) {
+    public PlaceDetailAdapter(PlaceDetail[] itemsData) {
         this.itemsData = itemsData;
     }
 
-    // Create new Views of the Item View
     @Override
-    public PlacesDetailAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+    public PlaceDetailAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
-        // new View
         View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_places_detail_item, parent, false);
-//        View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_places_detail_item, null);
-        // create ViewHolder
         ViewHolder viewHolder = new ViewHolder(itemLayoutView);
         return viewHolder;
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         viewHolder.txtViewTitle.setText(itemsData[position].getTitle());
@@ -44,7 +39,6 @@ public class PlacesDetailAdapter extends RecyclerView.Adapter<PlacesDetailAdapte
 
         public TextView txtViewTitle, txtViewText;
         public ImageView imgViewIcon;
-
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
             txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.placesDetailTitle);

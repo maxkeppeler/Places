@@ -71,7 +71,6 @@
         <item>Landscape</item>
     </array>
 
-
     <!-- Columns Dialog -->
     <string name="columnsTitle">Amount Of Columns</string>
     <array name="columnsArray">

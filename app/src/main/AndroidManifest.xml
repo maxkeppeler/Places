@@ -33,7 +33,7 @@
 
 
         <activity
-            android:name=".activity.DrawerPlacesDetail"
+            android:name=".activity.PlaceDetailActivity"
             android:theme="@style/DetailView"
             android:value=".activity.MainActivity">
             <intent-filter>
