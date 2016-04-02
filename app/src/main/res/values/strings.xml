@@ -83,8 +83,7 @@
     <string name="saveImageTitle">What do you want to save?</string>
     <array name="saveImageContentArray">
         <item>Image</item>
-        <item>Image, with the location as overlay</item>
-        <item>Whole page</item>
+        <item>Page as Image</item>
     </array>
 
 

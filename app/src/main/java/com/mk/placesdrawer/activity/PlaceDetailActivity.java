@@ -16,6 +16,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -42,6 +43,7 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -97,7 +99,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
     private Place item;
     private static int generatedColor;
 
-    private Bitmap dBitmap = null;
+    private Bitmap dBitmap;
 
     public static final String TAG = "PlaceDetailActivity";
 
@@ -168,6 +170,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         typeface = Utils.getTypeface(context, 1);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewInfoDetails);
+
 
         String[] positionArray = {country, state, city};
         position = Arrays.toString(positionArray).replace("[", "").replace("]", "").replace(",", "  ~ ");
@@ -292,7 +295,8 @@ public class PlaceDetailActivity extends AppCompatActivity {
                     requestStoragePermissions();
 
                 } else {
-                    Dialogs.saveImageDialog(context, dBitmap, location);
+                    Bitmap saveImageBitmap = dBitmap;
+                    Dialogs.saveImageDialog(context, saveImageBitmap, location);
                 }
 
                 break;
@@ -394,6 +398,37 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+//    TODO TODO TODO
+    private class MyAsyncTask extends AsyncTask<String, Integer, Double> {
+        @Override
+        protected Double doInBackground(String... params) {
+            dBitmap = getBitmapFromURL(imageUrl);
+            return null;
+        }
+
+        protected void onPostExecute(Double result){
+        }
+
+        protected void onProgressUpdate(Integer... progress){
+        }
+    }
+
+
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
