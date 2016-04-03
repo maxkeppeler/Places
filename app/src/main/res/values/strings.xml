@@ -57,12 +57,12 @@
     <string name="filterTitle">Filter by</string>
     <string name="filterPositive">Apply Changes</string>
     <array name="filterContentArray">
-        <item>Select a sight category</item>
-        <item>Select a country</item>
+        <item>Sight</item>
+        <item>Country</item>
     </array>
 
-    <!-- Category Dialog -->
-    <string name="sightTitle">Filter by</string>
+    <!-- Sight Dialog -->
+    <string name="sightTitle">Sight</string>
     <string name="categoryPositive">Apply Changes</string>
     <array name="sightContentArray">
         <item>City</item>

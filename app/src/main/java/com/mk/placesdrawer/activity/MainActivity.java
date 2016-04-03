@@ -51,10 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private static String drawerWrong;
     private int currentDrawerItem;
     private String[] urlHeaderArray;
-    private int data;
 
-    public static final String TAG = "MainActivity";
-    public static final String TAG_DIALOG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +81,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         new DrawerBuilder().withActivity(this).build();
-
-        // TODO find better, better matching, icons for the categories
 
         final PrimaryDrawerItem itemPlaces = new PrimaryDrawerItem()
                 .withName(drawerPlaces).withIcon(Icon.gmd_place).withIdentifier(1);

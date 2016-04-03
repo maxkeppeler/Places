@@ -40,7 +40,6 @@
             android:id="@+id/sightThumb"
             style="@style/TextViewBody1"
             android:layout_below="@id/locationThumb"
-            android:layout_marginTop="4dp"
             android:text="Sight"
             android:textColor="@color/textPrimary" />
 

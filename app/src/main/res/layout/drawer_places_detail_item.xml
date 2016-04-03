@@ -46,7 +46,6 @@
                     style="@style/TextViewBody1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
                     android:text="GPS"
                     android:textColor="@color/primaryText" />
 
