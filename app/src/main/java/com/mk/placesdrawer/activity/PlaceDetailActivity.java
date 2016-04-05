@@ -6,21 +6,16 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -43,7 +38,6 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -60,13 +54,8 @@ import com.mk.placesdrawer.widgets.SquareImageView;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -77,21 +66,15 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
     private static String[] PERMISSION_STORAGE = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
     String location, sight, desc, imageUrl,
-            position, country, state, city, religion;
+            position, religion;
 
 
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.collapsingToolbar)
-    CollapsingToolbarLayout collapsingToolbarLayout;
-    @Bind(R.id.placeDescTitle)
-    TextView placeDescTitle;
-    @Bind(R.id.descDetailView)
-    TextView placesDescText;
-    @Bind(R.id.placeInfoTitle)
-    TextView placeInfoTitle;
+    @Bind(R.id.fab) FloatingActionButton fab;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.collapsingToolbar) CollapsingToolbarLayout collapsingToolbarLayout;
+    @Bind(R.id.placeDescTitle) TextView placeDescTitle;
+    @Bind(R.id.descDetailView) TextView placesDescText;
+    @Bind(R.id.placeInfoTitle) TextView placeInfoTitle;
 
     private Typeface typeface;
     private ViewGroup layout;
@@ -155,6 +138,8 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+//        TODO new Thread for dBitmap
+
         Intent intent = getIntent();
         item = intent.getParcelableExtra("item");
 
@@ -162,18 +147,12 @@ public class PlaceDetailActivity extends AppCompatActivity {
         sight = item.getSight();
         desc = item.getDescription();
         imageUrl = item.getImgPlaceUrl();
-        country = item.getCountry();
-        state = item.getState();
-        city = item.getCity();
+        position = item.getPosition();
         religion = item.getReligion();
 
         typeface = Utils.getTypeface(context, 1);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewInfoDetails);
-
-
-        String[] positionArray = {country, state, city};
-        position = Arrays.toString(positionArray).replace("[", "").replace("]", "").replace(",", "  ~ ");
 
         if (sight.equals("City")) {
             PlaceDetail itemsData[] = {
@@ -204,6 +183,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                TODO add function
                 Log.d("Floating Action Button", "onClick: works ");
             }
         });
@@ -351,12 +331,13 @@ public class PlaceDetailActivity extends AppCompatActivity {
     private int getAColor(Palette palette) {
 
         final int defaultColor = getResources().getColor(R.color.colorPrimary);
-        int mutedDark = palette.getDarkMutedColor(defaultColor);
+
+        int mutedLight = palette.getLightMutedColor(defaultColor);
+        int vibrantLight = palette.getLightVibrantColor(mutedLight);
+        int mutedDark = palette.getDarkMutedColor(vibrantLight);
         int vibrantDark = palette.getDarkVibrantColor(mutedDark);
-        int mutedLight = palette.getLightMutedColor(vibrantDark);
-        int muted = palette.getMutedColor(mutedLight);
-        int vibrantLight = palette.getLightVibrantColor(muted);
-        return palette.getVibrantColor(vibrantLight);
+        int muted = palette.getMutedColor(vibrantDark);
+        return palette.getVibrantColor(muted);
     }
 
     //    TODO permissions don't work, you can press ok or no, and app will crash whatever you will do
@@ -401,35 +382,23 @@ public class PlaceDetailActivity extends AppCompatActivity {
         }
     }
 
-//    TODO TODO TODO
-    private class MyAsyncTask extends AsyncTask<String, Integer, Double> {
-        @Override
-        protected Double doInBackground(String... params) {
-            dBitmap = getBitmapFromURL(imageUrl);
-            return null;
-        }
 
-        protected void onPostExecute(Double result){
-        }
-
-        protected void onProgressUpdate(Integer... progress){
-        }
-    }
-
-
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+//    public static Bitmap getBitmapFromURL(String src) {
+//        try {
+//            URL url = new URL(src);
+//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//            connection.setDoInput(true);
+//            connection.connect();
+//            InputStream input = connection.getInputStream();
+//            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+//            return myBitmap;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 
 }
+
+
+

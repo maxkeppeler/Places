@@ -20,25 +20,20 @@ public class Place implements Parcelable {
         }
     };
 
-    private String country, state, city, religion,
+    private String position, religion,
             location, sight, description,
             imgPlaceUrl;
 
     public Place(String location,
                  String sight,
                  String description,
-                 String country,
-                 String state,
-                 String city,
+                 String position,
                  String religion,
                  String imgPlaceUrl) {
 
         this.location = location;
         this.sight = sight;
         this.description = description;
-        this.country = country;
-        this.state = state;
-        this.city = city;
         this.religion = religion;
         this.imgPlaceUrl = imgPlaceUrl;
 
@@ -54,9 +49,7 @@ public class Place implements Parcelable {
         dest.writeString(location);
         dest.writeString(sight);
         dest.writeString(description);
-        dest.writeString(country);
-        dest.writeString(state);
-        dest.writeString(city);
+        dest.writeString(position);
         dest.writeString(religion);
         dest.writeString(imgPlaceUrl);
     }
@@ -65,23 +58,13 @@ public class Place implements Parcelable {
         location = in.readString();
         sight = in.readString();
         description = in.readString();
-        country = in.readString();
-        state = in.readString();
-        city = in.readString();
+        position = in.readString();
         religion = in.readString();
         imgPlaceUrl = in.readString();
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public String getCity() {
-        return city;
+    public String getPosition() {
+        return position;
     }
 
     public String getReligion() {

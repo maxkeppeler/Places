@@ -194,9 +194,7 @@ public class DrawerPlaces extends Fragment {
                                         json.getString("location"),
                                         json.getString("sight"),
                                         json.getString("description"),
-                                        json.getString("country"),
-                                        json.getString("state"),
-                                        json.getString("city"),
+                                        json.getString("position"),
                                         json.getString("religion"),
                                         json.getString("url")
                                 )

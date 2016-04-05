@@ -10,9 +10,7 @@ public class PlaceList {
     public static void createPlacesList(ArrayList<String> locations,
                                         ArrayList<String> sights,
                                         ArrayList<String> descriptions,
-                                        ArrayList<String> country,
-                                        ArrayList<String> state,
-                                        ArrayList<String> city,
+                                        ArrayList<String> position,
                                         ArrayList<String> religion,
                                         ArrayList<String> urls
     ) {
@@ -24,9 +22,7 @@ public class PlaceList {
                         locations.get(i),
                         sights.get(i),
                         descriptions.get(i),
-                        country.get(i),
-                        state.get(i),
-                        city.get(i),
+                        position.get(i),
                         religion.get(i),
                         urls.get(i)
                 );

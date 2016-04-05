@@ -1,6 +1,7 @@
 package com.mk.placesdrawer.adapters;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -8,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
@@ -98,7 +100,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
         public final View view;
         public final ImageView image;
         public final TextView location, sight, desc;
-        public final TextView country, state, city, religion;
+        public final TextView position, religion;
         private MaterialRippleLayout ripple;
 
         PlacesViewHolder(View v) {
@@ -112,9 +114,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
             sight = (TextView) view.findViewById(R.id.sightThumb);
 
             desc = null;
-            country = null;
-            state = null;
-            city = null;
+            position = null;
             religion = null;
 
             ripple.setOnClickListener(this);
@@ -137,6 +137,8 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
             return true;
         }
     }
+
+
 
 
 }
