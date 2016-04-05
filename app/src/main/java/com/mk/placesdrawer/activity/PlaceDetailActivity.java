@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
@@ -54,8 +55,11 @@ import com.mk.placesdrawer.widgets.SquareImageView;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.concurrent.ExecutionException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -131,6 +135,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
             }
         }
 
+
         context = this;
 
         initActivityTransitions();
@@ -138,7 +143,15 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-//        TODO new Thread for dBitmap
+        //       TODO ASYNC Task instead of the new thread
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                getBitmapFromURL(imageUrl);
+            }
+        };
+
+        thread.start();
 
         Intent intent = getIntent();
         item = intent.getParcelableExtra("item");
@@ -218,6 +231,10 @@ public class PlaceDetailActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
         recyclerView.setHasFixedSize(true);
 
+    }
+
+    public void setdBitmap(Bitmap dBitmap) {
+        this.dBitmap = dBitmap;
     }
 
     @Override
@@ -383,20 +400,20 @@ public class PlaceDetailActivity extends AppCompatActivity {
     }
 
 
-//    public static Bitmap getBitmapFromURL(String src) {
-//        try {
-//            URL url = new URL(src);
-//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//            connection.setDoInput(true);
-//            connection.connect();
-//            InputStream input = connection.getInputStream();
-//            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-//            return myBitmap;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }
 
