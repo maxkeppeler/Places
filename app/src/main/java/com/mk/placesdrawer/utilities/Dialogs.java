@@ -124,28 +124,6 @@ public class Dialogs {
                 .show();
     }
 
-    public static void saveImageDialog(final Context context, final Bitmap bitmap, final String location) {
-
-        new MaterialDialog.Builder(context)
-                .title(R.string.saveImageTitle)
-                .items(R.array.saveImageContentArray)
-                .backgroundColor(context.getResources().getColor(R.color.colorPrimary))
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
-
-                        if (i == 0) saveImage(bitmap, context, location); // Image
-
-                    }
-                })
-                .show();
-    }
-
-    public static void savePageAsBitmap(Bitmap bitmap, Context context, String location) {
-
-//    TODO
-
-    }
 
     public static void saveImage(Bitmap bitmap, Context context, String location) {
 

@@ -2,6 +2,8 @@ package com.mk.placesdrawer.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
@@ -40,6 +42,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
@@ -47,7 +50,6 @@ import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.adapters.PlaceDetailAdapter;
 import com.mk.placesdrawer.models.Place;
 import com.mk.placesdrawer.models.PlaceDetail;
-import com.mk.placesdrawer.utilities.Dialogs;
 import com.mk.placesdrawer.utilities.PermissionUtil;
 import com.mk.placesdrawer.utilities.Utils;
 import com.mk.placesdrawer.widgets.SquareImageView;
@@ -69,16 +71,21 @@ public class PlaceDetailActivity extends AppCompatActivity {
     private static final int REQUEST_STORAGE = 0;
 
     private static String[] PERMISSION_STORAGE = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    String location, sight, desc, imageUrl,
-            position, religion;
+    String location, sight, desc, imageUrl, position, religion;
 
-
-    @Bind(R.id.fab) FloatingActionButton fab;
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.collapsingToolbar) CollapsingToolbarLayout collapsingToolbarLayout;
-    @Bind(R.id.placeDescTitle) TextView placeDescTitle;
-    @Bind(R.id.descDetailView) TextView placesDescText;
-    @Bind(R.id.placeInfoTitle) TextView placeInfoTitle;
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.collapsingToolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    @Bind(R.id.placeDescTitle)
+    TextView placeDescTitle;
+    @Bind(R.id.descDetailView)
+    TextView placesDescText;
+    @Bind(R.id.placeInfoTitle)
+    TextView placeInfoTitle;
+    @Bind(R.id.recyclerViewInfoDetails) RecyclerView recyclerView;
 
     private Typeface typeface;
     private ViewGroup layout;
@@ -105,11 +112,11 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
                     collapsingToolbarLayout.setContentScrimColor(generatedColor);
 
-                    if (generatedColor != R.color.colorPrimary) {
+                    if (generatedColor != R.color.colorPrimary)
                         collapsingToolbarLayout.setStatusBarScrimColor(generatedColor);
-                    } else {
+                    else
                         collapsingToolbarLayout.setStatusBarScrimColor(getResources().getColor(R.color.colorPrimaryDark));
-                    }
+
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         Window window = getWindow();
@@ -138,20 +145,11 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
         context = this;
 
+
         initActivityTransitions();
         setContentView(R.layout.drawer_places_detail);
 
         ButterKnife.bind(this);
-
-        //       TODO ASYNC Task instead of the new thread
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                getBitmapFromURL(imageUrl);
-            }
-        };
-
-        thread.start();
 
         Intent intent = getIntent();
         item = intent.getParcelableExtra("item");
@@ -164,8 +162,6 @@ public class PlaceDetailActivity extends AppCompatActivity {
         religion = item.getReligion();
 
         typeface = Utils.getTypeface(context, 1);
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewInfoDetails);
 
         if (sight.equals("City")) {
             PlaceDetail itemsData[] = {
@@ -233,10 +229,6 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
     }
 
-    public void setdBitmap(Bitmap dBitmap) {
-        this.dBitmap = dBitmap;
-    }
-
     @Override
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
         try {
@@ -278,6 +270,9 @@ public class PlaceDetailActivity extends AppCompatActivity {
         return true;
     }
 
+
+//    TODO TODO TODO TODO - Make a Async Task for the download and share action
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -292,8 +287,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
                     requestStoragePermissions();
 
                 } else {
-                    Bitmap saveImageBitmap = dBitmap;
-                    Dialogs.saveImageDialog(context, saveImageBitmap, location);
+                    saveImageDialog();
                 }
 
                 break;
@@ -314,7 +308,6 @@ public class PlaceDetailActivity extends AppCompatActivity {
             finish();
         }
     }
-
 
 
     public void share() {
@@ -346,9 +339,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
     }
 
     private int getAColor(Palette palette) {
-
         final int defaultColor = getResources().getColor(R.color.colorPrimary);
-
         int mutedLight = palette.getLightMutedColor(defaultColor);
         int vibrantLight = palette.getLightVibrantColor(mutedLight);
         int mutedDark = palette.getDarkMutedColor(vibrantLight);
@@ -400,22 +391,43 @@ public class PlaceDetailActivity extends AppCompatActivity {
     }
 
 
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public void saveImageDialog() {
+
+        new MaterialDialog.Builder(context)
+                .title(R.string.saveImageTitle)
+                .items(R.array.saveImageContentArray)
+                .backgroundColor(context.getResources().getColor(R.color.colorPrimary))
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
+
+                        if (i == 0) {
+
+                            ProgressDialog mProgressDialog;
+
+                            // instantiate it within the onCreate method
+                            mProgressDialog = new ProgressDialog(context);
+                            mProgressDialog.setMessage("A message");
+                            mProgressDialog.setIndeterminate(true);
+                            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                            mProgressDialog.setCancelable(true);
+
+                            // execute this when the downloader must be fired
+                            final ASyncTaskDownloadImage downloadTask = new ASyncTaskDownloadImage(context, location);
+                            downloadTask.execute(imageUrl);
+
+                            mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                @Override
+                                public void onCancel(DialogInterface dialog) {
+                                    downloadTask.cancel(true);
+                                }
+                            });
+
+                        }
+
+
+                    }
+                })
+                .show();
     }
-
 }
-
-
-
