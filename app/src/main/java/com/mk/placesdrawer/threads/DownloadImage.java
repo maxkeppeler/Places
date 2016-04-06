@@ -1,4 +1,4 @@
-package com.mk.placesdrawer.activity;
+package com.mk.placesdrawer.threads;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -14,15 +14,12 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * Created by max on 06.04.16.
- */
-public class ASyncTaskDownloadImage extends AsyncTask<String, Integer, String> {
+public class DownloadImage extends AsyncTask<String, Integer, String> {
 
     private Context context;
     private String location;
 
-    public ASyncTaskDownloadImage(Context context, String location) {
+    public DownloadImage(Context context, String location) {
         this.context = context;
         this.location = location;
     }
@@ -51,16 +48,14 @@ public class ASyncTaskDownloadImage extends AsyncTask<String, Integer, String> {
             // download the file
             input = connection.getInputStream();
 
-            String imageName = location + " .jpg";
+            String imageName = location + ".jpg";
             File path = new File(Environment.getExternalStorageDirectory().toString());
             File myDir = new File(path, context.getResources().getString(R.string.app_name));
 
             if (!myDir.exists()) myDir.mkdir();
             File file = new File(myDir, imageName);
-
             output = new FileOutputStream(file);
 
-//            TODO other variant to download images with full size
             byte data[] = new byte[4096];
             long total = 0;
             int count;

@@ -5,13 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-
-    <!--  PERMISSIONS FOR ANDROID M AND ABOVE -->
-    <!--<uses-permission-sdk-m android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
-    <!--<uses-permission-sdk-m android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
 
     <application
         android:name=".utilities.Base"
@@ -37,7 +32,6 @@
             android:theme="@style/DetailView"
             android:value=".activity.MainActivity">
             <intent-filter>
-                <!--<category android:name="android.intent.category.DEFAULT"/>-->
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="http" />
             </intent-filter>

@@ -5,10 +5,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
@@ -50,6 +48,8 @@ import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.adapters.PlaceDetailAdapter;
 import com.mk.placesdrawer.models.Place;
 import com.mk.placesdrawer.models.PlaceDetail;
+import com.mk.placesdrawer.threads.DownloadImage;
+import com.mk.placesdrawer.threads.SharePlace;
 import com.mk.placesdrawer.utilities.PermissionUtil;
 import com.mk.placesdrawer.utilities.Utils;
 import com.mk.placesdrawer.widgets.SquareImageView;
@@ -57,11 +57,7 @@ import com.mk.placesdrawer.widgets.SquareImageView;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -73,18 +69,12 @@ public class PlaceDetailActivity extends AppCompatActivity {
     private static String[] PERMISSION_STORAGE = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
     String location, sight, desc, imageUrl, position, religion;
 
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.collapsingToolbar)
-    CollapsingToolbarLayout collapsingToolbarLayout;
-    @Bind(R.id.placeDescTitle)
-    TextView placeDescTitle;
-    @Bind(R.id.descDetailView)
-    TextView placesDescText;
-    @Bind(R.id.placeInfoTitle)
-    TextView placeInfoTitle;
+    @Bind(R.id.fab) FloatingActionButton fab;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.collapsingToolbar) CollapsingToolbarLayout collapsingToolbarLayout;
+    @Bind(R.id.placeDescTitle) TextView placeDescTitle;
+    @Bind(R.id.descDetailView) TextView placesDescText;
+    @Bind(R.id.placeInfoTitle) TextView placeInfoTitle;
     @Bind(R.id.recyclerViewInfoDetails) RecyclerView recyclerView;
 
     private Typeface typeface;
@@ -200,6 +190,8 @@ public class PlaceDetailActivity extends AppCompatActivity {
         collapsingToolbarLayout.setTitle(location);
         collapsingToolbarLayout.setCollapsedTitleTypeface(typeface);
         collapsingToolbarLayout.setExpandedTitleTypeface(typeface);
+        collapsingToolbarLayout.setSelected(true);
+        toolbar.setSelected(true);
 
         final SquareImageView image = (SquareImageView) findViewById(R.id.image);
 
@@ -271,7 +263,9 @@ public class PlaceDetailActivity extends AppCompatActivity {
     }
 
 
-//    TODO TODO TODO TODO - Make a Async Task for the download and share action
+//    TODO - Make a Async Task for share action
+//    TODO - ANDROID M PERMISSIONS
+//    Read and write external storage
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -280,20 +274,13 @@ public class PlaceDetailActivity extends AppCompatActivity {
                 closeViewer();
                 break;
             case R.id.download:
-
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    Log.i(TAG, "Storage permissions have NOT been granted. Requesting permissions.");
-                    requestStoragePermissions();
-
-                } else {
-                    saveImageDialog();
-                }
-
+                    downloadDialog();
                 break;
+
             case R.id.share:
                 share();
                 break;
+
             case R.id.launch:
                 Utils.openLinkInChromeCustomTab(context, "http://www.google.com/search?q=" + location, generatedColor);
                 break;
@@ -309,33 +296,49 @@ public class PlaceDetailActivity extends AppCompatActivity {
         }
     }
 
-
     public void share() {
-//        TODO Fix
-        OutputStream fOut = null;
-        String imageName = location + " shareImage.jpeg";
-        File path = new File(Environment.getExternalStorageDirectory().toString());
-        File myDir = new File(path, context.getResources().getString(R.string.app_name));
 
-        if (!myDir.exists()) myDir.mkdir();
-        File file = new File(myDir, imageName);
-        try {
-            fOut = new FileOutputStream(file);
-            if (!dBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut)) {
+        ProgressDialog mProgressDialog;
+        mProgressDialog = new ProgressDialog(context);
+        mProgressDialog.setMessage("A message");
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        mProgressDialog.setCancelable(true);
+
+        final SharePlace sharePlace = new SharePlace(context, location, desc);
+        sharePlace.execute(imageUrl);
+
+        mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                sharePlace.cancel(true);
             }
+        });
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        Uri uri = Uri.fromFile(file);
-
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("image/jpeg");
-        share.putExtra(Intent.EXTRA_SUBJECT, "Places - " + location);
-        share.putExtra(Intent.EXTRA_TEXT, desc);
-        share.putExtra(Intent.EXTRA_STREAM, uri);
-        startActivity(Intent.createChooser(share, "Share Place"));
+//        OutputStream fOut = null;
+//        String imageName = location + " shareImage.jpeg";
+//        File path = new File(Environment.getExternalStorageDirectory().toString());
+//        File myDir = new File(path, context.getResources().getString(R.string.app_name));
+//
+//        if (!myDir.exists()) myDir.mkdir();
+//        File file = new File(myDir, imageName);
+//        try {
+//            fOut = new FileOutputStream(file);
+//            if (!dBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut)) {
+//            }
+//
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//
+//        Uri uri = Uri.fromFile(file);
+//
+//        Intent share = new Intent(Intent.ACTION_SEND);
+//        share.setType("image/jpeg");
+//        share.putExtra(Intent.EXTRA_SUBJECT, "Places - " + location);
+//        share.putExtra(Intent.EXTRA_TEXT, desc);
+//        share.putExtra(Intent.EXTRA_STREAM, uri);
+//        startActivity(Intent.createChooser(share, "Share Place"));
     }
 
     private int getAColor(Palette palette) {
@@ -391,7 +394,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
     }
 
 
-    public void saveImageDialog() {
+    public void downloadDialog() {
 
         new MaterialDialog.Builder(context)
                 .title(R.string.saveImageTitle)
@@ -405,7 +408,6 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
                             ProgressDialog mProgressDialog;
 
-                            // instantiate it within the onCreate method
                             mProgressDialog = new ProgressDialog(context);
                             mProgressDialog.setMessage("A message");
                             mProgressDialog.setIndeterminate(true);
@@ -413,7 +415,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
                             mProgressDialog.setCancelable(true);
 
                             // execute this when the downloader must be fired
-                            final ASyncTaskDownloadImage downloadTask = new ASyncTaskDownloadImage(context, location);
+                            final DownloadImage downloadTask = new DownloadImage(context, location);
                             downloadTask.execute(imageUrl);
 
                             mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -422,6 +424,11 @@ public class PlaceDetailActivity extends AppCompatActivity {
                                     downloadTask.cancel(true);
                                 }
                             });
+
+                        }
+
+                        if (i == 1) {
+
 
                         }
 
