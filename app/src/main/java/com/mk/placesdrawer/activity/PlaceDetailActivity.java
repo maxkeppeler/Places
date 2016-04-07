@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -13,15 +15,14 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
@@ -50,23 +51,15 @@ import com.mk.placesdrawer.models.Place;
 import com.mk.placesdrawer.models.PlaceDetail;
 import com.mk.placesdrawer.threads.DownloadImage;
 import com.mk.placesdrawer.threads.SharePlace;
-import com.mk.placesdrawer.utilities.PermissionUtil;
 import com.mk.placesdrawer.utilities.Utils;
 import com.mk.placesdrawer.widgets.SquareImageView;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class PlaceDetailActivity extends AppCompatActivity {
 
-    private static final int REQUEST_STORAGE = 0;
-
-    private static String[] PERMISSION_STORAGE = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
     String location, sight, desc, imageUrl, position, religion;
 
     @Bind(R.id.fab) FloatingActionButton fab;
@@ -77,15 +70,11 @@ public class PlaceDetailActivity extends AppCompatActivity {
     @Bind(R.id.placeInfoTitle) TextView placeInfoTitle;
     @Bind(R.id.recyclerViewInfoDetails) RecyclerView recyclerView;
 
-    private Typeface typeface;
     private ViewGroup layout;
     private Activity context;
-    private Place item;
     private static int generatedColor;
 
-    private Bitmap dBitmap;
 
-    public static final String TAG = "PlaceDetailActivity";
 
     public Palette.PaletteAsyncListener paletteAsyncListener =
             new Palette.PaletteAsyncListener() {
@@ -142,7 +131,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        item = intent.getParcelableExtra("item");
+        Place item = intent.getParcelableExtra("item");
 
         location = item.getLocation();
         sight = item.getSight();
@@ -151,7 +140,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         position = item.getPosition();
         religion = item.getReligion();
 
-        typeface = Utils.getTypeface(context, 1);
+        Typeface typeface = Utils.getTypeface(context, 1);
 
         if (sight.equals("City")) {
             PlaceDetail itemsData[] = {
@@ -262,19 +251,16 @@ public class PlaceDetailActivity extends AppCompatActivity {
         return true;
     }
 
-
-//    TODO - Make a Async Task for share action
-//    TODO - ANDROID M PERMISSIONS
-//    Read and write external storage
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 closeViewer();
                 break;
+
             case R.id.download:
-                    downloadDialog();
+
+                downloadDialog();
                 break;
 
             case R.id.share:
@@ -315,30 +301,6 @@ public class PlaceDetailActivity extends AppCompatActivity {
             }
         });
 
-//        OutputStream fOut = null;
-//        String imageName = location + " shareImage.jpeg";
-//        File path = new File(Environment.getExternalStorageDirectory().toString());
-//        File myDir = new File(path, context.getResources().getString(R.string.app_name));
-//
-//        if (!myDir.exists()) myDir.mkdir();
-//        File file = new File(myDir, imageName);
-//        try {
-//            fOut = new FileOutputStream(file);
-//            if (!dBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut)) {
-//            }
-//
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//
-//        Uri uri = Uri.fromFile(file);
-//
-//        Intent share = new Intent(Intent.ACTION_SEND);
-//        share.setType("image/jpeg");
-//        share.putExtra(Intent.EXTRA_SUBJECT, "Places - " + location);
-//        share.putExtra(Intent.EXTRA_TEXT, desc);
-//        share.putExtra(Intent.EXTRA_STREAM, uri);
-//        startActivity(Intent.createChooser(share, "Share Place"));
     }
 
     private int getAColor(Palette palette) {
@@ -350,49 +312,6 @@ public class PlaceDetailActivity extends AppCompatActivity {
         int muted = palette.getMutedColor(vibrantDark);
         return palette.getVibrantColor(muted);
     }
-
-    //    TODO permissions don't work, you can press ok or no, and app will crash whatever you will do
-    private void requestStoragePermissions() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-            Snackbar.make(layout, R.string.permission_contacts_rationale,
-                    Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.ok, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            ActivityCompat
-                                    .requestPermissions(context, PERMISSION_STORAGE, REQUEST_STORAGE);
-                        }
-                    })
-                    .show();
-        } else {
-            ActivityCompat.requestPermissions(this, PERMISSION_STORAGE, REQUEST_STORAGE);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-
-        if (requestCode == REQUEST_STORAGE) {
-            Log.i(TAG, "Received response for contact permissions request.");
-            if (PermissionUtil.verifyPermissions(grantResults)) {
-                Snackbar.make(layout, R.string.permision_available_contacts,
-                        Snackbar.LENGTH_SHORT)
-                        .show();
-            } else {
-                Log.i(TAG, "Contacts permissions were NOT granted.");
-                Snackbar.make(layout, R.string.permissions_not_granted,
-                        Snackbar.LENGTH_SHORT)
-                        .show();
-            }
-
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
-
 
     public void downloadDialog() {
 

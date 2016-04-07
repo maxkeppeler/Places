@@ -55,21 +55,13 @@ import com.mk.placesdrawer.R;
  */
 public class Utils extends Activity {
 
-    public static void openLink(Context context, String link) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-    }
-
     public static Typeface getTypeface(Context context, int index) {
         Typeface typeface = null;
         if (index == 1) typeface = Typeface.createFromAsset(context.getAssets(), "fonts/BreeSerif-Regular.ttf");
-
-
         return typeface;
     }
-    public static void openLinkInChromeCustomTab(Context context, String link, int color) {
 
+    public static void openLinkInChromeCustomTab(Context context, String link, int color) {
         final CustomTabsClient[] mClient = new CustomTabsClient[1];
         final CustomTabsSession[] mCustomTabsSession = new CustomTabsSession[1];
 
@@ -99,10 +91,6 @@ public class Utils extends Activity {
 
     public static String getStringFromResources(Context context, int id) {
         return context.getResources().getString(id);
-    }
-
-    public static void showLog(String s) {
-        Log.d("Places ", s);
     }
 
     public static boolean hasNetwork(Context context) {

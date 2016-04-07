@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -217,9 +218,10 @@ public class DrawerPlaces extends Fragment {
         @Override
         protected void onPostExecute(Void args) {
             endTime = System.currentTimeMillis();
-            Utils.showLog("Walls Task completed in: " +
-                    String.valueOf((endTime - startTime) / 1000) + " secs.");
 
+            Log.d("Places ", "Walls Task completed in: " +
+                            String.valueOf((endTime - startTime) / 1000) + " secs."
+            );
 
             if (layout != null) {
                 setupLayout(true);

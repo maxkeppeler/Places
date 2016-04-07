@@ -103,9 +103,9 @@
     <string name="send_to" />
     <string name="walls_save_location" />
     <string name="ok" />
-    <string name="permission_contacts_rationale">Contacts permissions are needed to demonstrate access.</string>
-    <string name="permision_available_contacts">Contacts permissions are needed to demonstrate access.</string>
-    <string name="permissions_not_granted">Contacts permissions are needed to demonstrate access.</string>
+    <string name="permission_storage_rationale">Storage permissions are needed to demonstrate access.</string>
+    <string name="permision_available_storage">Storage permissions are needed to demonstrate access.</string>
+    <string name="permissions_not_granted">Storage permissions are needed to demonstrate access.</string>
 
 
 </resources>

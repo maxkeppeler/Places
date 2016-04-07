@@ -52,7 +52,7 @@ public class SharePlace extends AsyncTask<String, Integer, String> {
             int fileLength = connection.getContentLength();
             input = connection.getInputStream();
 
-            String imageName = location + "share.jpg";
+            String imageName = location + " /share.jpg";
             File path = new File(Environment.getExternalStorageDirectory().toString());
             File myDir = new File(path, context.getResources().getString(R.string.app_name));
 

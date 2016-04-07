@@ -35,6 +35,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.fragment.DrawerAbout;
 import com.mk.placesdrawer.fragment.DrawerPlaces;
+import com.mk.placesdrawer.fragment.DrawerSubmit;
 import com.mk.placesdrawer.utilities.Animation;
 import com.mk.placesdrawer.utilities.Dialogs;
 
@@ -147,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                                     break;
 
                                 case 3:
-                                    fragment = new DrawerAbout();
+                                    fragment = new DrawerSubmit();
                                     break;
 
                                 case 4:

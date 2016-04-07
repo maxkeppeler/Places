@@ -48,7 +48,7 @@ public class DownloadImage extends AsyncTask<String, Integer, String> {
             // download the file
             input = connection.getInputStream();
 
-            String imageName = location + ".jpg";
+            String imageName = location + "/image.jpg";
             File path = new File(Environment.getExternalStorageDirectory().toString());
             File myDir = new File(path, context.getResources().getString(R.string.app_name));
 

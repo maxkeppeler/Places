@@ -124,22 +124,4 @@ public class Dialogs {
                 .show();
     }
 
-
-    public static void saveImage(Bitmap bitmap, Context context, String location) {
-
-        OutputStream fOut = null;
-        String imageName = location + " .jpg";
-        File path = new File(Environment.getExternalStorageDirectory().toString());
-        File myDir = new File(path, context.getResources().getString(R.string.app_name));
-
-        if (!myDir.exists()) myDir.mkdir();
-        File file = new File(myDir, imageName);
-        try {
-            fOut = new FileOutputStream(file);                                       Log.d("1", "Download: Image was saved.");
-            if (!bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut)) {          Log.d("2", "Download: Image was NOT saved: " + path + imageName);
-            }
-        } catch (FileNotFoundException e) {                                          Log.d("3", "Download: Image: Exception");
-            e.printStackTrace();
-        }
-    }
 }

@@ -5,7 +5,7 @@
 
     <color name="colorPrimary">#212121</color>
     <color name="colorPrimaryDark">#1e1e1e</color>
-    <color name="colorAccent">@color/md_cyan_500</color>
+    <color name="colorAccent">@color/md_light_green_500</color>
 
     <color name="colorStatusBarOverlay">#1e212121</color>
     <color name="colorStatusBar">@color/colorPrimaryDark</color>
