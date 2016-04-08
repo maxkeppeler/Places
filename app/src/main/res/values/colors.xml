@@ -5,15 +5,16 @@
 
     <!--<color name="colorPrimary">#212121</color>-->
     <!--<color name="colorPrimaryDark">#1e1e1e</color>    -->
-    <color name="colorPrimary">#159096</color>
-    <color name="colorPrimaryLight">#1aaeb6</color>
-    <color name="colorPrimaryDark">#11767b</color>
+    <color name="colorPrimary">@color/md_indigo_500</color>
+    <color name="colorPrimaryLight">@color/md_indigo_A700</color>
+    <color name="colorPrimaryDark">@color/md_indigo_700</color>
     <color name="colorAccent">@color/colorPrimary</color>
 
     <!-- Statusbar & Navigation Bar -->
     <color name="colorStatusBarOverlay">#3c212121</color>
     <color name="colorStatusBar">@color/colorPrimaryDark</color>
-    <color name="navigationBar">@color/colorPrimary</color>
+    <color name="navigationBar">#000</color>
+
 
     <!-- Other colors -->
     <color name="fabColor">@color/colorPrimary</color>
@@ -25,7 +26,7 @@
 
     <color name="appBackgroundColor">#212121</color>
 
-
+    <color name="dialogs">#212121</color>
 
     <!-- ////////////  TEXT COLORS   \\\\\\\\\\\\\ -->
 
@@ -68,7 +69,7 @@
     <color name="material_drawer_accent">@color/colorAccent</color>
 
     <color name="material_drawer_selected">#202020</color>
-    <color name="material_drawer_selected_text">@color/colorPrimaryLight</color>
+    <color name="material_drawer_selected_text">#fff</color>
     <color name="material_drawer_header_selection_text">#FFF</color>
     <color name="default_system_selection_background">#fff</color>
     <color name="material_drawer_background">#303030</color>

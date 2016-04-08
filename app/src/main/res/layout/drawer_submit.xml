@@ -193,7 +193,7 @@
         </com.balysv.materialripple.MaterialRippleLayout>
 
             <Button
-                android:id="@+id/btn_signup"
+                android:id="@+id/btnSend"
                 android:layout_below="@+id/ripple4"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

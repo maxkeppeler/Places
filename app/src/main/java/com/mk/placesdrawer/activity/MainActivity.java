@@ -7,15 +7,19 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +31,9 @@ import android.widget.ImageView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -35,6 +42,7 @@ import com.mikepenz.materialdrawer.holder.BadgeStyle;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.fragment.DrawerAbout;
 import com.mk.placesdrawer.fragment.DrawerPlaces;
@@ -57,6 +65,12 @@ public class MainActivity extends AppCompatActivity {
     private String[] urlHeaderArray;
     private Window window;
     private Toolbar toolbar;
+    private AccountHeader header;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,10 +118,11 @@ public class MainActivity extends AppCompatActivity {
         final PrimaryDrawerItem itemSettings = new PrimaryDrawerItem()
                 .withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(6);
 
-        final AccountHeader header;
 
-        header = new AccountHeaderBuilder().withActivity(this).withSelectionSecondLine("by Maximilian Keppeler").build();
-        changeHeader(header);
+        header = new AccountHeaderBuilder().withActivity(this).withSelectionFirstLine("Places").withSelectionSecondLine("by Maximilian Keppeler")
+                .withHeightDp(365).build();
+
+        changeHeader();
 
         result = new DrawerBuilder().withAccountHeader(header).withActivity(this).withToolbar(toolbar).withSelectedItem(1)
                 .addDrawerItems(
@@ -177,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
                             toolbar.setTitle(toolbarText(currentDrawerItem));
 
                             if (intent != null) {
-                            MainActivity.this.startActivity(intent);
+                                MainActivity.this.startActivity(intent);
                             }
 
 
@@ -206,17 +221,27 @@ public class MainActivity extends AppCompatActivity {
 //        result.updateBadge(1, new StringHolder("    " + String.valueOf(DrawerPlaces.getJsonArraySize()) + "    "));
 //            result.updateBadge(1, new StringHolder("    " + size + "    "));
 //        result.updateBadge(2, new StringHolder("    " + "35" + "    "));
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     public String toolbarText(int fragmentPosition) {
         switch (fragmentPosition) {
-            case 1: return drawerPlaces;
-            case 2: return drawerFavorite;
-            case 3: return drawerSubmit;
-            case 4: return drawerAbout;
-            case 5: return drawerFeedback;
-            case 6: return drawerSettings;
-            default: return drawerWrong;
+            case 1:
+                return drawerPlaces;
+            case 2:
+                return drawerFavorite;
+            case 3:
+                return drawerSubmit;
+            case 4:
+                return drawerAbout;
+            case 5:
+                return drawerFeedback;
+            case 6:
+                return drawerSettings;
+            default:
+                return drawerWrong;
         }
     }
 
@@ -254,16 +279,22 @@ public class MainActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
         int id = item.getItemId();
         switch (id) {
-            case R.id.filter:       Dialogs.filterDialog(this);     break;
-            case R.id.column:       Dialogs.columnsDialog(this);    break;
-            case R.id.changelog:    Dialogs.showChangelog(this);    break;
+            case R.id.filter:
+                Dialogs.filterDialog(this);
+                break;
+            case R.id.column:
+                Dialogs.columnsDialog(this);
+                break;
+            case R.id.changelog:
+                Dialogs.showChangelog(this);
+                break;
         }
         return true;
     }
 
-    public AccountHeader changeHeader(AccountHeader headerResult) {
+    public AccountHeader changeHeader() {
 
-        final ImageView cover = headerResult.getHeaderBackgroundView();
+        final ImageView cover = header.getHeaderBackgroundView();
 
         Random r = new Random();
         String rnb = urlHeaderArray[r.nextInt(urlHeaderArray.length)];
@@ -271,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
         Glide.with(context)
                 .load(rnb)
                 .asBitmap()
-                .override(912, 688)
+//                .override(912, 688)
                 .centerCrop()
                 .into(new BitmapImageViewTarget(cover) {
                     @Override
@@ -287,7 +318,7 @@ public class MainActivity extends AppCompatActivity {
             Animation.zoomInAndOut(context, cover);
         }
 
-        return headerResult;
+        return header;
     }
 
     public interface PlacesListInterface {

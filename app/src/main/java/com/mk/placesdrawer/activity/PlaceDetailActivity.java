@@ -318,7 +318,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         new MaterialDialog.Builder(context)
                 .title(R.string.saveImageTitle)
                 .items(R.array.saveImageContentArray)
-                .backgroundColor(context.getResources().getColor(R.color.colorPrimary))
+                .backgroundColor(context.getResources().getColor(R.color.dialogs))
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {

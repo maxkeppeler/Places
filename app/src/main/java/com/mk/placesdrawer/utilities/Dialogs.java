@@ -30,6 +30,7 @@ public class Dialogs {
     public static void showChangelog(final Context context) {
 
         new MaterialDialog.Builder(context)
+                .backgroundColor(context.getResources().getColor(R.color.dialogs))
                 .title(R.string.changelogTitle)
                 .content(R.string.changelogContent)
                 .positiveText(R.string.changelogPositive)
@@ -61,7 +62,7 @@ public class Dialogs {
         new MaterialDialog.Builder(context)
                 .title(R.string.filterTitle)
                 .items(R.array.filterContentArray)
-                .backgroundColor(context.getResources().getColor(R.color.colorPrimary))
+                .backgroundColor(context.getResources().getColor(R.color.dialogs))
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
@@ -80,7 +81,7 @@ public class Dialogs {
         new MaterialDialog.Builder(context)
                 .title(R.string.sightTitle)
                 .items(R.array.sightContentArray)
-                .backgroundColor(context.getResources().getColor(R.color.colorPrimary))
+                .backgroundColor(context.getResources().getColor(R.color.dialogs))
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
@@ -97,7 +98,7 @@ public class Dialogs {
         new MaterialDialog.Builder(context)
                 .title(R.string.filterTitle)
                 .items(R.array.filterContentArray)
-                .backgroundColor(context.getResources().getColor(R.color.colorPrimary))
+                .backgroundColor(context.getResources().getColor(R.color.dialogs))
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
@@ -114,7 +115,7 @@ public class Dialogs {
         new MaterialDialog.Builder(context)
                 .title(R.string.columnsTitle)
                 .items(R.array.columnsArray)
-                .backgroundColor(context.getResources().getColor(R.color.colorPrimary))
+                .backgroundColor(context.getResources().getColor(R.color.dialogs))
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
