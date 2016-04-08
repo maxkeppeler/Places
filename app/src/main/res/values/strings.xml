@@ -93,9 +93,13 @@
     <string name="json_file_url">https://drive.google.com/uc?id=0B6ky9fzTGl9XNFBhTTlxU2hhQmM</string>
     <string name="title_activity_detailed_places">Places Viewer</string>
 
+    <!-- Submit -->
+    <string name="drawer_submit_info">A beautiful place is missing? Submit it. I will look after it if I can add it.</string>
+
     <!-- About -->
     <string name="developer">Maximilian Keppeler</string>
     <string name="developer_desc">Maximilian Keppeler</string>
+
 
     <!-- Other App Strings -->
     <string name="app_name">Places</string>

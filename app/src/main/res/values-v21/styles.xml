@@ -1,5 +1,6 @@
 <resources>>
 
+
     <style name="ToolbarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@android:color/transparent</item>
 

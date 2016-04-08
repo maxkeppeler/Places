@@ -1,7 +1,6 @@
 <resources xmlns:http="http://schemas.android.com/tools">
 
     <style name="CustomTheme" parent="MaterialDrawerTheme">
-
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
