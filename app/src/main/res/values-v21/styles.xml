@@ -3,10 +3,8 @@
 
     <style name="ToolbarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@android:color/transparent</item>
-
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
         <item name="android:colorBackground">@color/backgroundColor</item>
         <item name="android:color">@color/backgroundColor</item>
 

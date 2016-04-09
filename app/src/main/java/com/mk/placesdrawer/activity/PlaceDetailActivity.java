@@ -1,12 +1,9 @@
 package com.mk.placesdrawer.activity;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -17,18 +14,15 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.transition.Explode;
 import android.transition.Slide;
 import android.util.Log;
 import android.view.Menu;
@@ -72,8 +66,9 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
     private ViewGroup layout;
     private Activity context;
-    private static int generatedColor;
+    private static int color;
 
+    Window window;
 
 
     public Palette.PaletteAsyncListener paletteAsyncListener =
@@ -81,25 +76,25 @@ public class PlaceDetailActivity extends AppCompatActivity {
                 @Override
                 public void onGenerated(Palette palette) {
                     if (palette == null) return;
-                    generatedColor = getAColor(palette);
+                    color = getAColor(palette);
 
-                    fab.setRippleColor(generatedColor);
-                    fab.setBackgroundTintList(ColorStateList.valueOf(generatedColor));
+                    fab.setRippleColor(color);
+                    fab.setBackgroundTintList(ColorStateList.valueOf(color));
                     fab.setVisibility(View.VISIBLE);
                     Animation animation = AnimationUtils.loadAnimation(context, R.anim.scale_up);
                     fab.startAnimation(animation);
 
-                    collapsingToolbarLayout.setContentScrimColor(generatedColor);
+                    collapsingToolbarLayout.setContentScrimColor(color);
 
-                    if (generatedColor != R.color.colorPrimary)
-                        collapsingToolbarLayout.setStatusBarScrimColor(generatedColor);
+                    if (color != R.color.colorPrimary)
+                        collapsingToolbarLayout.setStatusBarScrimColor(color);
                     else
                         collapsingToolbarLayout.setStatusBarScrimColor(getResources().getColor(R.color.colorPrimaryDark));
 
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        Window window = getWindow();
-                        window.setNavigationBarColor(generatedColor);
+                        window = getWindow();
+                        window.setNavigationBarColor(color);
                     }
                 }
             };
@@ -109,10 +104,14 @@ public class PlaceDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = this.getWindow();
+            window = this.getWindow();
             window.setNavigationBarColor(getResources().getColor(R.color.navigationBar));
             window.setStatusBarColor(getResources().getColor(R.color.colorStatusBarOverlay));
+
+//            getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+//            getWindow().setEnterTransition(new Slide());
         }
+
 
         if (layout != null) {
             ViewGroup parent = (ViewGroup) layout.getParent();
@@ -268,7 +267,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
                 break;
 
             case R.id.launch:
-                Utils.openLinkInChromeCustomTab(context, "http://www.google.com/search?q=" + location, generatedColor);
+                Utils.openLinkInChromeCustomTab(context, "http://www.google.com/search?q=" + location, color);
                 break;
         }
         return true;

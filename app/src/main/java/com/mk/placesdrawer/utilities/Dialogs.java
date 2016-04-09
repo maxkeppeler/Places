@@ -3,13 +3,13 @@ package com.mk.placesdrawer.utilities;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.net.Uri;
-import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.util.Log;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.SpannedString;
 import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -17,22 +17,18 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.fragment.DrawerPlaces;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-
 /**
  * Created by Max on 30.03.16.
  */
 public class Dialogs {
 
+
+
     public static void showChangelog(final Context context) {
 
         new MaterialDialog.Builder(context)
-                .backgroundColor(context.getResources().getColor(R.color.dialogs))
                 .title(R.string.changelogTitle)
-                .content(R.string.changelogContent)
+                .content(Html.fromHtml(context.getResources().getString(R.string.changelogContent)))
                 .positiveText(R.string.changelogPositive)
                 .negativeText(R.string.changelogNegative)
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -55,7 +51,11 @@ public class Dialogs {
                 })
                 .backgroundColor(context.getResources().getColor(R.color.colorPrimary))
                 .show();
+
+
     }
+
+
 
     public static void filterDialog(final Context context) {
 

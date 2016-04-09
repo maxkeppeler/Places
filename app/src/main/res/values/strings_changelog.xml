@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+
+    <!-- Changelog Dialog -->
+    <string name="changelogTitle">Changelog</string>
+
+    <!--
+
+         Red: #db4437
+         Green: #4CAF50
+         Deep Purple: #673AB7
+         Blue: #2196F3
+         Blue Grey: #607D8B
+
+    -->
+
+    <string name="changelogContent" > <![CDATA[
+
+
+        <strong>v0.1 Beta</strong>
+        <br />
+        <br />  <font color="#4CAF50">Features added</font>
+        <br />    • Fixed many issues
+        <br />    • Fixed changelog
+        <br />
+        <br />  <font color="#2196F3">Improvements</font>
+        <br />    • Fixed many issues
+        <br />    • Fixed changelog
+        <br />
+        <br />  <font color="#673AB7">Misc</font>
+        <br />    • Fixed many issues
+        <br />    • Fixed changelog
+
+<br />
+<br />
+<br />
+
+        <strong>v0.1 Beta</strong>
+        <br />
+        <br />  <font color="#4CAF50">Features added</font>
+        <br />    • Fixed many issues
+        <br />    • Fixed changelog
+        <br />
+        <br />  <font color="#2196F3">Improvements</font>
+        <br />    • Fixed many issues
+        <br />    • Fixed changelog
+        <br />
+        <br />  <font color="#673AB7">Misc</font>
+        <br />    • Fixed many issues
+        <br />    • Fixed changelog
+
+
+  ]]> </string>
+
+    <string name="changelogPositive">Ok</string>
+    <string name="changelogNegative">Leave a rating</string>
+
+</resources>

@@ -6,10 +6,11 @@
         android:duration="200"
         android:fromXScale="0.0"
         android:fromYScale="0.0"
-        android:interpolator="@android:anim/accelerate_decelerate_interpolator"
+        android:interpolator="@android:anim/accelerate_interpolator"
         android:pivotX="50%"
         android:pivotY="50%"
         android:startOffset="500"
         android:toXScale="1.0"
         android:toYScale="1.0" />
+
 </set>

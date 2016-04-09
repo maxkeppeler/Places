@@ -14,13 +14,14 @@
 
     <!-- Header Images (URLs) -->
     <string-array name="headerUrl">
-        <item>http://bit.ly/1R5Skb4</item>
-        <item>http://bit.ly/1R7D0cG</item>
-        <item>http://bit.ly/22pFyvf</item>
-        <item>http://bit.ly/1R5WejZ</item>
-        <item>http://bit.ly/1RtpTQ2</item>
-        <item>http://bit.ly/21ARq7O</item>
-        <item>http://bit.ly/1RtpYmN</item>
+        <item>http://i.huffpost.com/gen/2344590/original.jpg</item>
+        <item>http://amazingplanetnews.com/wp-content/uploads/2014/03/amazing-place-cinque-terre-italy.jpg</item>
+        <item>http://bit.ly/22imQ36</item>
+        <item>http://bit.ly/1MkEy4n</item>
+        <item>http://bit.ly/22inspy</item>
+        <item>http://bit.ly/1SVhloC</item>
+        <item>http://bit.ly/1SkeYsv</item>
+        <item>http://bit.ly/1S7UU2x</item>
     </string-array>
 
 
@@ -40,18 +41,6 @@
 
 
     <!-- ////////////   DIALOGS   \\\\\\\\\\\\\ -->
-
-    <!-- Changelog Dialog -->
-    <string name="changelogTitle">Changelog</string>
-    <string name="changelogContent">
-        <![CDATA[
-        v0.8 Beta
-        \n • Fixed many issues
-        \n • Fixed changelog
-        ]]></string>
-
-    <string name="changelogPositive">Excellent</string>
-    <string name="changelogNegative">Rate</string>
 
     <!-- Filter Dialog -->
     <string name="filterTitle">Filter by</string>

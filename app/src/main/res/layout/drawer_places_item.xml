@@ -19,6 +19,7 @@
             android:id="@+id/imageThumb"
             android:layout_width="match_parent"
             android:layout_height="310dp"
+            android:transitionName="image"
             android:background="@color/appBackgroundColor"
             android:scaleType="centerCrop" />
 

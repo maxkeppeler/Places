@@ -3,10 +3,13 @@ package com.mk.placesdrawer.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileOutputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -38,8 +42,7 @@ import java.util.TimerTask;
 
 public class DrawerPlaces extends Fragment {
 
-    private static int columns = 1, direction = 1;
-    private static boolean reversed = false;
+    private static int columns = 1;
     public static PlaceAdapter mAdapter;
     private static ViewGroup layout;
     private static RecyclerView mRecyclerView;
@@ -59,6 +62,9 @@ public class DrawerPlaces extends Fragment {
                                 public void onClick(PlaceAdapter.PlacesViewHolder view,
                                                     int position, boolean longClick) {
 
+
+
+
                                     if (longClick) {
                                         Toast.makeText(context, "Long Click", Toast.LENGTH_SHORT).show();
                                     } else {
@@ -66,7 +72,6 @@ public class DrawerPlaces extends Fragment {
                                         Toast.makeText(context, "Short Click", Toast.LENGTH_SHORT).show();
                                         final Intent intent = new Intent(context, PlaceDetailActivity.class);
                                         intent.putExtra("item", PlaceList.getPlacesList().get(position));
-
                                         context.startActivity(intent);
                                     }
                                 }
@@ -131,7 +136,7 @@ public class DrawerPlaces extends Fragment {
         }
 
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.placecRecyclerView);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(context, columns, direction, reversed));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(context, columns, 1, false));
         mRecyclerView.setHasFixedSize(true);
 
         if (mRecyclerView.getVisibility() != View.VISIBLE) {
@@ -141,8 +146,6 @@ public class DrawerPlaces extends Fragment {
         mRecyclerView.setVisibility(View.GONE);
 
         setupLayout(false);
-
-
 
         return layout;
     }
@@ -235,7 +238,7 @@ public class DrawerPlaces extends Fragment {
 
     public static void changeColumns(int i) {
         columns = i;
-        mRecyclerView.setLayoutManager(new GridLayoutManager(context, columns, direction, reversed));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(context, columns, 1, false));
     }
 
 }

@@ -53,9 +53,6 @@ public class DrawerSubmit extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         context = getActivity();
-
-
-
     }
 
     @Override
