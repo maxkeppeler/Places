@@ -1,8 +1,11 @@
 package com.mk.placesdrawer.models;
 
+import android.text.Spanned;
+
 public class PlaceDetail {
 
-    private String text, title;
+    private String text;
+    private String title;
     private int drawable;
 
     public PlaceDetail(String title, String text, int drawable) {

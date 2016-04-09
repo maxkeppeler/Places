@@ -22,6 +22,8 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.Spanned;
 import android.transition.Explode;
 import android.transition.Slide;
 import android.util.Log;
@@ -54,7 +56,12 @@ import butterknife.ButterKnife;
 
 public class PlaceDetailActivity extends AppCompatActivity {
 
-    String location, sight, desc, imageUrl, position, religion;
+    String location;
+    String sight;
+    String desc;
+    String imageUrl;
+    String position;
+    String religion;
 
     @Bind(R.id.fab) FloatingActionButton fab;
     @Bind(R.id.toolbar) Toolbar toolbar;
@@ -105,11 +112,8 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window = this.getWindow();
-            window.setNavigationBarColor(getResources().getColor(R.color.navigationBar));
+//            window.setNavigationBarColor(getResources().getColor(R.color.navigationBar));
             window.setStatusBarColor(getResources().getColor(R.color.colorStatusBarOverlay));
-
-//            getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-//            getWindow().setEnterTransition(new Slide());
         }
 
 
@@ -123,20 +127,24 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
         context = this;
 
-
         initActivityTransitions();
         setContentView(R.layout.drawer_places_detail);
 
         ButterKnife.bind(this);
 
+
         Intent intent = getIntent();
         Place item = intent.getParcelableExtra("item");
+
+
+        imageUrl = item.getImgPlaceUrl();
+
+
 
         location = item.getLocation();
         sight = item.getSight();
         desc = item.getDescription();
-        imageUrl = item.getImgPlaceUrl();
-        position = item.getPosition();
+        position =item.getPosition();
         religion = item.getReligion();
 
         Typeface typeface = Utils.getTypeface(context, 1);
@@ -165,7 +173,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
         placeDescTitle.setTypeface(typeface);
         placeInfoTitle.setTypeface(typeface);
-        placesDescText.setText(desc);
+        placesDescText.setText(Html.fromHtml(desc).toString().replace("â€™", "'"));
         fab.setVisibility(View.INVISIBLE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -290,7 +298,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mProgressDialog.setCancelable(true);
 
-        final SharePlace sharePlace = new SharePlace(context, location, desc);
+        final SharePlace sharePlace = new SharePlace(context, location, Html.fromHtml(desc).toString().replace("â€™", ""));
         sharePlace.execute(imageUrl);
 
         mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
