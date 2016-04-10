@@ -3,6 +3,8 @@ package com.mk.placesdrawer.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -114,6 +116,13 @@ public class DrawerPlaces extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+//
+//        if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+//            changeColumns(1);
+//        }
+//        else{
+//            changeColumns(2);
+//        }
     }
 
     @Override
@@ -188,29 +197,8 @@ public class DrawerPlaces extends Fragment {
 
                         json = jsonarray.getJSONObject(i);
 
-                        int favorite = 0;
-
-                        if (!keyWord.equals("All") && json.getString("sight").equals(keyWord)) {
-
-                            places.add(new Place(
-                                            json.getString("location"), json.getString("sight"), json.getString("description"),
-                                            json.getString("position"), json.getString("religion"),
-                                            json.getString("url"),
-                                            favorite
-                                    )
-                            );
-
-                        } else if (keyWord.equals("All")) {
-
-                            places.add(new Place(
-                                            json.getString("location"), json.getString("sight"), json.getString("description"),
-                                            json.getString("position"), json.getString("religion"),
-                                            json.getString("url"),
-                                            favorite
-                                    )
-                            );
-
-                        }
+                        if (!keyWord.equals("All") && json.getString("sight").equals(keyWord)) add(jsonarray, i);
+                        else if (keyWord.equals("All")) add(jsonarray, i);
 
                     }
 
@@ -227,6 +215,19 @@ public class DrawerPlaces extends Fragment {
                 worked = false;
             }
             return null;
+        }
+
+        private void add(JSONArray jsonarray, int i) throws JSONException {
+
+            JSONObject json = jsonarray.getJSONObject(i);
+            int favorite = 0;
+            places.add(new Place(
+                            json.getString("location"), json.getString("sight"), json.getString("description"),
+                            json.getString("position"), json.getString("religion"),
+                            json.getString("url"),
+                            favorite
+                    )
+            );
         }
 
         @Override

@@ -49,7 +49,7 @@ import static com.mikepenz.google_material_typeface_library.GoogleMaterial.Icon;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static Drawer result;
+    private static Drawer result;
     private static AppCompatActivity context;
     private static String drawerPlaces, drawerSubmit, drawerFavorite;
     private static String drawerAbout, drawerFeedback, drawerSettings;
@@ -157,7 +157,8 @@ public class MainActivity extends AppCompatActivity {
                                     break;
 
                                 case 2:
-                                    fragment = new DrawerAbout();
+                                    fragment = new DrawerPlaces();
+//                                    setKeyWord("favorite");
                                     break;
 
                                 case 3:

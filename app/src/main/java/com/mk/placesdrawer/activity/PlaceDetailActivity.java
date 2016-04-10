@@ -23,8 +23,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.text.Spanned;
-import android.transition.Explode;
 import android.transition.Slide;
 import android.util.Log;
 import android.view.Menu;
@@ -50,34 +48,35 @@ import com.mk.placesdrawer.threads.SharePlace;
 import com.mk.placesdrawer.utilities.Utils;
 import com.mk.placesdrawer.widgets.SquareImageView;
 
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class PlaceDetailActivity extends AppCompatActivity {
 
+    private static int color;
     String location;
     String sight;
     String desc;
     String imageUrl;
     String position;
     String religion;
-
-    @Bind(R.id.fab) FloatingActionButton fab;
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.collapsingToolbar) CollapsingToolbarLayout collapsingToolbarLayout;
-    @Bind(R.id.placeDescTitle) TextView placeDescTitle;
-    @Bind(R.id.descDetailView) TextView placesDescText;
-    @Bind(R.id.placeInfoTitle) TextView placeInfoTitle;
-    @Bind(R.id.recyclerViewInfoDetails) RecyclerView recyclerView;
-
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.collapsingToolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    @Bind(R.id.placeDescTitle)
+    TextView placeDescTitle;
+    @Bind(R.id.descDetailView)
+    TextView placesDescText;
+    @Bind(R.id.placeInfoTitle)
+    TextView placeInfoTitle;
+    @Bind(R.id.recyclerViewInfoDetails)
+    RecyclerView recyclerView;
+    Window window;
     private ViewGroup layout;
     private Activity context;
-    private static int color;
-
-    Window window;
-
-
     public Palette.PaletteAsyncListener paletteAsyncListener =
             new Palette.PaletteAsyncListener() {
                 @Override
@@ -140,11 +139,10 @@ public class PlaceDetailActivity extends AppCompatActivity {
         imageUrl = item.getImgPlaceUrl();
 
 
-
         location = item.getLocation();
         sight = item.getSight();
         desc = item.getDescription();
-        position =item.getPosition();
+        position = item.getPosition();
         religion = item.getReligion();
 
         Typeface typeface = Utils.getTypeface(context, 1);
@@ -180,6 +178,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+
 
                 if (item.getFavorite() == 0) {
                     item.setFavorite(1);
@@ -276,7 +275,6 @@ public class PlaceDetailActivity extends AppCompatActivity {
                 break;
 
             case R.id.download:
-
                 downloadDialog();
                 break;
 
