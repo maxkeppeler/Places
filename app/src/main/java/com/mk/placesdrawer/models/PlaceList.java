@@ -12,7 +12,8 @@ public class PlaceList {
                                         ArrayList<String> descriptions,
                                         ArrayList<String> position,
                                         ArrayList<String> religion,
-                                        ArrayList<String> urls
+                                        ArrayList<String> urls,
+                                        ArrayList<Integer> favorite
     ) {
         try {
 
@@ -24,7 +25,9 @@ public class PlaceList {
                         descriptions.get(i),
                         position.get(i),
                         religion.get(i),
-                        urls.get(i)
+                        urls.get(i),
+                        favorite.get(i)
+
                 );
                 placesList.add(place);
             }

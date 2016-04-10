@@ -134,7 +134,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        Place item = intent.getParcelableExtra("item");
+        final Place item = intent.getParcelableExtra("item");
 
 
         imageUrl = item.getImgPlaceUrl();
@@ -175,15 +175,25 @@ public class PlaceDetailActivity extends AppCompatActivity {
         placeInfoTitle.setTypeface(typeface);
         placesDescText.setText(Html.fromHtml(desc).toString().replace("â€™", "'"));
         fab.setVisibility(View.INVISIBLE);
+
         fab.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-//                TODO add function
-                Log.d("Floating Action Button", "onClick: works ");
+
+                if (item.getFavorite() == 0) {
+                    item.setFavorite(1);
+
+                } else item.setFavorite(0);
+
+                Log.d("fab", "onClick: " + item.getFavorite());
+
             }
+
+
         });
 
-        collapsingToolbarLayout.setTitle(location);
+        collapsingToolbarLayout.setTitle(location + " " + item.getFavorite());
         collapsingToolbarLayout.setCollapsedTitleTypeface(typeface);
         collapsingToolbarLayout.setExpandedTitleTypeface(typeface);
         collapsingToolbarLayout.setSelected(true);

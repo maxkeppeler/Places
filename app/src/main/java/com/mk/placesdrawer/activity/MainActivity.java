@@ -1,5 +1,6 @@
 package com.mk.placesdrawer.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -7,8 +8,10 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,6 +23,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -34,6 +39,7 @@ import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.fragment.DrawerAbout;
 import com.mk.placesdrawer.fragment.DrawerPlaces;
 import com.mk.placesdrawer.fragment.DrawerSubmit;
+import com.mk.placesdrawer.models.PlaceList;
 import com.mk.placesdrawer.utilities.Animation;
 import com.mk.placesdrawer.utilities.Dialogs;
 
@@ -53,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private Window window;
     private Toolbar toolbar;
     private AccountHeader header;
-    private static int color;
+    private String keyWord = "All";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         context = this;
+
+        loadWallsList(context);
 
         urlHeaderArray = getResources().getStringArray(R.array.headerUrl);
 
@@ -264,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.filter:
-                Dialogs.filterDialog(context);
+                filterDialog(context);
                 break;
             case R.id.column:
                 Dialogs.columnsDialog(context);
@@ -303,6 +311,94 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return header;
+    }
+
+    public void filterDialog(final Context context) {
+
+        String category = "All";
+
+        new MaterialDialog.Builder(context)
+                .title(R.string.filterTitle)
+                .items(R.array.filterContentArray)
+                .negativeText("Reset Filter")
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        setKeyWord("All");
+                    }
+                })
+                .backgroundColor(context.getResources().getColor(R.color.dialogs))
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
+                        if (i == 0) sightDialog(context);
+                        if (i == 1) countryDialog(context);
+
+                    }
+                })
+                .show();
+    }
+
+    public String sightDialog(final Context context) {
+
+        new MaterialDialog.Builder(context)
+                .title(R.string.sightTitle)
+                .items(R.array.sightContentArray)
+                .backgroundColor(context.getResources().getColor(R.color.dialogs))
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
+
+                        switch (i) {
+                            case 0: setKeyWord(text.toString()); break;
+                            case 1: setKeyWord(text.toString()); break;
+                            case 2: setKeyWord(text.toString()); break;
+                            case 3: setKeyWord(text.toString()); break;
+                            case 4: setKeyWord(text.toString()); break;
+                            case 5: setKeyWord(text.toString()); break;
+                            case 6: setKeyWord(text.toString()); break;
+                        }
+                    }
+                })
+                .show();
+        return "";
+    }
+
+    public String countryDialog(final Context context) {
+
+        new MaterialDialog.Builder(context)
+                .title(R.string.filterTitle)
+                .items(R.array.filterContentArray)
+                .backgroundColor(context.getResources().getColor(R.color.dialogs))
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
+
+//                        TODO on selection, filter the current placesList and return just the objects where the category (country) is correct.
+
+                    }
+                })
+                .show();
+
+        return "";
+    }
+
+    public void setKeyWord(String string) {
+        this.keyWord = string;
+        loadWallsList(context);
+    }
+
+    private void loadWallsList(Context context) {
+        PlaceList.clearList();
+
+        new DrawerPlaces.DownloadJSON(new PlacesListInterface() {
+            @Override
+            public void checkPlacesListCreation(boolean result) {
+                if (DrawerPlaces.mAdapter != null) {
+                    DrawerPlaces.mAdapter.notifyDataSetChanged();
+                }
+            }
+        }, context, keyWord).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public interface PlacesListInterface {

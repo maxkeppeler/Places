@@ -23,14 +23,17 @@ public class Place implements Parcelable {
     private String position, religion,
             location, sight, description,
             imgPlaceUrl;
+    private int favorite;
 
     public Place(String location,
                  String sight,
                  String description,
                  String position,
                  String religion,
-                 String imgPlaceUrl) {
+                 String imgPlaceUrl,
+                 int favorite) {
 
+        this.favorite = favorite;
         this.location = location;
         this.sight = sight;
         this.description = description;
@@ -52,6 +55,7 @@ public class Place implements Parcelable {
         dest.writeString(position);
         dest.writeString(religion);
         dest.writeString(imgPlaceUrl);
+        dest.writeInt(favorite);
     }
 
     protected Place(Parcel in) {
@@ -61,7 +65,20 @@ public class Place implements Parcelable {
         position = in.readString();
         religion = in.readString();
         imgPlaceUrl = in.readString();
+        favorite = in.readInt();
+
     }
+
+    public int getFavorite() {
+        return this.favorite;
+    }
+
+    public void setFavorite(int favorite) {
+        this.favorite = favorite;
+    }
+
+
+
 
     public String getPosition() {
         return position;

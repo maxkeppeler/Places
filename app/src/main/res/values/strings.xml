@@ -55,7 +55,7 @@
     <string name="categoryPositive">Apply Changes</string>
     <array name="sightContentArray">
         <item>City</item>
-        <item>Park</item>
+        <item>Country</item>
         <item>National Park</item>
         <item>Landscape</item>
     </array>

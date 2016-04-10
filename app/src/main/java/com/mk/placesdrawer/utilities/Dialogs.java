@@ -57,58 +57,7 @@ public class Dialogs {
 
 
 
-    public static void filterDialog(final Context context) {
 
-        new MaterialDialog.Builder(context)
-                .title(R.string.filterTitle)
-                .items(R.array.filterContentArray)
-                .backgroundColor(context.getResources().getColor(R.color.dialogs))
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
-//                     There are 2 filter options: After sight and after country
-                        if (i == 0) sightDialog(context);
-                        if (i == 1) countryDialog(context);
-
-                    }
-                })
-                .show();
-
-    }
-
-    public static void sightDialog(final Context context) {
-
-        new MaterialDialog.Builder(context)
-                .title(R.string.sightTitle)
-                .items(R.array.sightContentArray)
-                .backgroundColor(context.getResources().getColor(R.color.dialogs))
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
-
-//                        TODO on selection, filter the current placesList and return just the objects where the category (Sight) is correct.
-
-                    }
-                })
-                .show();
-    }
-
-    public static void countryDialog(final Context context) {
-
-        new MaterialDialog.Builder(context)
-                .title(R.string.filterTitle)
-                .items(R.array.filterContentArray)
-                .backgroundColor(context.getResources().getColor(R.color.dialogs))
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
-
-//                        TODO on selection, filter the current placesList and return just the objects where the category (country) is correct.
-
-                    }
-                })
-                .show();
-    }
 
     public static void columnsDialog(final Context context) {
 
