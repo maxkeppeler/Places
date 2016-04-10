@@ -145,7 +145,6 @@ public class MainActivity extends AppCompatActivity {
 
                             FragmentManager manager = getSupportFragmentManager();
                             FragmentTransaction transaction = manager.beginTransaction();
-//                            transaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                             transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
 
                             Fragment fragment = null;
@@ -398,8 +397,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }, context, keyWord).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
 
+    }
     public interface PlacesListInterface {
         void checkPlacesListCreation(boolean result);
     }

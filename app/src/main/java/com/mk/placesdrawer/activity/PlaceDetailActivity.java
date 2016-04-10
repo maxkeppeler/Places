@@ -300,7 +300,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mProgressDialog.setCancelable(true);
 
-        final SharePlace sharePlace = new SharePlace(context, location, Html.fromHtml(desc).toString().replace("â€™", ""));
+        final SharePlace sharePlace = new SharePlace(context, location, Html.fromHtml(desc).toString().replace("@", " ").replace("â€™", ""));
         sharePlace.execute(imageUrl);
 
         mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
