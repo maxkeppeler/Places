@@ -316,8 +316,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void filterDialog(final Context context) {
 
-        String category = "All";
-
         new MaterialDialog.Builder(context)
                 .title(R.string.filterTitle)
                 .items(R.array.filterContentArray)

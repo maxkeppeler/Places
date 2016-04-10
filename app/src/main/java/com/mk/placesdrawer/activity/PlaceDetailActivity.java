@@ -24,7 +24,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.transition.Slide;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -179,13 +178,8 @@ public class PlaceDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-                if (item.getFavorite() == 0) {
-                    item.setFavorite(1);
-
-                } else item.setFavorite(0);
-
-                Log.d("fab", "onClick: " + item.getFavorite());
+                if (item.getFavorite() == 0) item.setFavorite(1);
+                else item.setFavorite(0);
 
             }
 

@@ -3,8 +3,6 @@ package com.mk.placesdrawer.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -116,6 +114,7 @@ public class DrawerPlaces extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
 //
 //        if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
 //            changeColumns(1);
@@ -156,7 +155,6 @@ public class DrawerPlaces extends Fragment {
         return layout;
     }
 
-    // DownloadJSON AsyncTask
     public static class DownloadJSON extends AsyncTask<Void, Void, Void> {
 
         private final static ArrayList<Place> filterPlaces = new ArrayList<>();
@@ -197,7 +195,8 @@ public class DrawerPlaces extends Fragment {
 
                         json = jsonarray.getJSONObject(i);
 
-                        if (!keyWord.equals("All") && json.getString("sight").equals(keyWord)) add(jsonarray, i);
+                        if (!keyWord.equals("All") && json.getString("sight").equals(keyWord))
+                            add(jsonarray, i);
                         else if (keyWord.equals("All")) add(jsonarray, i);
 
                     }
@@ -240,5 +239,6 @@ public class DrawerPlaces extends Fragment {
 
         }
     }
+
 
 }
