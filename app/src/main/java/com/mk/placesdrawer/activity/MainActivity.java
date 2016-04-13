@@ -12,9 +12,11 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -38,7 +40,6 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.fragment.DrawerAbout;
 import com.mk.placesdrawer.fragment.DrawerPlaces;
-import com.mk.placesdrawer.fragment.DrawerSubmit;
 import com.mk.placesdrawer.models.PlaceList;
 import com.mk.placesdrawer.utilities.Animation;
 import com.mk.placesdrawer.utilities.Dialogs;
@@ -74,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
 
         drawerPlaces = getResources().getString(R.string.app_places);
         drawerFavorite = getResources().getString(R.string.app_favorite);
-        drawerSubmit = getResources().getString(R.string.app_submit);
         drawerAbout = getResources().getString(R.string.app_about);
         drawerFeedback = getResources().getString(R.string.app_Feedback);
         drawerSettings = getResources().getString(R.string.app_settings);
@@ -97,17 +97,14 @@ public class MainActivity extends AppCompatActivity {
         final PrimaryDrawerItem itemFavorite = new PrimaryDrawerItem()
                 .withName(drawerFavorite).withIcon(Icon.gmd_favorite).withIdentifier(2);
 
-        final PrimaryDrawerItem itemSubmit = new PrimaryDrawerItem()
-                .withName(drawerSubmit).withIcon(Icon.gmd_contact_mail).withIdentifier(3);
-
         final PrimaryDrawerItem itemAbout = new PrimaryDrawerItem()
-                .withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(4);
+                .withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(3);
 
         final PrimaryDrawerItem itemFeedback = new PrimaryDrawerItem()
-                .withName(drawerFeedback).withIcon(Icon.gmd_feedback).withIdentifier(5);
+                .withName(drawerFeedback).withIcon(Icon.gmd_feedback).withIdentifier(4);
 
         final PrimaryDrawerItem itemSettings = new PrimaryDrawerItem()
-                .withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(6);
+                .withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(5);
 
 
         header = new AccountHeaderBuilder().withActivity(this).withSelectionFirstLine("Places").withSelectionSecondLine("by Maximilian Keppeler")
@@ -130,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
                                                 .withTextColor(Color.WHITE)
                                                 .withColorRes(R.color.colorAccent)
                                                 .withCornersDp(100000).withPadding(20)),
-                        itemSubmit,
                         new DividerDrawerItem(),
                         itemAbout,
                         itemFeedback,
@@ -156,16 +152,23 @@ public class MainActivity extends AppCompatActivity {
                                     break;
 
                                 case 2:
-                                    fragment = new DrawerPlaces();
+//                                    TODO - Favorite Fragment, filter out the json objects where int favorite is 1 (for favored)
+                                    fragment = new DrawerAbout();
 //                                    setKeyWord("favorite");
                                     break;
 
                                 case 3:
-                                    fragment = new DrawerSubmit();
+                                    fragment = new DrawerAbout();
                                     break;
 
                                 case 4:
-                                    fragment = new DrawerAbout();
+//                                    fragment = new DrawerTabs();
+
+                                    ViewPager pager= (ViewPager) findViewById(R.id.viewPager);
+                                    TabLayout tabLayout= (TabLayout) findViewById(R.id.tab_layout);
+
+//                                TODO
+
                                     break;
 
                                 case 5:
@@ -180,11 +183,15 @@ public class MainActivity extends AppCompatActivity {
                                     fragment = new DrawerPlaces();
                             }
 
+
+
+                            if (fragment != null) {
                             transaction.replace(R.id.container, fragment);
                             transaction.commit();
 
                             currentDrawerItem = (int) drawerItem.getIdentifier();
                             toolbar.setTitle(toolbarText(currentDrawerItem));
+                            }
 
                             if (intent != null) {
                                 MainActivity.this.startActivity(intent);
@@ -225,12 +232,10 @@ public class MainActivity extends AppCompatActivity {
             case 2:
                 return drawerFavorite;
             case 3:
-                return drawerSubmit;
-            case 4:
                 return drawerAbout;
-            case 5:
+            case 4:
                 return drawerFeedback;
-            case 6:
+            case 5:
                 return drawerSettings;
             default:
                 return drawerWrong;

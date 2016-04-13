@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.text.Spanned;
+import android.util.Log;
 
 import com.mk.placesdrawer.R;
 
@@ -53,9 +54,14 @@ public class DownloadImage extends AsyncTask<String, Integer, String> {
             File path = new File(Environment.getExternalStorageDirectory().toString());
             File myDir = new File(path, context.getResources().getString(R.string.app_name));
 
-            if (!myDir.exists()) myDir.mkdir();
+            if (!myDir.exists()) {
+                myDir.mkdir();
+            }
+
             File file = new File(myDir, imageName);
             output = new FileOutputStream(file);
+
+            Log.d("output", "doInBackground: erfolgreich");
 
             byte data[] = new byte[4096];
             long total = 0;
@@ -77,6 +83,7 @@ public class DownloadImage extends AsyncTask<String, Integer, String> {
         } finally {
             try {
                 if (output != null)
+
                     output.close();
                 if (input != null)
                     input.close();

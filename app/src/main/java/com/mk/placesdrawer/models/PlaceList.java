@@ -5,15 +5,14 @@ import java.util.ArrayList;
 public class PlaceList {
 
     private static ArrayList<Place> placesList = new ArrayList<>();
-    private static String category;
 
-    public static void createPlacesList(ArrayList<String> locations,
-                                        ArrayList<String> sights,
-                                        ArrayList<String> descriptions,
-                                        ArrayList<String> position,
-                                        ArrayList<String> religion,
-                                        ArrayList<String> urls,
-                                        ArrayList<Integer> favorite
+    public static void createPlaceList(ArrayList<String> locations,
+                                       ArrayList<String> sights,
+                                       ArrayList<String> descriptions,
+                                       ArrayList<String> position,
+                                       ArrayList<String> religion,
+                                       ArrayList<String> urls,
+                                       ArrayList<Integer> favorite
     ) {
         try {
 
@@ -35,7 +34,7 @@ public class PlaceList {
         }
     }
 
-    public static void createPlacesList(ArrayList<Place> placesList) {
+    public static void createPlaceList(ArrayList<Place> placesList) {
         PlaceList.placesList = placesList;
     }
 

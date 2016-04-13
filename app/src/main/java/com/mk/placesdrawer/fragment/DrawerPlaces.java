@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,11 +37,40 @@ import java.util.TimerTask;
 public class DrawerPlaces extends Fragment {
 
     public static PlaceAdapter mAdapter;
-    private static int columns = 1;
     private static ViewGroup layout;
-    private static RecyclerView mRecyclerView;
+    private static RecyclerView mRecycler;
     private static Activity context;
-    private static boolean worked;
+    private static boolean successful;
+
+    private static int columns = 1;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
+
+        setHasOptionsMenu(true);
+        context = getActivity();
+
+        if (layout != null) {
+            ViewGroup parent = (ViewGroup) layout.getParent();
+            if (parent != null) parent.removeView(layout);
+        }
+
+        try {
+            layout = (ViewGroup) inflater.inflate(R.layout.drawer_places, container, false);
+        } catch (InflateException e) {
+        }
+
+        if (layout != null)
+            mRecycler = (RecyclerView) layout.findViewById(R.id.placecRecyclerView);
+        mRecycler.setLayoutManager(new GridLayoutManager(context, columns, 1, false));
+        mRecycler.setHasFixedSize(true);
+        mRecycler.setAdapter(mAdapter);
+        mRecycler.setVisibility(View.VISIBLE);
+
+        setupLayout(false);
+
+        return layout;
+    }
 
     private static void setupLayout(final boolean fromTask) {
 
@@ -71,13 +99,15 @@ public class DrawerPlaces extends Fragment {
                             });
 
                     mAdapter.setData(PlaceList.getPlacesList());
-                    mRecyclerView.setAdapter(mAdapter);
+                    mRecycler.setAdapter(mAdapter);
                     if (Utils.hasNetwork(context)) {
-                        mRecyclerView.setVisibility(View.VISIBLE);
+                        mRecycler.setVisibility(View.VISIBLE);
                     }
                 }
             });
-        } else {
+        }
+
+        else {
             context.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -106,64 +136,19 @@ public class DrawerPlaces extends Fragment {
 
     public static void changeColumns(int i) {
         columns = i;
-        mRecyclerView.setLayoutManager(new GridLayoutManager(context, columns, 1, false));
+        mRecycler.setLayoutManager(new GridLayoutManager(context, columns, 1, false));
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setHasOptionsMenu(true);
-
-//
-//        if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-//            changeColumns(1);
-//        }
-//        else{
-//            changeColumns(2);
-//        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        context = getActivity();
-
-        if (layout != null) {
-            ViewGroup parent = (ViewGroup) layout.getParent();
-            if (parent != null) {
-                parent.removeView(layout);
-            }
-        }
-
-        try {
-            layout = (ViewGroup) inflater.inflate(R.layout.drawer_places, container, false);
-        } catch (InflateException e) {
-        }
-
-        mRecyclerView = (RecyclerView) layout.findViewById(R.id.placecRecyclerView);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(context, columns, 1, false));
-        mRecyclerView.setHasFixedSize(true);
-
-        if (mRecyclerView.getVisibility() != View.VISIBLE) {
-            mRecyclerView.setVisibility(View.VISIBLE);
-        }
-
-        mRecyclerView.setVisibility(View.GONE);
-
-        setupLayout(false);
-
-        return layout;
-    }
 
     public static class DownloadJSON extends AsyncTask<Void, Void, Void> {
 
-        private final static ArrayList<Place> filterPlaces = new ArrayList<>();
         private final static ArrayList<Place> places = new ArrayList<>();
         static long startTime, endTime;
         final MainActivity.PlacesListInterface wi;
         private WeakReference<Context> taskContext;
         private WeakReference<Activity> wrActivity;
         private String keyWord;
+        private boolean favored;
 
         public DownloadJSON(MainActivity.PlacesListInterface wi, Context context, String keyWord) {
             this.keyWord = keyWord;
@@ -195,29 +180,30 @@ public class DrawerPlaces extends Fragment {
 
                         json = jsonarray.getJSONObject(i);
 
-                        if (!keyWord.equals("All") && json.getString("sight").equals(keyWord))
-                            add(jsonarray, i);
-                        else if (keyWord.equals("All")) add(jsonarray, i);
-
+                        if (!keyWord.equals("All") && (
+                                           json.getString("sight").equals(keyWord)
+                                        || json.getString("position").equals(keyWord)
+                                        || json.getString("religion").equals(keyWord)
+                        )) {
+                            addJsonObject(jsonarray, i);
+                        }
+                        else if (keyWord.equals("All")) addJsonObject(jsonarray, i);
                     }
 
-
-                    PlaceList.createPlacesList(places);
-                    worked = true;
-
+                    PlaceList.createPlaceList(places);
+                    successful = true;
 
                 } catch (JSONException e) {
-                    worked = false;
+                    successful = false;
                 }
 
             } else {
-                worked = false;
+                successful = false;
             }
             return null;
         }
 
-        private void add(JSONArray jsonarray, int i) throws JSONException {
-
+        private void addJsonObject(JSONArray jsonarray, int i) throws JSONException {
             JSONObject json = jsonarray.getJSONObject(i);
             int favorite = 0;
             places.add(new Place(
@@ -229,16 +215,31 @@ public class DrawerPlaces extends Fragment {
             );
         }
 
+        //    Methods for filtering out the favored items/ json objects
+
+        public void filterFavored() {
+
+        }
+
+
         @Override
         protected void onPostExecute(Void args) {
             endTime = System.currentTimeMillis();
             Log.d("Places ", "Places Task completed in: " + String.valueOf((endTime - startTime) / 1000) + " secs.");
 
             if (layout != null) setupLayout(true);
-            if (wi != null) wi.checkPlacesListCreation(worked);
+            if (wi != null) wi.checkPlacesListCreation(successful);
 
         }
+
+
+
+
+
+
+
+
+
+
     }
-
-
 }

@@ -1,9 +1,11 @@
 package com.mk.placesdrawer.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -12,10 +14,16 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
@@ -24,6 +32,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -34,6 +43,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -42,6 +52,7 @@ import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.adapters.PlaceDetailAdapter;
 import com.mk.placesdrawer.models.Place;
 import com.mk.placesdrawer.models.PlaceDetail;
+import com.mk.placesdrawer.models.PlaceList;
 import com.mk.placesdrawer.threads.DownloadImage;
 import com.mk.placesdrawer.threads.SharePlace;
 import com.mk.placesdrawer.utilities.Utils;
@@ -52,30 +63,29 @@ import butterknife.ButterKnife;
 
 public class PlaceDetailActivity extends AppCompatActivity {
 
+
     private static int color;
-    String location;
-    String sight;
-    String desc;
-    String imageUrl;
-    String position;
-    String religion;
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.collapsingToolbar)
-    CollapsingToolbarLayout collapsingToolbarLayout;
-    @Bind(R.id.placeDescTitle)
-    TextView placeDescTitle;
-    @Bind(R.id.descDetailView)
-    TextView placesDescText;
-    @Bind(R.id.placeInfoTitle)
-    TextView placeInfoTitle;
-    @Bind(R.id.recyclerViewInfoDetails)
-    RecyclerView recyclerView;
+    String location, sight, desc, imageUrl, position, religion;
+    @Bind(R.id.fab) FloatingActionButton fab;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.collapsingToolbar) CollapsingToolbarLayout collapsingToolbarLayout;
+    @Bind(R.id.placeDescTitle) TextView placeDescTitle;
+    @Bind(R.id.descDetailView) TextView placesDescText;
+    @Bind(R.id.placeInfoTitle) TextView placeInfoTitle;
+    @Bind(R.id.recyclerViewInfoDetails) RecyclerView recyclerView;
     Window window;
     private ViewGroup layout;
     private Activity context;
+
+
+
+    private static final int PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE = 42;
+
+    //    Permission for download option
+    private static String[] PERMISSIONS_STORAGE = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE};
+
+
     public Palette.PaletteAsyncListener paletteAsyncListener =
             new Palette.PaletteAsyncListener() {
                 @Override
@@ -134,10 +144,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         final Place item = intent.getParcelableExtra("item");
 
-
         imageUrl = item.getImgPlaceUrl();
-
-
         location = item.getLocation();
         sight = item.getSight();
         desc = item.getDescription();
@@ -269,7 +276,12 @@ public class PlaceDetailActivity extends AppCompatActivity {
                 break;
 
             case R.id.download:
-                downloadDialog();
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                        PackageManager.PERMISSION_GRANTED) {
+//                    getRecordAudioPermission();
+                    getStoragePermission();
+                    //When we have no permission we enable or let bassBoost disabled onRequestPermissionsResult
+                } else downloadDialog();
                 break;
 
             case R.id.share:
@@ -365,4 +377,92 @@ public class PlaceDetailActivity extends AppCompatActivity {
                 })
                 .show();
     }
+
+
+//    ANDROID M PERMISSION SYSTEM // RUNTIME PERMISSIONS
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+
+        switch (requestCode) {
+
+            case PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE: {
+                if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    downloadDialog();
+
+//                  TODO  Utils class?
+
+                    Log.d("requestPermission", "Write External Storage: Permission granted.");
+
+                } else {
+                    //Permission denied
+
+                    //Show snack bar if check never ask again
+                    Log.d("requestPermission", "Write External Storage: Permission NOT granted.");
+
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        Snackbar.make(layout, "sdad",
+                                Snackbar.LENGTH_LONG)
+                                .setAction("dasdas", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + getPackageName()));
+                                        intent.addCategory(Intent.CATEGORY_DEFAULT);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivityForResult(intent, PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE);
+                                    }
+                                })
+                                .show();
+                    }
+                    Log.d("requestPermission", "Write External Storage: Permission denied.");
+                }
+            }
+        }
+
+
+    }
+
+
+    private void getStoragePermission() {
+        //Explain the first time for what we need this permission and also if check never ask again
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            new MaterialDialog.Builder(this)
+                    .title("title")
+                    .content("content")
+                    .positiveText("ok")
+                    .negativeText("no")
+                    .onAny(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            switch (which) {
+                                case POSITIVE:
+                                    ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                            PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE);
+                                    break;
+                                case NEGATIVE:
+//                                        switchBassBoost.setChecked(false);
+                                    break;
+                            }
+                        }
+                    })
+                    .cancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            downloadDialog();
+//                                switchBassBoost.setChecked(false);
+                        }
+                    })
+                    .show();
+        } else {
+            //Audio record permissions have not been granted yet so request them directly
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE);
+        }
+    }
+
+
 }
