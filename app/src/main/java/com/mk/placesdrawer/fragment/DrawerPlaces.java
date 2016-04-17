@@ -3,24 +3,34 @@ package com.mk.placesdrawer.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.activity.MainActivity;
 import com.mk.placesdrawer.activity.PlaceDetailActivity;
 import com.mk.placesdrawer.adapters.PlaceAdapter;
 import com.mk.placesdrawer.models.Place;
 import com.mk.placesdrawer.models.PlaceList;
+import com.mk.placesdrawer.utilities.Dialogs;
 import com.mk.placesdrawer.utilities.JSONParser;
 import com.mk.placesdrawer.utilities.Utils;
 
@@ -34,18 +44,149 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class DrawerPlaces extends Fragment {
+public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextListener {
 
     public static PlaceAdapter mAdapter;
     private static ViewGroup layout;
     private static RecyclerView mRecycler;
     private static Activity context;
     private static boolean successful;
+    private String keyWord = "All";
+
 
     private static int columns = 1;
 
     @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.toolbar_places, menu);
+        super.onCreateOptionsMenu(menu,inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+//        searchView.setOnQueryTextListener(context);
+
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.filter:
+                filterDialog(context);
+                break;
+            case R.id.column:
+                Dialogs.columnsDialog(context);
+                break;
+            case R.id.changelog:
+                Dialogs.showChangelog(context);
+                break;
+
+
+        }
+        return true;
+    }
+
+    public void filterDialog(final Context context) {
+
+        new MaterialDialog.Builder(context)
+                .title(R.string.filterTitle)
+                .items(R.array.filterContentArray)
+                .negativeText("Reset Filter")
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        setKeyWord("All");
+                    }
+                })
+                .backgroundColor(context.getResources().getColor(R.color.dialogs))
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
+                        if (i == 0) sightDialog(context);
+                        if (i == 1) countryDialog(context);
+
+                    }
+                })
+                .show();
+    }
+
+    public String sightDialog(final Context context) {
+
+        new MaterialDialog.Builder(context)
+                .title(R.string.sightTitle)
+                .items(R.array.sightContentArray)
+                .backgroundColor(context.getResources().getColor(R.color.dialogs))
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
+
+                        switch (i) {
+                            case 0: setKeyWord(text.toString()); break;
+                            case 1: setKeyWord(text.toString()); break;
+                            case 2: setKeyWord(text.toString()); break;
+                            case 3: setKeyWord(text.toString()); break;
+                            case 4: setKeyWord(text.toString()); break;
+                            case 5: setKeyWord(text.toString()); break;
+                            case 6: setKeyWord(text.toString()); break;
+                        }
+                    }
+                })
+                .show();
+        return "";
+    }
+
+    public String countryDialog(final Context context) {
+
+        new MaterialDialog.Builder(context)
+                .title(R.string.filterTitle)
+                .items(R.array.filterContentArray)
+                .backgroundColor(context.getResources().getColor(R.color.dialogs))
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
+
+//                        TODO on selection, filter the current placesList and return just the objects where the category (country) is correct.
+
+                    }
+                })
+                .show();
+
+        return "";
+    }
+
+    public void setKeyWord(String string) {
+        this.keyWord = string;
+        loadWallsList(context);
+    }
+
+    public void loadWallsList(Context context) {
+        PlaceList.clearList();
+
+        new DrawerPlaces.DownloadJSON(new MainActivity.PlacesListInterface() {
+            @Override
+            public void checkPlacesListCreation(boolean result) {
+                if (DrawerPlaces.mAdapter != null) {
+                    DrawerPlaces.mAdapter.notifyDataSetChanged();
+                }
+            }
+        }, context, keyWord).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
+
 
         setHasOptionsMenu(true);
         context = getActivity();
@@ -140,15 +281,18 @@ public class DrawerPlaces extends Fragment {
     }
 
 
+
+
     public static class DownloadJSON extends AsyncTask<Void, Void, Void> {
 
         private final static ArrayList<Place> places = new ArrayList<>();
         static long startTime, endTime;
-        final MainActivity.PlacesListInterface wi;
+        private MainActivity.PlacesListInterface wi;
         private WeakReference<Context> taskContext;
         private WeakReference<Activity> wrActivity;
         private String keyWord;
         private boolean favored;
+
 
         public DownloadJSON(MainActivity.PlacesListInterface wi, Context context, String keyWord) {
             this.keyWord = keyWord;
@@ -229,17 +373,10 @@ public class DrawerPlaces extends Fragment {
 
             if (layout != null) setupLayout(true);
             if (wi != null) wi.checkPlacesListCreation(successful);
-
         }
 
 
-
-
-
-
-
-
-
-
     }
+
+
 }

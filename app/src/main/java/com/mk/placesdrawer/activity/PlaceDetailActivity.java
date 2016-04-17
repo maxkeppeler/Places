@@ -2,7 +2,6 @@ package com.mk.placesdrawer.activity;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,18 +19,20 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.ColorUtils;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.transition.Slide;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,6 +42,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -52,11 +54,12 @@ import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.adapters.PlaceDetailAdapter;
 import com.mk.placesdrawer.models.Place;
 import com.mk.placesdrawer.models.PlaceDetail;
-import com.mk.placesdrawer.models.PlaceList;
-import com.mk.placesdrawer.threads.DownloadImage;
-import com.mk.placesdrawer.threads.SharePlace;
+import com.mk.placesdrawer.threads.ImageFromLayout;
+import com.mk.placesdrawer.threads.ImageFromURL;
 import com.mk.placesdrawer.utilities.Utils;
 import com.mk.placesdrawer.widgets.SquareImageView;
+
+import java.util.Objects;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -77,42 +80,8 @@ public class PlaceDetailActivity extends AppCompatActivity {
     private ViewGroup layout;
     private Activity context;
 
-
-
-    private static final int PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE = 42;
-
-    //    Permission for download option
-    private static String[] PERMISSIONS_STORAGE = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE};
-
-
-    public Palette.PaletteAsyncListener paletteAsyncListener =
-            new Palette.PaletteAsyncListener() {
-                @Override
-                public void onGenerated(Palette palette) {
-                    if (palette == null) return;
-                    color = getAColor(palette);
-
-                    fab.setRippleColor(color);
-                    fab.setBackgroundTintList(ColorStateList.valueOf(color));
-                    fab.setVisibility(View.VISIBLE);
-                    Animation animation = AnimationUtils.loadAnimation(context, R.anim.scale_up);
-                    fab.startAnimation(animation);
-
-                    collapsingToolbarLayout.setContentScrimColor(color);
-
-                    if (color != R.color.colorPrimary)
-                        collapsingToolbarLayout.setStatusBarScrimColor(color);
-                    else
-                        collapsingToolbarLayout.setStatusBarScrimColor(getResources().getColor(R.color.colorPrimaryDark));
-
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        window = getWindow();
-                        window.setNavigationBarColor(color);
-                    }
-                }
-            };
+    //    REQUEST PERMISSIONS
+    public static final int PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE = 42;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,10 +89,9 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window = this.getWindow();
-//            window.setNavigationBarColor(getResources().getColor(R.color.navigationBar));
-            window.setStatusBarColor(getResources().getColor(R.color.colorStatusBarOverlay));
+            window.setStatusBarColor(getResources().getColor(R.color.transparent));
+//            window.setStatusBarColor(getResources().getColor(R.color.colorStatusBarOverlay));
         }
-
 
         if (layout != null) {
             ViewGroup parent = (ViewGroup) layout.getParent();
@@ -132,14 +100,13 @@ public class PlaceDetailActivity extends AppCompatActivity {
             }
         }
 
-
         context = this;
 
-        initActivityTransitions();
         setContentView(R.layout.drawer_places_detail);
 
         ButterKnife.bind(this);
 
+        Typeface typeface = Utils.customTypeface(context, 1);
 
         Intent intent = getIntent();
         final Place item = intent.getParcelableExtra("item");
@@ -151,22 +118,9 @@ public class PlaceDetailActivity extends AppCompatActivity {
         position = item.getPosition();
         religion = item.getReligion();
 
-        Typeface typeface = Utils.getTypeface(context, 1);
+        if (location.equals("")) location = "Unknown";
 
-        if (sight.equals("City")) {
-            PlaceDetail itemsData[] = {
-                    new PlaceDetail("Location", position, R.drawable.ic_location),
-                    new PlaceDetail("Religion", religion, R.drawable.ic_religion),
-            };
-            finishRecycler(recyclerView, itemsData);
-        }
-
-        if (sight.equals("National Park")) {
-            PlaceDetail itemsData[] = {
-                    new PlaceDetail("Location", position, R.drawable.ic_location),
-            };
-            finishRecycler(recyclerView, itemsData);
-        }
+        sightDependingLayouts();
 
         ViewCompat.setTransitionName(findViewById(R.id.appBarLayout), imageUrl);
         supportPostponeEnterTransition();
@@ -188,12 +142,11 @@ public class PlaceDetailActivity extends AppCompatActivity {
                 if (item.getFavorite() == 0) item.setFavorite(1);
                 else item.setFavorite(0);
 
+                Utils.simpleSnackBar(context, color, R.id.coordinatorLayout, R.string.snackbarFavoredText, Snackbar.LENGTH_SHORT);
             }
-
-
         });
 
-        collapsingToolbarLayout.setTitle(location + " " + item.getFavorite());
+        collapsingToolbarLayout.setTitle(location);
         collapsingToolbarLayout.setCollapsedTitleTypeface(typeface);
         collapsingToolbarLayout.setExpandedTitleTypeface(typeface);
         collapsingToolbarLayout.setSelected(true);
@@ -219,8 +172,52 @@ public class PlaceDetailActivity extends AppCompatActivity {
                 });
     }
 
+
+    public Palette.PaletteAsyncListener paletteAsyncListener = new Palette.PaletteAsyncListener() {
+        @Override
+        public void onGenerated(Palette palette) {
+            if (palette == null) return;
+
+            color = Utils.colorFromPalette(context, palette);
+
+            fab.setRippleColor(color);
+            fab.setBackgroundTintList(ColorStateList.valueOf(color));
+            fab.setVisibility(View.VISIBLE);
+            Animation animation = AnimationUtils.loadAnimation(context, R.anim.scale_up);
+            fab.startAnimation(animation);
+
+            collapsingToolbarLayout.setContentScrimColor(color);
+            collapsingToolbarLayout.setStatusBarScrimColor((Utils.colorVariant(color, 0.92f)));
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                window.setNavigationBarColor(color);
+        }
+    };
+
+
+//  TODO - add more sight depending layouts for variety and more info
+    private void sightDependingLayouts() {
+
+        if (sight.equals("City")) {
+            PlaceDetail itemsData[] = {
+                    new PlaceDetail("Location", position, R.drawable.ic_location),
+                    new PlaceDetail("Religion", religion, R.drawable.ic_religion),
+            };
+            finishRecycler(recyclerView, itemsData);
+        }
+
+        if (sight.equals("National Park")) {
+            PlaceDetail itemsData[] = {
+                    new PlaceDetail("Location", position, R.drawable.ic_location),
+            };
+            finishRecycler(recyclerView, itemsData);
+        }
+
+        
+    }
+
     private void finishRecycler(RecyclerView recyclerView, PlaceDetail itemsData[]) {
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
         PlaceDetailAdapter mAdapter = new PlaceDetailAdapter(itemsData);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setHasFixedSize(true);
@@ -233,15 +230,6 @@ public class PlaceDetailActivity extends AppCompatActivity {
             return super.dispatchTouchEvent(motionEvent);
         } catch (NullPointerException e) {
             return false;
-        }
-    }
-
-    private void initActivityTransitions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Slide transition = new Slide();
-            transition.excludeTarget(android.R.id.statusBarBackground, true);
-            getWindow().setEnterTransition(transition);
-            getWindow().setReturnTransition(transition);
         }
     }
 
@@ -276,20 +264,16 @@ public class PlaceDetailActivity extends AppCompatActivity {
                 break;
 
             case R.id.download:
+
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
                         PackageManager.PERMISSION_GRANTED) {
-//                    getRecordAudioPermission();
                     getStoragePermission();
-                    //When we have no permission we enable or let bassBoost disabled onRequestPermissionsResult
                 } else downloadDialog();
-                break;
 
-            case R.id.share:
-                share();
                 break;
 
             case R.id.launch:
-                Utils.openLinkInChromeCustomTab(context, "http://www.google.com/search?q=" + location, color);
+                Utils.customChromeTab(context, "http://www.google.com/search?q=" + location, color);
                 break;
         }
         return true;
@@ -301,37 +285,6 @@ public class PlaceDetailActivity extends AppCompatActivity {
         } else {
             finish();
         }
-    }
-
-    public void share() {
-
-        ProgressDialog mProgressDialog;
-        mProgressDialog = new ProgressDialog(context);
-        mProgressDialog.setMessage("A message");
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        mProgressDialog.setCancelable(true);
-
-        final SharePlace sharePlace = new SharePlace(context, location, Html.fromHtml(desc).toString().replace("@", " ").replace("â€™", ""));
-        sharePlace.execute(imageUrl);
-
-        mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                sharePlace.cancel(true);
-            }
-        });
-
-    }
-
-    private int getAColor(Palette palette) {
-        final int defaultColor = getResources().getColor(R.color.colorPrimary);
-        int mutedLight = palette.getLightMutedColor(defaultColor);
-        int vibrantLight = palette.getLightVibrantColor(mutedLight);
-        int mutedDark = palette.getDarkMutedColor(vibrantLight);
-        int vibrantDark = palette.getDarkVibrantColor(mutedDark);
-        int muted = palette.getMutedColor(vibrantDark);
-        return palette.getVibrantColor(muted);
     }
 
     public void downloadDialog() {
@@ -346,41 +299,68 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
                         if (i == 0) {
 
-                            ProgressDialog mProgressDialog;
-
-                            mProgressDialog = new ProgressDialog(context);
-                            mProgressDialog.setMessage("A message");
-                            mProgressDialog.setIndeterminate(true);
-                            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                            mProgressDialog.setCancelable(true);
-
-                            // execute this when the downloader must be fired
-                            final DownloadImage downloadTask = new DownloadImage(context, location);
+                            final ImageFromURL downloadTask = new ImageFromURL(context, location);
                             downloadTask.execute(imageUrl);
 
-                            mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                                @Override
-                                public void onCancel(DialogInterface dialog) {
-                                    downloadTask.cancel(true);
-                                }
-                            });
+//                            Snackbar
+                            View layout = findViewById(R.id.coordinatorLayout);
+                            Snackbar snackbar = Snackbar.make(layout, R.string.snackbarDownloadImageText, Snackbar.LENGTH_LONG)
+                                    .setActionTextColor(getResources().getColor(R.color.white))
+                                    .setAction(R.string.snackbarDownloadImageAction, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Utils.intentOpen(Uri.fromFile(downloadTask.getOpenPath().getAbsoluteFile()), context, getResources().getString(R.string.snackbarDownloadImageIntent));
+                                        }
+                                    });
 
+                            View snackBarView = snackbar.getView();
+                            snackBarView.setBackgroundColor(color);
+                            snackbar.show();
                         }
 
                         if (i == 1) {
 
+//                          TODO -   Layout is too large to fit into a software layer or drawing cache 0,8gb ram wird benötigt, 0,14 nur vorhanden
 
+                            CoordinatorLayout coView = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+                            coView.setDrawingCacheEnabled(true);
+                            coView.setDrawingCacheQuality(CoordinatorLayout.DRAWING_CACHE_QUALITY_LOW);
+                            coView.setLayerType(WebView.LAYER_TYPE_NONE, null);
+                            coView.measure(CoordinatorLayout.MeasureSpec.makeMeasureSpec(0, CoordinatorLayout.MeasureSpec.UNSPECIFIED),
+                                    CoordinatorLayout.MeasureSpec.makeMeasureSpec(0, CoordinatorLayout.MeasureSpec.UNSPECIFIED));
+                            coView.layout(0, 0, coView.getMeasuredWidth(), coView.getMeasuredHeight());
+                            coView.buildDrawingCache(true);
+
+                            Bitmap createdBitmap = Bitmap.createBitmap(coView.getDrawingCache());
+                            coView.setDrawingCacheEnabled(false);
+
+                            final ImageFromLayout imageFromLayout = new ImageFromLayout(context, location, createdBitmap);
+                            imageFromLayout.execute();
+
+
+//                            Snack Bar
+                            View layout = findViewById(R.id.coordinatorLayout);
+                            Snackbar snackbar = Snackbar.make(layout, R.string.snackbarDownloadLayoutText, Snackbar.LENGTH_LONG)
+                                    .setActionTextColor(getResources().getColor(R.color.white))
+                                    .setAction(R.string.snackbarDownloadLayoutAction, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Utils.intentOpen(Uri.fromFile(imageFromLayout.getOpenPath().getAbsoluteFile()), context, getResources().getString(R.string.snackbarDownloadLayoutIntent));
+                                        }
+                                    });
+
+                            View snackBarView = snackbar.getView();
+                            snackBarView.setBackgroundColor(Utils.colorVariant(color, 0.92f));
+                            snackbar.show();
                         }
-
-
                     }
                 })
                 .show();
     }
 
 
-//    ANDROID M PERMISSION SYSTEM // RUNTIME PERMISSIONS
 
+//    PERMISSION METHODS
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
@@ -391,13 +371,9 @@ public class PlaceDetailActivity extends AppCompatActivity {
                 if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     downloadDialog();
-
-//                  TODO  Utils class?
-
                     Log.d("requestPermission", "Write External Storage: Permission granted.");
 
                 } else {
-                    //Permission denied
 
                     //Show snack bar if check never ask again
                     Log.d("requestPermission", "Write External Storage: Permission NOT granted.");
@@ -421,20 +397,17 @@ public class PlaceDetailActivity extends AppCompatActivity {
                 }
             }
         }
-
-
     }
-
 
     private void getStoragePermission() {
         //Explain the first time for what we need this permission and also if check never ask again
         if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
             new MaterialDialog.Builder(this)
-                    .title("title")
-                    .content("content")
-                    .positiveText("ok")
-                    .negativeText("no")
+                    .content(R.string.storageContent)
+                    .positiveText(R.string.storagePositive).positiveColor(color)
+                    .negativeText(R.string.storageNegative).negativeColor(color)
                     .onAny(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -444,7 +417,6 @@ public class PlaceDetailActivity extends AppCompatActivity {
                                             PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE);
                                     break;
                                 case NEGATIVE:
-//                                        switchBassBoost.setChecked(false);
                                     break;
                             }
                         }
@@ -453,12 +425,11 @@ public class PlaceDetailActivity extends AppCompatActivity {
                         @Override
                         public void onCancel(DialogInterface dialog) {
                             downloadDialog();
-//                                switchBassBoost.setChecked(false);
                         }
                     })
                     .show();
         } else {
-            //Audio record permissions have not been granted yet so request them directly
+
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE);
         }

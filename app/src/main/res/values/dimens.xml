@@ -24,6 +24,6 @@
     <dimen name="textSizeHeadline">24dp</dimen>
     <dimen name="textSizeTitle">20dp</dimen>
     <dimen name="textSizeSubheading">16dp</dimen>
-    <dimen name="textSizeBody">16dp</dimen>
+    <dimen name="textSizeBody">14dp</dimen>
     <dimen name="textSizeCaption">12dp</dimen>
 </resources>

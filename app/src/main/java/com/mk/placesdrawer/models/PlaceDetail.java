@@ -1,7 +1,5 @@
 package com.mk.placesdrawer.models;
 
-import android.text.Spanned;
-
 public class PlaceDetail {
 
     private String text;
@@ -9,8 +7,8 @@ public class PlaceDetail {
     private int drawable;
 
     public PlaceDetail(String title, String text, int drawable) {
-        this.title = title;
         this.text = text;
+        this.title = title;
         this.drawable = drawable;
     }
 

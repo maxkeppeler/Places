@@ -27,14 +27,8 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -43,25 +37,21 @@ import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
+import android.support.v7.graphics.Palette;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.mk.placesdrawer.R;
 
-/**
- * With a little help from Aidan Follestad (afollestad)
- */
 public class Utils extends Activity {
 
-    public static Typeface getTypeface(Context context, int index) {
+    public static Typeface customTypeface(Context context, int index) {
         Typeface typeface = null;
-        if (index == 1) typeface = Typeface.createFromAsset(context.getAssets(), "fonts/BreeSerif-Regular.ttf");
+        if (index == 1)
+            typeface = Typeface.createFromAsset(context.getAssets(), "fonts/BreeSerif-Regular.ttf");
         return typeface;
     }
 
-    public static void openLinkInChromeCustomTab(Context context, String link, int color) {
+    public static void customChromeTab(Context context, String link, int color) {
         final CustomTabsClient[] mClient = new CustomTabsClient[1];
         final CustomTabsSession[] mCustomTabsSession = new CustomTabsSession[1];
 
@@ -72,6 +62,7 @@ public class Utils extends Activity {
                 mClient[0].warmup(0L);
                 mCustomTabsSession[0] = mClient[0].newSession(null);
             }
+
             @Override
             public void onServiceDisconnected(ComponentName name) {
                 mClient[0] = null;
@@ -85,7 +76,7 @@ public class Utils extends Activity {
                 .addDefaultShareMenuItem()
                 .build();
 
-        customTabsIntent.launchUrl( (Activity) context, Uri.parse(link));
+        customTabsIntent.launchUrl((Activity) context, Uri.parse(link));
         context.unbindService(mCustomTabsServiceConnection);
     }
 
@@ -100,4 +91,40 @@ public class Utils extends Activity {
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
+    public static int colorVariant(int color, float intensity) {
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+        hsv[2] *= intensity;
+        color = Color.HSVToColor(hsv);
+        return color;
+    }
+
+    public static void intentOpen(Uri uri, Context context, String text) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(uri, "image/*");
+        context.startActivity(Intent.createChooser(intent, text));
+    }
+
+    public static int colorFromPalette(Context context, Palette palette) {
+
+        final int defaultColor = context.getResources().getColor(R.color.colorPrimary);
+        int mutedLight = palette.getLightMutedColor(defaultColor);
+        int vibrantLight = palette.getLightVibrantColor(mutedLight);
+        int mutedDark = palette.getDarkMutedColor(vibrantLight);
+        int muted = palette.getMutedColor(mutedDark);
+        int vibrantDark = palette.getDarkVibrantColor(muted);
+        return palette.getVibrantColor(vibrantDark);
+    }
+
+    public static void simpleSnackBar(Activity context, int color, int view, int text, int length) {
+
+        View layout = context.findViewById(view);
+        Snackbar snackbar = Snackbar.make(layout, text, length)
+                .setActionTextColor(context.getResources().getColor(R.color.white));
+
+        View snackBarView = snackbar.getView();
+        if (color == 0) color = context.getResources().getColor(R.color.colorPrimary);
+        snackBarView.setBackgroundColor(color);
+        snackbar.show();
+    }
 }

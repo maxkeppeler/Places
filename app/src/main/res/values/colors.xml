@@ -5,13 +5,14 @@
 
     <!--<color name="colorPrimary">#212121</color>-->
     <!--<color name="colorPrimaryDark">#1e1e1e</color>    -->
-    <color name="colorPrimary">#212121</color>
+    <color name="colorPrimary">@android:color/black</color>
     <!--<color name="colorPrimaryLight">@color/c</color>-->
-    <color name="colorPrimaryDark">#1d1d1d</color>
-    <color name="colorAccent">@color/md_green_500</color>
+    <!--<color name="colorPrimaryDark">#1d1d1d</color>-->
+    <color name="colorPrimaryDark">@android:color/black</color>
+    <color name="colorAccent">@android:color/white</color>
 
     <!-- Statusbar & Navigation Bar -->
-    <color name="colorStatusBarOverlay">#3c212121</color>
+    <color name="colorStatusBarOverlay">#1e212121</color>
     <color name="colorStatusBar">@color/colorPrimaryDark</color>
     <color name="navigationBar">#000</color>
 
@@ -25,6 +26,7 @@
     <color name="rippleColor">@color/colorAccent</color>
 
     <color name="appBackgroundColor">#212121</color>
+    <!--<color name="appBackgroundColor">#000</color>-->
 
     <color name="dialogs">#212121</color>
 

@@ -9,8 +9,8 @@
     <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>-->
 
     <!-- The following permissions are only requested if the device is on M or above. -->
-    <uses-permission-sdk-m android:name="android.permission.READ_CONTACTS" />
-    <uses-permission-sdk-m android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--<uses-permission-sdk-m android:name="android.permission.READ_CONTACTS" />-->
+    <!--<uses-permission-sdk-m android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
 
     <application
         android:allowBackup="true"

@@ -15,7 +15,7 @@ public class DrawerAbout extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.drawer_places, container, false);
+        View view = inflater.inflate(R.layout.feedback, container, false);
         return view;
     }
 
@@ -29,6 +29,6 @@ public class DrawerAbout extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-        inflater.inflate(R.menu.toolbar_places_details, menu);
+//        inflater.inflate(R.menu.toolbar_places_details, menu);
     }
 }

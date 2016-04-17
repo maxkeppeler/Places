@@ -31,6 +31,7 @@ public class Dialogs {
                 .content(Html.fromHtml(context.getResources().getString(R.string.changelogContent)))
                 .positiveText(R.string.changelogPositive)
                 .negativeText(R.string.changelogNegative)
+                .backgroundColor(context.getResources().getColor(R.color.dialogs))
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -49,7 +50,7 @@ public class Dialogs {
 
                     }
                 })
-                .backgroundColor(context.getResources().getColor(R.color.colorPrimary))
+//                .backgroundColor(context.getResources().getColor(R.color.colorPrimary))
                 .show();
 
 

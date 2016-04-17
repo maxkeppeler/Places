@@ -11,14 +11,16 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +36,7 @@ import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.holder.BadgeStyle;
+import com.mikepenz.materialdrawer.holder.StringHolder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
@@ -43,8 +46,16 @@ import com.mk.placesdrawer.fragment.DrawerPlaces;
 import com.mk.placesdrawer.models.PlaceList;
 import com.mk.placesdrawer.utilities.Animation;
 import com.mk.placesdrawer.utilities.Dialogs;
+import com.mk.placesdrawer.utilities.JSONParser;
+import com.mk.placesdrawer.utilities.Utils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.ref.WeakReference;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
 import static com.mikepenz.google_material_typeface_library.GoogleMaterial.Icon;
 
@@ -52,15 +63,11 @@ public class MainActivity extends AppCompatActivity {
 
     private static Drawer result;
     private static AppCompatActivity context;
-    private static String drawerPlaces, drawerSubmit, drawerFavorite;
-    private static String drawerAbout, drawerFeedback, drawerSettings;
-    private static String drawerWrong;
-    private int currentDrawerItem;
+    private static String drawerPlaces, drawerFavorite, drawerAbout, drawerFeedback, drawerLiveChat, drawerSettings, drawerWrong;
+    private int currentDrawerItem = 1;
     private String[] urlHeaderArray;
-    private Window window;
     private Toolbar toolbar;
     private AccountHeader header;
-    private String keyWord = "All";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,20 +76,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         context = this;
 
-        loadWallsList(context);
+        final DrawerPlaces drawer= new DrawerPlaces();
+        drawer.loadWallsList(context);
 
         urlHeaderArray = getResources().getStringArray(R.array.headerUrl);
 
         drawerPlaces = getResources().getString(R.string.app_places);
         drawerFavorite = getResources().getString(R.string.app_favorite);
         drawerAbout = getResources().getString(R.string.app_about);
-        drawerFeedback = getResources().getString(R.string.app_Feedback);
+        drawerFeedback = getResources().getString(R.string.app_feedback);
+        drawerLiveChat = getResources().getString(R.string.app_liveChat);
         drawerSettings = getResources().getString(R.string.app_settings);
         drawerWrong = getResources().getString(R.string.app_wrong);
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window = this.getWindow();
+            Window window = this.getWindow();
             window.setNavigationBarColor(getResources().getColor(R.color.navigationBar));
         }
 
@@ -90,54 +99,32 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         new DrawerBuilder().withActivity(this).build();
+        final PrimaryDrawerItem itemPlaces = new PrimaryDrawerItem().withName(drawerPlaces).withIcon(Icon.gmd_place).withIdentifier(1);
+        final PrimaryDrawerItem itemFavorite = new PrimaryDrawerItem().withName(drawerFavorite).withIcon(Icon.gmd_favorite).withIdentifier(2);
+        final PrimaryDrawerItem itemAbout = new PrimaryDrawerItem().withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(3);
+        final PrimaryDrawerItem itemFeedback = new PrimaryDrawerItem().withName(drawerFeedback).withIcon(Icon.gmd_feedback).withIdentifier(4);
+        final PrimaryDrawerItem itemLiveChat = new PrimaryDrawerItem().withName(drawerLiveChat).withIcon(Icon.gmd_chat).withIdentifier(5);
+        final PrimaryDrawerItem itemSettings = new PrimaryDrawerItem().withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(6);
 
-        final PrimaryDrawerItem itemPlaces = new PrimaryDrawerItem()
-                .withName(drawerPlaces).withIcon(Icon.gmd_place).withIdentifier(1);
+        header = new AccountHeaderBuilder().withActivity(this).withSelectionFirstLine("Places").withSelectionSecondLine("by Maximilian Keppeler").withHeightDp(300).build();
 
-        final PrimaryDrawerItem itemFavorite = new PrimaryDrawerItem()
-                .withName(drawerFavorite).withIcon(Icon.gmd_favorite).withIdentifier(2);
-
-        final PrimaryDrawerItem itemAbout = new PrimaryDrawerItem()
-                .withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(3);
-
-        final PrimaryDrawerItem itemFeedback = new PrimaryDrawerItem()
-                .withName(drawerFeedback).withIcon(Icon.gmd_feedback).withIdentifier(4);
-
-        final PrimaryDrawerItem itemSettings = new PrimaryDrawerItem()
-                .withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(5);
-
-
-        header = new AccountHeaderBuilder().withActivity(this).withSelectionFirstLine("Places").withSelectionSecondLine("by Maximilian Keppeler")
-                .withHeightDp(300)
-                .build();
-
-        changeHeader();
+        grabHeaderImage();
 
         result = new DrawerBuilder().withAccountHeader(header).withActivity(this).withToolbar(toolbar).withSelectedItem(1)
                 .addDrawerItems(
                         itemPlaces
                                 .withBadgeStyle(
                                         new BadgeStyle()        // TODO, only Cyan, when current item is 1, otherwise no background color
-                                                .withTextColor(Color.WHITE)
-                                                .withColorRes(R.color.colorAccent)
-                                                .withCornersDp(100000).withPadding(20)),
-                        itemFavorite.
-                                withBadgeStyle(
-                                        new BadgeStyle()        // TODO, only Cyan, when current item is 2, otherwise no background color
-                                                .withTextColor(Color.WHITE)
-                                                .withColorRes(R.color.colorAccent)
-                                                .withCornersDp(100000).withPadding(20)),
+                                                .withTextColor(Color.WHITE).withPadding(20)),
+                        itemFavorite,
                         new DividerDrawerItem(),
-                        itemAbout,
-                        itemFeedback,
-                        itemSettings
+                        itemAbout, itemFeedback, itemLiveChat, itemSettings
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
 
                         if (drawerItem != null) {
-                            Intent intent = null;
 
                             FragmentManager manager = getSupportFragmentManager();
                             FragmentTransaction transaction = manager.beginTransaction();
@@ -147,98 +134,68 @@ public class MainActivity extends AppCompatActivity {
 
                             switch ((int) drawerItem.getIdentifier()) {
 
-                                case 1:
-                                    fragment = new DrawerPlaces();
+
+                                case 1: fragment = new DrawerPlaces();
                                     break;
 
-                                case 2:
+                                case 2:  fragment = new DrawerAbout();
 //                                    TODO - Favorite Fragment, filter out the json objects where int favorite is 1 (for favored)
-                                    fragment = new DrawerAbout();
-//                                    setKeyWord("favorite");
                                     break;
 
-                                case 3:
-                                    fragment = new DrawerAbout();
+                                case 3: fragment = new DrawerAbout();
                                     break;
 
-                                case 4:
-//                                    fragment = new DrawerTabs();
-
-                                    ViewPager pager= (ViewPager) findViewById(R.id.viewPager);
-                                    TabLayout tabLayout= (TabLayout) findViewById(R.id.tab_layout);
-
-//                                TODO
-
+                                case 4: fragment = new DrawerAbout();
                                     break;
 
-                                case 5:
-                                    fragment = new DrawerAbout();
+                                case 5: fragment = new DrawerAbout();
                                     break;
 
-                                case 6:
-                                    fragment = new DrawerAbout();
+                                case 6: fragment = new DrawerAbout();
                                     break;
 
-                                default:
-                                    fragment = new DrawerPlaces();
+                                default: fragment = new DrawerAbout();
                             }
 
-
-
-                            if (fragment != null) {
                             transaction.replace(R.id.container, fragment);
                             transaction.commit();
 
+                            if (fragment != null) {
+
+                            }
+
+
                             currentDrawerItem = (int) drawerItem.getIdentifier();
-                            toolbar.setTitle(toolbarText(currentDrawerItem));
-                            }
-
-                            if (intent != null) {
-                                MainActivity.this.startActivity(intent);
-                            }
-
-
+                            toolbar.setTitle(toolbarTitle(currentDrawerItem));
                         }
                         return false;
                     }
                 })
+                .withSavedInstance(savedInstanceState)
                 .build();
 
         if (result != null) {
             result.setSelection(1);
         }
 
-
-        Intent in = new Intent();
-        int dburl = in.getIntExtra("size", -1);
-////
-//////      TODO intent restarts MainActivity, UI restarts
-////
-//
-//        Intent one = new Intent(context, MainActivity.class);
-//        one.putExtra("size", PlaceList.getPlacesList().size());
-//        context.startActivity(one);
-//
-//        Log.d("SIZE MAIN", "onCreate: " + DrawerPlaces.getJsonArraySize());
-//        result.updateBadge(1, new StringHolder("    " + String.valueOf(DrawerPlaces.getJsonArraySize()) + "    "));
-//            result.updateBadge(1, new StringHolder("    " + size + "    "));
-//        result.updateBadge(2, new StringHolder("    " + "35" + "    "));
     }
 
-    public String toolbarText(int fragmentPosition) {
-        switch (fragmentPosition) {
-            case 1:
-                return drawerPlaces;
-            case 2:
-                return drawerFavorite;
-            case 3:
-                return drawerAbout;
-            case 4:
-                return drawerFeedback;
-            case 5:
-                return drawerSettings;
-            default:
-                return drawerWrong;
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState = result.saveInstanceState(outState);
+        super.onSaveInstanceState(outState);
+    }
+
+    public String toolbarTitle(int position) {
+        switch (position) {
+            case 1: return drawerPlaces;
+            case 2: return drawerFavorite;
+            case 3: return drawerAbout;
+            case 4: return drawerFeedback;
+            case 5: return drawerLiveChat;
+            case 6: return drawerSettings;
+
+            default: return drawerWrong;
         }
     }
 
@@ -265,39 +222,14 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_places, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.filter:
-                filterDialog(context);
-                break;
-            case R.id.column:
-                Dialogs.columnsDialog(context);
-                break;
-            case R.id.changelog:
-                Dialogs.showChangelog(context);
-                break;
-        }
-        return true;
-    }
-
-    public AccountHeader changeHeader() {
+    public AccountHeader grabHeaderImage() {
 
         final ImageView cover = header.getHeaderBackgroundView();
-
-        Random r = new Random();
-        String rnb = urlHeaderArray[r.nextInt(urlHeaderArray.length)];
+        Random random = new Random();
+        String randomURL = urlHeaderArray[random.nextInt(urlHeaderArray.length)];
 
         Glide.with(context)
-                .load(rnb)
+                .load(randomURL)
                 .asBitmap()
                 .override(2012, 1788)
                 .centerCrop()
@@ -308,102 +240,13 @@ public class MainActivity extends AppCompatActivity {
                         cover.setImageDrawable(td);
                         td.startTransition(400);
                     }
-
                 });
 
-        if (this.getResources().getBoolean(R.bool.zoomDrawerHeader)) {
-            Animation.zoomInAndOut(context, cover);
-        }
+        if (this.getResources().getBoolean(R.bool.zoomDrawerHeader)) Animation.zoomInAndOut(context, cover);
 
         return header;
     }
 
-    public void filterDialog(final Context context) {
-
-        new MaterialDialog.Builder(context)
-                .title(R.string.filterTitle)
-                .items(R.array.filterContentArray)
-                .negativeText("Reset Filter")
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        setKeyWord("All");
-                    }
-                })
-                .backgroundColor(context.getResources().getColor(R.color.dialogs))
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
-                        if (i == 0) sightDialog(context);
-                        if (i == 1) countryDialog(context);
-
-                    }
-                })
-                .show();
-    }
-
-    public String sightDialog(final Context context) {
-
-        new MaterialDialog.Builder(context)
-                .title(R.string.sightTitle)
-                .items(R.array.sightContentArray)
-                .backgroundColor(context.getResources().getColor(R.color.dialogs))
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
-
-                        switch (i) {
-                            case 0: setKeyWord(text.toString()); break;
-                            case 1: setKeyWord(text.toString()); break;
-                            case 2: setKeyWord(text.toString()); break;
-                            case 3: setKeyWord(text.toString()); break;
-                            case 4: setKeyWord(text.toString()); break;
-                            case 5: setKeyWord(text.toString()); break;
-                            case 6: setKeyWord(text.toString()); break;
-                        }
-                    }
-                })
-                .show();
-        return "";
-    }
-
-    public String countryDialog(final Context context) {
-
-        new MaterialDialog.Builder(context)
-                .title(R.string.filterTitle)
-                .items(R.array.filterContentArray)
-                .backgroundColor(context.getResources().getColor(R.color.dialogs))
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
-
-//                        TODO on selection, filter the current placesList and return just the objects where the category (country) is correct.
-
-                    }
-                })
-                .show();
-
-        return "";
-    }
-
-    public void setKeyWord(String string) {
-        this.keyWord = string;
-        loadWallsList(context);
-    }
-
-    private void loadWallsList(Context context) {
-        PlaceList.clearList();
-
-        new DrawerPlaces.DownloadJSON(new PlacesListInterface() {
-            @Override
-            public void checkPlacesListCreation(boolean result) {
-                if (DrawerPlaces.mAdapter != null) {
-                    DrawerPlaces.mAdapter.notifyDataSetChanged();
-                }
-            }
-        }, context, keyWord).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-    }
     public interface PlacesListInterface {
         void checkPlacesListCreation(boolean result);
     }

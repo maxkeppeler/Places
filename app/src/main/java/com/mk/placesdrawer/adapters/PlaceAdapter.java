@@ -1,25 +1,17 @@
 package com.mk.placesdrawer.adapters;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
@@ -32,8 +24,6 @@ import com.mk.placesdrawer.utilities.Animation;
 import com.mk.placesdrawer.utilities.Utils;
 
 import java.util.ArrayList;
-
-import butterknife.Bind;
 
 public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHolder> {
 
@@ -110,7 +100,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
             ripple = (MaterialRippleLayout) view.findViewById(R.id.rippleThumb);
             image = (ImageView) view.findViewById(R.id.imageThumb);
             location = (TextView) view.findViewById(R.id.locationThumb);
-            location.setTypeface(Utils.getTypeface(context, 1));
+            location.setTypeface(Utils.customTypeface(context, 1));
             sight = (TextView) view.findViewById(R.id.sightThumb);
 
             desc = null;
