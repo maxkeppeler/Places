@@ -186,9 +186,10 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-
+        super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
         context = getActivity();
 
         if (layout != null) {

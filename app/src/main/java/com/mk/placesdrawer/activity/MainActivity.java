@@ -64,19 +64,19 @@ public class MainActivity extends AppCompatActivity {
     private static Drawer result;
     private static AppCompatActivity context;
     private static String drawerPlaces, drawerFavorite, drawerAbout, drawerFeedback, drawerLiveChat, drawerSettings, drawerWrong;
-    private int currentDrawerItem = 1;
     private String[] urlHeaderArray;
     private Toolbar toolbar;
     private AccountHeader header;
+    private int currentItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        context = this;
-
         final DrawerPlaces drawer= new DrawerPlaces();
+
+        context = this;
         drawer.loadWallsList(context);
 
         urlHeaderArray = getResources().getStringArray(R.array.headerUrl);
@@ -99,18 +99,18 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         new DrawerBuilder().withActivity(this).build();
-        final PrimaryDrawerItem itemPlaces = new PrimaryDrawerItem().withName(drawerPlaces).withIcon(Icon.gmd_place).withIdentifier(1);
-        final PrimaryDrawerItem itemFavorite = new PrimaryDrawerItem().withName(drawerFavorite).withIcon(Icon.gmd_favorite).withIdentifier(2);
-        final PrimaryDrawerItem itemAbout = new PrimaryDrawerItem().withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(3);
-        final PrimaryDrawerItem itemFeedback = new PrimaryDrawerItem().withName(drawerFeedback).withIcon(Icon.gmd_feedback).withIdentifier(4);
-        final PrimaryDrawerItem itemLiveChat = new PrimaryDrawerItem().withName(drawerLiveChat).withIcon(Icon.gmd_chat).withIdentifier(5);
-        final PrimaryDrawerItem itemSettings = new PrimaryDrawerItem().withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(6);
+        final PrimaryDrawerItem itemPlaces = new PrimaryDrawerItem().withName(drawerPlaces).withIcon(Icon.gmd_place).withIdentifier(0);
+        final PrimaryDrawerItem itemFavorite = new PrimaryDrawerItem().withName(drawerFavorite).withIcon(Icon.gmd_favorite).withIdentifier(1);
+        final PrimaryDrawerItem itemAbout = new PrimaryDrawerItem().withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(2);
+        final PrimaryDrawerItem itemFeedback = new PrimaryDrawerItem().withName(drawerFeedback).withIcon(Icon.gmd_feedback).withIdentifier(3);
+        final PrimaryDrawerItem itemLiveChat = new PrimaryDrawerItem().withName(drawerLiveChat).withIcon(Icon.gmd_chat).withIdentifier(4);
+        final PrimaryDrawerItem itemSettings = new PrimaryDrawerItem().withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(5);
 
         header = new AccountHeaderBuilder().withActivity(this).withSelectionFirstLine("Places").withSelectionSecondLine("by Maximilian Keppeler").withHeightDp(300).build();
 
         grabHeaderImage();
 
-        result = new DrawerBuilder().withAccountHeader(header).withActivity(this).withToolbar(toolbar).withSelectedItem(1)
+        result = new DrawerBuilder().withAccountHeader(header).withActivity(this).withToolbar(toolbar).withSelectedItem(0)
                 .addDrawerItems(
                         itemPlaces
                                 .withBadgeStyle(
@@ -135,11 +135,14 @@ public class MainActivity extends AppCompatActivity {
                             switch ((int) drawerItem.getIdentifier()) {
 
 
-                                case 1: fragment = new DrawerPlaces();
+                                case 0: fragment = new DrawerPlaces();
                                     break;
 
-                                case 2:  fragment = new DrawerAbout();
+                                case 1:  fragment = new DrawerAbout();
 //                                    TODO - Favorite Fragment, filter out the json objects where int favorite is 1 (for favored)
+                                    break;
+
+                                case 2: fragment = new DrawerAbout();
                                     break;
 
                                 case 3: fragment = new DrawerAbout();
@@ -151,22 +154,15 @@ public class MainActivity extends AppCompatActivity {
                                 case 5: fragment = new DrawerAbout();
                                     break;
 
-                                case 6: fragment = new DrawerAbout();
-                                    break;
-
                                 default: fragment = new DrawerAbout();
                             }
 
+                            fragment.setRetainInstance(true);
                             transaction.replace(R.id.container, fragment);
                             transaction.commit();
 
-                            if (fragment != null) {
-
-                            }
-
-
-                            currentDrawerItem = (int) drawerItem.getIdentifier();
-                            toolbar.setTitle(toolbarTitle(currentDrawerItem));
+                            Log.d("DrawerItem", "Identifier: " + drawerItem.getIdentifier());
+                            toolbar.setTitle(toolbarTitle((int) drawerItem.getIdentifier()));
                         }
                         return false;
                     }
@@ -175,26 +171,19 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         if (result != null) {
-            result.setSelection(1);
+            result.setSelection(0);
         }
 
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState = result.saveInstanceState(outState);
-        super.onSaveInstanceState(outState);
-    }
-
     public String toolbarTitle(int position) {
         switch (position) {
-            case 1: return drawerPlaces;
-            case 2: return drawerFavorite;
-            case 3: return drawerAbout;
-            case 4: return drawerFeedback;
-            case 5: return drawerLiveChat;
-            case 6: return drawerSettings;
-
+            case 0: return drawerPlaces;
+            case 1: return drawerFavorite;
+            case 2: return drawerAbout;
+            case 3: return drawerFeedback;
+            case 4: return drawerLiveChat;
+            case 5: return drawerSettings;
             default: return drawerWrong;
         }
     }
@@ -222,6 +211,19 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        int id = item.getItemId();
+        return true;
+    }
+
     public AccountHeader grabHeaderImage() {
 
         final ImageView cover = header.getHeaderBackgroundView();
@@ -231,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
         Glide.with(context)
                 .load(randomURL)
                 .asBitmap()
-                .override(2012, 1788)
+                .override(1512, 1288)
                 .centerCrop()
                 .into(new BitmapImageViewTarget(cover) {
                     @Override
