@@ -72,8 +72,24 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
             Animation.zoomInAndOut(context, holder.image);
         }
 
+//        TODO - Mach dir mal Gedanken was es alles geben soll
+
         holder.location.setText(placeItem.getLocation());
         holder.sight.setText(placeItem.getSight());
+
+        if (holder.sight.getText().equals("City")) {
+            holder.icon.setBackground(context.getResources().getDrawable(R.drawable.sight_city));
+        }
+
+        else if (holder.sight.getText().equals("Country")) {
+            holder.icon.setBackground(context.getResources().getDrawable(R.drawable.sight_country));
+        }
+
+        else if (holder.sight.getText().equals("National Park")) {
+            holder.icon.setBackground(context.getResources().getDrawable(R.drawable.sight_country));
+        }
+
+
     }
 
     @Override
@@ -92,6 +108,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
         public final TextView location, sight, desc;
         public final TextView position, religion;
         private MaterialRippleLayout ripple;
+        public final ImageView icon;
 
         PlacesViewHolder(View v) {
             super(v);
@@ -102,6 +119,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
             location = (TextView) view.findViewById(R.id.locationThumb);
             location.setTypeface(Utils.customTypeface(context, 1));
             sight = (TextView) view.findViewById(R.id.sightThumb);
+            icon = (ImageView) view.findViewById(R.id.SightIcon);
 
             desc = null;
             position = null;

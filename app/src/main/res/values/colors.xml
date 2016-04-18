@@ -41,8 +41,6 @@
     <color name="backgroundColor">#303030</color>
     <color name="cardBackground">#424242</color>
     <color name="textPrimary">#fff</color>
-    <!--<color name="cardDarkOverlay">#51000000</color>-->
-    <color name="cardDarkOverlay">#51000000</color>
     <color name="default_app_bg">#1b1c1f</color>
     <color name="default_card_darktheme">#26282c</color>
     <color name="accent_translucent">#80FFEB3B</color>
