@@ -2,8 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/selectable_item_background">
+    android:layout_height="wrap_content">
+    <!--android:background="@drawable/selectable_item_background">-->
+
 
     <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/rippleThumb"
@@ -13,7 +14,7 @@
         app:mrl_rippleDuration="450"
         app:mrl_rippleFadeDuration="475"
         app:mrl_rippleHover="true"
-        app:mrl_rippleOverlay="true" >
+        app:mrl_rippleOverlay="true">
 
         <ImageView
             android:id="@+id/imageThumb"
@@ -24,11 +25,17 @@
 
     </com.balysv.materialripple.MaterialRippleLayout>
 
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/shadow_gradient" />
+
     <LinearLayout
         android:id="@+id/colorizedFrame"
         style="@style/LinearLayoutForTexts"
-        android:layout_gravity="bottom"
-        android:background="@color/cardDarkOverlay">
+        android:layout_gravity="bottom">
 
         <TextView
             android:id="@+id/locationThumb"
@@ -44,5 +51,6 @@
             android:textColor="@color/textPrimary" />
 
     </LinearLayout>
+
 
 </FrameLayout>

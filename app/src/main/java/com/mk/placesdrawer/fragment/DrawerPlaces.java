@@ -74,9 +74,9 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
+//        super.onOptionsItemSelected(item);
 
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+//        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
 //        searchView.setOnQueryTextListener(context);
 
         int id = item.getItemId();
@@ -94,7 +94,7 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
 
 
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     public void filterDialog(final Context context) {
@@ -282,8 +282,6 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
     }
 
 
-
-
     public static class DownloadJSON extends AsyncTask<Void, Void, Void> {
 
         private final static ArrayList<Place> places = new ArrayList<>();
@@ -360,7 +358,7 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
             );
         }
 
-        //    Methods for filtering out the favored items/ json objects
+        //   TODO Methods for filtering out the favored items/ json objects
 
         public void filterFavored() {
 

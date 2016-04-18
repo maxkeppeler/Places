@@ -1,80 +1,65 @@
 package com.mk.placesdrawer.activity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.holder.BadgeStyle;
-import com.mikepenz.materialdrawer.holder.StringHolder;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.mk.placesdrawer.R;
 import com.mk.placesdrawer.fragment.DrawerAbout;
 import com.mk.placesdrawer.fragment.DrawerPlaces;
-import com.mk.placesdrawer.models.PlaceList;
 import com.mk.placesdrawer.utilities.Animation;
-import com.mk.placesdrawer.utilities.Dialogs;
-import com.mk.placesdrawer.utilities.JSONParser;
-import com.mk.placesdrawer.utilities.Utils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.lang.ref.WeakReference;
 import java.util.Random;
-import java.util.concurrent.ExecutionException;
 
 import static com.mikepenz.google_material_typeface_library.GoogleMaterial.Icon;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static Drawer result;
+    private Drawer result = null;
+    private Drawer resultAppended = null;
     private static AppCompatActivity context;
     private static String drawerPlaces, drawerFavorite, drawerAbout, drawerFeedback, drawerLiveChat, drawerSettings, drawerWrong;
     private String[] urlHeaderArray;
     private Toolbar toolbar;
     private AccountHeader header;
-    private int currentItem;
+    private int current = 0;
+    private View drawerViewO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        final DrawerPlaces drawer= new DrawerPlaces();
+        final DrawerPlaces drawer = new DrawerPlaces();
 
         context = this;
         drawer.loadWallsList(context);
@@ -97,84 +82,174 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        new DrawerBuilder().withActivity(this).build();
-        final PrimaryDrawerItem itemPlaces = new PrimaryDrawerItem().withName(drawerPlaces).withIcon(Icon.gmd_place).withIdentifier(0);
-        final PrimaryDrawerItem itemFavorite = new PrimaryDrawerItem().withName(drawerFavorite).withIcon(Icon.gmd_favorite).withIdentifier(1);
-        final PrimaryDrawerItem itemAbout = new PrimaryDrawerItem().withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(2);
-        final PrimaryDrawerItem itemFeedback = new PrimaryDrawerItem().withName(drawerFeedback).withIcon(Icon.gmd_feedback).withIdentifier(3);
-        final PrimaryDrawerItem itemLiveChat = new PrimaryDrawerItem().withName(drawerLiveChat).withIcon(Icon.gmd_chat).withIdentifier(4);
-        final PrimaryDrawerItem itemSettings = new PrimaryDrawerItem().withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(5);
+        //set the back arrow in the toolbar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+//        getSupportActionBar().withActionBarDrawerToggle(false);
 
         header = new AccountHeaderBuilder().withActivity(this).withSelectionFirstLine("Places").withSelectionSecondLine("by Maximilian Keppeler").withHeightDp(300).build();
-
         grabHeaderImage();
 
-        result = new DrawerBuilder().withAccountHeader(header).withActivity(this).withToolbar(toolbar).withSelectedItem(0)
+
+
+        result = new DrawerBuilder()
+                .withActivity(this)
+                .withAccountHeader(header)
+                .withSavedInstance(savedInstanceState)
+                .withSelectedItem(0)
+                .withToolbar(toolbar)
                 .addDrawerItems(
-                        itemPlaces
-                                .withBadgeStyle(
-                                        new BadgeStyle()        // TODO, only Cyan, when current item is 1, otherwise no background color
-                                                .withTextColor(Color.WHITE).withPadding(20)),
-                        itemFavorite,
-                        new DividerDrawerItem(),
-                        itemAbout, itemFeedback, itemLiveChat, itemSettings
+                        new PrimaryDrawerItem().withName(drawerPlaces).withIcon(Icon.gmd_place).withIdentifier(0),
+                        new PrimaryDrawerItem().withName(drawerFavorite).withIcon(Icon.gmd_place).withIdentifier(1),
+                        new PrimaryDrawerItem().withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(2),
+                        new SectionDrawerItem().withName("Various"),
+                        new SecondaryDrawerItem().withName(drawerFeedback).withIcon(Icon.gmd_feedback).withIdentifier(3),
+                        new SecondaryDrawerItem().withName(drawerLiveChat).withIcon(Icon.gmd_chat).withIdentifier(4),
+                        new SecondaryDrawerItem().withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(5)
                 )
+                .withOnDrawerListener(new Drawer.OnDrawerListener() {
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+                        Toast.makeText(context, "onDrawerOpened", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+                        Toast.makeText(context, "onDrawerClosed", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onDrawerSlide(View drawerView, float slideOffset) {
+
+                    }
+                })
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
 
+
                         if (drawerItem != null) {
+                            if (drawerItem instanceof Nameable) {
 
-                            FragmentManager manager = getSupportFragmentManager();
-                            FragmentTransaction transaction = manager.beginTransaction();
-                            transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
+                                FragmentManager manager = getSupportFragmentManager();
+                                FragmentTransaction transaction = manager.beginTransaction();
+                                transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
 
-                            Fragment fragment = null;
+                                Fragment fragment = null;
 
-                            switch ((int) drawerItem.getIdentifier()) {
+                                switch ((int) drawerItem.getIdentifier()) {
 
 
-                                case 0: fragment = new DrawerPlaces();
-                                    break;
+                                    case 0:
+                                        fragment = new DrawerPlaces();
+                                        current = 0;
+                                        break;
 
-                                case 1:  fragment = new DrawerAbout();
+                                    case 1:
+                                        current = 1;
+                                        fragment = new DrawerAbout();
+
 //                                    TODO - Favorite Fragment, filter out the json objects where int favorite is 1 (for favored)
-                                    break;
+                                        break;
 
-                                case 2: fragment = new DrawerAbout();
-                                    break;
+                                    case 2:
+                                        fragment = new DrawerAbout();
+                                        current = 2;
 
-                                case 3: fragment = new DrawerAbout();
-                                    break;
+                                        break;
 
-                                case 4: fragment = new DrawerAbout();
-                                    break;
+                                    default:
+                                        fragment = new DrawerAbout();
+                                        current = 32;
 
-                                case 5: fragment = new DrawerAbout();
-                                    break;
+                                }
+                                        fragment.setRetainInstance(true);
+                                        transaction.replace(R.id.container, fragment);
+                                        transaction.commit();
 
-                                default: fragment = new DrawerAbout();
+//                                        current = (int) drawerItem.getIdentifier();
+                                        Log.d("DrawerItem", "Identifier: " + drawerItem.getIdentifier());
+                                        toolbar.setTitle(toolbarTitle((int) drawerItem.getIdentifier()));
                             }
+                        }
 
-                            fragment.setRetainInstance(true);
-                            transaction.replace(R.id.container, fragment);
-                            transaction.commit();
+                        return false;
+                    }
+                })
+                .withOnDrawerItemLongClickListener(new Drawer.OnDrawerItemLongClickListener() {
 
-                            Log.d("DrawerItem", "Identifier: " + drawerItem.getIdentifier());
-                            toolbar.setTitle(toolbarTitle((int) drawerItem.getIdentifier()));
+                    @Override
+                    public boolean onItemLongClick(View view, int position, IDrawerItem drawerItem) {
+                        if (drawerItem instanceof SecondaryDrawerItem) {
+                            Toast.makeText(context, ((SecondaryDrawerItem) drawerItem).getName().getText(context), Toast.LENGTH_SHORT).show();
                         }
                         return false;
                     }
                 })
-                .withSavedInstance(savedInstanceState)
+                .withOnDrawerListener(new Drawer.OnDrawerListener() {
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+
+                        drawerViewO = drawerView;
+                        if (drawerView == result.getSlider()) {
+                            Log.e("sample", "left opened");
+                        } else if (drawerView == resultAppended.getSlider()) {
+                            Log.e("sample", "right opened");
+                        }
+                    }
+
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+                        if (drawerView == result.getSlider()) {
+                            Log.e("sample", "left closed");
+                        } else if (drawerView == resultAppended.getSlider()) {
+                            Log.e("sample", "right closed");
+                        }
+                    }
+
+                    @Override
+                    public void onDrawerSlide(View drawerView, float slideOffset) {
+                    }
+
+                })
                 .build();
 
         if (result != null) {
             result.setSelection(0);
         }
 
+            resultAppended = new DrawerBuilder()
+                    .withActivity(this)
+                    .withDisplayBelowStatusBar(true)
+                    .withSavedInstance(savedInstanceState)
+                    .addDrawerItems(
+                            new PrimaryDrawerItem().withName(drawerPlaces).withIcon(Icon.gmd_place).withIdentifier(0),
+                            new PrimaryDrawerItem().withName(drawerFavorite).withIcon(Icon.gmd_place).withIdentifier(1),
+                            new PrimaryDrawerItem().withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(2),
+                            new SectionDrawerItem().withName("Various"),
+                            new SecondaryDrawerItem().withName(drawerFeedback).withIcon(Icon.gmd_feedback).withIdentifier(3),
+                            new SecondaryDrawerItem().withName(drawerLiveChat).withIcon(Icon.gmd_chat).withIdentifier(4),
+                            new SecondaryDrawerItem().withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(5)
+                    )
+                    .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                        @Override
+                        public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                            if (drawerItem instanceof Nameable) {
+                                Toast.makeText(context, ((Nameable) drawerItem).getName().getText(context), Toast.LENGTH_SHORT).show();
+                            }
+                            return false;
+                        }
+                    })
+                    .withDrawerGravity(Gravity.END)
+                    .append(result);
+
+
+        if (resultAppended != null) {
+            resultAppended.setSelection(0);
+        }
+
     }
+
 
     public String toolbarTitle(int position) {
         switch (position) {
@@ -209,19 +284,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-
-        int id = item.getItemId();
-        return true;
     }
 
     public AccountHeader grabHeaderImage() {
