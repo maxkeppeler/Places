@@ -1,14 +1,12 @@
-package com.mk.placesdrawer.fragment;
+package com.mk.places.fragment;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -24,15 +22,15 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.mk.placesdrawer.R;
-import com.mk.placesdrawer.activity.MainActivity;
-import com.mk.placesdrawer.activity.PlaceDetailActivity;
-import com.mk.placesdrawer.adapters.PlaceAdapter;
-import com.mk.placesdrawer.models.Place;
-import com.mk.placesdrawer.models.PlaceList;
-import com.mk.placesdrawer.utilities.Dialogs;
-import com.mk.placesdrawer.utilities.JSONParser;
-import com.mk.placesdrawer.utilities.Utils;
+import com.mk.places.R;
+import com.mk.places.activity.MainActivity;
+import com.mk.places.activity.PlaceDetailActivity;
+import com.mk.places.adapters.PlaceAdapter;
+import com.mk.places.models.Place;
+import com.mk.places.models.PlaceList;
+import com.mk.places.utilities.Dialogs;
+import com.mk.places.utilities.JSONParser;
+import com.mk.places.utilities.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -1,17 +1,17 @@
-package com.mk.placesdrawer.fragment;
+package com.mk.places.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mk.placesdrawer.R;
+import com.mk.places.R;
 
-public class DrawerAbout extends Fragment {
+import io.smooch.core.Smooch;
+
+public class DrawerLiveChat extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -23,12 +23,12 @@ public class DrawerAbout extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        String TOKEN = "4k2knjsi7zbut95wk28dgqtvu";
+        Smooch.init(getActivity().getApplication(), TOKEN);
+
+//        ConversationActivity.show(getContext());
+//        ConversationFragment.instantiate()
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-//        inflater.inflate(R.menu.toolbar_places_details, menu);
-    }
 }

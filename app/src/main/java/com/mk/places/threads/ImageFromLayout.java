@@ -1,4 +1,4 @@
-package com.mk.placesdrawer.threads;
+package com.mk.places.threads;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 
-import com.mk.placesdrawer.R;
+import com.mk.places.R;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -21,7 +21,7 @@
  *
  */
 
-package com.mk.placesdrawer.view;
+package com.mk.places.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;

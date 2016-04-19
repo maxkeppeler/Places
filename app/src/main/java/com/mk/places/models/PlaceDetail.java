@@ -1,4 +1,4 @@
-package com.mk.placesdrawer.models;
+package com.mk.places.models;
 
 public class PlaceDetail {
 

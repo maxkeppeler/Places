@@ -1,4 +1,4 @@
-package com.mk.placesdrawer.adapters;
+package com.mk.places.adapters;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -18,10 +18,10 @@ import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.mk.placesdrawer.R;
-import com.mk.placesdrawer.models.Place;
-import com.mk.placesdrawer.utilities.Animation;
-import com.mk.placesdrawer.utilities.Utils;
+import com.mk.places.R;
+import com.mk.places.models.Place;
+import com.mk.places.utilities.Animation;
+import com.mk.places.utilities.Utils;
 
 import java.util.ArrayList;
 
@@ -78,17 +78,20 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
         holder.sight.setText(placeItem.getSight());
 
         if (holder.sight.getText().equals("City")) {
-            holder.icon.setBackground(context.getResources().getDrawable(R.drawable.sight_city));
+            holder.sightDrawable.setBackground(context.getResources().getDrawable(R.drawable.sight_city));
         }
 
         else if (holder.sight.getText().equals("Country")) {
-            holder.icon.setBackground(context.getResources().getDrawable(R.drawable.sight_country));
+            holder.sightDrawable.setBackground(context.getResources().getDrawable(R.drawable.sight_country));
         }
 
         else if (holder.sight.getText().equals("National Park")) {
-            holder.icon.setBackground(context.getResources().getDrawable(R.drawable.sight_country));
+            holder.sightDrawable.setBackground(context.getResources().getDrawable(R.drawable.sight_national_park));
         }
 
+        else if (holder.sight.getText().equals("Park")) {
+            holder.sightDrawable.setBackground(context.getResources().getDrawable(R.drawable.sight_park));
+        }
 
     }
 
@@ -108,7 +111,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
         public final TextView location, sight, desc;
         public final TextView position, religion;
         private MaterialRippleLayout ripple;
-        public final ImageView icon;
+        public final ImageView sightDrawable;
 
         PlacesViewHolder(View v) {
             super(v);
@@ -119,7 +122,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
             location = (TextView) view.findViewById(R.id.locationThumb);
             location.setTypeface(Utils.customTypeface(context, 1));
             sight = (TextView) view.findViewById(R.id.sightThumb);
-            icon = (ImageView) view.findViewById(R.id.SightIcon);
+            sightDrawable = (ImageView) view.findViewById(R.id.SightIcon);
 
             desc = null;
             position = null;

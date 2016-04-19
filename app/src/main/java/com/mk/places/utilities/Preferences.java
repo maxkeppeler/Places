@@ -21,7 +21,7 @@
  *
  */
 
-package com.mk.placesdrawer.utilities;
+package com.mk.places.utilities;
 
 import android.content.Context;
 import android.content.SharedPreferences;

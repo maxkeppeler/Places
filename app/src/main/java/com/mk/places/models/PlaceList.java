@@ -1,4 +1,4 @@
-package com.mk.placesdrawer.models;
+package com.mk.places.models;
 
 import java.util.ArrayList;
 

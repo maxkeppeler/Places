@@ -21,7 +21,7 @@
  *
  */
 
-package com.mk.placesdrawer.utilities;
+package com.mk.places.utilities;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -40,7 +40,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.graphics.Palette;
 import android.view.View;
 
-import com.mk.placesdrawer.R;
+import com.mk.places.R;
 
 public class Utils extends Activity {
 

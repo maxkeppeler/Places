@@ -1,4 +1,4 @@
-package com.mk.placesdrawer.adapters;
+package com.mk.places.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mk.placesdrawer.R;
-import com.mk.placesdrawer.models.PlaceDetail;
+import com.mk.places.R;
+import com.mk.places.models.PlaceDetail;
 
 /**
  * Created by Max on 26.03.16.

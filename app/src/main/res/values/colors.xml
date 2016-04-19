@@ -28,12 +28,12 @@
 
     <!-- ////////////  TEXT COLORS   \\\\\\\\\\\\\ -->
 
+     <!--Light -->
     <color name="primaryText">#DEFFFFFF</color>
     <color name="primaryIcon">#8AFFFFFF</color>
     <color name="secondaryText">#8AFFFFFF</color>
     <color name="hintText">#42FFFFFF</color>
     <color name="divider">#1FFFFFFF</color>
-
 
 
     <!-- ////////////  APP SECTION COLORS  \\\\\\\\\\\\\ -->
@@ -58,32 +58,54 @@
 
 
 
-    <!-- ////////////  MATERIAL DRAWER   \\\\\\\\\\\\\ -->
+     <!--////////////  MATERIAL DRAWER   \\\\\\\\\\\\\ -->
 
-    <!--<color name="material_drawer_primary">@color/colorPrimary</color>-->
-    <!--<color name="material_drawer_primary_dark">@color/colorPrimaryDark</color>-->
-    <!--&lt;!&ndash;<color name="material_drawer_primary_light">@color/colorPrimaryLight</color>&ndash;&gt;-->
-    <!--<color name="material_drawer_accent">@color/colorAccent</color>-->
+    <color name="material_drawer_primary">@color/colorPrimary</color>
+    <color name="material_drawer_primary_dark">@color/colorPrimaryDark</color>
+    <!--<color name="material_drawer_primary_light">@color/colorPrimaryLight</color>-->
+    <color name="material_drawer_accent">@color/colorAccent</color>
 
-    <!--<color name="material_drawer_selected">#202020</color>-->
-    <!--<color name="material_drawer_selected_text">#fff</color>-->
-    <!--<color name="material_drawer_header_selection_text">#FFF</color>-->
-    <!--<color name="default_system_selection_background">#fff</color>-->
-    <!--<color name="material_drawer_background">#303030</color>-->
+    <color name="material_drawer_selected">#202020</color>
+    <color name="material_drawer_selected_text">#fff</color>
+    <color name="material_drawer_header_selection_text">#FFF</color>
+    <color name="default_system_selection_background">#fff</color>
+    <color name="material_drawer_background">#303030</color>
 
-    <!--&lt;!&ndash; Text Colors &ndash;&gt;-->
-    <!--<color name="material_drawer_primary_text">#DEFFFFFF</color>-->
-    <!--<color name="material_drawer_primary_icon">#8AFFFFFF</color>-->
-    <!--<color name="material_drawer_secondary_text">#8AFFFFFF</color>-->
-    <!--<color name="material_drawer_hint_text">#42FFFFFF</color>-->
-    <!--<color name="material_drawer_divider">#1FFFFFFF</color>-->
-
-
+    <!-- Text Colors -->
+    <color name="material_drawer_primary_text">#DEFFFFFF</color>
+    <color name="material_drawer_primary_icon">#8AFFFFFF</color>
+    <color name="material_drawer_secondary_text">#8AFFFFFF</color>
+    <color name="material_drawer_hint_text">#42FFFFFF</color>
+    <color name="material_drawer_divider">#1FFFFFFF</color>
 
 
 
 
 
+    <!-- ////////////  Smooch Colors   \\\\\\\\\\\\\ -->
+    <color name="Smooch_accent">#9200aa</color>
+    <color name="Smooch_accentDark">#76008a</color>
+    <color name="Smooch_accentLight">#be7cca</color>
+
+    <color name="Smooch_backgroundInput">#ffffff</color>
+
+    <color name="Smooch_btnSendHollow">#c0c0c0</color>
+    <color name="Smooch_btnSendHollowBorder">#303030</color>
+
+    <color name="Smooch_header">#989898</color>
+
+    <color name="Smooch_messageDate">@color/Smooch_header</color>
+    <color name="Smooch_messageShadow">#7f999999</color>
+
+    <color name="Smooch_remoteMessageAuthor">@color/Smooch_header</color>
+    <color name="Smooch_remoteMessageBackground">#ffffff</color>
+    <color name="Smooch_remoteMessageBorder">#d9d9d9</color>
+    <color name="Smooch_remoteMessageText">#000000</color>
+
+    <color name="Smooch_userMessageBackground">@color/Smooch_accent</color>
+    <color name="Smooch_userMessageBorder">@color/Smooch_accentDark</color>
+    <color name="Smooch_userMessageFailedBackground">@color/Smooch_accentLight</color>
+    <color name="Smooch_userMessageText">#ffffff</color>
 
 
 

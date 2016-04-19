@@ -1,4 +1,4 @@
-package com.mk.placesdrawer.utilities;
+package com.mk.places.utilities;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -6,16 +6,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.SpannedString;
 import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.mk.placesdrawer.R;
-import com.mk.placesdrawer.fragment.DrawerPlaces;
+import com.mk.places.R;
+import com.mk.places.fragment.DrawerPlaces;
 
 /**
  * Created by Max on 30.03.16.

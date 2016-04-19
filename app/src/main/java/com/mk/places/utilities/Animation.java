@@ -1,11 +1,11 @@
-package com.mk.placesdrawer.utilities;
+package com.mk.places.utilities;
 
 import android.app.Activity;
 import android.content.Context;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-import com.mk.placesdrawer.R;
+import com.mk.places.R;
 
 /**
  * Created by Max on 23.03.16.

@@ -1,4 +1,4 @@
-package com.mk.placesdrawer.activity;
+package com.mk.places.activity;
 
 import android.Manifest;
 import android.app.Activity;
@@ -24,12 +24,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.ColorUtils;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -50,16 +48,14 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.mk.placesdrawer.R;
-import com.mk.placesdrawer.adapters.PlaceDetailAdapter;
-import com.mk.placesdrawer.models.Place;
-import com.mk.placesdrawer.models.PlaceDetail;
-import com.mk.placesdrawer.threads.ImageFromLayout;
-import com.mk.placesdrawer.threads.ImageFromURL;
-import com.mk.placesdrawer.utilities.Utils;
-import com.mk.placesdrawer.widgets.SquareImageView;
-
-import java.util.Objects;
+import com.mk.places.R;
+import com.mk.places.adapters.PlaceDetailAdapter;
+import com.mk.places.models.Place;
+import com.mk.places.models.PlaceDetail;
+import com.mk.places.threads.ImageFromLayout;
+import com.mk.places.threads.ImageFromURL;
+import com.mk.places.utilities.Utils;
+import com.mk.places.widgets.SquareImageView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

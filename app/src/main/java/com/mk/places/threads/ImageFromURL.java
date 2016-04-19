@@ -1,15 +1,11 @@
-package com.mk.placesdrawer.threads;
+package com.mk.places.threads;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.view.View;
 
-import com.mk.placesdrawer.R;
+import com.mk.places.R;
 
 import java.io.File;
 import java.io.FileOutputStream;

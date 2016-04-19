@@ -51,8 +51,8 @@
 
         <ImageView
             android:id="@+id/SightIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:background="@drawable/sight_city"/>
 
         <TextView

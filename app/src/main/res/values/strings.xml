@@ -12,6 +12,29 @@
     <string name="app_liveChat">Live Chat</string>
     <string name="app_wrong">Sorry, you are lost</string>
 
+    <!-- Filter Drawer Items -->
+    <string name="sight">Sight</string>
+    <string name="sight_city">City</string>
+    <string name="sight_country">Country</string>
+    <string name="sight_national_park">National Park</string>
+    <string name="sight_park">Park</string>
+
+    <string name="country">Country</string>
+    <string name="country_germany">Germany</string>
+    <string name="country_spain">Spain</string>
+
+    <string name="continent">Continent</string>
+    <string name="continentAfrica">Africa</string>
+    <string name="continentAsia">Asia</string>
+    <string name="continentAustralia">Australia</string>
+    <string name="continentEurope">Europe</string>
+    <string name="continentNorthAmerica">North America</string>
+    <string name="continentSouthAmerica">South America</string>
+
+
+    <string name="filter_wrong">All</string>
+
+
     <!-- Header Images (URLs) -->
     <string-array name="headerUrl">
         <item>http://i.huffpost.com/gen/2344590/original.jpg</item>
@@ -23,7 +46,6 @@
         <item>http://bit.ly/1SkeYsv</item>
         <item>http://bit.ly/1S7UU2x</item>
     </string-array>
-
 
 
     <!-- ////////////  Toolbar   \\\\\\\\\\\\\ -->
@@ -56,8 +78,6 @@
     <string name="snackbarFavoredText">Place added to your favorites.</string>
 
 
-
-
     <!-- ////////////   PERMISSION DIALOGS   \\\\\\\\\\\\\ -->
     <string name="storageContent">
         Following features need access to your storage in order to work:
@@ -67,11 +87,6 @@
     </string>
     <string name="storagePositive">Allow</string>
     <string name="storageNegative">No</string>
-
-
-
-
-
 
 
     <!-- ////////////   DIALOGS   \\\\\\\\\\\\\ -->
@@ -133,6 +148,10 @@
     <string name="permission_storage_rationale">Storage permissions are needed to demonstrate access.</string>
     <string name="permision_available_storage">Storage permissions are needed to demonstrate access.</string>
     <string name="permissions_not_granted">Storage permissions are needed to demonstrate access.</string>
+    <string name="title_activity_live_chat">LiveChat</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

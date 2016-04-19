@@ -21,7 +21,7 @@
  *
  */
 
-package com.mk.placesdrawer.utilities;
+package com.mk.places.utilities;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
