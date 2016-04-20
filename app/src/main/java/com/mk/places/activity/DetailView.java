@@ -41,6 +41,7 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -60,7 +61,7 @@ import com.mk.places.widgets.SquareImageView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class PlaceDetailActivity extends AppCompatActivity {
+public class DetailView extends AppCompatActivity {
 
 
     private static int color;
@@ -77,7 +78,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
     private Activity context;
 
     //    REQUEST PERMISSIONS
-    public static final int PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE = 42;
+    private static final int PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE = 42;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,7 +149,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         collapsingToolbarLayout.setSelected(true);
         toolbar.setSelected(true);
 
-        final SquareImageView image = (SquareImageView) findViewById(R.id.image);
+        final ImageView image = (ImageView) findViewById(R.id.image);
 
         Glide.with(context)
                 .load(imageUrl)

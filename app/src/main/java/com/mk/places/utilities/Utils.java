@@ -116,14 +116,14 @@ public class Utils extends Activity {
         return palette.getVibrantColor(vibrantDark);
     }
 
-    public static void simpleSnackBar(Activity context, int color, int view, int text, int length) {
+    public static void simpleSnackBar(Activity activity, int color, int view, int text, int length) {
 
-        View layout = context.findViewById(view);
+        View layout = activity.findViewById(view);
         Snackbar snackbar = Snackbar.make(layout, text, length)
-                .setActionTextColor(context.getResources().getColor(R.color.white));
+                .setActionTextColor(activity.getResources().getColor(R.color.white));
 
         View snackBarView = snackbar.getView();
-        if (color == 0) color = context.getResources().getColor(R.color.colorPrimary);
+        if (color == 0) color = activity.getResources().getColor(R.color.colorPrimary);
         snackBarView.setBackgroundColor(color);
         snackbar.show();
     }

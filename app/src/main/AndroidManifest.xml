@@ -8,19 +8,22 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-<!-- LIVE CHAT -->
-    <permission android:name="com.mk.places.permission.C2D_MESSAGE"  android:protectionLevel="signature"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="com.mk.places.permission.C2D_MESSAGE"/>
+    <!-- LIVE CHAT -->
+    <permission
+        android:name="com.mk.places.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.mk.places.permission.C2D_MESSAGE" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
         <activity
-            android:name="com.mk.places.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:theme="@style/CustomTheme">
@@ -31,22 +34,9 @@
             </intent-filter>
         </activity>
 
-        <!-- LIVE CHAT -->
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
-                <category android:name="com.mk.places"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
-            </intent-filter>
-        </receiver>
 
         <activity
-            android:name="com.mk.places.activity.PlaceDetailActivity"
+            android:name=".activity.DetailView"
             android:theme="@style/DetailView"
             android:value=".activity.PlaceDetailActivity">
             <intent-filter>
@@ -56,13 +46,30 @@
             </intent-filter>
         </activity>
 
+
+        <!-- LIVE CHAT -->
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="com.mk.places" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+            </intent-filter>
+        </receiver>
+
+
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.mk.places.utilities.GlideConfig"
             android:value="GlideModule" />
-
     </application>
 
 </manifest>

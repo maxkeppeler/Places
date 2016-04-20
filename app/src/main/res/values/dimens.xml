@@ -15,7 +15,7 @@
     <dimen name="card_sides_margin">1.41dp</dimen>
     <dimen name="card_vertical_margin">0.41dp</dimen>
     <dimen name="card_elevation">2dp</dimen>
-    <dimen name="card_radius">0dp</dimen>
+    <dimen name="card_radius">2dp</dimen>
 
     <dimen name="textSizeDisplay4">112dp</dimen>
     <dimen name="textSizeDisplay3">56dp</dimen>

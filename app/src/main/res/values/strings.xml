@@ -7,9 +7,8 @@
     <string name="app_places">Places</string>
     <string name="app_favorite">Favorite</string>
     <string name="app_about">About</string>
+    <string name="app_support">Support</string>
     <string name="app_settings">Settings</string>
-    <string name="app_feedback">Feedback</string>
-    <string name="app_liveChat">Live Chat</string>
     <string name="app_wrong">Sorry, you are lost</string>
 
     <!-- Filter Drawer Items -->
@@ -31,7 +30,6 @@
     <string name="continentNorthAmerica">North America</string>
     <string name="continentSouthAmerica">South America</string>
 
-
     <string name="filter_wrong">All</string>
 
 
@@ -44,7 +42,8 @@
         <item>http://bit.ly/22inspy</item>
         <item>http://bit.ly/1SVhloC</item>
         <item>http://bit.ly/1SkeYsv</item>
-        <item>http://bit.ly/1S7UU2x</item>
+        <item>http://bit.ly/1NBAeJ4</item>
+        <item>http://bit.ly/1YHiphC</item>
     </string-array>
 
 
@@ -137,6 +136,17 @@
     <!-- About -->
     <string name="developer">Maximilian Keppeler</string>
     <string name="developer_desc">Maximilian Keppeler</string>
+
+    <!-- Support -->
+    <string name="supportText">Lorem ipsum dolor sit amet consectetur adipiscing. </string>
+
+    <string name="liveChatTitle">Live Chat</string>
+    <string name="liveChatDesc">Lorem ipsum dolor sit amet consectetur adipiscing. Elit sed do eiusmod tempor incididunt. Ut labore et dolore magna aliqua ut.
+        Enim ad minim veniam quis nostrud. Exercitation ullamco laboris nisi. </string>
+
+    <string name="mailTitle">E-Mail</string>
+    <string name="mailDesc">Lorem ipsum dolor sit amet consectetur adipiscing. Elit sed do eiusmod tempor incididunt. Ut labore et dolore magna aliqua ut.
+        Enim ad minim veniam quis nostrud. Exercitation ullamco laboris nisi. </string>
 
 
     <!-- Other App Strings -->

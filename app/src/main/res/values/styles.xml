@@ -75,11 +75,6 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
         <item name="cardBackgroundColor">@color/cardBackground</item>
-
-        <!--4dp padding around the card-->
-        <item name="android:layout_marginTop">@dimen/card_vertical_margin</item>
-        <item name="android:layout_marginBottom">@dimen/card_vertical_margin</item>
-
         <item name="cardCornerRadius">@dimen/card_radius</item>
         <item name="cardElevation">@dimen/card_elevation</item>
 
@@ -206,8 +201,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/textSizeBody</item>
-        <item name="android:fontFamily">sans-serif-light</item>
-        <item name="android:textStyle">normal</item>
+        <!--<item name="android:fontFamily">sans-serif-light</item>-->
+        <!--<item name="android:textStyle">normal</item>-->
     </style>
 
 

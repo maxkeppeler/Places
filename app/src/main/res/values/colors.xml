@@ -3,9 +3,17 @@
 
     <!-- ////////////  DEFAULT COLORS   \\\\\\\\\\\\\ -->
 
-    <color name="colorPrimary">#142f37</color>
-    <color name="colorPrimaryDark">#0f2830</color>
-    <color name="colorAccent">#10404e</color>
+    <!--<color name="colorPrimary">#142f37</color>-->
+    <!--<color name="colorPrimaryDark">#0f2830</color>-->
+    <!--<color name="colorAccent">#10404e</color>-->
+    <!--<color name="colorAccent2">#196074</color>-->
+
+    <color name="colorPrimary">@color/md_blue_500</color>
+    <color name="colorPrimaryDark">@color/md_blue_600</color>
+    <color name="colorAccent">@color/md_light_blue_500</color>
+    <color name="colorSnackBar">@color/md_light_blue_500</color>
+
+
 
     <!-- Statusbar & Navigation Bar -->
     <color name="colorStatusBarOverlay">#1e212121</color>
@@ -39,7 +47,8 @@
     <!-- ////////////  APP SECTION COLORS  \\\\\\\\\\\\\ -->
 
     <color name="backgroundColor">#303030</color>
-    <color name="cardBackground">#424242</color>
+    <!--<color name="cardBackground">#424242</color>-->
+    <color name="cardBackground">#464646</color>
     <color name="textPrimary">#fff</color>
     <color name="default_app_bg">#1b1c1f</color>
     <color name="default_card_darktheme">#26282c</color>
@@ -66,7 +75,8 @@
     <color name="material_drawer_accent">@color/colorAccent</color>
 
     <color name="material_drawer_selected">#202020</color>
-    <color name="material_drawer_selected_text">#fff</color>
+    <!--<color name="material_drawer_selected_text">#fff</color>-->
+    <color name="material_drawer_selected_text">@color/colorAccent</color>
     <color name="material_drawer_header_selection_text">#FFF</color>
     <color name="default_system_selection_background">#fff</color>
     <color name="material_drawer_background">#303030</color>
@@ -83,11 +93,12 @@
 
 
     <!-- ////////////  Smooch Colors   \\\\\\\\\\\\\ -->
-    <color name="Smooch_accent">#9200aa</color>
-    <color name="Smooch_accentDark">#76008a</color>
-    <color name="Smooch_accentLight">#be7cca</color>
+    <color name="Smooch_accent">@color/colorPrimary</color>
+    <color name="Smooch_accentDark">@color/colorPrimaryDark</color>
+    <color name="Smooch_accentLight">@color/colorPrimaryLight</color>
 
-    <color name="Smooch_backgroundInput">#ffffff</color>
+    <color name="Smooch_backgroundInput">@color/appBackgroundColor</color>
+    <color name="Smooch_background">@color/appBackgroundColor</color>
 
     <color name="Smooch_btnSendHollow">#c0c0c0</color>
     <color name="Smooch_btnSendHollowBorder">#303030</color>
@@ -97,14 +108,14 @@
     <color name="Smooch_messageDate">@color/Smooch_header</color>
     <color name="Smooch_messageShadow">#7f999999</color>
 
-    <color name="Smooch_remoteMessageAuthor">@color/Smooch_header</color>
-    <color name="Smooch_remoteMessageBackground">#ffffff</color>
+    <color name="Smooch_remoteMessageAuthor">@color/secondaryText</color>
+    <color name="Smooch_remoteMessageBackground">@color/backgroundColor</color>
     <color name="Smooch_remoteMessageBorder">#d9d9d9</color>
-    <color name="Smooch_remoteMessageText">#000000</color>
+    <color name="Smooch_remoteMessageText">#ffffff</color>
 
-    <color name="Smooch_userMessageBackground">@color/Smooch_accent</color>
-    <color name="Smooch_userMessageBorder">@color/Smooch_accentDark</color>
-    <color name="Smooch_userMessageFailedBackground">@color/Smooch_accentLight</color>
+    <color name="Smooch_userMessageBackground">@color/appBackgroundColor</color>
+    <color name="Smooch_userMessageBorder">#d9d9d9</color>
+    <color name="Smooch_userMessageFailedBackground">@color/appBackgroundColor</color>
     <color name="Smooch_userMessageText">#ffffff</color>
 
 

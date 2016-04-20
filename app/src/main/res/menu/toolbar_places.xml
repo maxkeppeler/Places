@@ -9,13 +9,6 @@
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/filter"
-        android:icon="@drawable/ic_filter"
-        android:orderInCategory="-1"
-        android:title="@string/action_filter"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/column"
         android:icon="@drawable/ic_columns"
         android:orderInCategory="-1"
