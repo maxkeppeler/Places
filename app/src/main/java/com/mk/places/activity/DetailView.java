@@ -51,12 +51,14 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
 import com.mk.places.adapters.PlaceDetailAdapter;
+import com.mk.places.adapters.PlaceDetailGalleryAdapter;
 import com.mk.places.models.Place;
 import com.mk.places.models.PlaceDetail;
+import com.mk.places.models.PlaceDetailGallery;
+import com.mk.places.models.PlaceList;
 import com.mk.places.threads.ImageFromLayout;
 import com.mk.places.threads.ImageFromURL;
 import com.mk.places.utilities.Utils;
-import com.mk.places.widgets.SquareImageView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -73,6 +75,7 @@ public class DetailView extends AppCompatActivity {
     @Bind(R.id.descDetailView) TextView placesDescText;
     @Bind(R.id.placeInfoTitle) TextView placeInfoTitle;
     @Bind(R.id.recyclerViewInfoDetails) RecyclerView recyclerView;
+    @Bind(R.id.recyclerViewGallery) RecyclerView recyclerViewGallery;
     Window window;
     private ViewGroup layout;
     private Activity context;
@@ -87,7 +90,6 @@ public class DetailView extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window = this.getWindow();
             window.setStatusBarColor(getResources().getColor(R.color.transparent));
-//            window.setStatusBarColor(getResources().getColor(R.color.colorStatusBarOverlay));
         }
 
         if (layout != null) {
@@ -167,6 +169,40 @@ public class DetailView extends AppCompatActivity {
                         new Palette.Builder(resource).generate(paletteAsyncListener);
                     }
                 });
+
+
+
+        recyclerViewGallery.setLayoutManager(new GridLayoutManager(context, 1, GridLayoutManager.VERTICAL, false));
+
+        PlaceDetailGallery placeDetailGalleries[] = new PlaceDetailGallery[5];
+
+        String galleryURL[] = new String[5];
+
+        galleryURL[0] = "http://www.hdwallpapers.in/walls/twilight_island_beach_sunset-wide.jpg";
+        galleryURL[1] = "http://www.hdwallpapers.in/walls/twilight_island_beach_sunset-wide.jpg";
+        galleryURL[2] = "http://www.hdwallpapers.in/walls/twilight_island_beach_sunset-wide.jpg";
+        galleryURL[3] = "http://www.hdwallpapers.in/walls/twilight_island_beach_sunset-wide.jpg";
+        galleryURL[4] = "http://www.hdwallpapers.in/walls/twilight_island_beach_sunset-wide.jpg";
+
+        for (int i = 0; i < 5; i++) {
+            placeDetailGalleries[i] = new PlaceDetailGallery(galleryURL[i]);
+        }
+
+        PlaceDetailGalleryAdapter galleryAdapter = new PlaceDetailGalleryAdapter(context, placeDetailGalleries, new PlaceDetailGalleryAdapter.ClickListener() {
+
+            @Override
+            public void onClick(PlaceDetailGalleryAdapter.ViewHolder view, int index, boolean longClick) {
+
+                if (longClick) {
+
+                    Log.d("Lang", "onClick: ");
+                } else Log.d("Kurz", "onClick: ");
+
+            }
+        });
+        recyclerViewGallery.setAdapter(galleryAdapter);
+        recyclerViewGallery.setHasFixedSize(true);
+
     }
 
 

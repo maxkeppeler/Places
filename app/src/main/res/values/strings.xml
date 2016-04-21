@@ -18,12 +18,9 @@
     <string name="sight_national_park">National Park</string>
     <string name="sight_park">Park</string>
 
-    <string name="country">Country</string>
-    <string name="country_germany">Germany</string>
-    <string name="country_spain">Spain</string>
-
     <string name="continent">Continent</string>
     <string name="continentAfrica">Africa</string>
+    <string name="continentAntarctica">Antarctica</string>
     <string name="continentAsia">Asia</string>
     <string name="continentAustralia">Australia</string>
     <string name="continentEurope">Europe</string>

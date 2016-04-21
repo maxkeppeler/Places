@@ -93,25 +93,21 @@ public class MainActivity extends AppCompatActivity {
         drawerWrong = getResources().getString(R.string.app_wrong);
 
         final String
+
                 sight = getResources().getString(R.string.sight),
                 sightCity = getResources().getString(R.string.sight_city),
                 sightCountry = getResources().getString(R.string.sight_country),
                 sightNationalPark = getResources().getString(R.string.sight_national_park),
                 sightPark = getResources().getString(R.string.sight_park),
 
-                country = getResources().getString(R.string.country),
-                countryGermany = getResources().getString(R.string.country_germany),
-                countrySpain = getResources().getString(R.string.country_spain),
-
                 continent = getResources().getString(R.string.continent),
-                continentEurope = getResources().getString(R.string.continentEurope),
-                continentAsia = getResources().getString(R.string.continentAsia),
-                continentNorthAmerica = getResources().getString(R.string.continentNorthAmerica),
-                continentSouthAmerica = getResources().getString(R.string.continentSouthAmerica),
                 continentAfrica = getResources().getString(R.string.continentAfrica),
-                continentAustralia = getResources().getString(R.string.continentAustralia);
-
-
+                continentAntarctica = getResources().getString(R.string.continentAntarctica),
+                continentAsia = getResources().getString(R.string.continentAsia),
+                continentAustralia = getResources().getString(R.string.continentAustralia),
+                continentEurope = getResources().getString(R.string.continentEurope),
+                continentNorthAmerica = getResources().getString(R.string.continentNorthAmerica),
+                continentSouthAmerica = getResources().getString(R.string.continentSouthAmerica);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -119,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         header = new AccountHeaderBuilder().withActivity(this).withSelectionFirstLine("Places").withSelectionSecondLine("by Maximilian Keppeler").withHeightDp(300).build();
-        grabHeaderImage();
+        headerImage();
 
         materialDrawer = new DrawerBuilder()
                 .withActivity(this)
@@ -261,18 +257,15 @@ public class MainActivity extends AppCompatActivity {
                                 new SecondaryDrawerItem().withName(sightPark).withLevel(2).withIcon(Icon.gmd_nature_people).withIdentifier(104)
                         ),
 
-                        new ExpandableDrawerItem().withName(country).withIcon(Icon.gmd_style).withIdentifier(200).withSelectable(false).withIsExpanded(false).withSubItems(
-                                new SecondaryDrawerItem().withName(countryGermany).withLevel(2).withIcon(Icon.gmd_location_city).withIdentifier(201),
-                                new SecondaryDrawerItem().withName(countrySpain).withLevel(2).withIcon(Icon.gmd_terrain).withIdentifier(202)
-                        ),
+                        new ExpandableDrawerItem().withName(continent).withIcon(Icon.gmd_style).withIdentifier(200).withSelectable(false).withIsExpanded(false).withSubItems(
 
-                        new ExpandableDrawerItem().withName(continent).withIcon(Icon.gmd_style).withIdentifier(300).withSelectable(false).withIsExpanded(false).withSubItems(
-                                new SecondaryDrawerItem().withName(continentEurope).withLevel(2).withIcon(Icon.gmd_location_city).withIdentifier(301),
-                                new SecondaryDrawerItem().withName(continentAsia).withLevel(2).withIcon(Icon.gmd_terrain).withIdentifier(302),
-                                new SecondaryDrawerItem().withName(continentNorthAmerica).withLevel(2).withIcon(Icon.gmd_terrain).withIdentifier(303),
-                                new SecondaryDrawerItem().withName(continentSouthAmerica).withLevel(2).withIcon(Icon.gmd_terrain).withIdentifier(304),
-                                new SecondaryDrawerItem().withName(continentAfrica).withLevel(2).withIcon(Icon.gmd_terrain).withIdentifier(305),
-                                new SecondaryDrawerItem().withName(continentAustralia).withLevel(2).withIcon(Icon.gmd_terrain).withIdentifier(306)
+                                new SecondaryDrawerItem().withName(continentAfrica).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(201),
+                                new SecondaryDrawerItem().withName(continentAntarctica).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(202),
+                                new SecondaryDrawerItem().withName(continentAsia).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(203),
+                                new SecondaryDrawerItem().withName(continentAustralia).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(204),
+                                new SecondaryDrawerItem().withName(continentEurope).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(205),
+                                new SecondaryDrawerItem().withName(continentNorthAmerica).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(206),
+                                new SecondaryDrawerItem().withName(continentSouthAmerica).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(207)
                         )
 
                 ).addStickyDrawerItems(
@@ -293,16 +286,15 @@ public class MainActivity extends AppCompatActivity {
                                 case 104: places.setFilterKey(sightPark); break;
 
 //                                Identifiers 200+
-                                case 201: places.setFilterKey(countryGermany); break;
-                                case 202: places.setFilterKey(countrySpain); break;
-
-//                                Identifiers 300+
                                 case 301: places.setFilterKey(continentAfrica); break;
-                                case 302: places.setFilterKey(continentAsia); break;
-                                case 303: places.setFilterKey(continentAustralia); break;
-                                case 304: places.setFilterKey(continentNorthAmerica); break;
-                                case 305: places.setFilterKey(continentSouthAmerica); break;
+                                case 302: places.setFilterKey(continentAntarctica); break;
+                                case 303: places.setFilterKey(continentAsia); break;
+                                case 304: places.setFilterKey(continentAustralia); break;
+                                case 305: places.setFilterKey(continentEurope); break;
+                                case 306: places.setFilterKey(continentNorthAmerica); break;
+                                case 307: places.setFilterKey(continentSouthAmerica); break;
 
+//                                No change for these identifiers
                                 case 100:  break;
                                 case 200:  break;
                                 case 300:  break;
@@ -310,7 +302,9 @@ public class MainActivity extends AppCompatActivity {
                                 case 999: places.setFilterKey("All");
                                     materialDrawerAppended.setSelection(0);
                                     break;
-                                default: places.setFilterKey("All");  break;
+                                default: places.setFilterKey("All");
+                                    materialDrawerAppended.setSelection(0);
+                                    break;
                             }
                         }
                         return false;
@@ -359,7 +353,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    public AccountHeader grabHeaderImage() {
+    public AccountHeader headerImage() {
 
         final ImageView cover = header.getHeaderBackgroundView();
         Random random = new Random();

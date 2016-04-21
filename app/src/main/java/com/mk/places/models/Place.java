@@ -77,9 +77,6 @@ public class Place implements Parcelable {
         this.favorite = favorite;
     }
 
-
-
-
     public String getPosition() {
         return position;
     }

@@ -39,8 +39,10 @@ public class PlaceDetailAdapter extends RecyclerView.Adapter<PlaceDetailAdapter.
 
         public TextView txtViewTitle, txtViewText;
         public ImageView imgViewIcon;
+
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
+
             txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.placesDetailTitle);
             txtViewText = (TextView) itemLayoutView.findViewById(R.id.placesDetailText);
             imgViewIcon = (ImageView) itemLayoutView.findViewById(R.id.placesDetailDrawable);
