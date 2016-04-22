@@ -155,7 +155,7 @@ public class DetailView extends AppCompatActivity {
         Glide.with(context)
                 .load(imageUrl)
                 .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .skipMemoryCache(true)
                 .centerCrop()
                 .into(new BitmapImageViewTarget(image) {
@@ -168,7 +168,7 @@ public class DetailView extends AppCompatActivity {
                         new Palette.Builder(resource).generate(paletteAsyncListener);
                     }
                 });
-        
+
         recyclerViewGallery.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false));
 
 
