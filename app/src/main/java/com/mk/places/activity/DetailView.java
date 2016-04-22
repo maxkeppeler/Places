@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -23,7 +22,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
@@ -57,7 +55,6 @@ import com.mk.places.adapters.PlaceDetailGalleryAdapter;
 import com.mk.places.models.Place;
 import com.mk.places.models.PlaceDetail;
 import com.mk.places.models.PlaceDetailGallery;
-import com.mk.places.models.PlaceList;
 import com.mk.places.threads.ImageFromLayout;
 import com.mk.places.threads.ImageFromURL;
 import com.mk.places.utilities.Utils;
@@ -171,13 +168,11 @@ public class DetailView extends AppCompatActivity {
                         new Palette.Builder(resource).generate(paletteAsyncListener);
                     }
                 });
-
-
-
+        
         recyclerViewGallery.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false));
-        int arraySize = 5;
 
-        PlaceDetailGallery placeDetailGalleries[] = new PlaceDetailGallery[arraySize];
+
+        int arraySize = 5;
         String galleryURL[] = new String[arraySize];
 
         galleryURL[0] = item.getUrl_a();
@@ -186,9 +181,20 @@ public class DetailView extends AppCompatActivity {
         galleryURL[3] = item.getUrl_d();
         galleryURL[4] = item.getUrl_e();
 
-        for (int i = 0; i < 5; i++) {
+        int gallerySize = 0;
+
+        for (int j = 0; j < 5; j++) {
+            if (!(galleryURL[j].equals("") || galleryURL[j].length() < 5)) {
+                gallerySize++;
+            }
+        }
+
+        PlaceDetailGallery placeDetailGalleries[] = new PlaceDetailGallery[gallerySize];
+
+        for (int i = 0; i < gallerySize; i++) {
             placeDetailGalleries[i] = new PlaceDetailGallery(galleryURL[i]);
         }
+
 
         PlaceDetailGalleryAdapter galleryAdapter = new PlaceDetailGalleryAdapter(context, placeDetailGalleries, new PlaceDetailGalleryAdapter.ClickListener() {
 

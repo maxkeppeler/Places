@@ -36,12 +36,14 @@ public class PlaceDetailGalleryAdapter extends RecyclerView.Adapter<PlaceDetailG
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
 
+        if (URL[position] != null) {
         Glide.with(context)
                 .load(URL[position].getImageURL())
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
                 .into(viewHolder.image);
+        }
     }
 
     @Override
