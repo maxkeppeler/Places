@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -22,6 +23,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
@@ -172,8 +174,7 @@ public class DetailView extends AppCompatActivity {
 
 
 
-        recyclerViewGallery.setLayoutManager(new GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false));
-
+        recyclerViewGallery.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false));
         int arraySize = 5;
 
         PlaceDetailGallery placeDetailGalleries[] = new PlaceDetailGallery[arraySize];
@@ -201,7 +202,8 @@ public class DetailView extends AppCompatActivity {
 
             }
         });
-        recyclerViewGallery.stopScroll();
+        recyclerViewGallery.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
+        recyclerViewGallery.setClipToPadding(false);
         recyclerViewGallery.setAdapter(galleryAdapter);
         recyclerViewGallery.setHasFixedSize(true);
 
