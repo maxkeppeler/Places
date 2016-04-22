@@ -3,16 +3,9 @@ package com.mk.places.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -26,22 +19,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bumptech.glide.request.target.ImageViewTarget;
 import com.mk.places.R;
-import com.mk.places.activity.MainActivity;
 import com.mk.places.activity.DetailView;
+import com.mk.places.activity.MainActivity;
 import com.mk.places.adapters.PlaceAdapter;
 import com.mk.places.models.Place;
 import com.mk.places.models.PlaceList;
 import com.mk.places.utilities.Dialogs;
 import com.mk.places.utilities.JSONParser;
 import com.mk.places.utilities.Utils;
-import com.mk.places.view.TouchImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -309,7 +295,9 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
             places.add(new Place(
                             json.getString("location"), json.getString("sight"), json.getString("description"),
                             json.getString("position"), json.getString("religion"),
-                            json.getString("url"),
+                            json.getString("url"), json.getString("urla"),
+                            json.getString("urlb"), json.getString("urlc"),
+                            json.getString("urld"), json.getString("urle"),
                             favorite
                     )
             );

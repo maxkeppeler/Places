@@ -40,7 +40,6 @@ public class PlaceDetailGalleryAdapter extends RecyclerView.Adapter<PlaceDetailG
                 .load(URL[position].getImageURL())
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .skipMemoryCache(true)
                 .centerCrop()
                 .into(viewHolder.image);
     }

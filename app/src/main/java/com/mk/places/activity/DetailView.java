@@ -172,17 +172,18 @@ public class DetailView extends AppCompatActivity {
 
 
 
-        recyclerViewGallery.setLayoutManager(new GridLayoutManager(context, 1, GridLayoutManager.VERTICAL, false));
+        recyclerViewGallery.setLayoutManager(new GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false));
 
-        PlaceDetailGallery placeDetailGalleries[] = new PlaceDetailGallery[5];
+        int arraySize = 5;
 
-        String galleryURL[] = new String[5];
+        PlaceDetailGallery placeDetailGalleries[] = new PlaceDetailGallery[arraySize];
+        String galleryURL[] = new String[arraySize];
 
-        galleryURL[0] = "http://www.hdwallpapers.in/walls/twilight_island_beach_sunset-wide.jpg";
-        galleryURL[1] = "http://www.hdwallpapers.in/walls/twilight_island_beach_sunset-wide.jpg";
-        galleryURL[2] = "http://www.hdwallpapers.in/walls/twilight_island_beach_sunset-wide.jpg";
-        galleryURL[3] = "http://www.hdwallpapers.in/walls/twilight_island_beach_sunset-wide.jpg";
-        galleryURL[4] = "http://www.hdwallpapers.in/walls/twilight_island_beach_sunset-wide.jpg";
+        galleryURL[0] = item.getUrl_a();
+        galleryURL[1] = item.getUrl_b();
+        galleryURL[2] = item.getUrl_c();
+        galleryURL[3] = item.getUrl_d();
+        galleryURL[4] = item.getUrl_e();
 
         for (int i = 0; i < 5; i++) {
             placeDetailGalleries[i] = new PlaceDetailGallery(galleryURL[i]);
@@ -200,6 +201,7 @@ public class DetailView extends AppCompatActivity {
 
             }
         });
+        recyclerViewGallery.stopScroll();
         recyclerViewGallery.setAdapter(galleryAdapter);
         recyclerViewGallery.setHasFixedSize(true);
 

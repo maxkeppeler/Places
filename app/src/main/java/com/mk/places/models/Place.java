@@ -20,18 +20,31 @@ public class Place implements Parcelable {
         }
     };
 
-    private String position, religion,
-            location, sight, description,
-            imgPlaceUrl;
+    private String
+            position, religion, location, sight, description, imgPlaceUrl,
+            url_a,
+            url_b,
+            url_c,
+            url_d,
+            url_e
+            ;
     private int favorite;
 
-    public Place(String location,
+    public Place(
+                 String location,
                  String sight,
                  String description,
                  String position,
                  String religion,
                  String imgPlaceUrl,
-                 int favorite) {
+                 String url_a,
+                 String url_b,
+                 String url_c,
+                 String url_d,
+                 String url_e,
+                 int favorite
+
+    ) {
 
         this.favorite = favorite;
         this.location = location;
@@ -39,6 +52,12 @@ public class Place implements Parcelable {
         this.description = description;
         this.religion = religion;
         this.imgPlaceUrl = imgPlaceUrl;
+        this.imgPlaceUrl = imgPlaceUrl;
+        this.url_a = url_a;
+        this.url_b = url_b;
+        this.url_c = url_c;
+        this.url_d = url_d;
+        this.url_e = url_e;
 
     }
 
@@ -55,6 +74,11 @@ public class Place implements Parcelable {
         dest.writeString(position);
         dest.writeString(religion);
         dest.writeString(imgPlaceUrl);
+        dest.writeString(url_a);
+        dest.writeString(url_b);
+        dest.writeString(url_c);
+        dest.writeString(url_d);
+        dest.writeString(url_e);
         dest.writeInt(favorite);
     }
 
@@ -65,8 +89,34 @@ public class Place implements Parcelable {
         position = in.readString();
         religion = in.readString();
         imgPlaceUrl = in.readString();
+        url_a = in.readString();
+        url_b = in.readString();
+        url_c = in.readString();
+        url_d = in.readString();
+        url_e = in.readString();
         favorite = in.readInt();
 
+    }
+
+
+    public String getUrl_a() {
+        return url_a;
+    }
+
+    public String getUrl_b() {
+        return url_b;
+    }
+
+    public String getUrl_c() {
+        return url_c;
+    }
+
+    public String getUrl_d() {
+        return url_d;
+    }
+
+    public String getUrl_e() {
+        return url_e;
     }
 
     public int getFavorite() {

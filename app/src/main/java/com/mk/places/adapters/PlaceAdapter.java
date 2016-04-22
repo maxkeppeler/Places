@@ -79,11 +79,17 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
 
         if (holder.sight.getText().equals("City")) {
             holder.sightDrawable.setBackground(context.getResources().getDrawable(R.drawable.sight_city));
-        } else if (holder.sight.getText().equals("Country")) {
+        }
+
+        else if (holder.sight.getText().equals("Country")) {
             holder.sightDrawable.setBackground(context.getResources().getDrawable(R.drawable.sight_country));
-        } else if (holder.sight.getText().equals("National Park")) {
+        }
+
+        else if (holder.sight.getText().equals("National Park")) {
             holder.sightDrawable.setBackground(context.getResources().getDrawable(R.drawable.sight_national_park));
-        } else if (holder.sight.getText().equals("Park")) {
+        }
+
+        else if (holder.sight.getText().equals("Park")) {
             holder.sightDrawable.setBackground(context.getResources().getDrawable(R.drawable.sight_park));
         }
 

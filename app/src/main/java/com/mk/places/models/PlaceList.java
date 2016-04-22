@@ -12,6 +12,11 @@ public class PlaceList {
                                        ArrayList<String> position,
                                        ArrayList<String> religion,
                                        ArrayList<String> urls,
+                                       ArrayList<String> urls_a,
+                                       ArrayList<String> urls_b,
+                                       ArrayList<String> urls_c,
+                                       ArrayList<String> urls_d,
+                                       ArrayList<String> urls_e,
                                        ArrayList<Integer> favorite
     ) {
         try {
@@ -25,6 +30,11 @@ public class PlaceList {
                         position.get(i),
                         religion.get(i),
                         urls.get(i),
+                        urls_a.get(i),
+                        urls_b.get(i),
+                        urls_c.get(i),
+                        urls_d.get(i),
+                        urls_e.get(i),
                         favorite.get(i)
 
                 );
