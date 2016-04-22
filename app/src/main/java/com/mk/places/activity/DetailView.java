@@ -58,6 +58,8 @@ import com.mk.places.models.PlaceDetailGallery;
 import com.mk.places.threads.ImageFromLayout;
 import com.mk.places.threads.ImageFromURL;
 import com.mk.places.utilities.Utils;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
+import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -73,7 +75,7 @@ public class DetailView extends AppCompatActivity {
     @Bind(R.id.placeDescTitle) TextView placeDescTitle;
     @Bind(R.id.descDetailView) TextView placesDescText;
     @Bind(R.id.placeInfoTitle) TextView placeInfoTitle;
-    @Bind(R.id.recyclerViewInfoDetails) RecyclerView recyclerView;
+    @Bind(R.id.recyclerViewInfoDetails) RecyclerView recyclerViewDetail;
     @Bind(R.id.recyclerViewGallery) RecyclerView recyclerViewGallery;
     Window window;
     private ViewGroup layout;
@@ -116,12 +118,13 @@ public class DetailView extends AppCompatActivity {
         position = item.getPosition();
         religion = item.getReligion();
 
-        if (location.equals("")) location = "Unknown";
+
+        if (position.isEmpty() || position.length() < 4) position = "Unknown";
 
         sightDependingLayouts();
 
-        ViewCompat.setTransitionName(findViewById(R.id.appBarLayout), imageUrl);
-        supportPostponeEnterTransition();
+//        ViewCompat.setTransitionName(findViewById(R.id.appBarLayout), imageUrl);
+//        supportPostponeEnterTransition();
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -238,33 +241,35 @@ public class DetailView extends AppCompatActivity {
     };
 
 
+
 //  TODO - add more sight depending layouts for variety and more info
     private void sightDependingLayouts() {
 
         if (sight.equals("City")) {
             PlaceDetail itemsData[] = {
                     new PlaceDetail("Location", position, R.drawable.ic_location),
+                    new PlaceDetail("Location", position, R.drawable.ic_location),
+                    new PlaceDetail("Location", position, R.drawable.ic_location),
                     new PlaceDetail("Religion", religion, R.drawable.ic_religion),
             };
-            finishRecycler(recyclerView, itemsData);
+            finishRecycler(recyclerViewDetail, itemsData);
         }
 
         if (sight.equals("National Park")) {
             PlaceDetail itemsData[] = {
                     new PlaceDetail("Location", position, R.drawable.ic_location),
             };
-            finishRecycler(recyclerView, itemsData);
+            finishRecycler(recyclerViewDetail, itemsData);
         }
 
         
     }
 
     private void finishRecycler(RecyclerView recyclerView, PlaceDetail itemsData[]) {
-        recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(context, 1));
         PlaceDetailAdapter mAdapter = new PlaceDetailAdapter(itemsData);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setHasFixedSize(true);
-
     }
 
     @Override

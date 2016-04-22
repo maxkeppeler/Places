@@ -48,6 +48,7 @@ public class Place implements Parcelable {
 
         this.favorite = favorite;
         this.location = location;
+        this.position = position;
         this.sight = sight;
         this.description = description;
         this.religion = religion;

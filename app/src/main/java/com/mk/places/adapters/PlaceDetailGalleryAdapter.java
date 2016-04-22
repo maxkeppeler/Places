@@ -40,6 +40,7 @@ public class PlaceDetailGalleryAdapter extends RecyclerView.Adapter<PlaceDetailG
         Glide.with(context)
                 .load(URL[position].getImageURL())
                 .asBitmap()
+                .override(1000, 1000)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
                 .into(viewHolder.image);

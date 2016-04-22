@@ -2,10 +2,13 @@ package com.mk.places.utilities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.mk.places.R;
+
+import java.util.Random;
 
 /**
  * Created by Max on 23.03.16.
@@ -13,8 +16,20 @@ import com.mk.places.R;
 public class Animation extends Activity {
 
     public static void zoomInAndOut(Context context, final ImageView image) {
-        final android.view.animation.Animation zoomIn = AnimationUtils.loadAnimation(context, R.anim.zoom_in);
-        final android.view.animation.Animation zoomOut = AnimationUtils.loadAnimation(context, R.anim.zoom_out);
+
+
+        Random random = new Random();
+        Random random2 = new Random();
+
+        final android.view.animation.Animation zoomIn, zoomOut;
+
+        if (random.nextInt(50) <  random2.nextInt(50)) {
+            zoomIn = AnimationUtils.loadAnimation(context, R.anim.zoom_in_1);
+            zoomOut = AnimationUtils.loadAnimation(context, R.anim.zoom_out_1);
+        } else {
+           zoomIn = AnimationUtils.loadAnimation(context, R.anim.zoom_in_2);
+            zoomOut = AnimationUtils.loadAnimation(context, R.anim.zoom_out_2);
+        }
 
         image.setAnimation(zoomIn);
         image.setAnimation(zoomOut);
