@@ -51,8 +51,8 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
     @Override
     public void onBindViewHolder(final PlacesViewHolder holder, int index) {
 
-        Place placeItem = placesList.get(index);
-        final String imgPlaceUrl = placeItem.getImgPlaceUrl();
+        Place place = placesList.get(index);
+        final String imgPlaceUrl = place.getUrl();
 
         Glide.with(context)
                 .load(imgPlaceUrl)
@@ -74,8 +74,8 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
 
 //        TODO - Mach dir mal Gedanken was es alles geben soll
 
-        holder.location.setText(placeItem.getLocation());
-        holder.sight.setText(placeItem.getSight());
+        holder.location.setText(place.getLocation());
+        holder.sight.setText(place.getSight());
 
         if (holder.sight.getText().equals("City")) {
             holder.sightDrawable.setBackground(context.getResources().getDrawable(R.drawable.sight_city));

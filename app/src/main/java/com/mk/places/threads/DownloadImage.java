@@ -15,14 +15,14 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class ImageFromURL extends AsyncTask<String, Integer, String> {
+public class DownloadImage extends AsyncTask<String, Integer, String> {
 
     private File openPath;
     private Context context;
     private String location;
     private String TAG = "ImageFromUrl/ Async Task";
 
-    public ImageFromURL(Context context, String location) {
+    public DownloadImage(Context context, String location) {
         this.context = context;
         this.location = location;
     }

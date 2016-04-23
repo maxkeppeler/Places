@@ -1,12 +1,12 @@
 package com.mk.places.models;
 
-public class PlaceDetail {
+public class PlaceInfo {
 
     private String text;
     private String title;
     private int drawable;
 
-    public PlaceDetail(String title, String text, int drawable) {
+    public PlaceInfo(String title, String text, int drawable) {
         this.text = text;
         this.title = title;
         this.drawable = drawable;

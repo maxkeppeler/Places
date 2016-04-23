@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private int current = 0;
     private DrawerPlaces places;
 
+
     private static String
 
             drawerPlaces,
@@ -125,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 .withToolbar(toolbar)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(drawerPlaces).withIcon(Icon.gmd_terrain).withIdentifier(0),
-                        new PrimaryDrawerItem().withName(drawerFavorite).withIcon(Icon.gmd_favorite).withIdentifier(1),
+                        new PrimaryDrawerItem().withName(drawerFavorite).withIcon(Icon.gmd_bookmark).withIdentifier(1),
                         new SectionDrawerItem().withName("Various"),
                         new SecondaryDrawerItem().withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(2),
                         new SecondaryDrawerItem().withName(drawerSupport).withIcon(Icon.gmd_chat).withIdentifier(3),
@@ -144,11 +145,9 @@ public class MainActivity extends AppCompatActivity {
                                 transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
 
                                 Fragment fragment = null;
-
                                 DrawerLayout drawerLayout = materialDrawer.getDrawerLayout();
 
                                 switch ((int) drawerItem.getIdentifier()) {
-
 
                                     case 0:
                                         fragment = new DrawerPlaces();
@@ -157,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     case 1:
                                         fragment = new DrawerPlaces();
+
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
 
 //                                    TODO - Favorite Fragment, filter out the json objects where int favorite is 1 (for favored)
@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemLongClick(View view, int position, IDrawerItem drawerItem) {
                         if (drawerItem instanceof SecondaryDrawerItem) {
-                            Toast.makeText(context, ((SecondaryDrawerItem) drawerItem).getName().getText(context), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context, ((SecondaryDrawerItem) drawerItem).getName().getText(context), Toast.LENGTH_SHORT).show();
                         }
                         return false;
                     }
@@ -213,18 +213,18 @@ public class MainActivity extends AppCompatActivity {
                     public void onDrawerOpened(View drawerView) {
 
                         if (drawerView == materialDrawer.getSlider()) {
-                            Log.e("sample", "left opened");
+//                            Log.e("sample", "left opened");
                         } else if (drawerView == materialDrawerAppended.getSlider()) {
-                            Log.e("sample", "right opened");
+//                            Log.e("sample", "right opened");
                         }
                     }
 
                     @Override
                     public void onDrawerClosed(View drawerView) {
                         if (drawerView == materialDrawer.getSlider()) {
-                            Log.e("sample", "left closed");
+//                            Log.e("sample", "left closed");
                         } else if (drawerView == materialDrawerAppended.getSlider()) {
-                            Log.e("sample", "right closed");
+//                            Log.e("sample", "right closed");
                         }
                     }
 
@@ -246,7 +246,6 @@ public class MainActivity extends AppCompatActivity {
                 .withDisplayBelowStatusBar(true)
                 .withSavedInstance(savedInstanceState)
                 .addDrawerItems(
-
                         new SectionDrawerItem().withName("Filter Places by").withDivider(false),
                         new DividerDrawerItem(),
 
@@ -258,7 +257,6 @@ public class MainActivity extends AppCompatActivity {
                         ),
 
                         new ExpandableDrawerItem().withName(continent).withIcon(Icon.gmd_style).withIdentifier(200).withSelectable(false).withIsExpanded(false).withSubItems(
-
                                 new SecondaryDrawerItem().withName(continentAfrica).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(201),
                                 new SecondaryDrawerItem().withName(continentAntarctica).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(202),
                                 new SecondaryDrawerItem().withName(continentAsia).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(203),
@@ -275,26 +273,22 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if (drawerItem instanceof Nameable) {
-                            Toast.makeText(context, ((Nameable) drawerItem).getName().getText(context), Toast.LENGTH_SHORT).show();
 
                             switch ((int) drawerItem.getIdentifier()) {
 
-//                                Identifiers 100+
                                 case 101: places.setFilterKey(sightCity); break;
                                 case 102: places.setFilterKey(sightCountry); break;
                                 case 103: places.setFilterKey(sightNationalPark); break;
                                 case 104: places.setFilterKey(sightPark); break;
 
-//                                Identifiers 200+
-                                case 301: places.setFilterKey(continentAfrica); break;
-                                case 302: places.setFilterKey(continentAntarctica); break;
-                                case 303: places.setFilterKey(continentAsia); break;
-                                case 304: places.setFilterKey(continentAustralia); break;
-                                case 305: places.setFilterKey(continentEurope); break;
-                                case 306: places.setFilterKey(continentNorthAmerica); break;
-                                case 307: places.setFilterKey(continentSouthAmerica); break;
+                                case 201: places.setFilterKey(continentAfrica); break;
+                                case 202: places.setFilterKey(continentAntarctica); break;
+                                case 203: places.setFilterKey(continentAsia); break;
+                                case 204: places.setFilterKey(continentAustralia); break;
+                                case 205: places.setFilterKey(continentEurope); break;
+                                case 206: places.setFilterKey(continentNorthAmerica); break;
+                                case 207: places.setFilterKey(continentSouthAmerica); break;
 
-//                                No change for these identifiers
                                 case 100:  break;
                                 case 200:  break;
                                 case 300:  break;
@@ -302,6 +296,7 @@ public class MainActivity extends AppCompatActivity {
                                 case 999: places.setFilterKey("All");
                                     materialDrawerAppended.setSelection(0);
                                     break;
+
                                 default: places.setFilterKey("All");
                                     materialDrawerAppended.setSelection(0);
                                     break;
@@ -312,7 +307,6 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .withDrawerGravity(Gravity.END)
                 .append(materialDrawer);
-
 
         if (materialDrawerAppended != null) {
             materialDrawerAppended.setSelection(0);
@@ -374,7 +368,6 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         if (this.getResources().getBoolean(R.bool.zoomDrawerHeader)) Animation.zoomInAndOut(context, cover);
-
         return header;
     }
 

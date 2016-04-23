@@ -1,11 +1,11 @@
 package com.mk.places.models;
 
-public class PlaceDetailGallery {
+public class PlaceInfoGallery {
 
     private String imageURL;
 
 
-    public PlaceDetailGallery(String imageURL) {
+    public PlaceInfoGallery(String imageURL) {
         this.imageURL = imageURL;
     }
 

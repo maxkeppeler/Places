@@ -1,5 +1,6 @@
 package com.mk.places.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -24,7 +25,7 @@ import com.mk.places.activity.DetailView;
 import com.mk.places.activity.MainActivity;
 import com.mk.places.adapters.PlaceAdapter;
 import com.mk.places.models.Place;
-import com.mk.places.models.PlaceList;
+import com.mk.places.models.Places;
 import com.mk.places.utilities.Dialogs;
 import com.mk.places.utilities.JSONParser;
 import com.mk.places.utilities.Utils;
@@ -70,11 +71,6 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-
-//        TODO - Search function json array
-//        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-//        searchView.setOnQueryTextListener(context);
-
         int id = item.getItemId();
 
         switch (id) {
@@ -94,7 +90,7 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
     }
 
     public void loadPlacesList(Context context) {
-        PlaceList.clearList();
+        Places.clearList();
 
         new DrawerPlaces.DownloadJSON(new MainActivity.PlacesListInterface() {
             @Override
@@ -142,7 +138,7 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
     private static void setupLayout(final boolean fromTask) {
 
 
-        if (PlaceList.getPlacesList() != null && PlaceList.getPlacesList().size() > 0) {
+        if (Places.getPlacesList() != null && Places.getPlacesList().size() > 0) {
             context.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -157,17 +153,16 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
 
                                     if (longClick) {
 
-//                                        TODO -
 
                                         final ImageView mainImage = (ImageView) layoutTest.findViewById(R.id.mainImage);
-                                        Place item = PlaceList.getPlacesList().get(position);
+                                        Place item = Places.getPlacesList().get(position);
 
 //                                        new MaterialDialog.Builder(context)
 //                                                .customView(R.layout.activity_detail_view_preview, true)
 //                                                .show();
 //
 //
-//                                       Glide.with(context).load(item.getImgPlaceUrl()).asBitmap().into(mainImage);
+//                                       Glide.with(context).load(item.getUrl()).asBitmap().into(mainImage);
 
 
 
@@ -177,13 +172,13 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
 
                                     if (intent != null) {
 
-                                    intent.putExtra("item", PlaceList.getPlacesList().get(position));
+                                    intent.putExtra("item", Places.getPlacesList().get(position));
                                     context.startActivity(intent);
                                     }
                                 }
                             });
 
-                    mAdapter.setData(PlaceList.getPlacesList());
+                    mAdapter.setData(Places.getPlacesList());
                     mRecycler.setAdapter(mAdapter);
                     if (Utils.hasNetwork(context)) {
                         mRecycler.setVisibility(View.VISIBLE);
@@ -235,7 +230,6 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
         private String keyWord;
         private boolean favored;
 
-
         public DownloadJSON(MainActivity.PlacesListInterface wi, Context context, String keyWord) {
             this.keyWord = keyWord;
             this.wi = wi;
@@ -253,7 +247,6 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
                 }
             }
         }
-
         @Override
         protected Void doInBackground(Void... params) {
 
@@ -267,16 +260,16 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
                         json = jsonarray.getJSONObject(i);
 
                         if (!keyWord.equals("All") && (
-                                           json.getString("sight").equals(keyWord)
-                                        || json.getString("position").equals(keyWord)
-                                        || json.getString("religion").equals(keyWord)
+
+                                json.getString("sight").equals(keyWord)
+                                        || json.getString("continent").equals(keyWord)
+
                         )) {
                             addJsonObject(jsonarray, i);
-                        }
-                        else if (keyWord.equals("All")) addJsonObject(jsonarray, i);
+                        } else if (keyWord.equals("All")) addJsonObject(jsonarray, i);
                     }
 
-                    PlaceList.createPlaceList(places);
+                    Places.createPlaceList(places);
                     successful = true;
 
                 } catch (JSONException e) {
@@ -293,11 +286,35 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
             JSONObject json = jsonarray.getJSONObject(i);
             int favorite = 0;
             places.add(new Place(
-                            json.getString("location"), json.getString("sight"), json.getString("description"),
-                            json.getString("position"), json.getString("religion"),
-                            json.getString("url"), json.getString("urla"),
-                            json.getString("urlb"), json.getString("urlc"),
-                            json.getString("urld"), json.getString("urle"),
+
+                            json.getString("location"),
+                            json.getString("sight"),
+                            json.getString("continent"),
+                            json.getString("religion"),
+                            json.getString("description"),
+
+                            json.getString("url"),
+                            json.getString("urla"),
+                            json.getString("urlb"),
+                            json.getString("urlc"),
+                            json.getString("urld"),
+                            json.getString("urle"),
+                            json.getString("urlf"),
+                            json.getString("urlg"),
+                            json.getString("urlh"),
+                            json.getString("urli"),
+                            json.getString("urlj"),
+                            json.getString("urlk"),
+                            json.getString("urll"),
+                            json.getString("urlm"),
+                            json.getString("urln"),
+                            json.getString("urlo"),
+                            json.getString("urlp"),
+                            json.getString("urlq"),
+                            json.getString("urlr"),
+                            json.getString("urls"),
+                            json.getString("urlt"),
+
                             favorite
                     )
             );

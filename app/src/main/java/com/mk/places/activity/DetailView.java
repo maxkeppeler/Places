@@ -19,12 +19,11 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.GridLayoutManager;
@@ -40,8 +39,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -53,13 +52,10 @@ import com.mk.places.R;
 import com.mk.places.adapters.PlaceDetailAdapter;
 import com.mk.places.adapters.PlaceDetailGalleryAdapter;
 import com.mk.places.models.Place;
-import com.mk.places.models.PlaceDetail;
-import com.mk.places.models.PlaceDetailGallery;
-import com.mk.places.threads.ImageFromLayout;
-import com.mk.places.threads.ImageFromURL;
+import com.mk.places.models.PlaceInfo;
+import com.mk.places.models.PlaceInfoGallery;
+import com.mk.places.threads.DownloadImage;
 import com.mk.places.utilities.Utils;
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
-import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -68,7 +64,7 @@ public class DetailView extends AppCompatActivity {
 
 
     private static int color;
-    String location, sight, desc, imageUrl, position, religion;
+    String location, sight, desc, url, continent, religion;
     @Bind(R.id.fab) FloatingActionButton fab;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.collapsingToolbar) CollapsingToolbarLayout collapsingToolbarLayout;
@@ -77,6 +73,9 @@ public class DetailView extends AppCompatActivity {
     @Bind(R.id.placeInfoTitle) TextView placeInfoTitle;
     @Bind(R.id.recyclerViewInfoDetails) RecyclerView recyclerViewDetail;
     @Bind(R.id.recyclerViewGallery) RecyclerView recyclerViewGallery;
+    @Bind(R.id.scrollView) ScrollView scrollView;
+    @Bind(R.id.scroll)
+    NestedScrollView scroll;
     Window window;
     private ViewGroup layout;
     private Activity context;
@@ -111,20 +110,16 @@ public class DetailView extends AppCompatActivity {
         Intent intent = getIntent();
         final Place item = intent.getParcelableExtra("item");
 
-        imageUrl = item.getImgPlaceUrl();
+        url = item.getUrl();
         location = item.getLocation();
         sight = item.getSight();
-        desc = item.getDescription();
-        position = item.getPosition();
+        continent = item.getContinent();
         religion = item.getReligion();
+        desc = item.getDescription();
 
-
-        if (position.isEmpty() || position.length() < 4) position = "Unknown";
+        if (continent.isEmpty() || continent.length() < 4) continent = "Unknown";
 
         sightDependingLayouts();
-
-//        ViewCompat.setTransitionName(findViewById(R.id.appBarLayout), imageUrl);
-//        supportPostponeEnterTransition();
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -132,7 +127,7 @@ public class DetailView extends AppCompatActivity {
 
         placeDescTitle.setTypeface(typeface);
         placeInfoTitle.setTypeface(typeface);
-        placesDescText.setText(Html.fromHtml(desc).toString().replace("â€™", "'"));
+        placesDescText.setText(Html.fromHtml(desc).toString().replace("â€“", "–").replace("â€™", "\"").replace("â€™", "\"").replace("â€˜", "\"").replace("\\n", "\n").replace("\\", ""));
         fab.setVisibility(View.INVISIBLE);
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -156,7 +151,7 @@ public class DetailView extends AppCompatActivity {
         final ImageView image = (ImageView) findViewById(R.id.image);
 
         Glide.with(context)
-                .load(imageUrl)
+                .load(url)
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .skipMemoryCache(true)
@@ -175,7 +170,7 @@ public class DetailView extends AppCompatActivity {
         recyclerViewGallery.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false));
 
 
-        int arraySize = 5;
+        int arraySize = 20;
         String galleryURL[] = new String[arraySize];
 
         galleryURL[0] = item.getUrl_a();
@@ -183,19 +178,33 @@ public class DetailView extends AppCompatActivity {
         galleryURL[2] = item.getUrl_c();
         galleryURL[3] = item.getUrl_d();
         galleryURL[4] = item.getUrl_e();
+        galleryURL[5] = item.getUrl_f();
+        galleryURL[6] = item.getUrl_g();
+        galleryURL[7] = item.getUrl_h();
+        galleryURL[8] = item.getUrl_i();
+        galleryURL[9] = item.getUrl_j();
+        galleryURL[10] = item.getUrl_k();
+        galleryURL[11] = item.getUrl_l();
+        galleryURL[12] = item.getUrl_m();
+        galleryURL[13] = item.getUrl_n();
+        galleryURL[14] = item.getUrl_o();
+        galleryURL[15] = item.getUrl_p();
+        galleryURL[16] = item.getUrl_q();
+        galleryURL[17] = item.getUrl_r();
+        galleryURL[18] = item.getUrl_s();
+        galleryURL[19] = item.getUrl_t();
 
         int gallerySize = 0;
 
-        for (int j = 0; j < 5; j++) {
-            if (!(galleryURL[j].equals("") || galleryURL[j].length() < 5)) {
+        for (int j = 0; j < arraySize; j++) {
+            if (!(galleryURL[j].equals("") || galleryURL[j].length() < 5))
                 gallerySize++;
-            }
         }
 
-        PlaceDetailGallery placeDetailGalleries[] = new PlaceDetailGallery[gallerySize];
+        PlaceInfoGallery placeDetailGalleries[] = new PlaceInfoGallery[gallerySize];
 
         for (int i = 0; i < gallerySize; i++) {
-            placeDetailGalleries[i] = new PlaceDetailGallery(galleryURL[i]);
+            placeDetailGalleries[i] = new PlaceInfoGallery(galleryURL[i]);
         }
 
 
@@ -206,12 +215,12 @@ public class DetailView extends AppCompatActivity {
 
                 if (longClick) {
 
-                    Log.d("Lang", "onClick: ");
-                } else Log.d("Kurz", "onClick: ");
+                    Log.d("Lang", "onClick: with ID " + index);
+                } else Log.d("Kurz", "onClick: with ID " + index);
 
             }
         });
-        recyclerViewGallery.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
+        recyclerViewGallery.setNestedScrollingEnabled(true);
         recyclerViewGallery.setClipToPadding(false);
         recyclerViewGallery.setAdapter(galleryAdapter);
         recyclerViewGallery.setHasFixedSize(true);
@@ -225,6 +234,7 @@ public class DetailView extends AppCompatActivity {
             if (palette == null) return;
 
             color = Utils.colorFromPalette(context, palette);
+
 
             fab.setRippleColor(color);
             fab.setBackgroundTintList(ColorStateList.valueOf(color));
@@ -246,18 +256,18 @@ public class DetailView extends AppCompatActivity {
     private void sightDependingLayouts() {
 
         if (sight.equals("City")) {
-            PlaceDetail itemsData[] = {
-                    new PlaceDetail("Location", position, R.drawable.ic_location),
-                    new PlaceDetail("Location", position, R.drawable.ic_location),
-                    new PlaceDetail("Location", position, R.drawable.ic_location),
-                    new PlaceDetail("Religion", religion, R.drawable.ic_religion),
+            PlaceInfo itemsData[] = {
+                    new PlaceInfo("Location", continent, R.drawable.ic_location),
+                    new PlaceInfo("Location", continent, R.drawable.ic_location),
+                    new PlaceInfo("Location", continent, R.drawable.ic_location),
+                    new PlaceInfo("Religion", religion, R.drawable.ic_religion),
             };
             finishRecycler(recyclerViewDetail, itemsData);
         }
 
         if (sight.equals("National Park")) {
-            PlaceDetail itemsData[] = {
-                    new PlaceDetail("Location", position, R.drawable.ic_location),
+            PlaceInfo itemsData[] = {
+                    new PlaceInfo("Location", continent, R.drawable.ic_location),
             };
             finishRecycler(recyclerViewDetail, itemsData);
         }
@@ -265,7 +275,7 @@ public class DetailView extends AppCompatActivity {
         
     }
 
-    private void finishRecycler(RecyclerView recyclerView, PlaceDetail itemsData[]) {
+    private void finishRecycler(RecyclerView recyclerView, PlaceInfo itemsData[]) {
         recyclerView.setLayoutManager(new GridLayoutManager(context, 1));
         PlaceDetailAdapter mAdapter = new PlaceDetailAdapter(itemsData);
         recyclerView.setAdapter(mAdapter);
@@ -316,8 +326,17 @@ public class DetailView extends AppCompatActivity {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
                         PackageManager.PERMISSION_GRANTED) {
                     getStoragePermission();
-                } else downloadDialog();
+                } else downloadImage();
 
+                break;
+
+            case R.id.share:
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("*/*");
+                intent.putExtra(Intent.EXTRA_EMAIL, "chvent94@gmail.com");
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Places - Support Mail");
+                intent.putExtra(Intent.EXTRA_TEXT, desc);
+                startActivity(Intent.createChooser(intent, "Send Email with"));
                 break;
 
             case R.id.launch:
@@ -335,75 +354,26 @@ public class DetailView extends AppCompatActivity {
         }
     }
 
-    public void downloadDialog() {
+    public void downloadImage() {
 
-        new MaterialDialog.Builder(context)
-                .title(R.string.saveImageTitle)
-                .items(R.array.saveImageContentArray)
-                .backgroundColor(context.getResources().getColor(R.color.dialogs))
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
-
-                        if (i == 0) {
-
-                            final ImageFromURL downloadTask = new ImageFromURL(context, location);
-                            downloadTask.execute(imageUrl);
+        final DownloadImage downloadTask = new DownloadImage(context, location);
+        downloadTask.execute(url);
 
 //                            Snackbar
-                            View layout = findViewById(R.id.coordinatorLayout);
-                            Snackbar snackbar = Snackbar.make(layout, R.string.snackbarDownloadImageText, Snackbar.LENGTH_LONG)
-                                    .setActionTextColor(getResources().getColor(R.color.white))
-                                    .setAction(R.string.snackbarDownloadImageAction, new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            Utils.intentOpen(Uri.fromFile(downloadTask.getOpenPath().getAbsoluteFile()), context, getResources().getString(R.string.snackbarDownloadImageIntent));
-                                        }
-                                    });
-
-                            View snackBarView = snackbar.getView();
-                            snackBarView.setBackgroundColor(color);
-                            snackbar.show();
-                        }
-
-                        if (i == 1) {
-
-//                          TODO -   Layout is too large to fit into a software layer or drawing cache 0,8gb ram wird benötigt, 0,14 nur vorhanden
-
-                            CoordinatorLayout coView = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
-                            coView.setDrawingCacheEnabled(true);
-                            coView.setDrawingCacheQuality(CoordinatorLayout.DRAWING_CACHE_QUALITY_LOW);
-                            coView.setLayerType(WebView.LAYER_TYPE_NONE, null);
-                            coView.measure(CoordinatorLayout.MeasureSpec.makeMeasureSpec(0, CoordinatorLayout.MeasureSpec.UNSPECIFIED),
-                                    CoordinatorLayout.MeasureSpec.makeMeasureSpec(0, CoordinatorLayout.MeasureSpec.UNSPECIFIED));
-                            coView.layout(0, 0, coView.getMeasuredWidth(), coView.getMeasuredHeight());
-                            coView.buildDrawingCache(true);
-
-                            Bitmap createdBitmap = Bitmap.createBitmap(coView.getDrawingCache());
-                            coView.setDrawingCacheEnabled(false);
-
-                            final ImageFromLayout imageFromLayout = new ImageFromLayout(context, location, createdBitmap);
-                            imageFromLayout.execute();
-
-
-//                            Snack Bar
-                            View layout = findViewById(R.id.coordinatorLayout);
-                            Snackbar snackbar = Snackbar.make(layout, R.string.snackbarDownloadLayoutText, Snackbar.LENGTH_LONG)
-                                    .setActionTextColor(getResources().getColor(R.color.white))
-                                    .setAction(R.string.snackbarDownloadLayoutAction, new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            Utils.intentOpen(Uri.fromFile(imageFromLayout.getOpenPath().getAbsoluteFile()), context, getResources().getString(R.string.snackbarDownloadLayoutIntent));
-                                        }
-                                    });
-
-                            View snackBarView = snackbar.getView();
-                            snackBarView.setBackgroundColor(Utils.colorVariant(color, 0.92f));
-                            snackbar.show();
-                        }
+        View layout = findViewById(R.id.coordinatorLayout);
+        Snackbar snackbar = Snackbar.make(layout, R.string.snackbarDownloadImageText, Snackbar.LENGTH_LONG)
+                .setActionTextColor(getResources().getColor(R.color.white))
+                .setAction(R.string.snackbarDownloadImageAction, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Utils.intentOpen(Uri.fromFile(downloadTask.getOpenPath().getAbsoluteFile()), context, getResources().getString(R.string.snackbarDownloadImageIntent));
                     }
-                })
-                .show();
+                });
+
+        View snackBarView = snackbar.getView();
+        snackBarView.setBackgroundColor(color);
+        snackbar.show();
+
     }
 
 
@@ -418,7 +388,7 @@ public class DetailView extends AppCompatActivity {
             case PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE: {
                 if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    downloadDialog();
+                    downloadImage();
                     Log.d("requestPermission", "Write External Storage: Permission granted.");
 
                 } else {
@@ -472,7 +442,7 @@ public class DetailView extends AppCompatActivity {
                     .cancelListener(new DialogInterface.OnCancelListener() {
                         @Override
                         public void onCancel(DialogInterface dialog) {
-                            downloadDialog();
+                            downloadImage();
                         }
                     })
                     .show();

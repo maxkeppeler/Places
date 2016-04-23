@@ -1,7 +1,13 @@
 package com.mk.places.adapters;
 
 import android.content.Context;
-import android.media.Image;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,16 +16,16 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
-import com.mk.places.models.PlaceDetailGallery;
-import com.mk.places.widgets.SquareImageView;
+import com.mk.places.models.PlaceInfoGallery;
 
 public class PlaceDetailGalleryAdapter extends RecyclerView.Adapter<PlaceDetailGalleryAdapter.ViewHolder> {
-    private PlaceDetailGallery[] URL;
+    private PlaceInfoGallery[] URL;
     private Context context;
     private final ClickListener clickListener;
 
-    public PlaceDetailGalleryAdapter(Context context, PlaceDetailGallery[] URL, ClickListener callBack) {
+    public PlaceDetailGalleryAdapter(Context context, PlaceInfoGallery[] URL, ClickListener callBack) {
         this.context = context;
         this.URL = URL;
         this.clickListener = callBack;
@@ -34,16 +40,24 @@ public class PlaceDetailGalleryAdapter extends RecyclerView.Adapter<PlaceDetailG
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(final ViewHolder viewHolder, int position) {
 
         if (URL[position] != null) {
         Glide.with(context)
                 .load(URL[position].getImageURL())
                 .asBitmap()
-                .override(1000, 1000)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .override(700, 700)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .centerCrop()
-                .into(viewHolder.image);
+                .into(new BitmapImageViewTarget(viewHolder.image) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(context.getResources(), resource)});
+                        assert viewHolder.image != null;
+                        viewHolder.image.setImageDrawable(td);
+                        td.startTransition(150);
+                    }
+                });
         }
     }
 
