@@ -26,11 +26,22 @@ package com.mk.places.utilities;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.mk.places.R;
+import com.mk.places.models.Place;
+import com.mk.places.models.Places;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Preferences {
 
     private static final String
-            PREFERENCES_NAME = "DASHBOARD_PREFERENCES",
-            PLACES_LIST_LOADED = "PLACES_LIST_LOADED";
+            PREFS_NAME = "DASHBOARD_PREFERENCES",
+            FAVORITES = "FAVORITE";
+
+    private static final boolean[] arrayFavo = new boolean[Places.getPlacesList().size()];
 
     private final Context context;
 
@@ -39,15 +50,7 @@ public class Preferences {
     }
 
     private SharedPreferences getSharedPreferences() {
-        return context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
-    }
-
-    public boolean getPlacesListLoaded() {
-        return getSharedPreferences().getBoolean(PLACES_LIST_LOADED, false);
-    }
-
-    public void setPlacesListLoaded(boolean loaded) {
-        getSharedPreferences().edit().putBoolean(PLACES_LIST_LOADED, loaded).apply();
+        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
 }

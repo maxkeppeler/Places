@@ -20,7 +20,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
 import com.mk.places.models.Place;
-import com.mk.places.utilities.Animation;
+import com.mk.places.utilities.AnimUtils;
 import com.mk.places.utilities.Utils;
 
 import java.util.ArrayList;
@@ -69,7 +69,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
                 });
 
         if (context.getResources().getBoolean(R.bool.placesZoomItems)) {
-            Animation.zoomInAndOut(context, holder.image);
+            AnimUtils.zoomInAndOut(context, holder.image);
         }
 
 //        TODO - Mach dir mal Gedanken was es alles geben soll

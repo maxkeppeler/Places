@@ -1,8 +1,12 @@
 package com.mk.places.utilities;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
@@ -13,7 +17,7 @@ import java.util.Random;
 /**
  * Created by Max on 23.03.16.
  */
-public class Animation extends Activity {
+public class AnimUtils extends Activity {
 
     public static void zoomInAndOut(Context context, final ImageView image) {
 
@@ -54,5 +58,17 @@ public class Animation extends Activity {
         });
     }
 
+    public static  void reveal(View v) {
+        int cx = v.getWidth() / 2;
+        int cy = v.getHeight() / 2;
+        int finalRadius = Math.max(v.getWidth(), v.getHeight());
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            Animator anim = android.view.ViewAnimationUtils.createCircularReveal(v, cx, cy, 0, finalRadius);
+            v.setVisibility(View.VISIBLE);
+            anim.setDuration(800);
+            anim.setInterpolator(new AccelerateDecelerateInterpolator());
+            anim.start();
+        }
+    }
 
 }

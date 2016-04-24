@@ -5,7 +5,7 @@
 
     <!-- Drawer Items -->
     <string name="app_places">Places</string>
-    <string name="app_favorite">Favorite</string>
+    <string name="app_favorite">Favorites</string>
     <string name="app_about">About</string>
     <string name="app_support">Support</string>
     <string name="app_settings">Settings</string>
@@ -135,15 +135,13 @@
     <string name="developer_desc">Maximilian Keppeler</string>
 
     <!-- Support -->
-    <string name="supportText">Lorem ipsum dolor sit amet consectetur adipiscing. </string>
+    <string name="supportText">Read the FAQs before you contact us.</string>
 
     <string name="liveChatTitle">Live Chat</string>
-    <string name="liveChatDesc">Lorem ipsum dolor sit amet consectetur adipiscing. Elit sed do eiusmod tempor incididunt. Ut labore et dolore magna aliqua ut.
-        Enim ad minim veniam quis nostrud. Exercitation ullamco laboris nisi. </string>
+    <string name="liveChatDesc">Get fast and very convenient replies to your questions. Whatever question you have regarding Places, we will answer it. You have ideas how we could improve Places? Let us know.</string>
 
     <string name="mailTitle">E-Mail</string>
-    <string name="mailDesc">Lorem ipsum dolor sit amet consectetur adipiscing. Elit sed do eiusmod tempor incididunt. Ut labore et dolore magna aliqua ut.
-        Enim ad minim veniam quis nostrud. Exercitation ullamco laboris nisi. </string>
+    <string name="mailDesc">Write a mail to us and we will reply as soon as possible. If you have longer content of your purpose to contact us, write us a mail instead of using the live chat.</string>
 
 
     <!-- Other App Strings -->

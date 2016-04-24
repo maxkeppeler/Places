@@ -2,7 +2,6 @@ package com.mk.places.activity;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -59,7 +58,13 @@ import com.mk.places.models.PlaceInfo;
 import com.mk.places.models.PlaceInfoGallery;
 import com.mk.places.models.Places;
 import com.mk.places.threads.DownloadImage;
+import com.mk.places.utilities.AnimUtils;
 import com.mk.places.utilities.Utils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -83,6 +88,8 @@ public class DetailView extends AppCompatActivity {
     Window window;
     private ViewGroup layout;
     private Activity context;
+    private int pos;
+    Set<String> active;
 
     //    REQUEST PERMISSIONS
     private static final int PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE = 42;
@@ -113,6 +120,7 @@ public class DetailView extends AppCompatActivity {
 
         Intent intent = getIntent();
         final Place item = intent.getParcelableExtra("item");
+        pos = intent.getIntExtra("pos", -1);
 
         url = item.getUrl();
         location = item.getLocation();
@@ -124,6 +132,7 @@ public class DetailView extends AppCompatActivity {
         if (continent.isEmpty() || continent.length() < 4) continent = "Unknown";
 
         sightDependingLayouts();
+
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -138,23 +147,30 @@ public class DetailView extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Place place = item;
+
+//                TODO - give data to a boolean array in the shared preferences, to keep the values and showing more than 1 favorite
 
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
                 SharedPreferences.Editor editor = preferences.edit();
 
-                if (place.getFavorite() == 0) {
-                    place.setFavorite(1);
+                Log.d("1", "FAB: " + pos);
+
+                if (Places.getPlacesList().get(pos).getFavorite() == 0 || preferences.getInt("item", -1) == 0) {
+//                if (Places.getPlacesList().get(pos).getFavorite() == 0) {
+                    Places.getPlacesList().get(pos).setFavorite(1);
                     editor.putInt("item",1);
                 }
-                else {
-                    place.setFavorite(0);
+                else if (Places.getPlacesList().get(pos).getFavorite() == 1 || preferences.getInt("item", -1) == 1){
+//                else if (Places.getPlacesList().get(pos).getFavorite() == 1){
+                    Places.getPlacesList().get(pos).setFavorite(0);
                     editor.putInt("item",0);
                 }
 
+                editor.putInt("pos", pos);
+
                 editor.apply();
 
-                Log.d("DetailView", "onClick: FAB: " + place.getFavorite());
+                Log.d("DetailView", "onClick: FAB: " + Places.getPlacesList().get(pos).getFavorite());
 
                 Utils.simpleSnackBar(context, color, R.id.coordinatorLayout, R.string.snackbarFavoredText, Snackbar.LENGTH_SHORT);
             }

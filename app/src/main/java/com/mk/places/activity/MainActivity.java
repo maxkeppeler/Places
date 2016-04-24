@@ -37,7 +37,7 @@ import com.mk.places.fragment.DrawerAbout;
 import com.mk.places.fragment.DrawerPlaces;
 import com.mk.places.fragment.DrawerSettings;
 import com.mk.places.fragment.DrawerSupport;
-import com.mk.places.utilities.Animation;
+import com.mk.places.utilities.AnimUtils;
 
 import java.util.Random;
 
@@ -366,7 +366,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        if (this.getResources().getBoolean(R.bool.zoomDrawerHeader)) Animation.zoomInAndOut(context, cover);
+        if (this.getResources().getBoolean(R.bool.zoomDrawerHeader)) AnimUtils.zoomInAndOut(context, cover);
         return header;
     }
 

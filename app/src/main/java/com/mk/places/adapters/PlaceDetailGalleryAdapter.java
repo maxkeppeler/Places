@@ -19,6 +19,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
 import com.mk.places.models.PlaceInfoGallery;
+import com.mk.places.utilities.AnimUtils;
 
 public class PlaceDetailGalleryAdapter extends RecyclerView.Adapter<PlaceDetailGalleryAdapter.ViewHolder> {
     private PlaceInfoGallery[] URL;
@@ -41,6 +42,7 @@ public class PlaceDetailGalleryAdapter extends RecyclerView.Adapter<PlaceDetailG
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, int position) {
+
 
         if (URL[position] != null) {
         Glide.with(context)

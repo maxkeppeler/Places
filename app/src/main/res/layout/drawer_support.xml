@@ -6,22 +6,15 @@
     android:orientation="vertical"
     android:scrollbars="none">
 
-
     <LinearLayout
         style="@style/LinearLayoutForViews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/supportText"
-            style="@style/TextViewBody1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:padding="16dp"
-            android:text="@string/supportText"
-            android:textAlignment="center"
-            android:textColor="@color/colorAccent" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewFAQs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <android.support.v7.widget.CardView
             android:id="@+id/liveChatCardView"
@@ -46,46 +39,51 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:background="@color/md_blue_grey_100" />
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingBottom="16dp"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="24dp">
+                        android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/liveChatTitle"
-                            style="@style/TextViewTitle"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:drawablePadding="16dp"
-                            android:drawableStart="@drawable/ic_mail"
-                            android:text="@string/liveChatTitle"
-                            android:textColor="@color/white" />
+                            android:background="@color/md_blue_500"
+                            android:paddingBottom="16dp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:paddingTop="16dp">
+
+                            <TextView
+                                android:id="@+id/liveChatTitle"
+                                style="@style/TextViewTitle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="16dp"
+                                android:drawableStart="@drawable/ic_mail"
+                                android:text="@string/liveChatTitle"
+                                android:textColor="@color/white" />
+
+                        </LinearLayout>
 
                         <TextView
                             android:id="@+id/liveChatDesc"
                             style="@style/TextViewBody1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:paddingBottom="16dp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:paddingTop="16dp"
                             android:text="@string/liveChatDesc"
                             android:textColor="@color/primaryText" />
 
                     </LinearLayout>
 
                 </LinearLayout>
+
             </com.balysv.materialripple.MaterialRippleLayout>
 
         </android.support.v7.widget.CardView>
-
 
         <android.support.v7.widget.CardView
             android:id="@+id/mailCardView"
@@ -111,37 +109,41 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:background="@color/md_blue_grey_100" />
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingBottom="16dp"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="24dp">
+                        android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/mailTitle"
-                            style="@style/TextViewTitle"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:drawablePadding="16dp"
-                            android:drawableStart="@drawable/ic_chat"
-                            android:text="@string/mailTitle"
-                            android:textColor="@color/white" />
+                            android:background="@color/md_blue_500"
+                            android:paddingBottom="16dp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:paddingTop="16dp">
 
+                            <TextView
+                                android:id="@+id/mailTitle"
+                                style="@style/TextViewTitle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="16dp"
+                                android:drawableStart="@drawable/ic_chat"
+                                android:text="@string/mailTitle"
+                                android:textColor="@color/white" />
+
+                        </LinearLayout>
 
                         <TextView
                             android:id="@+id/mailDesc"
                             style="@style/TextViewBody1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:paddingBottom="16dp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:paddingTop="16dp"
                             android:text="@string/mailDesc"
                             android:textColor="@color/primaryText" />
 

@@ -88,34 +88,20 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
 
     public void filterFavorites() {
 
+        ArrayList<Place> filteredList = Places.getPlacesList();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        int value = preferences.getInt("item", -1);
-
-        ArrayList<Place> filteredList = new ArrayList<>();
 
         for (int i = 0; i < Places.getPlacesList().size(); i++) {
-            Place place = Places.getPlacesList().get(i);
 
-            if (value == 1){
-                filteredList.add(place);
-//                Places.getPlacesList().remove(place);
-//                Places.getPlacesList().remove(i);
-                Log.d(TAG, "filterFavorites:  " + i + "(index) " + value);
-            } else if (value == 0) {
-                filteredList.remove(place);
-                Log.d(TAG, "filterFavorites: REMOVE " + i + "(index) " + value);
+            if (Places.getPlacesList().get(i).getFavorite() == 0 || preferences.getInt("item", 0) == 0) {
+                filteredList.remove(i);
+                Log.d(TAG, "Delete Item, because it's not marked as Favorite: " + i);
             }
-
         }
-
 
         DrawerPlaces.mAdapter.notifyDataSetChanged();
         mAdapter.setData(filteredList);
-//                mAdapter.setData(Places.getPlacesList());
-                mRecycler.setAdapter(mAdapter);
-
-
-
+        mRecycler.setAdapter(mAdapter);
 
     }
 
@@ -208,6 +194,7 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
                                     if (intent != null) {
 
                                     intent.putExtra("item", Places.getPlacesList().get(position));
+                                    intent.putExtra("pos", position);
                                     context.startActivity(intent);
                                     }
                                 }
