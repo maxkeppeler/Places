@@ -24,7 +24,7 @@ public class Place implements Parcelable {
             religion,
             description,
 
-            url,
+    url,
             url_a,
             url_b,
             url_c,
@@ -48,34 +48,37 @@ public class Place implements Parcelable {
 
     private int favorite;
 
+    public Place() {
+    }
+
     public Place(
-                 String location,
-                 String sight,
-                 String continent,
-                 String religion,
-                 String description,
-                 String url,
-                 String url_a,
-                 String url_b,
-                 String url_c,
-                 String url_d,
-                 String url_e,
-                 String url_f,
-                 String url_g,
-                 String url_h,
-                 String url_i,
-                 String url_j,
-                 String url_k,
-                 String url_l,
-                 String url_m,
-                 String url_n,
-                 String url_o,
-                 String url_p,
-                 String url_q,
-                 String url_r,
-                 String url_s,
-                 String url_t,
-                 int favorite
+            String location,
+            String sight,
+            String continent,
+            String religion,
+            String description,
+            String url,
+            String url_a,
+            String url_b,
+            String url_c,
+            String url_d,
+            String url_e,
+            String url_f,
+            String url_g,
+            String url_h,
+            String url_i,
+            String url_j,
+            String url_k,
+            String url_l,
+            String url_m,
+            String url_n,
+            String url_o,
+            String url_p,
+            String url_q,
+            String url_r,
+            String url_s,
+            String url_t,
+            int favorite
 
     ) {
 
@@ -106,6 +109,41 @@ public class Place implements Parcelable {
         this.url_r = url_r;
         this.url_s = url_s;
         this.url_t = url_t;
+
+
+    }
+
+
+    protected Place(Parcel in) {
+
+        location = in.readString();
+        sight = in.readString();
+        continent = in.readString();
+        religion = in.readString();
+        description = in.readString();
+        favorite = in.readInt();
+
+        url = in.readString();
+        url_a = in.readString();
+        url_b = in.readString();
+        url_c = in.readString();
+        url_d = in.readString();
+        url_e = in.readString();
+        url_f = in.readString();
+        url_g = in.readString();
+        url_h = in.readString();
+        url_i = in.readString();
+        url_j = in.readString();
+        url_k = in.readString();
+        url_l = in.readString();
+        url_m = in.readString();
+        url_n = in.readString();
+        url_o = in.readString();
+        url_p = in.readString();
+        url_q = in.readString();
+        url_r = in.readString();
+        url_s = in.readString();
+        url_t = in.readString();
 
     }
 
@@ -145,39 +183,6 @@ public class Place implements Parcelable {
         dest.writeString(url_r);
         dest.writeString(url_s);
         dest.writeString(url_t);
-    }
-
-    protected Place(Parcel in) {
-
-        location = in.readString();
-        sight = in.readString();
-        continent = in.readString();
-        religion = in.readString();
-        description = in.readString();
-        favorite = in.readInt();
-
-        url = in.readString();
-        url_a = in.readString();
-        url_b = in.readString();
-        url_c = in.readString();
-        url_d = in.readString();
-        url_e = in.readString();
-        url_f = in.readString();
-        url_g = in.readString();
-        url_h = in.readString();
-        url_i = in.readString();
-        url_j = in.readString();
-        url_k = in.readString();
-        url_l = in.readString();
-        url_m = in.readString();
-        url_n = in.readString();
-        url_o = in.readString();
-        url_p = in.readString();
-        url_q = in.readString();
-        url_r = in.readString();
-        url_s = in.readString();
-        url_t = in.readString();
-
     }
 
     public String getUrl_a() {

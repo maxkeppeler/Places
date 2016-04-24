@@ -14,12 +14,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
@@ -82,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         context = this;
         places = new DrawerPlaces();
-        places.loadPlacesList(context);
+
 
         imageArray = getResources().getStringArray(R.array.headerUrl);
 
@@ -151,13 +149,14 @@ public class MainActivity extends AppCompatActivity {
 
                                     case 0:
                                         fragment = new DrawerPlaces();
+                                        places.loadPlacesList(context);
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
                                         break;
 
                                     case 1:
-                                        fragment = new DrawerPlaces();
-
-                                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
+//                                        fragment = new DrawerPlaces();
+                                        places.filterFavorites();
+                                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
 
 //                                    TODO - Favorite Fragment, filter out the json objects where int favorite is 1 (for favored)
                                         break;

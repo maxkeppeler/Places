@@ -2,8 +2,10 @@ package com.mk.places.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -16,6 +18,7 @@ import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -54,6 +57,7 @@ import com.mk.places.adapters.PlaceDetailGalleryAdapter;
 import com.mk.places.models.Place;
 import com.mk.places.models.PlaceInfo;
 import com.mk.places.models.PlaceInfoGallery;
+import com.mk.places.models.Places;
 import com.mk.places.threads.DownloadImage;
 import com.mk.places.utilities.Utils;
 
@@ -134,9 +138,23 @@ public class DetailView extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+                Place place = item;
 
-                if (item.getFavorite() == 0) item.setFavorite(1);
-                else item.setFavorite(0);
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                SharedPreferences.Editor editor = preferences.edit();
+
+                if (place.getFavorite() == 0) {
+                    place.setFavorite(1);
+                    editor.putInt("item",1);
+                }
+                else {
+                    place.setFavorite(0);
+                    editor.putInt("item",0);
+                }
+
+                editor.apply();
+
+                Log.d("DetailView", "onClick: FAB: " + place.getFavorite());
 
                 Utils.simpleSnackBar(context, color, R.id.coordinatorLayout, R.string.snackbarFavoredText, Snackbar.LENGTH_SHORT);
             }

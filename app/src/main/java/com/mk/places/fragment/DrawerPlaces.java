@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -84,6 +86,39 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
         return super.onOptionsItemSelected(item);
     }
 
+    public void filterFavorites() {
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        int value = preferences.getInt("item", -1);
+
+        ArrayList<Place> filteredList = new ArrayList<>();
+
+        for (int i = 0; i < Places.getPlacesList().size(); i++) {
+            Place place = Places.getPlacesList().get(i);
+
+            if (value == 1){
+                filteredList.add(place);
+//                Places.getPlacesList().remove(place);
+//                Places.getPlacesList().remove(i);
+                Log.d(TAG, "filterFavorites:  " + i + "(index) " + value);
+            } else if (value == 0) {
+                filteredList.remove(place);
+                Log.d(TAG, "filterFavorites: REMOVE " + i + "(index) " + value);
+            }
+
+        }
+
+
+        DrawerPlaces.mAdapter.notifyDataSetChanged();
+        mAdapter.setData(filteredList);
+//                mAdapter.setData(Places.getPlacesList());
+                mRecycler.setAdapter(mAdapter);
+
+
+
+
+    }
+
     public void setFilterKey(String string) {
         this.filterKey = string;
         loadPlacesList(context);
@@ -109,6 +144,9 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
 
         setHasOptionsMenu(true);
 
+//        Places.getPlacesList().clear();
+//        Places.clearList();
+
         context = getActivity();
 
         if (layout != null) {
@@ -129,14 +167,11 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
         mRecycler.setHasFixedSize(true);
         mRecycler.setAdapter(mAdapter);
         mRecycler.setVisibility(View.VISIBLE);
-
         setupLayout(false);
-
         return layout;
     }
 
     private static void setupLayout(final boolean fromTask) {
-
 
         if (Places.getPlacesList() != null && Places.getPlacesList().size() > 0) {
             context.runOnUiThread(new Runnable() {
@@ -191,8 +226,6 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
             context.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (mAdapter != null) {
-                    }
                     if (layout != null) {
 
                         if (fromTask) {
