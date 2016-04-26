@@ -19,12 +19,15 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 
+import com.afollestad.inquiry.Inquiry;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.holder.BadgeStyle;
+import com.mikepenz.materialdrawer.holder.StringHolder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.ExpandableDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
@@ -38,6 +41,7 @@ import com.mk.places.fragment.DrawerPlaces;
 import com.mk.places.fragment.DrawerSettings;
 import com.mk.places.fragment.DrawerSupport;
 import com.mk.places.utilities.AnimUtils;
+import com.mk.places.utilities.Preferences;
 
 import java.util.Random;
 
@@ -81,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
         context = this;
         places = new DrawerPlaces();
 
-
         imageArray = getResources().getStringArray(R.array.headerUrl);
 
         drawerPlaces = getResources().getString(R.string.app_places);
@@ -113,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+
         header = new AccountHeaderBuilder().withActivity(this).withSelectionFirstLine("Places").withSelectionSecondLine("by Maximilian Keppeler").withHeightDp(300).build();
         headerImage();
 
@@ -123,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 .withSelectedItem(0)
                 .withToolbar(toolbar)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName(drawerPlaces).withIcon(Icon.gmd_terrain).withIdentifier(0),
+                        new PrimaryDrawerItem().withName(drawerPlaces).withIcon(Icon.gmd_terrain).withIdentifier(0).withBadgeStyle(new BadgeStyle()),
                         new PrimaryDrawerItem().withName(drawerFavorite).withIcon(Icon.gmd_bookmark).withIdentifier(1),
                         new SectionDrawerItem().withName("Various"),
                         new SecondaryDrawerItem().withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(2),
@@ -239,31 +243,31 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+        Preferences mPref = new Preferences(context);
+        materialDrawer.updateBadge(0, new StringHolder("• " +  mPref.getPlacesSize() + " •"));
+
+
             materialDrawerAppended = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .withDisplayBelowStatusBar(true)
                 .withSavedInstance(savedInstanceState)
                 .addDrawerItems(
-                        new SectionDrawerItem().withName("Filter Places by").withDivider(false),
-                        new DividerDrawerItem(),
 
-                        new ExpandableDrawerItem().withName(sight).withIcon(Icon.gmd_style).withIdentifier(100).withSelectable(false).withIsExpanded(true).withSubItems(
-                                new SecondaryDrawerItem().withName(sightCity).withLevel(2).withIcon(Icon.gmd_location_city).withIdentifier(101),
-                                new SecondaryDrawerItem().withName(sightCountry).withLevel(2).withIcon(Icon.gmd_terrain).withIdentifier(102),
-                                new SecondaryDrawerItem().withName(sightNationalPark).withLevel(2).withIcon(Icon.gmd_nature).withIdentifier(103),
-                                new SecondaryDrawerItem().withName(sightPark).withLevel(2).withIcon(Icon.gmd_nature_people).withIdentifier(104)
-                        ),
+                        new SectionDrawerItem().withName("Sights").withDivider(false),
+                        new SecondaryDrawerItem().withName(sightCity).withLevel(2).withIcon(Icon.gmd_location_city).withIdentifier(101),
+                        new SecondaryDrawerItem().withName(sightCountry).withLevel(2).withIcon(Icon.gmd_terrain).withIdentifier(102),
+                        new SecondaryDrawerItem().withName(sightNationalPark).withLevel(2).withIcon(Icon.gmd_nature).withIdentifier(103),
+                        new SecondaryDrawerItem().withName(sightPark).withLevel(2).withIcon(Icon.gmd_nature_people).withIdentifier(104),
 
-                        new ExpandableDrawerItem().withName(continent).withIcon(Icon.gmd_style).withIdentifier(200).withSelectable(false).withIsExpanded(false).withSubItems(
-                                new SecondaryDrawerItem().withName(continentAfrica).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(201),
-                                new SecondaryDrawerItem().withName(continentAntarctica).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(202),
-                                new SecondaryDrawerItem().withName(continentAsia).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(203),
-                                new SecondaryDrawerItem().withName(continentAustralia).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(204),
-                                new SecondaryDrawerItem().withName(continentEurope).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(205),
-                                new SecondaryDrawerItem().withName(continentNorthAmerica).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(206),
-                                new SecondaryDrawerItem().withName(continentSouthAmerica).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(207)
-                        )
+                        new SectionDrawerItem().withName("Continents").withDivider(false),
+                        new SecondaryDrawerItem().withName(continentAfrica).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(201),
+                        new SecondaryDrawerItem().withName(continentAntarctica).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(202),
+                        new SecondaryDrawerItem().withName(continentAsia).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(203),
+                        new SecondaryDrawerItem().withName(continentAustralia).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(204),
+                        new SecondaryDrawerItem().withName(continentEurope).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(205),
+                        new SecondaryDrawerItem().withName(continentNorthAmerica).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(206),
+                        new SecondaryDrawerItem().withName(continentSouthAmerica).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(207)
 
                 ).addStickyDrawerItems(
                             new PrimaryDrawerItem().withName("Reset Filter").withSelectable(false).withIcon(Icon.gmd_clear_all).withIdentifier(999)
@@ -287,10 +291,6 @@ public class MainActivity extends AppCompatActivity {
                                 case 205: places.setFilterKey(continentEurope); break;
                                 case 206: places.setFilterKey(continentNorthAmerica); break;
                                 case 207: places.setFilterKey(continentSouthAmerica); break;
-
-                                case 100:  break;
-                                case 200:  break;
-                                case 300:  break;
 
                                 case 999: places.setFilterKey("All");
                                     materialDrawerAppended.setSelection(0);
@@ -339,6 +339,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     @Override

@@ -65,7 +65,12 @@ public class Dialogs {
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
-                        DrawerPlaces.changeColumns(i + 1);
+                        DrawerPlaces drawer = new DrawerPlaces();
+
+                        Preferences mPrefs = new Preferences(context);
+                        mPrefs.setColumns(i+1);
+
+                        drawer.changeColumns(i + 1);
                     }
                 })
                 .show();

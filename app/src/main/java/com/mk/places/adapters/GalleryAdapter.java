@@ -7,7 +7,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,18 +14,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
 import com.mk.places.models.PlaceInfoGallery;
-import com.mk.places.utilities.AnimUtils;
 
-public class PlaceDetailGalleryAdapter extends RecyclerView.Adapter<PlaceDetailGalleryAdapter.ViewHolder> {
+public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
     private PlaceInfoGallery[] URL;
     private Context context;
     private final ClickListener clickListener;
 
-    public PlaceDetailGalleryAdapter(Context context, PlaceInfoGallery[] URL, ClickListener callBack) {
+    public GalleryAdapter(Context context, PlaceInfoGallery[] URL, ClickListener callBack) {
         this.context = context;
         this.URL = URL;
         this.clickListener = callBack;
@@ -34,8 +33,8 @@ public class PlaceDetailGalleryAdapter extends RecyclerView.Adapter<PlaceDetailG
 
 
     @Override
-    public PlaceDetailGalleryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_places_detail_gallery_item, parent, false);
+    public GalleryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_places_detail_gallery, parent, false);
         ViewHolder viewHolder = new ViewHolder(itemLayoutView);
         return viewHolder;
     }
@@ -48,8 +47,9 @@ public class PlaceDetailGalleryAdapter extends RecyclerView.Adapter<PlaceDetailG
         Glide.with(context)
                 .load(URL[position].getImageURL())
                 .asBitmap()
-                .override(700, 700)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .override(450, 450)
+//                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+//                .priority(Priority.IMMEDIATE)
                 .centerCrop()
                 .into(new BitmapImageViewTarget(viewHolder.image) {
                     @Override

@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -17,7 +16,6 @@ import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -42,29 +40,25 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.afollestad.inquiry.Inquiry;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
 import com.mk.places.adapters.PlaceDetailAdapter;
-import com.mk.places.adapters.PlaceDetailGalleryAdapter;
+import com.mk.places.adapters.GalleryAdapter;
 import com.mk.places.models.Place;
 import com.mk.places.models.PlaceInfo;
 import com.mk.places.models.PlaceInfoGallery;
 import com.mk.places.models.Places;
 import com.mk.places.threads.DownloadImage;
-import com.mk.places.utilities.AnimUtils;
 import com.mk.places.utilities.Utils;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -82,14 +76,14 @@ public class DetailView extends AppCompatActivity {
     @Bind(R.id.placeInfoTitle) TextView placeInfoTitle;
     @Bind(R.id.recyclerViewInfoDetails) RecyclerView recyclerViewDetail;
     @Bind(R.id.recyclerViewGallery) RecyclerView recyclerViewGallery;
-    @Bind(R.id.scrollView) ScrollView scrollView;
+
     @Bind(R.id.scroll)
     NestedScrollView scroll;
     Window window;
     private ViewGroup layout;
     private Activity context;
     private int pos;
-    Set<String> active;
+    boolean active;
 
     //    REQUEST PERMISSIONS
     private static final int PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE = 42;
@@ -109,6 +103,8 @@ public class DetailView extends AppCompatActivity {
                 parent.removeView(layout);
             }
         }
+
+
 
         context = this;
 
@@ -148,29 +144,30 @@ public class DetailView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-//                TODO - give data to a boolean array in the shared preferences, to keep the values and showing more than 1 favorite
 
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-                SharedPreferences.Editor editor = preferences.edit();
 
-                Log.d("1", "FAB: " + pos);
-
-                if (Places.getPlacesList().get(pos).getFavorite() == 0 || preferences.getInt("item", -1) == 0) {
-//                if (Places.getPlacesList().get(pos).getFavorite() == 0) {
+                if (Places.getPlacesList().get(pos).getFavorite() == 0 ) {
                     Places.getPlacesList().get(pos).setFavorite(1);
-                    editor.putInt("item",1);
+                    Log.d("1", "FAB: " + pos +" bool: " + Places.getPlacesList().get(pos).getFavorite());
+                    active = true;
                 }
-                else if (Places.getPlacesList().get(pos).getFavorite() == 1 || preferences.getInt("item", -1) == 1){
-//                else if (Places.getPlacesList().get(pos).getFavorite() == 1){
+                else if (Places.getPlacesList().get(pos).getFavorite() == 1 ){
                     Places.getPlacesList().get(pos).setFavorite(0);
-                    editor.putInt("item",0);
+                    Log.d("1", "FAB: " + pos +" bool: " + Places.getPlacesList().get(pos).getFavorite());
+                    active = false;
                 }
+//
+//                FavoritesDatabase name = new FavoritesDatabase(1, active);
+//
+//
+//
+//
+//                 Inquiry.get()
+//                        .insertInto("people", FavoritesDatabase.class)
+//                        .values(name)
+//                        .run();
 
-                editor.putInt("pos", pos);
 
-                editor.apply();
-
-                Log.d("DetailView", "onClick: FAB: " + Places.getPlacesList().get(pos).getFavorite());
 
                 Utils.simpleSnackBar(context, color, R.id.coordinatorLayout, R.string.snackbarFavoredText, Snackbar.LENGTH_SHORT);
             }
@@ -187,7 +184,8 @@ public class DetailView extends AppCompatActivity {
         Glide.with(context)
                 .load(url)
                 .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+//                .sizeMultiplier(0.5f)
+                .priority(Priority.IMMEDIATE)
                 .skipMemoryCache(true)
                 .centerCrop()
                 .into(new BitmapImageViewTarget(image) {
@@ -196,7 +194,13 @@ public class DetailView extends AppCompatActivity {
                         TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(getResources(), resource)});
                         assert image != null;
                         image.setImageDrawable(td);
-                        td.startTransition(450);
+                        td.startTransition(150);
+//                        new Palette.Builder(resource).generate(paletteAsyncListener);
+                    }
+
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        super.onResourceReady(resource, glideAnimation);
                         new Palette.Builder(resource).generate(paletteAsyncListener);
                     }
                 });
@@ -205,7 +209,7 @@ public class DetailView extends AppCompatActivity {
 
 
         int arraySize = 20;
-        String galleryURL[] = new String[arraySize];
+        final String galleryURL[] = new String[arraySize];
 
         galleryURL[0] = item.getUrl_a();
         galleryURL[1] = item.getUrl_b();
@@ -233,6 +237,7 @@ public class DetailView extends AppCompatActivity {
         for (int j = 0; j < arraySize; j++) {
             if (!(galleryURL[j].equals("") || galleryURL[j].length() < 5))
                 gallerySize++;
+
         }
 
         PlaceInfoGallery placeDetailGalleries[] = new PlaceInfoGallery[gallerySize];
@@ -242,15 +247,22 @@ public class DetailView extends AppCompatActivity {
         }
 
 
-        PlaceDetailGalleryAdapter galleryAdapter = new PlaceDetailGalleryAdapter(context, placeDetailGalleries, new PlaceDetailGalleryAdapter.ClickListener() {
+        final GalleryAdapter galleryAdapter = new GalleryAdapter(context, placeDetailGalleries, new GalleryAdapter.ClickListener() {
 
             @Override
-            public void onClick(PlaceDetailGalleryAdapter.ViewHolder view, int index, boolean longClick) {
+            public void onClick(GalleryAdapter.ViewHolder view, int index, boolean longClick) {
 
                 if (longClick) {
 
                     Log.d("Lang", "onClick: with ID " + index);
-                } else Log.d("Kurz", "onClick: with ID " + index);
+                } else {
+                    Intent intent = new Intent(context, com.mk.places.activity.ImageView.class);
+                    intent.putExtra("URLs", galleryURL);
+                    intent.putExtra("index", index);
+                    context.startActivity(intent);
+
+                    Log.d("Kurz", "onClick: with ID " + index);
+                }
 
             }
         });
@@ -258,6 +270,7 @@ public class DetailView extends AppCompatActivity {
         recyclerViewGallery.setClipToPadding(false);
         recyclerViewGallery.setAdapter(galleryAdapter);
         recyclerViewGallery.setHasFixedSize(true);
+
 
     }
 

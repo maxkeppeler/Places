@@ -22,14 +22,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.afollestad.inquiry.Inquiry;
+import com.afollestad.inquiry.callbacks.GetCallback;
 import com.mk.places.R;
 import com.mk.places.activity.DetailView;
+import com.mk.places.activity.FavoritesDatabase;
 import com.mk.places.activity.MainActivity;
 import com.mk.places.adapters.PlaceAdapter;
 import com.mk.places.models.Place;
 import com.mk.places.models.Places;
 import com.mk.places.utilities.Dialogs;
 import com.mk.places.utilities.JSONParser;
+import com.mk.places.utilities.Preferences;
 import com.mk.places.utilities.Utils;
 
 import org.json.JSONArray;
@@ -53,6 +57,7 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
     private String filterKey = "All";
     private static ViewGroup layoutTest;
     private static final String TAG = "DrawerPlaces";
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -88,16 +93,44 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
 
     public void filterFavorites() {
 
-        ArrayList<Place> filteredList = Places.getPlacesList();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        final ArrayList<Place> filteredList = Places.getPlacesList();
+//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        for (int i = 0; i < Places.getPlacesList().size(); i++) {
 
-            if (Places.getPlacesList().get(i).getFavorite() == 0 || preferences.getInt("item", 0) == 0) {
-                filteredList.remove(i);
-                Log.d(TAG, "Delete Item, because it's not marked as Favorite: " + i);
-            }
-        }
+//        FavoritesDatabase[] result = Inquiry.get()
+//                .selectFrom("people", FavoritesDatabase.class)
+//                .where("favorite = 'true'")
+//                .all();
+
+
+//        Inquiry.get()
+//                .selectFrom("people", FavoritesDatabase.class)
+//                .where("favorite = 'true'")
+//                .all(new GetCallback<FavoritesDatabase>() {
+//                    @Override
+//                    public void result(FavoritesDatabase[] result) {
+//
+//
+//                        for (int i = 0; i < result.length; i++) {
+//
+//                            if (result[i].isFavorite()) {
+//
+//                            }
+//
+//                            else {
+//                                filteredList.remove(i);
+//                            }
+//
+////            if (Places.getPlacesList().get(i).getFavorite() == 0 || preferences.getInt("item", 0) == 0) {
+////                filteredList.remove(i);
+////                Log.d(TAG, "Delete Item, because it's not marked as Favorite: " + i);
+////            }
+//                        }
+//
+//                    }
+//                });
+
+
 
         DrawerPlaces.mAdapter.notifyDataSetChanged();
         mAdapter.setData(filteredList);
@@ -129,10 +162,6 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-
-//        Places.getPlacesList().clear();
-//        Places.clearList();
-
         context = getActivity();
 
         if (layout != null) {
@@ -146,13 +175,12 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
         } catch (InflateException e) {
         }
 
-        if (layout != null)
-        mRecycler = (RecyclerView) layout.findViewById(R.id.placecRecyclerView);
 
-        mRecycler.setLayoutManager(new GridLayoutManager(context, columns, 1, false));
-        mRecycler.setHasFixedSize(true);
+        Preferences mPrefs = new Preferences(context);
+        mRecycler = (RecyclerView) layout.findViewById(R.id.placecRecyclerView);
+        mRecycler.setLayoutManager(new GridLayoutManager(context, mPrefs.getColumns(), 1, false));
         mRecycler.setAdapter(mAdapter);
-        mRecycler.setVisibility(View.VISIBLE);
+        mRecycler.setHasFixedSize(true);
         setupLayout(false);
         return layout;
     }
@@ -163,7 +191,6 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
             context.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-
                     mAdapter = new PlaceAdapter(context,
                             new PlaceAdapter.ClickListener() {
                                 @Override
@@ -171,32 +198,19 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
                                                     int position, boolean longClick) {
 
                                     Intent intent = null;
-
                                     if (longClick) {
 
-
-                                        final ImageView mainImage = (ImageView) layoutTest.findViewById(R.id.mainImage);
-                                        Place item = Places.getPlacesList().get(position);
-
-//                                        new MaterialDialog.Builder(context)
-//                                                .customView(R.layout.activity_detail_view_preview, true)
-//                                                .show();
-//
-//
-//                                       Glide.with(context).load(item.getUrl()).asBitmap().into(mainImage);
-
-
-
+//                                        TODO - long click event
                                     }
 
                                     else intent = new Intent(context, DetailView.class);
 
                                     if (intent != null) {
-
                                     intent.putExtra("item", Places.getPlacesList().get(position));
                                     intent.putExtra("pos", position);
                                     context.startActivity(intent);
                                     }
+
                                 }
                             });
 
@@ -234,11 +248,13 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
         }
     }
 
-    public static void changeColumns(int i) {
-        columns = i;
+    public void changeColumns(int amount) {
+        columns = amount;
         mRecycler.setLayoutManager(new GridLayoutManager(context, columns, 1, false));
-    }
 
+        Preferences mPrefs = new Preferences(context);
+        mPrefs.setColumns(amount);
+    }
 
     public static class DownloadJSON extends AsyncTask<Void, Void, Void> {
 

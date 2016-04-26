@@ -16,11 +16,13 @@ import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
 import com.mk.places.models.Place;
 import com.mk.places.utilities.AnimUtils;
+import com.mk.places.utilities.Preferences;
 import com.mk.places.utilities.Utils;
 
 import java.util.ArrayList;
@@ -58,6 +60,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
                 .load(imgPlaceUrl)
                 .asBitmap()
                 .override(1022, 784)
+//                .priority(Priority.IMMEDIATE)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(new BitmapImageViewTarget(holder.image) {
                     @Override
@@ -97,7 +100,11 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
 
     @Override
     public int getItemCount() {
-        return placesList == null ? 0 : placesList.size();
+
+        Preferences mPref = new Preferences(context);
+        mPref.setPlacesSize(placesList.size());
+
+        return placesList.size();
     }
 
     public interface ClickListener {
