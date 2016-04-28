@@ -131,8 +131,43 @@
     <string name="drawer_submit_info">A beautiful place is missing? Submit it. I will look after it if I can add it.</string>
 
     <!-- About -->
+    <string name="appName">Places</string>
+    <string name="appDescription">
+
+        Places was created to help people to spot the most unique places on our earth. Places which you have to see in your life time.
+        Favor your personal most interesting places - and swear to yourself to visit them in your life time.
+        \n \n
+        Places sets in addition focus on nature conservation. You receive information about how to support our earth - for example against Global Warming. The most active environmental activist are honored in this app, check them out and read their motivations.
+
+    </string>
+
+
     <string name="developer">Maximilian Keppeler</string>
     <string name="developer_desc">Maximilian Keppeler</string>
+
+
+    <!--TODO -->
+
+    <array name="profileImage">
+        <item>21</item>
+        <item>42</item>
+        <item>42</item>
+    </array>
+
+
+    <array name="profileName">
+        <item>Maximilian Keppeler</item>
+        <item>adas</item>
+        <item>asdads</item>
+    </array>
+
+
+    <array name="profileDescription">
+        <item>Bla Bla Bla</item>
+        <item>adsdsa</item>
+        <item>ads</item>
+    </array>
+
 
     <!-- Support -->
     <string name="supportText">Read the FAQs before you contact us.</string>

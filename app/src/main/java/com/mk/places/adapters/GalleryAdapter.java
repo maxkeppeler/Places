@@ -1,24 +1,31 @@
 package com.mk.places.adapters;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
+import android.os.Build;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
 import com.mk.places.models.PlaceInfoGallery;
+import com.mk.places.utilities.Utils;
 
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
     private PlaceInfoGallery[] URL;
@@ -45,7 +52,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
 
         if (URL[position] != null) {
         Glide.with(context)
-                .load(URL[position].getImageURL())
+                .load(URL[position].getImageLink())
                 .asBitmap()
                 .override(450, 450)
 //                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -59,7 +66,16 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
                         viewHolder.image.setImageDrawable(td);
                         td.startTransition(150);
                     }
+
+
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        super.onResourceReady(resource, glideAnimation);
+                        new Palette.Builder(resource).generate(paletteAsyncListener);
+                    }
                 });
+
+
         }
     }
 
@@ -101,6 +117,17 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
             return true;
         }
     }
+
+    public Palette.PaletteAsyncListener paletteAsyncListener = new Palette.PaletteAsyncListener() {
+        @Override
+        public void onGenerated(Palette palette) {
+            if (palette == null) return;
+            int color = Utils.colorFromPalette(context, palette);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                window.setNavigationBarColor(color);
+        }
+    };
 
 
 }

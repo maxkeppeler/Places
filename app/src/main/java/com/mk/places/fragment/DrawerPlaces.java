@@ -1,13 +1,10 @@
 package com.mk.places.fragment;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,13 +17,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import com.afollestad.inquiry.Inquiry;
-import com.afollestad.inquiry.callbacks.GetCallback;
 import com.mk.places.R;
 import com.mk.places.activity.DetailView;
-import com.mk.places.activity.FavoritesDatabase;
 import com.mk.places.activity.MainActivity;
 import com.mk.places.adapters.PlaceAdapter;
 import com.mk.places.models.Place;
@@ -57,7 +50,7 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
     private String filterKey = "All";
     private static ViewGroup layoutTest;
     private static final String TAG = "DrawerPlaces";
-
+    private Preferences mPrefs;
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -176,7 +169,9 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
         }
 
 
-        Preferences mPrefs = new Preferences(context);
+        mPrefs = new Preferences(context);
+        if (mPrefs.getColumns() == 0) mPrefs.setColumns(1);
+
         mRecycler = (RecyclerView) layout.findViewById(R.id.placecRecyclerView);
         mRecycler.setLayoutManager(new GridLayoutManager(context, mPrefs.getColumns(), 1, false));
         mRecycler.setAdapter(mAdapter);
@@ -248,11 +243,10 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
         }
     }
 
-    public void changeColumns(int amount) {
+    public void setColumns(int amount) {
         columns = amount;
         mRecycler.setLayoutManager(new GridLayoutManager(context, columns, 1, false));
 
-        Preferences mPrefs = new Preferences(context);
         mPrefs.setColumns(amount);
     }
 
@@ -330,26 +324,27 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
                             json.getString("description"),
 
                             json.getString("url"),
-                            json.getString("urla"),
-                            json.getString("urlb"),
-                            json.getString("urlc"),
-                            json.getString("urld"),
-                            json.getString("urle"),
-                            json.getString("urlf"),
-                            json.getString("urlg"),
-                            json.getString("urlh"),
-                            json.getString("urli"),
-                            json.getString("urlj"),
-                            json.getString("urlk"),
-                            json.getString("urll"),
-                            json.getString("urlm"),
-                            json.getString("urln"),
-                            json.getString("urlo"),
-                            json.getString("urlp"),
-                            json.getString("urlq"),
-                            json.getString("urlr"),
-                            json.getString("urls"),
-                            json.getString("urlt"),
+
+                            json.getString("urlaTitle"), json.getString("urlaDesc"), json.getString("urla"),
+                            json.getString("urlbTitle"), json.getString("urlbDesc"), json.getString("urlb"),
+                            json.getString("urlcTitle"), json.getString("urlcDesc"), json.getString("urlc"),
+                            json.getString("urldTitle"), json.getString("urldDesc"), json.getString("urld"),
+                            json.getString("urleTitle"), json.getString("urleDesc"), json.getString("urle"),
+                            json.getString("urlfTitle"), json.getString("urlfDesc"), json.getString("urlf"),
+                            json.getString("urlgTitle"), json.getString("urlgDesc"), json.getString("urlg"),
+                            json.getString("urlhTitle"), json.getString("urlhDesc"), json.getString("urlh"),
+                            json.getString("urliTitle"), json.getString("urliDesc"), json.getString("urli"),
+                            json.getString("urljTitle"), json.getString("urljDesc"), json.getString("urlj"),
+                            json.getString("urlkTitle"), json.getString("urlkDesc"), json.getString("urlk"),
+                            json.getString("urllTitle"), json.getString("urllDesc"), json.getString("urll"),
+                            json.getString("urlmTitle"), json.getString("urlmDesc"), json.getString("urlm"),
+                            json.getString("urlnTitle"), json.getString("urlnDesc"), json.getString("urln"),
+                            json.getString("urloTitle"), json.getString("urloDesc"), json.getString("urlo"),
+                            json.getString("urlpTitle"), json.getString("urlpDesc"), json.getString("urlp"),
+                            json.getString("urlqTitle"), json.getString("urlqDesc"), json.getString("urlq"),
+                            json.getString("urlrTitle"), json.getString("urlrDesc"), json.getString("urlr"),
+                            json.getString("urlsTitle"), json.getString("urlsDesc"), json.getString("urls"),
+                            json.getString("urltTitle"), json.getString("urltDesc"), json.getString("urlt"),
 
                             favorite
                     )

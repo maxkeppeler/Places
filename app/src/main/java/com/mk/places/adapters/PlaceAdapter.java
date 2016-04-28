@@ -60,7 +60,6 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
                 .load(imgPlaceUrl)
                 .asBitmap()
                 .override(1022, 784)
-//                .priority(Priority.IMMEDIATE)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(new BitmapImageViewTarget(holder.image) {
                     @Override
@@ -100,6 +99,8 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
 
     @Override
     public int getItemCount() {
+
+//        TODO: Doesn't work for the first start of the app
 
         Preferences mPref = new Preferences(context);
         mPref.setPlacesSize(placesList.size());

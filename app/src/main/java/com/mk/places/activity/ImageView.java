@@ -10,6 +10,7 @@ import android.view.WindowManager;
 
 import com.mk.places.R;
 import com.mk.places.adapters.GalleryViewAdapter;
+import com.mk.places.models.Place;
 
 public class ImageView extends AppCompatActivity {
 
@@ -22,10 +23,12 @@ public class ImageView extends AppCompatActivity {
 
         Intent intent = getIntent();
         final String[] URLs = intent.getStringArrayExtra("URLs");
+        final String[] URLsName = intent.getStringArrayExtra("URLsName");
+        final String[] URLsDesc = intent.getStringArrayExtra("URLsDesc");
         final int index = intent.getIntExtra("index", 0);
 
         ViewPager mPager = (ViewPager) findViewById(R.id.imageViewPager);
-        mPager.setAdapter(new GalleryViewAdapter(getApplicationContext(), URLs));
+        mPager.setAdapter(new GalleryViewAdapter(getApplicationContext(), URLs, URLsName, URLsDesc));
         mPager.setCurrentItem(index);
 
     }

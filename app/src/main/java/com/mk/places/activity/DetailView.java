@@ -42,12 +42,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.afollestad.inquiry.Inquiry;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
@@ -129,7 +127,6 @@ public class DetailView extends AppCompatActivity {
 
         sightDependingLayouts();
 
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -144,7 +141,7 @@ public class DetailView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
+//              TODO: DATA BASE / permanent Boolean Array
 
                 if (Places.getPlacesList().get(pos).getFavorite() == 0 ) {
                     Places.getPlacesList().get(pos).setFavorite(1);
@@ -156,18 +153,6 @@ public class DetailView extends AppCompatActivity {
                     Log.d("1", "FAB: " + pos +" bool: " + Places.getPlacesList().get(pos).getFavorite());
                     active = false;
                 }
-//
-//                FavoritesDatabase name = new FavoritesDatabase(1, active);
-//
-//
-//
-//
-//                 Inquiry.get()
-//                        .insertInto("people", FavoritesDatabase.class)
-//                        .values(name)
-//                        .run();
-
-
 
                 Utils.simpleSnackBar(context, color, R.id.coordinatorLayout, R.string.snackbarFavoredText, Snackbar.LENGTH_SHORT);
             }
@@ -184,7 +169,6 @@ public class DetailView extends AppCompatActivity {
         Glide.with(context)
                 .load(url)
                 .asBitmap()
-//                .sizeMultiplier(0.5f)
                 .priority(Priority.IMMEDIATE)
                 .skipMemoryCache(true)
                 .centerCrop()
@@ -195,7 +179,6 @@ public class DetailView extends AppCompatActivity {
                         assert image != null;
                         image.setImageDrawable(td);
                         td.startTransition(150);
-//                        new Palette.Builder(resource).generate(paletteAsyncListener);
                     }
 
                     @Override
@@ -207,8 +190,8 @@ public class DetailView extends AppCompatActivity {
 
         recyclerViewGallery.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false));
 
-
         int arraySize = 20;
+
         final String galleryURL[] = new String[arraySize];
 
         galleryURL[0] = item.getUrl_a();
@@ -232,10 +215,58 @@ public class DetailView extends AppCompatActivity {
         galleryURL[18] = item.getUrl_s();
         galleryURL[19] = item.getUrl_t();
 
+        final String galleryUrlName[] = new String[arraySize];
+
+        galleryUrlName[0] = item.getUrl_a_title();
+        galleryUrlName[1] = item.getUrl_b_title();
+        galleryUrlName[2] = item.getUrl_c_title();
+        galleryUrlName[3] = item.getUrl_d_title();
+        galleryUrlName[4] = item.getUrl_e_title();
+        galleryUrlName[5] = item.getUrl_f_title();
+        galleryUrlName[6] = item.getUrl_g_title();
+        galleryUrlName[7] = item.getUrl_h_title();
+        galleryUrlName[8] = item.getUrl_i_title();
+        galleryUrlName[9] = item.getUrl_j_title();
+        galleryUrlName[10] = item.getUrl_k_title();
+        galleryUrlName[11] = item.getUrl_l_title();
+        galleryUrlName[12] = item.getUrl_m_title();
+        galleryUrlName[13] = item.getUrl_n_title();
+        galleryUrlName[14] = item.getUrl_o_title();
+        galleryUrlName[15] = item.getUrl_p_title();
+        galleryUrlName[16] = item.getUrl_q_title();
+        galleryUrlName[17] = item.getUrl_r_title();
+        galleryUrlName[18] = item.getUrl_s_title();
+        galleryUrlName[19] = item.getUrl_t_title();
+
+        final String galleryUrlDesc[] = new String[arraySize];
+
+        galleryUrlDesc[0] = item.getUrl_a_desc();
+        galleryUrlDesc[1] = item.getUrl_b_desc();
+        galleryUrlDesc[2] = item.getUrl_c_desc();
+        galleryUrlDesc[3] = item.getUrl_d_desc();
+        galleryUrlDesc[4] = item.getUrl_e_desc();
+        galleryUrlDesc[5] = item.getUrl_f_desc();
+        galleryUrlDesc[6] = item.getUrl_g_desc();
+        galleryUrlDesc[7] = item.getUrl_h_desc();
+        galleryUrlDesc[8] = item.getUrl_i_desc();
+        galleryUrlDesc[9] = item.getUrl_j_desc();
+        galleryUrlDesc[10] = item.getUrl_k_desc();
+        galleryUrlDesc[11] = item.getUrl_l_desc();
+        galleryUrlDesc[12] = item.getUrl_m_desc();
+        galleryUrlDesc[13] = item.getUrl_n_desc();
+        galleryUrlDesc[14] = item.getUrl_o_desc();
+        galleryUrlDesc[15] = item.getUrl_p_desc();
+        galleryUrlDesc[16] = item.getUrl_q_desc();
+        galleryUrlDesc[17] = item.getUrl_r_desc();
+        galleryUrlDesc[18] = item.getUrl_s_desc();
+        galleryUrlDesc[19] = item.getUrl_t_desc();
+
         int gallerySize = 0;
 
         for (int j = 0; j < arraySize; j++) {
+
             if (!(galleryURL[j].equals("") || galleryURL[j].length() < 5))
+
                 gallerySize++;
 
         }
@@ -243,7 +274,7 @@ public class DetailView extends AppCompatActivity {
         PlaceInfoGallery placeDetailGalleries[] = new PlaceInfoGallery[gallerySize];
 
         for (int i = 0; i < gallerySize; i++) {
-            placeDetailGalleries[i] = new PlaceInfoGallery(galleryURL[i]);
+            placeDetailGalleries[i] = new PlaceInfoGallery(galleryURL[i], galleryUrlName[i], galleryUrlDesc[i]);
         }
 
 
@@ -258,6 +289,8 @@ public class DetailView extends AppCompatActivity {
                 } else {
                     Intent intent = new Intent(context, com.mk.places.activity.ImageView.class);
                     intent.putExtra("URLs", galleryURL);
+                    intent.putExtra("URLsName", galleryUrlName);
+                    intent.putExtra("URLsDesc", galleryUrlDesc);
                     intent.putExtra("index", index);
                     context.startActivity(intent);
 
@@ -281,7 +314,6 @@ public class DetailView extends AppCompatActivity {
             if (palette == null) return;
 
             color = Utils.colorFromPalette(context, palette);
-
 
             fab.setRippleColor(color);
             fab.setBackgroundTintList(ColorStateList.valueOf(color));

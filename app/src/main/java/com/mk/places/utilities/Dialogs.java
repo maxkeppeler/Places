@@ -70,7 +70,7 @@ public class Dialogs {
                         Preferences mPrefs = new Preferences(context);
                         mPrefs.setColumns(i+1);
 
-                        drawer.changeColumns(i + 1);
+                        drawer.setColumns(i + 1);
                     }
                 })
                 .show();

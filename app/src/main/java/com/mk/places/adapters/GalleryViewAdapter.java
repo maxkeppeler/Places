@@ -9,36 +9,37 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
-import android.support.v7.graphics.Palette;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
-import com.mk.places.models.PlaceInfoGallery;
+import com.mk.places.models.Place;
 import com.mk.places.widgets.TouchImageView;
 
-import java.util.ArrayList;
+import org.w3c.dom.Text;
 
 public class GalleryViewAdapter extends PagerAdapter {
 
 
-    private String[] IMAGES;
+    private String[] gImage;
+    private String[] gImageName;
+    private String[] gImageDesc;
     private LayoutInflater inflater;
     private Context context;
+    private Place item;
 
 
-    public GalleryViewAdapter(Context context, String[] IMAGES) {
+    public GalleryViewAdapter(Context context, String[] gImage, String[] gImageName, String[] gImageDesc) {
         this.context = context;
-        this.IMAGES=IMAGES;
+        this.gImage = gImage;
         inflater = LayoutInflater.from(context);
+        this.gImageName = gImageName;
+        this.gImageDesc = gImageDesc;
     }
 
     @Override
@@ -48,24 +49,29 @@ public class GalleryViewAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return IMAGES.length;
+        return gImage.length;
     }
 
     @Override
     public Object instantiateItem(ViewGroup view, final int position) {
 
         View imageLayout = inflater.inflate(R.layout.image_swipe_fragment, view, false);
-        final TouchImageView imageView = (TouchImageView) imageLayout.findViewById(R.id.imageView);
 
-        if (IMAGES[position].length() > 3)
+        final TouchImageView imageView = (TouchImageView) imageLayout.findViewById(R.id.imageView);
+        final TextView viewDescription = (TextView) imageLayout.findViewById(R.id.imageDescription);
+        final TextView viewName = (TextView) imageLayout.findViewById(R.id.imageName);
+
+        viewName.setText(gImageName[position]);
+        viewDescription.setText(gImageDesc[position]);
+
+        if (gImage[position].length() > 3)
         Glide.with(context)
-                .load(IMAGES[position])
+                .load(gImage[position])
                 .asBitmap()
                 .override(2000, 2000)
 //                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .sizeMultiplier(0.3f)
 //                .skipMemoryCache(true)
-//                .centerCrop()
                 .priority(Priority.HIGH)
                 .into(new BitmapImageViewTarget(imageView) {
                     @Override
@@ -74,8 +80,13 @@ public class GalleryViewAdapter extends PagerAdapter {
                         assert imageView != null;
                         imageView.setImageDrawable(td);
                         td.startTransition(350);
+
+
                     }
                 });
+
+
+//        gImageDesc
 
         view.addView(imageLayout, 0);
         return imageLayout;

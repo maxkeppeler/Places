@@ -42,8 +42,6 @@ public class Preferences {
             PLACES_AMOUNT = "PLACES",
             COLUMNS = "COULMNS";
 
-    private static final boolean[] arrayFavo = new boolean[Places.getPlacesList().size()];
-
     private final Context context;
 
     public Preferences(Context context) {

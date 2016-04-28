@@ -37,7 +37,6 @@ dependencies {
     }
 
     compile 'com.yqritc:recyclerview-flexibledivider:1.2.9'
-    compile 'com.github.afollestad:inquiry:2.0.1'
 
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
@@ -51,8 +50,13 @@ dependencies {
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.google.code.gson:gson:2.6.1'
-    compile 'com.google.android.gms:play-services-gcm:7.5.0'
+    compile 'com.google.android.gms:play-services-gcm:8.4.0'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'io.smooch:core:latest.release'
     compile 'io.smooch:ui:latest.release'
+
+
+    compile 'com.sothree.slidinguppanel:library:3.3.0'
+
+
 }
