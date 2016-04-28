@@ -11,11 +11,13 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.graphics.Palette;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -26,6 +28,7 @@ import com.mk.places.R;
 import com.mk.places.models.Place;
 import com.mk.places.utilities.Utils;
 import com.mk.places.widgets.TouchImageView;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.w3c.dom.Text;
 
@@ -38,13 +41,18 @@ public class GalleryViewAdapter extends PagerAdapter {
     private LayoutInflater inflater;
     private Context context;
     private Window window;
+    private int color;
+    LinearLayout viewPanel;
+    SlidingUpPanelLayout viewPanel2;
 
-    public GalleryViewAdapter(Context context, String[] gImage, String[] gImageName, String[] gImageDesc) {
+
+    public GalleryViewAdapter(Context context, String[] gImage, String[] gImageName, String[] gImageDesc, Window window) {
         this.context = context;
         this.gImage = gImage;
         inflater = LayoutInflater.from(context);
         this.gImageName = gImageName;
         this.gImageDesc = gImageDesc;
+        this.window = window;
     }
 
     @Override
@@ -65,12 +73,12 @@ public class GalleryViewAdapter extends PagerAdapter {
         final TouchImageView imageView = (TouchImageView) imageLayout.findViewById(R.id.imageView);
         final TextView viewDescription = (TextView) imageLayout.findViewById(R.id.imageDescription);
         final TextView viewName = (TextView) imageLayout.findViewById(R.id.imageName);
+        viewPanel = (LinearLayout) imageLayout.findViewById(R.id.linearLayoutPanel);
+        viewPanel2 = (SlidingUpPanelLayout) imageLayout.findViewById(R.id.slidingUpPanel);
 
-        window = this;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(inflater.getContext().getResources().getColor(R.color.transparent));
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            window.setStatusBarColor(inflater.getContext().getResources().getColor(R.color.transparent));
+//        }
 
         viewName.setText(gImageName[position]);
         viewDescription.setText(gImageDesc[position]);
@@ -87,21 +95,26 @@ public class GalleryViewAdapter extends PagerAdapter {
                 .into(new BitmapImageViewTarget(imageView) {
                     @Override
                     protected void setResource(Bitmap resource) {
+//                        new Palette.Builder(resource).generate(paletteAsyncListener);
+
                         TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(context.getResources(), resource)});
                         assert imageView != null;
                         imageView.setImageDrawable(td);
                         td.startTransition(350);
-                    }
 
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        super.onResourceReady(resource, glideAnimation);
-                        new Palette.Builder(resource).generate(paletteAsyncListener);
+
+                        Palette palette = new Palette.Builder(resource).generate();
+                        color = Utils.colorFromPalette(context, palette);
+
+                        viewPanel2.setBackgroundColor(color);
+                        viewPanel.setBackgroundColor(color);
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                            window.setNavigationBarColor(color);
                     }
                 });
 
 
-//        gImageDesc
 
         view.addView(imageLayout, 0);
         return imageLayout;
@@ -125,10 +138,19 @@ public class GalleryViewAdapter extends PagerAdapter {
         @Override
         public void onGenerated(Palette palette) {
             if (palette == null) return;
-            int color = Utils.colorFromPalette(context, palette);
+
+            color = Utils.colorFromPalette(context, palette);
+
+            viewPanel2.setBackgroundColor(color);
+            viewPanel.setBackgroundColor(color);
+            viewPanel.setDrawingCacheBackgroundColor(color);
+
+            viewPanel.setVisibility(View.VISIBLE);
+            viewPanel2.setVisibility(View.VISIBLE);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                 window.setNavigationBarColor(color);
+
         }
     };
 

@@ -28,7 +28,7 @@ public class GalleryImage extends AppCompatActivity {
         final int index = intent.getIntExtra("index", 0);
 
         ViewPager mPager = (ViewPager) findViewById(R.id.imageViewPager);
-        mPager.setAdapter(new GalleryViewAdapter(getApplicationContext(), URLs, URLsName, URLsDesc));
+        mPager.setAdapter(new GalleryViewAdapter(getApplicationContext(), URLs, URLsName, URLsDesc, getWindow()));
         mPager.setCurrentItem(index);
 
     }

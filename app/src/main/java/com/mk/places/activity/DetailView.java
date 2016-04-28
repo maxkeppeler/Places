@@ -49,6 +49,7 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
+import com.mk.places.adapters.GalleryViewAdapter;
 import com.mk.places.adapters.PlaceDetailAdapter;
 import com.mk.places.adapters.GalleryAdapter;
 import com.mk.places.models.Place;
@@ -273,7 +274,7 @@ public class DetailView extends AppCompatActivity {
 
         PlaceInfoGallery placeDetailGalleries[] = new PlaceInfoGallery[gallerySize];
 
-        for (int i = 0; i < gallerySize; i++) {
+        for (int i = 0; i < arraySize; i++) {
             placeDetailGalleries[i] = new PlaceInfoGallery(galleryURL[i], galleryUrlName[i], galleryUrlDesc[i]);
         }
 
@@ -286,7 +287,9 @@ public class DetailView extends AppCompatActivity {
                 if (longClick) {
 
                     Log.d("Lang", "onClick: with ID " + index);
+
                 } else {
+
                     Intent intent = new Intent(context, GalleryImage.class);
                     intent.putExtra("URLs", galleryURL);
                     intent.putExtra("URLsName", galleryUrlName);
@@ -296,15 +299,13 @@ public class DetailView extends AppCompatActivity {
 
                     Log.d("Kurz", "onClick: with ID " + index);
                 }
-
             }
         });
+
         recyclerViewGallery.setNestedScrollingEnabled(true);
         recyclerViewGallery.setClipToPadding(false);
         recyclerViewGallery.setAdapter(galleryAdapter);
         recyclerViewGallery.setHasFixedSize(true);
-
-
     }
 
 

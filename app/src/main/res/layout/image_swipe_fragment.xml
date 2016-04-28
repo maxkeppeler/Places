@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sothree.slidinguppanel.SlidingUpPanelLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
     android:id="@+id/slidingUpPanel"
-    sothree:umanoPanelHeight="54dp"
-    sothree:umanoShadowHeight="4dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="bottom">
+    android:gravity="bottom"
+    sothree:umanoFadeColor="@android:color/transparent"
+    sothree:umanoPanelHeight="54dp"
+    sothree:umanoShadowHeight="4dp">
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -27,8 +27,8 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayoutPanel"
         style="@style/LinearLayoutForTexts"
-        android:background="@color/cardBackground"
         android:orientation="vertical">
 
         <TextView
@@ -40,10 +40,10 @@
 
         <TextView
             android:id="@+id/imageDescription"
-            android:layout_marginTop="8dp"
             style="@style/TextViewBody1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Bagan (formerly known as Pagan) was the...Bagan (formerly known as Pagan) was the...Bagan (formerly known as Pagan) was the...Bagan (formerly known as Pagan) was the...Bagan (formerly known as Pagan) was the...Bagan (formerly known as Pagan) was the...Bagan (formerly known as Pagan) was the...Bagan (formerly known as Pagan) was the..." />
 
     </LinearLayout>
