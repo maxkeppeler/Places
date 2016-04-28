@@ -287,7 +287,7 @@ public class DetailView extends AppCompatActivity {
 
                     Log.d("Lang", "onClick: with ID " + index);
                 } else {
-                    Intent intent = new Intent(context, com.mk.places.activity.ImageView.class);
+                    Intent intent = new Intent(context, GalleryImage.class);
                     intent.putExtra("URLs", galleryURL);
                     intent.putExtra("URLsName", galleryUrlName);
                     intent.putExtra("URLsDesc", galleryUrlDesc);

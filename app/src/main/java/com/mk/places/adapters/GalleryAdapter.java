@@ -50,6 +50,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
     public void onBindViewHolder(final ViewHolder viewHolder, int position) {
 
 
+
         if (URL[position] != null) {
         Glide.with(context)
                 .load(URL[position].getImageLink())
@@ -65,13 +66,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
                         assert viewHolder.image != null;
                         viewHolder.image.setImageDrawable(td);
                         td.startTransition(150);
-                    }
-
-
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        super.onResourceReady(resource, glideAnimation);
-                        new Palette.Builder(resource).generate(paletteAsyncListener);
                     }
                 });
 
@@ -118,16 +112,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
         }
     }
 
-    public Palette.PaletteAsyncListener paletteAsyncListener = new Palette.PaletteAsyncListener() {
-        @Override
-        public void onGenerated(Palette palette) {
-            if (palette == null) return;
-            int color = Utils.colorFromPalette(context, palette);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                window.setNavigationBarColor(color);
-        }
-    };
 
 
 }

@@ -44,7 +44,7 @@
         </activity>
 
         <activity
-            android:name=".activity.ImageView"
+            android:name=".activity.GalleryImage"
             android:theme="@style/DetailView"
             android:value=".activity.ImageView">
             <intent-filter>

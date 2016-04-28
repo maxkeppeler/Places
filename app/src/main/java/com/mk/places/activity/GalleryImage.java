@@ -12,7 +12,7 @@ import com.mk.places.R;
 import com.mk.places.adapters.GalleryViewAdapter;
 import com.mk.places.models.Place;
 
-public class ImageView extends AppCompatActivity {
+public class GalleryImage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
