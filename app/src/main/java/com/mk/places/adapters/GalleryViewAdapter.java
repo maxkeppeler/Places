@@ -13,6 +13,7 @@ import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.graphics.Palette;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,7 @@ public class GalleryViewAdapter extends PagerAdapter {
     private LayoutInflater inflater;
     private Context context;
     private Window window;
-    private int color;
+    private static int color = 0;
     LinearLayout viewPanel;
     SlidingUpPanelLayout viewPanel2;
 
@@ -68,22 +69,22 @@ public class GalleryViewAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup view, final int position) {
 
-        View imageLayout = inflater.inflate(R.layout.image_swipe_fragment, view, false);
+        View mainView = inflater.inflate(R.layout.image_swipe_fragment, view, false);
 
-        final TouchImageView imageView = (TouchImageView) imageLayout.findViewById(R.id.imageView);
-        final TextView viewDescription = (TextView) imageLayout.findViewById(R.id.imageDescription);
-        final TextView viewName = (TextView) imageLayout.findViewById(R.id.imageName);
-        viewPanel = (LinearLayout) imageLayout.findViewById(R.id.linearLayoutPanel);
-        viewPanel2 = (SlidingUpPanelLayout) imageLayout.findViewById(R.id.slidingUpPanel);
+        final TouchImageView imageView = (TouchImageView) mainView.findViewById(R.id.imageView);
+        final TextView viewDescription = (TextView) mainView.findViewById(R.id.imageDescription);
+        final TextView viewName = (TextView) mainView.findViewById(R.id.imageName);
+        viewPanel = (LinearLayout) mainView.findViewById(R.id.linearLayoutPanel);
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            window.setStatusBarColor(inflater.getContext().getResources().getColor(R.color.transparent));
-//        }
+
+
 
         viewName.setText(gImageName[position]);
         viewDescription.setText(gImageDesc[position]);
 
-        if (gImage[position].length() > 3)
+
+        Log.d("das", "instantiateItem: " + position);
+
         Glide.with(context)
                 .load(gImage[position])
                 .asBitmap()
@@ -95,29 +96,23 @@ public class GalleryViewAdapter extends PagerAdapter {
                 .into(new BitmapImageViewTarget(imageView) {
                     @Override
                     protected void setResource(Bitmap resource) {
-//                        new Palette.Builder(resource).generate(paletteAsyncListener);
+
+
+//                        Palette palette = new Palette.Builder(resource).generate();
+//                        color = Utils.colorFromPalette(context, palette);
 
                         TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(context.getResources(), resource)});
                         assert imageView != null;
                         imageView.setImageDrawable(td);
                         td.startTransition(350);
 
-
-                        Palette palette = new Palette.Builder(resource).generate();
-                        color = Utils.colorFromPalette(context, palette);
-
-                        viewPanel2.setBackgroundColor(color);
-                        viewPanel.setBackgroundColor(color);
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                            window.setNavigationBarColor(color);
+                        new Palette.Builder(resource).generate(paletteAsyncListener);
                     }
                 });
 
 
-
-        view.addView(imageLayout, 0);
-        return imageLayout;
+        view.addView(mainView, 0);
+        return mainView;
     }
 
     @Override
@@ -125,32 +120,21 @@ public class GalleryViewAdapter extends PagerAdapter {
         return view.equals(object);
     }
 
-    @Override
-    public void restoreState(Parcelable state, ClassLoader loader) {
-    }
-
-    @Override
-    public Parcelable saveState() {
-        return null;
-    }
-
     public Palette.PaletteAsyncListener paletteAsyncListener = new Palette.PaletteAsyncListener() {
         @Override
         public void onGenerated(Palette palette) {
             if (palette == null) return;
-
             color = Utils.colorFromPalette(context, palette);
+            if(0==0) {
 
-            viewPanel2.setBackgroundColor(color);
+            Log.d("Oben", "onGenerated: " + color);
             viewPanel.setBackgroundColor(color);
-            viewPanel.setDrawingCacheBackgroundColor(color);
 
-            viewPanel.setVisibility(View.VISIBLE);
-            viewPanel2.setVisibility(View.VISIBLE);
-
+            Log.d("Unten", "onGenerated: " + color);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                 window.setNavigationBarColor(color);
 
+            };
         }
     };
 

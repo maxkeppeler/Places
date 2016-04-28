@@ -49,9 +49,8 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
-import com.mk.places.adapters.GalleryViewAdapter;
-import com.mk.places.adapters.PlaceDetailAdapter;
 import com.mk.places.adapters.GalleryAdapter;
+import com.mk.places.adapters.PlaceDetailAdapter;
 import com.mk.places.models.Place;
 import com.mk.places.models.PlaceInfo;
 import com.mk.places.models.PlaceInfoGallery;
@@ -65,27 +64,53 @@ import butterknife.ButterKnife;
 public class DetailView extends AppCompatActivity {
 
 
+    //    REQUEST PERMISSIONS
+    private static final int PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE = 42;
     private static int color;
     String location, sight, desc, url, continent, religion;
-    @Bind(R.id.fab) FloatingActionButton fab;
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.collapsingToolbar) CollapsingToolbarLayout collapsingToolbarLayout;
-    @Bind(R.id.placeDescTitle) TextView placeDescTitle;
-    @Bind(R.id.descDetailView) TextView placesDescText;
-    @Bind(R.id.placeInfoTitle) TextView placeInfoTitle;
-    @Bind(R.id.recyclerViewInfoDetails) RecyclerView recyclerViewDetail;
-    @Bind(R.id.recyclerViewGallery) RecyclerView recyclerViewGallery;
-
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.collapsingToolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    @Bind(R.id.placeDescTitle)
+    TextView placeDescTitle;
+    @Bind(R.id.descDetailView)
+    TextView placesDescText;
+    @Bind(R.id.placeInfoTitle)
+    TextView placeInfoTitle;
+    @Bind(R.id.recyclerViewInfoDetails)
+    RecyclerView recyclerViewDetail;
+    @Bind(R.id.recyclerViewGallery)
+    RecyclerView recyclerViewGallery;
     @Bind(R.id.scroll)
     NestedScrollView scroll;
     Window window;
+    boolean active;
     private ViewGroup layout;
     private Activity context;
-    private int pos;
-    boolean active;
+    public Palette.PaletteAsyncListener paletteAsyncListener = new Palette.PaletteAsyncListener() {
+        @Override
+        public void onGenerated(Palette palette) {
+            if (palette == null) return;
 
-    //    REQUEST PERMISSIONS
-    private static final int PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE = 42;
+            color = Utils.colorFromPalette(context, palette);
+
+            fab.setRippleColor(color);
+            fab.setBackgroundTintList(ColorStateList.valueOf(color));
+            fab.setVisibility(View.VISIBLE);
+            Animation animation = AnimationUtils.loadAnimation(context, R.anim.scale_up);
+            fab.startAnimation(animation);
+
+            collapsingToolbarLayout.setContentScrimColor(color);
+            collapsingToolbarLayout.setStatusBarScrimColor((Utils.colorVariant(color, 0.92f)));
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                window.setNavigationBarColor(color);
+        }
+    };
+    private int pos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +127,6 @@ public class DetailView extends AppCompatActivity {
                 parent.removeView(layout);
             }
         }
-
 
 
         context = this;
@@ -144,14 +168,13 @@ public class DetailView extends AppCompatActivity {
 
 //              TODO: DATA BASE / permanent Boolean Array
 
-                if (Places.getPlacesList().get(pos).getFavorite() == 0 ) {
+                if (Places.getPlacesList().get(pos).getFavorite() == 0) {
                     Places.getPlacesList().get(pos).setFavorite(1);
-                    Log.d("1", "FAB: " + pos +" bool: " + Places.getPlacesList().get(pos).getFavorite());
+                    Log.d("1", "FAB: " + pos + " bool: " + Places.getPlacesList().get(pos).getFavorite());
                     active = true;
-                }
-                else if (Places.getPlacesList().get(pos).getFavorite() == 1 ){
+                } else if (Places.getPlacesList().get(pos).getFavorite() == 1) {
                     Places.getPlacesList().get(pos).setFavorite(0);
-                    Log.d("1", "FAB: " + pos +" bool: " + Places.getPlacesList().get(pos).getFavorite());
+                    Log.d("1", "FAB: " + pos + " bool: " + Places.getPlacesList().get(pos).getFavorite());
                     active = false;
                 }
 
@@ -193,7 +216,10 @@ public class DetailView extends AppCompatActivity {
 
         int arraySize = 20;
 
-        final String galleryURL[] = new String[arraySize];
+        final String
+                galleryURL[] = new String[arraySize],
+                galleryUrlName[] = new String[arraySize],
+                galleryUrlDesc[] = new String[arraySize];
 
         galleryURL[0] = item.getUrl_a();
         galleryURL[1] = item.getUrl_b();
@@ -216,8 +242,6 @@ public class DetailView extends AppCompatActivity {
         galleryURL[18] = item.getUrl_s();
         galleryURL[19] = item.getUrl_t();
 
-        final String galleryUrlName[] = new String[arraySize];
-
         galleryUrlName[0] = item.getUrl_a_title();
         galleryUrlName[1] = item.getUrl_b_title();
         galleryUrlName[2] = item.getUrl_c_title();
@@ -238,8 +262,6 @@ public class DetailView extends AppCompatActivity {
         galleryUrlName[17] = item.getUrl_r_title();
         galleryUrlName[18] = item.getUrl_s_title();
         galleryUrlName[19] = item.getUrl_t_title();
-
-        final String galleryUrlDesc[] = new String[arraySize];
 
         galleryUrlDesc[0] = item.getUrl_a_desc();
         galleryUrlDesc[1] = item.getUrl_b_desc();
@@ -262,22 +284,33 @@ public class DetailView extends AppCompatActivity {
         galleryUrlDesc[18] = item.getUrl_s_desc();
         galleryUrlDesc[19] = item.getUrl_t_desc();
 
-        int gallerySize = 0;
+        int gallerySize = -1;
 
         for (int j = 0; j < arraySize; j++) {
-
-            if (!(galleryURL[j].equals("") || galleryURL[j].length() < 5))
-
+//            Log.d("j", "onCreate: " + j);
+            if (galleryURL[j].length() > 5) {
                 gallerySize++;
-
+                Log.d("Schleife", "onCreate: " + gallerySize);
+            }
         }
 
         PlaceInfoGallery placeDetailGalleries[] = new PlaceInfoGallery[gallerySize];
 
-        for (int i = 0; i < arraySize; i++) {
+        for (int i = 0; i < gallerySize; i++) {
             placeDetailGalleries[i] = new PlaceInfoGallery(galleryURL[i], galleryUrlName[i], galleryUrlDesc[i]);
         }
 
+        final String
+                galleryURLNew[] = new String[gallerySize],
+                galleryUrlNameNEW[] = new String[gallerySize],
+                galleryUrlDescNEw[] = new String[gallerySize];
+
+
+        for (int i = 0; i < gallerySize; i++) {
+                    galleryURLNew[i] = galleryURL[i];
+                    galleryUrlNameNEW[i] = galleryUrlName[i];
+                    galleryUrlDescNEw[i] = galleryUrlDesc[i];
+        }
 
         final GalleryAdapter galleryAdapter = new GalleryAdapter(context, placeDetailGalleries, new GalleryAdapter.ClickListener() {
 
@@ -291,9 +324,9 @@ public class DetailView extends AppCompatActivity {
                 } else {
 
                     Intent intent = new Intent(context, GalleryImage.class);
-                    intent.putExtra("URLs", galleryURL);
-                    intent.putExtra("URLsName", galleryUrlName);
-                    intent.putExtra("URLsDesc", galleryUrlDesc);
+                    intent.putExtra("URLs", galleryURLNew);
+                    intent.putExtra("URLsName", galleryUrlNameNEW);
+                    intent.putExtra("URLsDesc", galleryUrlDescNEw);
                     intent.putExtra("index", index);
                     context.startActivity(intent);
 
@@ -308,31 +341,7 @@ public class DetailView extends AppCompatActivity {
         recyclerViewGallery.setHasFixedSize(true);
     }
 
-
-    public Palette.PaletteAsyncListener paletteAsyncListener = new Palette.PaletteAsyncListener() {
-        @Override
-        public void onGenerated(Palette palette) {
-            if (palette == null) return;
-
-            color = Utils.colorFromPalette(context, palette);
-
-            fab.setRippleColor(color);
-            fab.setBackgroundTintList(ColorStateList.valueOf(color));
-            fab.setVisibility(View.VISIBLE);
-            Animation animation = AnimationUtils.loadAnimation(context, R.anim.scale_up);
-            fab.startAnimation(animation);
-
-            collapsingToolbarLayout.setContentScrimColor(color);
-            collapsingToolbarLayout.setStatusBarScrimColor((Utils.colorVariant(color, 0.92f)));
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                window.setNavigationBarColor(color);
-        }
-    };
-
-
-
-//  TODO - add more sight depending layouts for variety and more info
+    //  TODO - add more sight depending layouts for variety and more info
     private void sightDependingLayouts() {
 
         if (sight.equals("City")) {
@@ -352,7 +361,7 @@ public class DetailView extends AppCompatActivity {
             finishRecycler(recyclerViewDetail, itemsData);
         }
 
-        
+
     }
 
     private void finishRecycler(RecyclerView recyclerView, PlaceInfo itemsData[]) {
@@ -455,7 +464,6 @@ public class DetailView extends AppCompatActivity {
         snackbar.show();
 
     }
-
 
 
 //    PERMISSION METHODS
