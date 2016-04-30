@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mk.places.widgets;
+package com.mk.places.views;
 
 import android.content.Context;
 import android.util.AttributeSet;

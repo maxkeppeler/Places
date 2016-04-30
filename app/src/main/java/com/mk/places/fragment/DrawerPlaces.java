@@ -19,7 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mk.places.R;
-import com.mk.places.activity.DetailView;
+import com.mk.places.activity.PlaceView;
 import com.mk.places.activity.MainActivity;
 import com.mk.places.adapters.PlaceAdapter;
 import com.mk.places.models.Place;
@@ -198,7 +198,7 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
 //                                        TODO - long click event
                                     }
 
-                                    else intent = new Intent(context, DetailView.class);
+                                    else intent = new Intent(context, PlaceView.class);
 
                                     if (intent != null) {
                                     intent.putExtra("item", Places.getPlacesList().get(position));
@@ -247,6 +247,7 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
         columns = amount;
         mRecycler.setLayoutManager(new GridLayoutManager(context, columns, 1, false));
 
+        mPrefs = new Preferences(context);
         mPrefs.setColumns(amount);
     }
 

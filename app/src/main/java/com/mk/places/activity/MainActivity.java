@@ -38,6 +38,7 @@ import com.mk.places.fragment.DrawerPlaces;
 import com.mk.places.fragment.DrawerSettings;
 import com.mk.places.fragment.DrawerSupport;
 import com.mk.places.utilities.AnimUtils;
+import com.mk.places.utilities.Dialogs;
 import com.mk.places.utilities.Preferences;
 
 import java.util.Random;
@@ -50,13 +51,11 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Drawer materialDrawer = null;
     private Drawer materialDrawerAppended = null;
-
     private AccountHeader header;
     private String[] imageArray;
-
     private int current = 0;
     private DrawerPlaces places;
-
+    private Preferences mPref;
 
     private static String
 
@@ -80,7 +79,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         context = this;
+
         places = new DrawerPlaces();
+
+        mPref = new Preferences(context);
+
+        if (mPref.getFirstStart()) {
+            Dialogs.showChangelog(context);
+            mPref.setFirstStart(false);
+        }
+
 
         imageArray = getResources().getStringArray(R.array.headerUrl);
 
@@ -198,41 +206,6 @@ public class MainActivity extends AppCompatActivity {
                         return false;
                     }
                 })
-                .withOnDrawerItemLongClickListener(new Drawer.OnDrawerItemLongClickListener() {
-
-                    @Override
-                    public boolean onItemLongClick(View view, int position, IDrawerItem drawerItem) {
-                        if (drawerItem instanceof SecondaryDrawerItem) {
-//                            Toast.makeText(context, ((SecondaryDrawerItem) drawerItem).getName().getText(context), Toast.LENGTH_SHORT).show();
-                        }
-                        return false;
-                    }
-                })
-                .withOnDrawerListener(new Drawer.OnDrawerListener() {
-                    @Override
-                    public void onDrawerOpened(View drawerView) {
-
-                        if (drawerView == materialDrawer.getSlider()) {
-//                            Log.e("sample", "left opened");
-                        } else if (drawerView == materialDrawerAppended.getSlider()) {
-//                            Log.e("sample", "right opened");
-                        }
-                    }
-
-                    @Override
-                    public void onDrawerClosed(View drawerView) {
-                        if (drawerView == materialDrawer.getSlider()) {
-//                            Log.e("sample", "left closed");
-                        } else if (drawerView == materialDrawerAppended.getSlider()) {
-//                            Log.e("sample", "right closed");
-                        }
-                    }
-
-                    @Override
-                    public void onDrawerSlide(View drawerView, float slideOffset) {
-                    }
-
-                })
                 .build();
 
         if (materialDrawer != null) {
@@ -240,7 +213,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        Preferences mPref = new Preferences(context);
         materialDrawer.updateBadge(0, new StringHolder("• " +  mPref.getPlacesSize() + " •"));
 
 
@@ -338,6 +310,10 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
     @Override
     public void onPause() {

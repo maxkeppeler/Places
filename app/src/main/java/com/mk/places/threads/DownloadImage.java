@@ -76,7 +76,7 @@ public class DownloadImage extends AsyncTask<String, Integer, String> {
         } catch (Exception e) {
             return e.toString();
         } finally {
-            try {
+            try  {
                 if (output != null)
                     output.close();
                     Log.d(TAG, "Image was successfully downloaded.");

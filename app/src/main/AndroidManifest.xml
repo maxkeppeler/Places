@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.DetailView"
+            android:name=".activity.PlaceView"
             android:theme="@style/DetailView"
             android:value=".activity.PlaceDetailActivity">
             <intent-filter>
@@ -44,7 +44,7 @@
         </activity>
 
         <activity
-            android:name=".activity.GalleryImage"
+            android:name=".activity.GalleryView"
             android:theme="@style/DetailView"
             android:value=".activity.ImageView">
             <intent-filter>

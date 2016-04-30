@@ -29,7 +29,7 @@
             app:expandedTitleMarginStart="24dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <com.mk.places.widgets.SquareImageView
+            <com.mk.places.views.SquareImageView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -173,7 +173,7 @@
                                 android:textColor="@color/white" />
 
                             <android.support.v7.widget.RecyclerView
-                                android:id="@+id/recyclerViewInfoDetails"
+                                android:id="@+id/recyclerViewInfoDetail"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="16dp"
@@ -194,7 +194,7 @@
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/placeItemFAB"
         style="@style/FabStyle"
         android:clickable="true"
         android:focusable="false"

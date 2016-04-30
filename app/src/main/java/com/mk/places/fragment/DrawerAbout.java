@@ -1,11 +1,11 @@
 package com.mk.places.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,15 +14,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mk.places.R;
-import com.mk.places.adapters.AboutMemberAdapter;
-import com.mk.places.adapters.GalleryViewAdapter;
+import com.mk.places.adapters.MemberAdapter;
+import com.mk.places.models.MemberItem;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class DrawerAbout extends Fragment {
 
     private static ViewGroup layout;
     private static Activity context;
+
+    @Bind(R.id.recyclerViewMember)
+    RecyclerView recyclerViewMember;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,13 +48,40 @@ public class DrawerAbout extends Fragment {
         }
 
 
-        String[] profileImage = getResources().getStringArray(R.array.profileImage);
-        String[] profileName = getResources().getStringArray(R.array.profileName);
-        String[] profileDescription = getResources().getStringArray(R.array.profileDescription);
+        final String[] mImage = getResources().getStringArray(R.array.mImage);
+        final String[] mName = getResources().getStringArray(R.array.mName);
+        final String[] mTitle = getResources().getStringArray(R.array.mTitle);
+        final String[] mDesc = getResources().getStringArray(R.array.mDesc);
+        final String[] mBtnNames = context.getResources().getStringArray(R.array.profileButtonNames);
+        final String[] mBtnLinks = getResources().getStringArray(R.array.profileButtonLinks);
 
-        ViewPager mPager = (ViewPager) layout.findViewById(R.id.viewPagerMember);
-        mPager.setAdapter(new AboutMemberAdapter(profileImage, profileName, profileDescription, context.getApplicationContext()));
-        mPager.setCurrentItem(0);
+        final String[][] mBtnNamesN = new String[mBtnNames.length][];
+        for (int i = 0; i < mBtnNames.length; i++)
+            mBtnNamesN[i] = mBtnNames[i].split("\\|");
+
+        final String[][] mBtnLinksN = new String[mBtnLinks.length][];
+        for (int i = 0; i < mBtnLinks.length; i++)
+            mBtnLinksN[i] = mBtnLinks[i].split("\\|");
+
+
+        final MemberItem[] membersData = new MemberItem[mName.length];
+
+        for (int i = 0; i < mName.length; i++)
+        membersData[i] = new MemberItem(mImage[i], mName[i], mTitle[i], mDesc[i], mBtnNamesN[i], mBtnLinksN[i]);
+
+        MemberAdapter memberAdapter = new MemberAdapter(membersData, context);
+
+        recyclerViewMember = (RecyclerView) layout.findViewById(R.id.recyclerViewMember);
+        recyclerViewMember.setLayoutManager(new LinearLayoutManager(context) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
+
+        recyclerViewMember.setClipToPadding(false);
+        recyclerViewMember.setAdapter(memberAdapter);
+        recyclerViewMember.setHasFixedSize(true);
 
 
         return layout;
@@ -67,6 +98,5 @@ public class DrawerAbout extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-//        inflater.inflate(R.menu.toolbar_places_details, menu);
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rippleThumb"
+    android:id="@+id/rippleOverlay"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:mrl_rippleColor="@color/md_white_1000"
@@ -26,13 +26,13 @@
             android:layout_gravity="top">
 
             <ImageView
-                android:id="@+id/placesDetailDrawable"
+                android:id="@+id/placeItemImage"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_gravity="center_vertical" />
 
             <TextView
-                android:id="@+id/placesDetailTitle"
+                android:id="@+id/placeItemTitle"
                 style="@style/TextViewBody2"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/placesDetailText"
+                android:id="@+id/placeItemText"
                 style="@style/TextViewBody1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

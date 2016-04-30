@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
@@ -74,26 +73,25 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
             AnimUtils.zoomInAndOut(context, holder.image);
         }
 
-//        TODO - Mach dir mal Gedanken was es alles geben soll
-
         holder.location.setText(place.getLocation());
         holder.sight.setText(place.getSight());
+        holder.continent.setText(place.getContinent());
 
-        if (holder.sight.getText().equals("City")) {
+        if (holder.sight.getText().equals("City"))
             holder.sightDrawable.setBackground(context.getResources().getDrawable(R.drawable.sight_city));
-        }
 
-        else if (holder.sight.getText().equals("Country")) {
+        else if (holder.sight.getText().equals("Country"))
             holder.sightDrawable.setBackground(context.getResources().getDrawable(R.drawable.sight_country));
-        }
 
-        else if (holder.sight.getText().equals("National Park")) {
+        else if (holder.sight.getText().equals("National Park"))
             holder.sightDrawable.setBackground(context.getResources().getDrawable(R.drawable.sight_national_park));
-        }
 
-        else if (holder.sight.getText().equals("Park")) {
+        else if (holder.sight.getText().equals("Park"))
             holder.sightDrawable.setBackground(context.getResources().getDrawable(R.drawable.sight_park));
-        }
+
+
+
+
 
     }
 
@@ -116,8 +114,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
 
         public final View view;
         public final ImageView image;
-        public final TextView location, sight, desc;
-        public final TextView position, religion;
+        public final TextView location, sight, continent;
         public final ImageView sightDrawable;
         private MaterialRippleLayout ripple;
 
@@ -125,16 +122,13 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
             super(v);
             view = v;
 
-            ripple = (MaterialRippleLayout) view.findViewById(R.id.rippleThumb);
-            image = (ImageView) view.findViewById(R.id.imageThumb);
-            location = (TextView) view.findViewById(R.id.locationThumb);
+            ripple = (MaterialRippleLayout) view.findViewById(R.id.rippleOverlay);
+            image = (ImageView) view.findViewById(R.id.placeImage);
+            location = (TextView) view.findViewById(R.id.locationText);
             location.setTypeface(Utils.customTypeface(context, 1));
-            sight = (TextView) view.findViewById(R.id.sightThumb);
-            sightDrawable = (ImageView) view.findViewById(R.id.SightIcon);
-
-            desc = null;
-            position = null;
-            religion = null;
+            sight = (TextView) view.findViewById(R.id.sightText);
+            sightDrawable = (ImageView) view.findViewById(R.id.sightImage);
+            continent = (TextView) view.findViewById(R.id.continentText);
 
             ripple.setOnClickListener(this);
             ripple.setOnLongClickListener(this);

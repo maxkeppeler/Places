@@ -50,10 +50,9 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
 import com.mk.places.adapters.GalleryAdapter;
-import com.mk.places.adapters.PlaceDetailAdapter;
+import com.mk.places.adapters.PlaceItemAdapter;
+import com.mk.places.models.GalleryItem;
 import com.mk.places.models.Place;
-import com.mk.places.models.PlaceInfo;
-import com.mk.places.models.PlaceInfoGallery;
 import com.mk.places.models.Places;
 import com.mk.places.threads.DownloadImage;
 import com.mk.places.utilities.Utils;
@@ -61,35 +60,47 @@ import com.mk.places.utilities.Utils;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class DetailView extends AppCompatActivity {
+public class PlaceView extends AppCompatActivity {
 
 
     //    REQUEST PERMISSIONS
     private static final int PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE = 42;
     private static int color;
-    String location, sight, desc, url, continent, religion;
-    @Bind(R.id.fab)
+
+    @Bind(R.id.placeItemFAB)
     FloatingActionButton fab;
+
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
     @Bind(R.id.collapsingToolbar)
     CollapsingToolbarLayout collapsingToolbarLayout;
+
     @Bind(R.id.placeDescTitle)
     TextView placeDescTitle;
+
     @Bind(R.id.descDetailView)
     TextView placesDescText;
+
     @Bind(R.id.placeInfoTitle)
     TextView placeInfoTitle;
-    @Bind(R.id.recyclerViewInfoDetails)
+
+    @Bind(R.id.recyclerViewInfoDetail)
     RecyclerView recyclerViewDetail;
+
     @Bind(R.id.recyclerViewGallery)
     RecyclerView recyclerViewGallery;
+
     @Bind(R.id.scroll)
     NestedScrollView scroll;
+
     Window window;
     boolean active;
+    private String location, sight, desc, url, continent, religion;
     private ViewGroup layout;
     private Activity context;
+    private int pos;
+
     public Palette.PaletteAsyncListener paletteAsyncListener = new Palette.PaletteAsyncListener() {
         @Override
         public void onGenerated(Palette palette) {
@@ -110,7 +121,7 @@ public class DetailView extends AppCompatActivity {
                 window.setNavigationBarColor(color);
         }
     };
-    private int pos;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +146,8 @@ public class DetailView extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        Typeface typeface = Utils.customTypeface(context, 1);
+        Typeface typefaceTitles = Utils.customTypeface(context, 1);
+        Typeface typefaceTexts = Utils.customTypeface(context, 2);
 
         Intent intent = getIntent();
         final Place item = intent.getParcelableExtra("item");
@@ -156,8 +168,9 @@ public class DetailView extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        placeDescTitle.setTypeface(typeface);
-        placeInfoTitle.setTypeface(typeface);
+        placeDescTitle.setTypeface(typefaceTitles);
+        placeInfoTitle.setTypeface(typefaceTitles);
+        placesDescText.setTypeface(typefaceTexts);
         placesDescText.setText(Html.fromHtml(desc).toString().replace("â€“", "–").replace("â€™", "\"").replace("â€™", "\"").replace("â€˜", "\"").replace("\\n", "\n").replace("\\", ""));
         fab.setVisibility(View.INVISIBLE);
 
@@ -183,8 +196,8 @@ public class DetailView extends AppCompatActivity {
         });
 
         collapsingToolbarLayout.setTitle(location);
-        collapsingToolbarLayout.setCollapsedTitleTypeface(typeface);
-        collapsingToolbarLayout.setExpandedTitleTypeface(typeface);
+        collapsingToolbarLayout.setCollapsedTitleTypeface(typefaceTitles);
+        collapsingToolbarLayout.setExpandedTitleTypeface(typefaceTitles);
         collapsingToolbarLayout.setSelected(true);
         toolbar.setSelected(true);
 
@@ -217,116 +230,105 @@ public class DetailView extends AppCompatActivity {
         int arraySize = 20;
 
         final String
-                galleryURL[] = new String[arraySize],
-                galleryUrlName[] = new String[arraySize],
-                galleryUrlDesc[] = new String[arraySize];
+                imageLink[] = new String[arraySize],
+                imageName[] = new String[arraySize],
+                imageDesc[] = new String[arraySize];
 
-        galleryURL[0] = item.getUrl_a();
-        galleryURL[1] = item.getUrl_b();
-        galleryURL[2] = item.getUrl_c();
-        galleryURL[3] = item.getUrl_d();
-        galleryURL[4] = item.getUrl_e();
-        galleryURL[5] = item.getUrl_f();
-        galleryURL[6] = item.getUrl_g();
-        galleryURL[7] = item.getUrl_h();
-        galleryURL[8] = item.getUrl_i();
-        galleryURL[9] = item.getUrl_j();
-        galleryURL[10] = item.getUrl_k();
-        galleryURL[11] = item.getUrl_l();
-        galleryURL[12] = item.getUrl_m();
-        galleryURL[13] = item.getUrl_n();
-        galleryURL[14] = item.getUrl_o();
-        galleryURL[15] = item.getUrl_p();
-        galleryURL[16] = item.getUrl_q();
-        galleryURL[17] = item.getUrl_r();
-        galleryURL[18] = item.getUrl_s();
-        galleryURL[19] = item.getUrl_t();
+        imageLink[0] = item.getUrl_a();
+        imageLink[1] = item.getUrl_b();
+        imageLink[2] = item.getUrl_c();
+        imageLink[3] = item.getUrl_d();
+        imageLink[4] = item.getUrl_e();
+        imageLink[5] = item.getUrl_f();
+        imageLink[6] = item.getUrl_g();
+        imageLink[7] = item.getUrl_h();
+        imageLink[8] = item.getUrl_i();
+        imageLink[9] = item.getUrl_j();
+        imageLink[10] = item.getUrl_k();
+        imageLink[11] = item.getUrl_l();
+        imageLink[12] = item.getUrl_m();
+        imageLink[13] = item.getUrl_n();
+        imageLink[14] = item.getUrl_o();
+        imageLink[15] = item.getUrl_p();
+        imageLink[16] = item.getUrl_q();
+        imageLink[17] = item.getUrl_r();
+        imageLink[18] = item.getUrl_s();
+        imageLink[19] = item.getUrl_t();
 
-        galleryUrlName[0] = item.getUrl_a_title();
-        galleryUrlName[1] = item.getUrl_b_title();
-        galleryUrlName[2] = item.getUrl_c_title();
-        galleryUrlName[3] = item.getUrl_d_title();
-        galleryUrlName[4] = item.getUrl_e_title();
-        galleryUrlName[5] = item.getUrl_f_title();
-        galleryUrlName[6] = item.getUrl_g_title();
-        galleryUrlName[7] = item.getUrl_h_title();
-        galleryUrlName[8] = item.getUrl_i_title();
-        galleryUrlName[9] = item.getUrl_j_title();
-        galleryUrlName[10] = item.getUrl_k_title();
-        galleryUrlName[11] = item.getUrl_l_title();
-        galleryUrlName[12] = item.getUrl_m_title();
-        galleryUrlName[13] = item.getUrl_n_title();
-        galleryUrlName[14] = item.getUrl_o_title();
-        galleryUrlName[15] = item.getUrl_p_title();
-        galleryUrlName[16] = item.getUrl_q_title();
-        galleryUrlName[17] = item.getUrl_r_title();
-        galleryUrlName[18] = item.getUrl_s_title();
-        galleryUrlName[19] = item.getUrl_t_title();
+        imageName[0] = item.getUrl_a_title();
+        imageName[1] = item.getUrl_b_title();
+        imageName[2] = item.getUrl_c_title();
+        imageName[3] = item.getUrl_d_title();
+        imageName[4] = item.getUrl_e_title();
+        imageName[5] = item.getUrl_f_title();
+        imageName[6] = item.getUrl_g_title();
+        imageName[7] = item.getUrl_h_title();
+        imageName[8] = item.getUrl_i_title();
+        imageName[9] = item.getUrl_j_title();
+        imageName[10] = item.getUrl_k_title();
+        imageName[11] = item.getUrl_l_title();
+        imageName[12] = item.getUrl_m_title();
+        imageName[13] = item.getUrl_n_title();
+        imageName[14] = item.getUrl_o_title();
+        imageName[15] = item.getUrl_p_title();
+        imageName[16] = item.getUrl_q_title();
+        imageName[17] = item.getUrl_r_title();
+        imageName[18] = item.getUrl_s_title();
+        imageName[19] = item.getUrl_t_title();
 
-        galleryUrlDesc[0] = item.getUrl_a_desc();
-        galleryUrlDesc[1] = item.getUrl_b_desc();
-        galleryUrlDesc[2] = item.getUrl_c_desc();
-        galleryUrlDesc[3] = item.getUrl_d_desc();
-        galleryUrlDesc[4] = item.getUrl_e_desc();
-        galleryUrlDesc[5] = item.getUrl_f_desc();
-        galleryUrlDesc[6] = item.getUrl_g_desc();
-        galleryUrlDesc[7] = item.getUrl_h_desc();
-        galleryUrlDesc[8] = item.getUrl_i_desc();
-        galleryUrlDesc[9] = item.getUrl_j_desc();
-        galleryUrlDesc[10] = item.getUrl_k_desc();
-        galleryUrlDesc[11] = item.getUrl_l_desc();
-        galleryUrlDesc[12] = item.getUrl_m_desc();
-        galleryUrlDesc[13] = item.getUrl_n_desc();
-        galleryUrlDesc[14] = item.getUrl_o_desc();
-        galleryUrlDesc[15] = item.getUrl_p_desc();
-        galleryUrlDesc[16] = item.getUrl_q_desc();
-        galleryUrlDesc[17] = item.getUrl_r_desc();
-        galleryUrlDesc[18] = item.getUrl_s_desc();
-        galleryUrlDesc[19] = item.getUrl_t_desc();
+        imageDesc[0] = item.getUrl_a_desc();
+        imageDesc[1] = item.getUrl_b_desc();
+        imageDesc[2] = item.getUrl_c_desc();
+        imageDesc[3] = item.getUrl_d_desc();
+        imageDesc[4] = item.getUrl_e_desc();
+        imageDesc[5] = item.getUrl_f_desc();
+        imageDesc[6] = item.getUrl_g_desc();
+        imageDesc[7] = item.getUrl_h_desc();
+        imageDesc[8] = item.getUrl_i_desc();
+        imageDesc[9] = item.getUrl_j_desc();
+        imageDesc[10] = item.getUrl_k_desc();
+        imageDesc[11] = item.getUrl_l_desc();
+        imageDesc[12] = item.getUrl_m_desc();
+        imageDesc[13] = item.getUrl_n_desc();
+        imageDesc[14] = item.getUrl_o_desc();
+        imageDesc[15] = item.getUrl_p_desc();
+        imageDesc[16] = item.getUrl_q_desc();
+        imageDesc[17] = item.getUrl_r_desc();
+        imageDesc[18] = item.getUrl_s_desc();
+        imageDesc[19] = item.getUrl_t_desc();
 
         int gallerySize = -1;
 
         for (int j = 0; j < arraySize; j++) {
-//            Log.d("j", "onCreate: " + j);
-            if (galleryURL[j].length() > 5) {
-                gallerySize++;
-                Log.d("Schleife", "onCreate: " + gallerySize);
-            }
-        }
-
-        PlaceInfoGallery placeDetailGalleries[] = new PlaceInfoGallery[gallerySize];
-
-        for (int i = 0; i < gallerySize; i++) {
-            placeDetailGalleries[i] = new PlaceInfoGallery(galleryURL[i], galleryUrlName[i], galleryUrlDesc[i]);
+            if (imageLink[j].length() > 5) gallerySize++;
         }
 
         final String
-                galleryURLNew[] = new String[gallerySize],
-                galleryUrlNameNEW[] = new String[gallerySize],
-                galleryUrlDescNEw[] = new String[gallerySize];
+                nImageLink[] = new String[gallerySize],
+                nImageName[] = new String[gallerySize],
+                nImageDesc[] = new String[gallerySize];
 
 
         for (int i = 0; i < gallerySize; i++) {
-                    galleryURLNew[i] = galleryURL[i];
-                    galleryUrlNameNEW[i] = galleryUrlName[i];
-                    galleryUrlDescNEw[i] = galleryUrlDesc[i];
+            nImageLink[i] = imageLink[i];
+            nImageName[i] = imageName[i];
+            nImageDesc[i] = imageDesc[i];
         }
 
-        final GalleryAdapter galleryAdapter = new GalleryAdapter(context, placeDetailGalleries, new GalleryAdapter.ClickListener() {
+        final GalleryAdapter galleryAdapter = new GalleryAdapter(context, nImageLink, new GalleryAdapter.ClickListener() {
 
             @Override
             public void onClick(GalleryAdapter.ViewHolder view, int index, boolean longClick) {
 
                 if (longClick) {
-
                     Log.d("Lang", "onClick: with ID " + index);
 
                 } else {
 
-                    Intent intent = new Intent(context, GalleryImage.class);
-                    intent.putExtra("URLs", galleryURLNew);
-                    intent.putExtra("URLsName", galleryUrlNameNEW);
-                    intent.putExtra("URLsDesc", galleryUrlDescNEw);
+                    Intent intent = new Intent(context, GalleryView.class);
+                    intent.putExtra("imageLink", nImageLink);
+                    intent.putExtra("imageName", nImageName);
+                    intent.putExtra("imageDesc", nImageDesc);
                     intent.putExtra("index", index);
                     context.startActivity(intent);
 
@@ -345,18 +347,18 @@ public class DetailView extends AppCompatActivity {
     private void sightDependingLayouts() {
 
         if (sight.equals("City")) {
-            PlaceInfo itemsData[] = {
-                    new PlaceInfo("Location", continent, R.drawable.ic_location),
-                    new PlaceInfo("Location", continent, R.drawable.ic_location),
-                    new PlaceInfo("Location", continent, R.drawable.ic_location),
-                    new PlaceInfo("Religion", religion, R.drawable.ic_religion),
+            GalleryItem itemsData[] = {
+                    new GalleryItem("Location", continent, R.drawable.ic_location),
+                    new GalleryItem("Location", continent, R.drawable.ic_location),
+                    new GalleryItem("Location", continent, R.drawable.ic_location),
+                    new GalleryItem("Religion", religion, R.drawable.ic_religion),
             };
             finishRecycler(recyclerViewDetail, itemsData);
         }
 
         if (sight.equals("National Park")) {
-            PlaceInfo itemsData[] = {
-                    new PlaceInfo("Location", continent, R.drawable.ic_location),
+            GalleryItem itemsData[] = {
+                    new GalleryItem("Location", continent, R.drawable.ic_location),
             };
             finishRecycler(recyclerViewDetail, itemsData);
         }
@@ -364,9 +366,9 @@ public class DetailView extends AppCompatActivity {
 
     }
 
-    private void finishRecycler(RecyclerView recyclerView, PlaceInfo itemsData[]) {
+    private void finishRecycler(RecyclerView recyclerView, GalleryItem itemsData[]) {
         recyclerView.setLayoutManager(new GridLayoutManager(context, 1));
-        PlaceDetailAdapter mAdapter = new PlaceDetailAdapter(itemsData);
+        PlaceItemAdapter mAdapter = new PlaceItemAdapter(itemsData);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setHasFixedSize(true);
     }

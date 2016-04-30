@@ -6,7 +6,7 @@
 
 
     <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/rippleThumb"
+        android:id="@+id/rippleOverlay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:mrl_rippleColor="@color/md_white_1000"
@@ -16,9 +16,9 @@
         app:mrl_rippleOverlay="true">
 
         <ImageView
-            android:id="@+id/imageThumb"
+            android:id="@+id/placeImage"
             android:layout_width="match_parent"
-            android:layout_height="310dp"
+            android:layout_height="350dp"
             android:background="@color/appBackgroundColor"
             android:scaleType="centerCrop" />
 
@@ -37,33 +37,60 @@
         android:layout_gravity="bottom">
 
         <TextView
-            android:id="@+id/locationThumb"
+            android:id="@+id/locationText"
             style="@style/TextViewHeadline"
             android:text="Location"
             android:textColor="@color/textPrimary" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/locationThumb"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/SightIcon"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:background="@drawable/sight_city"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/sightThumb"
-            style="@style/TextViewBody1"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="8dp"
-            android:text="Sight"
-            android:textColor="@color/textPrimary" />
+                <ImageView
+                    android:id="@+id/sightImage"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:background="@drawable/sight_city" />
+
+                <TextView
+                    android:id="@+id/sightText"
+                    style="@style/TextViewBody1"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="8dp"
+                    android:text="Sight"
+                    android:textColor="@color/textPrimary" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/continentIcon"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:background="@drawable/ic_continent" />
+
+                <TextView
+                    android:id="@+id/continentText"
+                    style="@style/TextViewBody1"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="8dp"
+                    android:text="Sight"
+                    android:textColor="@color/textPrimary" />
+            </LinearLayout>
+
         </LinearLayout>
-    </LinearLayout>
 
+    </LinearLayout>
 
 </FrameLayout>

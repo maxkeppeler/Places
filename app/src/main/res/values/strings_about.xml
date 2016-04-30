@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ////////////   GENERAL   \\\\\\\\\\\\\ -->
+
+
+    <string name="appSectionAbout">Team Members &amp; Supporters</string>
+
+    <string name="appName">Places</string>
+    <string name="appDescription">
+
+        Places was created to help people to spot the most unique places on our earth. Places which you have to see in your life time.
+        Favor your personal most interesting places - and swear to yourself to visit them in your life time.
+        \n \n
+        Places sets in addition focus on nature conservation. You receive information about how to support our earth - for example against Global Warming. The most active environmental activist are honored in this app, check them out and read their motivations.
+
+    </string>
+
+
+    <!-- ////////////   TEAM MEMBERS & SUPPORTERS   \\\\\\\\\\\\\ -->
+
+    <array name="mImage">
+        <item>https://lh3.googleusercontent.com/-qfVn3auMOtc/AAAAAAAAAAI/AAAAAAAA10w/wngWXiP-T9g/s120-c/photo.jpg</item>
+        <item>https://lh4.googleusercontent.com/-aXoEkusUJ4A/VX3jZRgsBzI/AAAAAAAAWcM/xmZuXQ6PFeYWNphzlXZcreDOduRSn43GQCL0B/s1415-no/10408106_999756290054168_8813445412100662647_n.jpg</item>
+    </array>
+
+
+    <array name="mName">
+        <item>Maximilian Keppeler</item>
+        <item>Kevin Aguilar</item>
+    </array>
+
+    <array name="mTitle">
+        <item>Developer, Designer</item>
+        <item>Designer</item>
+    </array>
+
+    <array name="mDesc">
+        <item>Founder of this application. </item>
+        <item>Known Icon Pack Designer. I helped here are there. Icon was made by me too.</item>
+    </array>
+
+    <string-array name="profileButtonNames">
+        <item>Website|Google+|Twitter|Play</item>
+        <item>Google+</item>
+    </string-array>
+
+    <string-array name="profileButtonLinks">
+        <item>http://www.maximiliankeppeler.com/|https://plus.google.com/+MaxKeppeler/posts|https://twitter.com/maxKeppeler|https://play.google.com/store/apps/dev?id=9187145836369403051</item>
+        <item>https://plus.google.com/u/0/+KevinAguilarC/posts</item>
+    </string-array>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</resources>

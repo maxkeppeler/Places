@@ -21,7 +21,7 @@
  *
  */
 
-package com.mk.places.widgets;
+package com.mk.places.views;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -57,7 +57,7 @@ public class TouchImageView extends ImageView {
     // min/max zoom boundary.
     //
     private static final float SUPER_MIN_MULTIPLIER = .75f;
-    private static final float SUPER_MAX_MULTIPLIER = 1.25f;
+    private static final float SUPER_MAX_MULTIPLIER = 10.25f;
     private Context context;
     //
     // Scale of image ranges from minScale to maxScale, where minScale == 1

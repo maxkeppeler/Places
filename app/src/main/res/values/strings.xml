@@ -108,9 +108,8 @@
     <!-- Columns Dialog -->
     <string name="columnsTitle">Amount Of Columns</string>
     <array name="columnsArray">
-        <item>1 column (recommended)</item>
+        <item>1 column</item>
         <item>2 columns</item>
-        <item>3 columns</item>
     </array>
 
     <!-- Filter Dialog -->
@@ -129,45 +128,6 @@
 
     <!-- Submit -->
     <string name="drawer_submit_info">A beautiful place is missing? Submit it. I will look after it if I can add it.</string>
-
-    <!-- About -->
-    <string name="appName">Places</string>
-    <string name="appDescription">
-
-        Places was created to help people to spot the most unique places on our earth. Places which you have to see in your life time.
-        Favor your personal most interesting places - and swear to yourself to visit them in your life time.
-        \n \n
-        Places sets in addition focus on nature conservation. You receive information about how to support our earth - for example against Global Warming. The most active environmental activist are honored in this app, check them out and read their motivations.
-
-    </string>
-
-
-    <string name="developer">Maximilian Keppeler</string>
-    <string name="developer_desc">Maximilian Keppeler</string>
-
-
-    <!--TODO -->
-
-    <array name="profileImage">
-        <item>21</item>
-        <item>42</item>
-        <item>42</item>
-    </array>
-
-
-    <array name="profileName">
-        <item>Maximilian Keppeler</item>
-        <item>adas</item>
-        <item>asdads</item>
-    </array>
-
-
-    <array name="profileDescription">
-        <item>Bla Bla Bla</item>
-        <item>adsdsa</item>
-        <item>ads</item>
-    </array>
-
 
     <!-- Support -->
     <string name="supportText">Read the FAQs before you contact us.</string>
@@ -190,7 +150,7 @@
     <string name="permissions_not_granted">Storage permissions are needed to demonstrate access.</string>
     <string name="title_activity_live_chat">LiveChat</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder imageLink -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_image_view">ImageView</string>
 

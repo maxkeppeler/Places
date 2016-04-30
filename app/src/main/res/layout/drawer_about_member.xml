@@ -1,75 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
+
     <android.support.v7.widget.CardView
-        android:id="@+id/liveChatCardView"
+        android:id="@+id/cardViewMember"
         style="@style/Card"
         android:layout_marginTop="4dp"
         android:focusableInTouchMode="true"
         app:cardUseCompatPadding="true">
 
-        <com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/rippleLiveChat"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:mrl_rippleColor="@color/md_white_1000"
-            app:mrl_rippleDuration="450"
-            app:mrl_rippleFadeDuration="475"
-            app:mrl_rippleHover="true"
-            app:mrl_rippleOverlay="true">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/profileImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="start|center_horizontal" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingBottom="16dp"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:paddingTop="16dp">
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:layout_gravity="center_vertical">
 
                     <TextView
                         android:id="@+id/profileName"
                         style="@style/TextViewTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:text="@string/appName"
-                        android:textColor="@color/white" />
+                        android:text="Placeholder Name"
+                        android:textColor="@color/primaryText" />
 
                     <TextView
-                        android:id="@+id/profileDescription"
+                        android:id="@+id/profileTitle"
                         style="@style/TextViewBody1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:paddingBottom="16dp"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp"
-                        android:text="@string/appDescription"
-                        android:textColor="@color/primaryText" />
+                        android:layout_marginTop="8dp"
+                        android:text="Placeholder Text"
+                        android:textColor="@color/secondaryText" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-        </com.balysv.materialripple.MaterialRippleLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/cardBackgroundDarker">
+
+                <TextView
+                    android:id="@+id/profileDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Placeholder Motivation"
+                    android:padding="16dp"
+                    android:textColor="@color/secondaryText" />
+
+                <com.mk.places.views.ButtonLayout
+                    android:id="@+id/buttonLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 

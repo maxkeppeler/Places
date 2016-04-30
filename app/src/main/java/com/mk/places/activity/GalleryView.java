@@ -1,35 +1,33 @@
 package com.mk.places.activity;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Window;
 import android.view.WindowManager;
 
 import com.mk.places.R;
-import com.mk.places.adapters.GalleryViewAdapter;
-import com.mk.places.models.Place;
+import com.mk.places.adapters.GalleryItemAdapter;
 
-public class GalleryImage extends AppCompatActivity {
+public class GalleryView extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.image_page);
+
+        setContentView(R.layout.gallery_view);
 
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         Intent intent = getIntent();
-        final String[] URLs = intent.getStringArrayExtra("URLs");
-        final String[] URLsName = intent.getStringArrayExtra("URLsName");
-        final String[] URLsDesc = intent.getStringArrayExtra("URLsDesc");
+        final String[] imageLink = intent.getStringArrayExtra("imageLink");
+        final String[] imageName = intent.getStringArrayExtra("imageName");
+        final String[] imageDesc = intent.getStringArrayExtra("imageDesc");
         final int index = intent.getIntExtra("index", 0);
 
-        ViewPager mPager = (ViewPager) findViewById(R.id.imageViewPager);
-        mPager.setAdapter(new GalleryViewAdapter(getApplicationContext(), URLs, URLsName, URLsDesc, this.getWindow()));
-//        mPager.setCurrentItem(index);
+        ViewPager mPager = (ViewPager) findViewById(R.id.viewPagerImage);
+        mPager.setAdapter(new GalleryItemAdapter(getApplicationContext(), imageLink, imageName, imageDesc, this.getWindow()));
+        mPager.setCurrentItem(index);
     }
 
     @Override

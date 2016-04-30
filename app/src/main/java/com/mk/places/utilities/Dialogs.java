@@ -52,10 +52,6 @@ public class Dialogs {
 
     }
 
-
-
-
-
     public static void columnsDialog(final Context context) {
 
         new MaterialDialog.Builder(context)

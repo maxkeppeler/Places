@@ -12,7 +12,7 @@
         app:cardUseCompatPadding="true">
 
         <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/rippleThumb"
+            android:id="@+id/rippleOverlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:mrl_rippleColor="@color/md_white_1000"
@@ -22,8 +22,8 @@
             app:mrl_rippleOverlay="true">
 
 
-            <com.mk.places.widgets.SquareImageView
-                android:id="@+id/imageURL"
+            <com.mk.places.views.SquareImageView
+                android:id="@+id/thumbImage"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:adjustViewBounds="true"
