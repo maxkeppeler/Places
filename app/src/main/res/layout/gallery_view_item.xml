@@ -52,6 +52,7 @@
             <TextView
                 android:id="@+id/vName"
                 style="@style/TextViewTitle"
+                android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Placeholder Title" />
@@ -64,7 +65,8 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:lineSpacingExtra="0.3dp"
+                android:lineSpacingExtra="3dp"
+                android:textColor="@color/primaryText"
                 android:text="Placeholder Text"
                 android:textAlignment="center" />
 

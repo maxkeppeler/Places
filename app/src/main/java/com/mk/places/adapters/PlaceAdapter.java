@@ -89,10 +89,6 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
         else if (holder.sight.getText().equals("Park"))
             holder.sightDrawable.setBackground(context.getResources().getDrawable(R.drawable.sight_park));
 
-
-
-
-
     }
 
     @Override
@@ -125,10 +121,15 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
             ripple = (MaterialRippleLayout) view.findViewById(R.id.rippleOverlay);
             image = (ImageView) view.findViewById(R.id.placeImage);
             location = (TextView) view.findViewById(R.id.locationText);
+
             location.setTypeface(Utils.customTypeface(context, 1));
             sight = (TextView) view.findViewById(R.id.sightText);
+
+            sight.setTypeface(Utils.customTypeface(context, 2));
             sightDrawable = (ImageView) view.findViewById(R.id.sightImage);
+
             continent = (TextView) view.findViewById(R.id.continentText);
+            continent.setTypeface(Utils.customTypeface(context, 2));
 
             ripple.setOnClickListener(this);
             ripple.setOnLongClickListener(this);

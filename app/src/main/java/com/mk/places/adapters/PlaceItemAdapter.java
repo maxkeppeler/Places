@@ -1,5 +1,7 @@
 package com.mk.places.adapters;
 
+import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,13 +11,16 @@ import android.widget.TextView;
 
 import com.mk.places.R;
 import com.mk.places.models.GalleryItem;
+import com.mk.places.utilities.Utils;
 
 public class PlaceItemAdapter extends RecyclerView.Adapter<PlaceItemAdapter.ViewHolder> {
 
     private GalleryItem[] itemsData;
+    private Context context;
 
-    public PlaceItemAdapter(GalleryItem[] itemsData) {
+    public PlaceItemAdapter(GalleryItem[] itemsData, Context context) {
         this.itemsData = itemsData;
+        this.context = context;
     }
 
     @Override
@@ -27,6 +32,10 @@ public class PlaceItemAdapter extends RecyclerView.Adapter<PlaceItemAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
+
+        viewHolder.placeItemTitle.setTypeface(Utils.customTypeface(context, 3));
+        viewHolder.placeItemText.setTypeface(Utils.customTypeface(context, 2));
+
         viewHolder.placeItemTitle.setText(itemsData[position].getTitle());
         viewHolder.placeItemText.setText(itemsData[position].getText());
         viewHolder.placeItemImage.setImageResource(itemsData[position].getDrawable());

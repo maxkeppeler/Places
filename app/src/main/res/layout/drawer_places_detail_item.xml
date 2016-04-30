@@ -34,10 +34,11 @@
             <TextView
                 android:id="@+id/placeItemTitle"
                 style="@style/TextViewBody2"
-                android:layout_width="100dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
                 android:text="Details"
                 android:textColor="@color/white"
                 android:layout_gravity="center_vertical" />
@@ -54,7 +55,6 @@
                 style="@style/TextViewBody1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:text="GPS"
                 android:textColor="@color/primaryText" />
 

@@ -48,6 +48,8 @@ public class Utils extends Activity {
         Typeface typeface = null;
         if (index == 1) typeface = Typeface.createFromAsset(context.getAssets(), "fonts/BreeSerif-Regular.ttf");
         if (index == 2) typeface = Typeface.createFromAsset(context.getAssets(), "fonts/OpenSans-Regular.ttf");
+        if (index == 3) typeface = Typeface.createFromAsset(context.getAssets(), "fonts/OpenSans-Bold.ttf");
+
         return typeface;
     }
 

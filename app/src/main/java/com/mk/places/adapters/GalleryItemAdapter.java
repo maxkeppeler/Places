@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
+import com.mk.places.utilities.Utils;
 import com.mk.places.views.TouchImageView;
 
 public class GalleryItemAdapter extends PagerAdapter {
@@ -63,6 +64,9 @@ public class GalleryItemAdapter extends PagerAdapter {
 
         vName.setText(Html.fromHtml(imageName[index]).toString().replace("â€“", "–").replace("â€™", "\"").replace("â€™", "\"").replace("â€˜", "\"").replace("\\n", "\n").replace("\\", ""));
         vDesc.setText(Html.fromHtml(imageDesc[index]).toString().replace("â€“", "–").replace("â€™", "\"").replace("â€™", "\"").replace("â€˜", "\"").replace("\\n", "\n").replace("\\", ""));
+
+        vName.setTypeface(Utils.customTypeface(context, 1));
+        vDesc.setTypeface(Utils.customTypeface(context, 2));
 
         Glide.with(context)
                 .load(imageLink[index])

@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                 .withSavedInstance(savedInstanceState)
                 .withSelectedItem(0)
                 .withToolbar(toolbar)
+
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(drawerPlaces).withIcon(Icon.gmd_terrain).withIdentifier(0).withBadgeStyle(new BadgeStyle()),
                         new PrimaryDrawerItem().withName(drawerFavorite).withIcon(Icon.gmd_bookmark).withIdentifier(1),
@@ -212,9 +213,7 @@ public class MainActivity extends AppCompatActivity {
             materialDrawer.setSelection(0);
         }
 
-
         materialDrawer.updateBadge(0, new StringHolder("• " +  mPref.getPlacesSize() + " •"));
-
 
             materialDrawerAppended = new DrawerBuilder()
                 .withActivity(this)

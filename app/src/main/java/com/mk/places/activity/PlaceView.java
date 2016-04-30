@@ -368,7 +368,7 @@ public class PlaceView extends AppCompatActivity {
 
     private void finishRecycler(RecyclerView recyclerView, GalleryItem itemsData[]) {
         recyclerView.setLayoutManager(new GridLayoutManager(context, 1));
-        PlaceItemAdapter mAdapter = new PlaceItemAdapter(itemsData);
+        PlaceItemAdapter mAdapter = new PlaceItemAdapter(itemsData, context);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setHasFixedSize(true);
     }
