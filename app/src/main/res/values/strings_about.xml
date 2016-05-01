@@ -17,27 +17,40 @@
     </string>
 
 
+    <string-array name="appButtonNames">
+        <item>Rate Places</item>
+        <item>Website</item>
+        <item>Facebook</item>
+    </string-array>
+
+    <string-array name="appButtonLinks">
+        <item>https://play.google.com/store/apps/dev?id=9187145836369403051</item>
+        <item>https://www.places.com</item>
+        <item>https://www.facebook.com/places</item>
+    </string-array>
+
+
     <!-- ////////////   TEAM MEMBERS & SUPPORTERS   \\\\\\\\\\\\\ -->
 
     <array name="mImage">
         <item>https://lh3.googleusercontent.com/-qfVn3auMOtc/AAAAAAAAAAI/AAAAAAAA10w/wngWXiP-T9g/s120-c/photo.jpg</item>
-        <item>https://lh4.googleusercontent.com/-aXoEkusUJ4A/VX3jZRgsBzI/AAAAAAAAWcM/xmZuXQ6PFeYWNphzlXZcreDOduRSn43GQCL0B/s1415-no/10408106_999756290054168_8813445412100662647_n.jpg</item>
+        <item>https://lh3.googleusercontent.com/FiJvb5KdaxOPMMRTBZWK1jwK8hGKQC0N8RbTH8Q4sDoAzKPoi-36X8GhGS4Cf97ElEwe5iZm9g=s632-fcrop64=1,00001682ffffffff</item>
     </array>
 
 
     <array name="mName">
         <item>Maximilian Keppeler</item>
-        <item>Kevin Aguilar</item>
+        <item>Kevin Aguilar - 221 Pixels</item>
     </array>
 
     <array name="mTitle">
-        <item>Developer, Designer</item>
+        <item>Founder, Developer, Designer</item>
         <item>Designer</item>
     </array>
 
     <array name="mDesc">
-        <item>Founder of this application. </item>
-        <item>Known Icon Pack Designer. I helped here are there. Icon was made by me too.</item>
+        <item>There is no time to write a text here, I need to work on the app.</item>
+        <item>Known Icon Pack Designer. I made the beautiful Places icon.</item>
     </array>
 
     <string-array name="profileButtonNames">

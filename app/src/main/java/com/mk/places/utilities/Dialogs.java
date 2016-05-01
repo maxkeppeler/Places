@@ -19,7 +19,6 @@ import com.mk.places.fragment.DrawerPlaces;
 public class Dialogs {
 
 
-
     public static void showChangelog(final Context context) {
 
         new MaterialDialog.Builder(context)
@@ -45,7 +44,6 @@ public class Dialogs {
 
                     }
                 })
-//                .backgroundColor(context.getResources().getColor(R.color.colorPrimary))
                 .show();
 
 
@@ -56,14 +54,14 @@ public class Dialogs {
         new MaterialDialog.Builder(context)
                 .title(R.string.columnsTitle)
                 .items(R.array.columnsArray)
-                .backgroundColor(context.getResources().getColor(R.color.dialogs))
+//                .backgroundColor(context.getResources().getColor(R.color.dialogs))
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
                         DrawerPlaces drawer = new DrawerPlaces();
 
                         Preferences mPrefs = new Preferences(context);
-                        mPrefs.setColumns(i+1);
+                        mPrefs.setColumns(i + 1);
 
                         drawer.setColumns(i + 1);
                     }

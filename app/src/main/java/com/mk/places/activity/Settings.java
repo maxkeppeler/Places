@@ -1,7 +1,6 @@
 package com.mk.places.activity;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -9,7 +8,6 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.widget.LinearLayout;
 
 import com.mk.places.R;
@@ -49,22 +47,17 @@ public class Settings extends PreferenceActivity {
         LinearLayout root = (LinearLayout) findViewById(android.R.id.list).getParent().getParent().getParent();
         toolbar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
         toolbar.setTitle("Settings");
+        toolbar.setElevation(15);
+        toolbar.setNavigationIcon(R.drawable.ic_close);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        root.addView(toolbar, 0); // insert at top
+        root.addView(toolbar, 0);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            toolbar.setElevation(15);
-            window.setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
-            toolbar.setNavigationIcon(R.drawable.ic_close);
-        }
-
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 

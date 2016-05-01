@@ -21,7 +21,6 @@
                 android:id="@+id/appCardView"
                 style="@style/Card"
                 android:layout_marginTop="4dp"
-                android:focusableInTouchMode="true"
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
@@ -70,6 +69,13 @@
 
                     </LinearLayout>
 
+                    <com.mk.places.views.ButtonLayout
+                        android:id="@+id/buttonLayoutApp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingEnd="8dp"
+                        android:paddingStart="8dp" />
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>

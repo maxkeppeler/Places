@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
                     protected void setResource(Bitmap resource) {
                         TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(context.getResources(), resource)});
                         holder.image.setImageDrawable(td);
-                        td.startTransition(550);
+                        td.startTransition(350);
                     }
                 });
 
@@ -73,7 +74,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
             AnimUtils.zoomInAndOut(context, holder.image);
         }
 
-        holder.location.setText(place.getLocation() + place.getId());
+        holder.location.setText(place.getLocation());
         holder.sight.setText(place.getSight());
         holder.continent.setText(place.getContinent());
 

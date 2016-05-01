@@ -47,15 +47,12 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
-import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
 import com.mk.places.adapters.GalleryAdapter;
 import com.mk.places.adapters.PlaceItemAdapter;
-import com.mk.places.fragment.DrawerPlaces;
 import com.mk.places.models.GalleryItem;
 import com.mk.places.models.Place;
-import com.mk.places.models.Places;
 import com.mk.places.threads.DownloadImage;
 import com.mk.places.utilities.Utils;
 
@@ -101,29 +98,6 @@ public class PlaceView extends AppCompatActivity {
     private String location, sight, desc, url, continent, religion;
     private ViewGroup layout;
     private Activity context;
-    private int pos;
-
-    public Palette.PaletteAsyncListener paletteAsyncListener = new Palette.PaletteAsyncListener() {
-        @Override
-        public void onGenerated(Palette palette) {
-            if (palette == null) return;
-
-            color = Utils.colorFromPalette(context, palette);
-
-            fab.setRippleColor(color);
-            fab.setBackgroundTintList(ColorStateList.valueOf(color));
-            fab.setVisibility(View.VISIBLE);
-            Animation animation = AnimationUtils.loadAnimation(context, R.anim.scale_up);
-            fab.startAnimation(animation);
-
-            collapsingToolbarLayout.setContentScrimColor(color);
-            collapsingToolbarLayout.setStatusBarScrimColor((Utils.colorVariant(color, 0.92f)));
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                window.setNavigationBarColor(color);
-        }
-    };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +127,6 @@ public class PlaceView extends AppCompatActivity {
 
         Intent intent = getIntent();
         final Place item = intent.getParcelableExtra("item");
-        pos = intent.getIntExtra("pos", -1);
 
         url = item.getUrl();
         location = item.getLocation();
@@ -169,7 +142,7 @@ public class PlaceView extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationIcon(R.drawable.ic_close);;
+        toolbar.setNavigationIcon(R.drawable.ic_close);
 
         placeDescTitle.setTypeface(typefaceTitles);
         placeInfoTitle.setTypeface(typefaceTitles);
@@ -187,12 +160,9 @@ public class PlaceView extends AppCompatActivity {
                 if (FavoriteUtil.isFavorited(item.getId())) {
                     FavoriteUtil.unfavoriteItem(item.getId());
                     Log.d("FAB", " with ID: " + item.getId() + " Selected: " + FavoriteUtil.isFavorited(item.getId()));
-                }
-
-                else if (! FavoriteUtil.isFavorited(item.getId())){
+                } else if (!FavoriteUtil.isFavorited(item.getId())) {
                     FavoriteUtil.favoriteItem(item.getId());
                     Log.d("FAB", " with ID: " + item.getId() + " Selected: " + FavoriteUtil.isFavorited(item.getId()));
-
                 }
 
                 Inquiry.deinit();
@@ -222,13 +192,28 @@ public class PlaceView extends AppCompatActivity {
                         assert image != null;
                         image.setImageDrawable(td);
                         td.startTransition(150);
+
+                        new Palette.Builder(resource).generate(new Palette.PaletteAsyncListener() {
+                            @Override
+                            public void onGenerated(Palette palette) {
+
+                                if (palette == null) return;
+
+                                color = Utils.colorFromPalette(context, palette);
+                                fab.setBackgroundTintList(ColorStateList.valueOf(color));
+                                fab.setVisibility(View.VISIBLE);
+                                Animation animation = AnimationUtils.loadAnimation(context, R.anim.scale_up);
+                                fab.startAnimation(animation);
+
+                                collapsingToolbarLayout.setContentScrimColor(color);
+                                collapsingToolbarLayout.setStatusBarScrimColor((Utils.colorVariant(color, 0.92f)));
+
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                                    window.setNavigationBarColor(color);
+                            }
+                        });
                     }
 
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        super.onResourceReady(resource, glideAnimation);
-                        new Palette.Builder(resource).generate(paletteAsyncListener);
-                    }
                 });
 
         recyclerViewGallery.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false));

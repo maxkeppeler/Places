@@ -23,27 +23,29 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <ImageView
+                <com.mk.places.views.SquareImageView
                     android:id="@+id/profileImage"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:layout_gravity="start|center_horizontal" />
+                    android:layout_gravity="start|center_horizontal"
+                    android:scaleType="centerCrop" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:orientation="vertical"
+                    android:paddingBottom="16dp"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:layout_gravity="center_vertical">
+                    android:paddingTop="16dp">
 
                     <TextView
                         android:id="@+id/profileName"
                         style="@style/TextViewTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxLines="1"
                         android:text="Placeholder Name"
                         android:textColor="@color/white" />
 
@@ -53,6 +55,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:maxLines="1"
                         android:text="Placeholder Text"
                         android:textColor="@color/primaryText" />
 
@@ -61,25 +64,28 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/cardBackgroundDarker">
+                android:background="@color/cardBackgroundDarker"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/profileDesc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Placeholder Motivation"
-                    android:padding="16dp"
                     android:lineSpacingExtra="3dp"
+                    android:padding="16dp"
+                    android:text="Placeholder Motivation"
                     android:textColor="@color/primaryText" />
 
                 <com.mk.places.views.ButtonLayout
                     android:id="@+id/buttonLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" />
+                    android:background="@color/colorAccent"
+                    android:orientation="horizontal"
+                    android:paddingEnd="8dp"
+                    android:paddingStart="8dp" />
 
             </LinearLayout>
 

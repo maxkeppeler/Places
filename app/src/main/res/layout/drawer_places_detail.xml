@@ -203,7 +203,7 @@
         android:id="@+id/placeItemFAB"
         style="@style/FabStyle"
         android:clickable="true"
-        android:focusable="false"
+        android:focusable="true"
         app:layout_anchor="@id/appBarLayout"
         app:layout_anchorGravity="bottom|right|end" />
 

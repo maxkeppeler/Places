@@ -10,9 +10,8 @@
 
     <color name="colorPrimary">@color/md_blue_500</color>
     <color name="colorPrimaryDark">@color/md_blue_600</color>
-        <color name="colorAccent">@color/md_light_blue_500</color>
+    <color name="colorAccent">@color/md_light_blue_500</color>
     <color name="colorSnackBar">@color/md_light_blue_500</color>
-
 
 
     <!-- Statusbar & Navigation Bar -->
@@ -23,6 +22,7 @@
 
     <!-- Other colors -->
     <color name="fabColor">@color/colorPrimary</color>
+    <color name="fabRipple">#aeffffff</color>
 
     <color name="snackbar">@color/colorPrimaryLight</color>
 
@@ -36,7 +36,7 @@
 
     <!-- ////////////  TEXT COLORS   \\\\\\\\\\\\\ -->
 
-     <!--Light -->
+    <!--Light -->
     <color name="primaryText">#DEFFFFFF</color>
     <color name="primaryIcon">#8AFFFFFF</color>
     <color name="secondaryText">#8AFFFFFF</color>
@@ -67,8 +67,7 @@
     <color name="transparentBit">#33000000</color>
 
 
-
-     <!--////////////  MATERIAL DRAWER   \\\\\\\\\\\\\ -->
+    <!--////////////  MATERIAL DRAWER   \\\\\\\\\\\\\ -->
 
     <color name="material_drawer_primary">@color/colorPrimary</color>
     <color name="material_drawer_primary_dark">@color/colorPrimaryDark</color>
@@ -88,9 +87,6 @@
     <color name="material_drawer_secondary_text">#8AFFFFFF</color>
     <color name="material_drawer_hint_text">#42FFFFFF</color>
     <color name="material_drawer_divider">#1FFFFFFF</color>
-
-
-
 
 
     <!-- ////////////  Smooch Colors   \\\\\\\\\\\\\ -->
@@ -119,11 +115,6 @@
     <color name="Smooch_userMessageBorder">#d9d9d9</color>
     <color name="Smooch_userMessageFailedBackground">@color/appBackgroundColor</color>
     <color name="Smooch_userMessageText">#ffffff</color>
-
-
-
-
-
 
 
 </resources>

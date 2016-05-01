@@ -76,9 +76,6 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
             case R.id.column:
                 Dialogs.columnsDialog(context);
                 break;
-            case R.id.changelog:
-                Dialogs.showChangelog(context);
-                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -167,8 +164,8 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
         try {
             layout = (ViewGroup) inflater.inflate(R.layout.drawer_places, container, false);
         } catch (InflateException e) {
-        }
 
+        }
 
         mPrefs = new Preferences(context);
         if (mPrefs.getColumns() == 0) mPrefs.setColumns(1);

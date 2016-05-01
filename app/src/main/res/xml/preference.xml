@@ -9,16 +9,17 @@
         android:summary="Check out the latest changes. "
         android:title="Changelog" />
 
-
     <EditTextPreference
         android:key="username"
         android:summary="Please provide your username"
         android:title="Your Name" />
+
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="applicationUpdates"
         android:summary="This option if selected will allow the application to check for latest versions."
         android:title="Application Updates" />
+
     <ListPreference
         android:defaultValue="1"
         android:entries="@array/listArray"
@@ -28,5 +29,5 @@
         android:title="Download Details" />
 
     </PreferenceCategory>
-    
+
 </PreferenceScreen>

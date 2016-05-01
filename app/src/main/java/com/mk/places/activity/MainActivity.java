@@ -7,7 +7,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -40,6 +38,7 @@ import com.mk.places.fragment.DrawerSupport;
 import com.mk.places.utilities.AnimUtils;
 import com.mk.places.utilities.Dialogs;
 import com.mk.places.utilities.Preferences;
+import com.mk.places.utilities.Utils;
 
 import java.util.Random;
 
@@ -48,13 +47,6 @@ import static com.mikepenz.google_material_typeface_library.GoogleMaterial.Icon;
 public class MainActivity extends AppCompatActivity {
 
     private static AppCompatActivity context;
-    private Toolbar toolbar;
-    private Drawer drawer = null;
-    private Drawer drawerFilter = null;
-    private AccountHeader imageDrawer;
-    private String[] drawerImages;
-    private Preferences mPref;
-
     private static String
             drawerPlaces,
             drawerFavorite,
@@ -62,7 +54,12 @@ public class MainActivity extends AppCompatActivity {
             drawerSupport,
             drawerSettings,
             drawerWrong;
-
+    private Toolbar toolbar;
+    private Drawer drawer = null;
+    private Drawer drawerFilter = null;
+    private AccountHeader imageDrawer;
+    private String[] drawerImages;
+    private Preferences mPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +67,6 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         context = this;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = this.getWindow();
-            window.setNavigationBarColor(getResources().getColor(R.color.navigationBar));
-        }
 
         mPref = new Preferences(context);
 
@@ -114,7 +106,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        imageDrawer = new AccountHeaderBuilder().withActivity(this).withSelectionFirstLine("Places").withSelectionSecondLine("by Maximilian Keppeler").withHeightDp(300).build();
+        imageDrawer = new AccountHeaderBuilder().withActivity(this)
+                .withSelectionFirstLine("Places").withSelectionSecondLine("by Maximilian Keppeler")
+                .withTypeface(Utils.customTypeface(context, 2)).withHeightDp(380).build();
+
         headerImage();
 
         drawer = new DrawerBuilder()
@@ -154,13 +149,13 @@ public class MainActivity extends AppCompatActivity {
                                         fragment = new DrawerPlaces();
                                         DrawerPlaces.loadPlacesList(context);
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
-                                        drawer.updateBadge(0, new StringHolder("• " +  mPref.getPlacesSize() + " •"));
+                                        drawer.updateBadge(0, new StringHolder("• " + mPref.getPlacesSize() + " •"));
                                         break;
 
                                     case 1:
                                         DrawerPlaces.filterFavorites();
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
-                                        drawer.updateBadge(1, new StringHolder("• " +  mPref.getFavoSize() + " •"));
+                                        drawer.updateBadge(1, new StringHolder("• " + mPref.getFavoSize() + " •"));
                                         break;
 
                                     case 2:
@@ -190,12 +185,9 @@ public class MainActivity extends AppCompatActivity {
                                     transaction.replace(R.id.container, fragment);
                                     transaction.commit();
                                     toolbar.setTitle(toolbarTitle((int) drawerItem.getIdentifier()));
-                                }
-
-                                else if (fragment == null && intent != null) {
+                                } else if (fragment == null && intent != null) {
                                     startActivity(intent);
                                 }
-
 
 
                             }
@@ -206,11 +198,10 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .build();
 
-        if (drawer != null) {
+        if (drawer != null)
             drawer.setSelection(0);
-        }
 
-            drawerFilter = new DrawerBuilder()
+        drawerFilter = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .withDisplayBelowStatusBar(true)
@@ -233,8 +224,8 @@ public class MainActivity extends AppCompatActivity {
                         new SecondaryDrawerItem().withName(continentSouthAmerica).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(207)
 
                 ).addStickyDrawerItems(
-                            new PrimaryDrawerItem().withName("Reset Filter").withSelectable(false).withIcon(Icon.gmd_clear_all).withIdentifier(999)
-                    )
+                        new PrimaryDrawerItem().withName("Reset Filter").withSelectable(false).withIcon(Icon.gmd_clear_all).withIdentifier(999)
+                )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
@@ -242,24 +233,48 @@ public class MainActivity extends AppCompatActivity {
 
                             switch ((int) drawerItem.getIdentifier()) {
 
-                                case 101: DrawerPlaces.setFilterKey(sightCity); break;
-                                case 102: DrawerPlaces.setFilterKey(sightCountry); break;
-                                case 103: DrawerPlaces.setFilterKey(sightNationalPark); break;
-                                case 104: DrawerPlaces.setFilterKey(sightPark); break;
+                                case 101:
+                                    DrawerPlaces.setFilterKey(sightCity);
+                                    break;
+                                case 102:
+                                    DrawerPlaces.setFilterKey(sightCountry);
+                                    break;
+                                case 103:
+                                    DrawerPlaces.setFilterKey(sightNationalPark);
+                                    break;
+                                case 104:
+                                    DrawerPlaces.setFilterKey(sightPark);
+                                    break;
 
-                                case 201: DrawerPlaces.setFilterKey(continentAfrica); break;
-                                case 202: DrawerPlaces.setFilterKey(continentAntarctica); break;
-                                case 203: DrawerPlaces.setFilterKey(continentAsia); break;
-                                case 204: DrawerPlaces.setFilterKey(continentAustralia); break;
-                                case 205: DrawerPlaces.setFilterKey(continentEurope); break;
-                                case 206: DrawerPlaces.setFilterKey(continentNorthAmerica); break;
-                                case 207: DrawerPlaces.setFilterKey(continentSouthAmerica); break;
+                                case 201:
+                                    DrawerPlaces.setFilterKey(continentAfrica);
+                                    break;
+                                case 202:
+                                    DrawerPlaces.setFilterKey(continentAntarctica);
+                                    break;
+                                case 203:
+                                    DrawerPlaces.setFilterKey(continentAsia);
+                                    break;
+                                case 204:
+                                    DrawerPlaces.setFilterKey(continentAustralia);
+                                    break;
+                                case 205:
+                                    DrawerPlaces.setFilterKey(continentEurope);
+                                    break;
+                                case 206:
+                                    DrawerPlaces.setFilterKey(continentNorthAmerica);
+                                    break;
+                                case 207:
+                                    DrawerPlaces.setFilterKey(continentSouthAmerica);
+                                    break;
 
-                                case 999: DrawerPlaces.setFilterKey("All");
+                                case 999:
+                                    DrawerPlaces.setFilterKey("All");
                                     drawerFilter.setSelection(0);
                                     break;
 
-                                default: DrawerPlaces.setFilterKey("All");
+                                default:
+                                    DrawerPlaces.setFilterKey("All");
                                     drawerFilter.setSelection(0);
                                     break;
                             }
@@ -277,12 +292,18 @@ public class MainActivity extends AppCompatActivity {
 
     public String toolbarTitle(int position) {
         switch (position) {
-            case 0: return drawerPlaces;
-            case 1: return drawerFavorite;
-            case 2: return drawerAbout;
-            case 3: return drawerSupport;
-            case 4: return drawerSettings;
-            default: return drawerWrong;
+            case 0:
+                return drawerPlaces;
+            case 1:
+                return drawerFavorite;
+            case 2:
+                return drawerAbout;
+            case 3:
+                return drawerSupport;
+            case 4:
+                return drawerSettings;
+            default:
+                return drawerWrong;
         }
     }
 
@@ -304,10 +325,10 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//    }
 
     @Override
     public void onPause() {
@@ -335,11 +356,13 @@ public class MainActivity extends AppCompatActivity {
                     protected void setResource(Bitmap resource) {
                         TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(getResources(), resource)});
                         cover.setImageDrawable(td);
-                        td.startTransition(400);
+                        td.startTransition(150);
                     }
                 });
 
-        if (this.getResources().getBoolean(R.bool.zoomDrawerHeader)) AnimUtils.zoomInAndOut(context, cover);
+        if (this.getResources().getBoolean(R.bool.zoomDrawerHeader))
+            AnimUtils.zoomInAndOut(context, cover);
+
         return imageDrawer;
     }
 

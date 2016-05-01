@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.mk.places.R;
-import com.mk.places.utilities.Utils;
 
 public class ButtonLayout extends LinearLayout {
 
@@ -28,11 +27,18 @@ public class ButtonLayout extends LinearLayout {
         setWeightSum(bAmount);
     }
 
-    public void addButton(String bText, String bLink) {
+    public void addButton(String bText, String bLink, boolean horizontal) {
 
+        if (horizontal)
         setOrientation(HORIZONTAL);
 
-        final Button nButton = (Button) LayoutInflater.from(getContext()).inflate(R.layout.about_button, this, false);
+        else {
+            setOrientation(VERTICAL);
+        }
+
+        Button nButton;
+
+        nButton = (Button) LayoutInflater.from(getContext()).inflate(R.layout.borderless_button, this, false);
 
         final LinearLayout.LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.weight = 1;
