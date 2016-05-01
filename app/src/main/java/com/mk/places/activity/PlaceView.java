@@ -42,6 +42,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.inquiry.Inquiry;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
@@ -51,6 +52,7 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
 import com.mk.places.adapters.GalleryAdapter;
 import com.mk.places.adapters.PlaceItemAdapter;
+import com.mk.places.fragment.DrawerPlaces;
 import com.mk.places.models.GalleryItem;
 import com.mk.places.models.Place;
 import com.mk.places.models.Places;
@@ -179,17 +181,20 @@ public class PlaceView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-//              TODO: DATA BASE / permanent Boolean Array
+                FavoriteUtil.init(context);
 
-                if (Places.getPlacesList().get(pos).getFavorite() == 0) {
-                    Places.getPlacesList().get(pos).setFavorite(1);
-                    Log.d("1", "FAB: " + pos + " bool: " + Places.getPlacesList().get(pos).getFavorite());
-                    active = true;
-                } else if (Places.getPlacesList().get(pos).getFavorite() == 1) {
-                    Places.getPlacesList().get(pos).setFavorite(0);
-                    Log.d("1", "FAB: " + pos + " bool: " + Places.getPlacesList().get(pos).getFavorite());
-                    active = false;
+                if (FavoriteUtil.isFavorited(item.getId())) {
+                    FavoriteUtil.unfavoriteItem(item.getId());
+                    Log.d("FAB", " with ID: " + item.getId() + " Selected: " + FavoriteUtil.isFavorited(item.getId()));
                 }
+
+                else if (! FavoriteUtil.isFavorited(item.getId())){
+                    FavoriteUtil.favoriteItem(item.getId());
+                    Log.d("FAB", " with ID: " + item.getId() + " Selected: " + FavoriteUtil.isFavorited(item.getId()));
+
+                }
+
+                Inquiry.deinit();
 
                 Utils.simpleSnackBar(context, color, R.id.coordinatorLayout, R.string.snackbarFavoredText, Snackbar.LENGTH_SHORT);
             }
@@ -391,6 +396,13 @@ public class PlaceView extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
 
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Inquiry.deinit();
     }
 
     @Override

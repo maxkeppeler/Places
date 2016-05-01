@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHolder> {
 
-    private final ClickListener callback;
+    private ClickListener callback;
     private ArrayList<Place> placesList;
     private Activity context;
 
@@ -73,7 +73,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
             AnimUtils.zoomInAndOut(context, holder.image);
         }
 
-        holder.location.setText(place.getLocation());
+        holder.location.setText(place.getLocation() + place.getId());
         holder.sight.setText(place.getSight());
         holder.continent.setText(place.getContinent());
 
@@ -93,12 +93,6 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
 
     @Override
     public int getItemCount() {
-
-//        TODO: Doesn't work for the first start of the app
-
-        Preferences mPref = new Preferences(context);
-        mPref.setPlacesSize(placesList.size());
-
         return placesList.size();
     }
 

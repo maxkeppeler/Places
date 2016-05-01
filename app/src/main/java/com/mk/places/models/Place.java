@@ -18,6 +18,7 @@ public class Place implements Parcelable {
     };
 
     private String
+            id,
             location,
             sight,
             continent,
@@ -48,7 +49,7 @@ public class Place implements Parcelable {
 
     private int favorite;
 
-    public Place(String location, String sight, String continent, String religion, String description, String url,
+    public Place(String id, String location, String sight, String continent, String religion, String description, String url,
                  String url_a_title, String url_a_desc, String url_a,
                  String url_b_title, String url_b_desc, String url_b,
                  String url_c_title, String url_c_desc, String url_c,
@@ -72,6 +73,7 @@ public class Place implements Parcelable {
 
                  int favorite) {
 
+        this.id = id;
         this.location = location;
         this.sight = sight;
         this.continent = continent;
@@ -149,6 +151,7 @@ public class Place implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 
+        dest.writeString(id);
         dest.writeString(location);
         dest.writeString(sight);
         dest.writeString(continent);
@@ -221,6 +224,7 @@ public class Place implements Parcelable {
 
     protected Place(Parcel in) {
 
+        id = in.readString();
         location = in.readString();
         sight = in.readString();
         continent = in.readString();
@@ -289,6 +293,11 @@ public class Place implements Parcelable {
         url_t = in.readString();
         url_t_title = in.readString();
         url_t_desc = in.readString();
+    }
+
+
+    public String getId() {
+        return id;
     }
 
     public String getLocation() {

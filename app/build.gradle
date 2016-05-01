@@ -57,5 +57,5 @@ dependencies {
 
 
     compile 'com.sothree.slidinguppanel:library:3.3.0'
-
+    compile 'com.github.afollestad:inquiry:2.0.1'
 }

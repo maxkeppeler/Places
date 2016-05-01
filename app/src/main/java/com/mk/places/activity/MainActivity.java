@@ -73,14 +73,14 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        context = this;
+
+        places = new DrawerPlaces();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             window.setNavigationBarColor(getResources().getColor(R.color.navigationBar));
         }
-
-        context = this;
-
-        places = new DrawerPlaces();
 
         mPref = new Preferences(context);
 
@@ -88,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
             Dialogs.showChangelog(context);
             mPref.setFirstStart(false);
         }
+
+//        FavoriteUtil.init(context);
+//        FavoriteUtil.deleteDB();
 
 
         imageArray = getResources().getStringArray(R.array.headerUrl);
@@ -121,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-
         header = new AccountHeaderBuilder().withActivity(this).withSelectionFirstLine("Places").withSelectionSecondLine("by Maximilian Keppeler").withHeightDp(300).build();
         headerImage();
 
@@ -131,10 +133,9 @@ public class MainActivity extends AppCompatActivity {
                 .withSavedInstance(savedInstanceState)
                 .withSelectedItem(0)
                 .withToolbar(toolbar)
-
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(drawerPlaces).withIcon(Icon.gmd_terrain).withIdentifier(0).withBadgeStyle(new BadgeStyle()),
-                        new PrimaryDrawerItem().withName(drawerFavorite).withIcon(Icon.gmd_bookmark).withIdentifier(1),
+                        new PrimaryDrawerItem().withName(drawerFavorite).withIcon(Icon.gmd_bookmark).withIdentifier(1).withBadgeStyle(new BadgeStyle()),
                         new SectionDrawerItem().withName("Various"),
                         new SecondaryDrawerItem().withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(2),
                         new SecondaryDrawerItem().withName(drawerSupport).withIcon(Icon.gmd_chat).withIdentifier(3),
@@ -161,14 +162,18 @@ public class MainActivity extends AppCompatActivity {
                                         fragment = new DrawerPlaces();
                                         places.loadPlacesList(context);
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
+
+                                        materialDrawer.updateBadge(0, new StringHolder("• " +  mPref.getPlacesSize() + " •"));
+
                                         break;
 
                                     case 1:
 //                                        fragment = new DrawerPlaces();
+//                                        places.loadPlacesList(context);
                                         places.filterFavorites();
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
 
-//                                    TODO - Favorite Fragment, filter out the json objects where int favorite is 1 (for favored)
+                                        materialDrawer.updateBadge(1, new StringHolder("• " +  mPref.getFavoSize() + " •"));
                                         break;
 
                                     case 2:
@@ -213,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
             materialDrawer.setSelection(0);
         }
 
-        materialDrawer.updateBadge(0, new StringHolder("• " +  mPref.getPlacesSize() + " •"));
+
 
             materialDrawerAppended = new DrawerBuilder()
                 .withActivity(this)

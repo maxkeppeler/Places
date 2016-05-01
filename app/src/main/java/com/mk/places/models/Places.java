@@ -6,7 +6,9 @@ public class Places {
 
     private static ArrayList<Place> placesList = new ArrayList<>();
 
-    public static void createPlaceList(ArrayList<String> locations,
+    public static void createPlaceList(
+                                       ArrayList<String> id,
+                                       ArrayList<String> locations,
                                        ArrayList<String> sights,
                                        ArrayList<String> continents,
                                        ArrayList<String> religions,
@@ -39,6 +41,7 @@ public class Places {
             for (int i = 0; i < locations.size(); i++) {
                 Place place = new Place(
 
+                        id.get(i),
                         locations.get(i),
                         sights.get(i),
                         continents.get(i),

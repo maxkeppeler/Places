@@ -26,21 +26,14 @@ package com.mk.places.utilities;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.google.gson.Gson;
-import com.mk.places.R;
-import com.mk.places.models.Place;
-import com.mk.places.models.Places;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class Preferences {
 
     private static final String
             PREFS_NAME = "DASHBOARD_PREFERENCES",
+            FAVO_ARRAY = "ARRAY",
             FIRST_START = "START",
             PLACES_AMOUNT = "PLACES",
+            PLACES_FAVO_AMOUNT = "FAVO",
             COLUMNS = "COULMNS";
 
     private final Context context;
@@ -53,28 +46,67 @@ public class Preferences {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
-    public void setFirstStart(boolean state) {
-        getSharedPreferences().edit().putBoolean(FIRST_START, state).apply();
-    }
-
     public boolean getFirstStart() {
         return getSharedPreferences().getBoolean(FIRST_START, true);
     }
 
-    public void setPlacesSize(int size) {
-        getSharedPreferences().edit().putInt(PLACES_AMOUNT, size).apply();
+    public void setFirstStart(boolean state) {
+        getSharedPreferences().edit().putBoolean(FIRST_START, state).apply();
     }
 
     public int getPlacesSize() {
         return getSharedPreferences().getInt(PLACES_AMOUNT, 0);
     }
 
-    public void setColumns(int amount) {
-        getSharedPreferences().edit().putInt(COLUMNS, amount).apply();
+    public void setPlacesSize(int size) {
+        getSharedPreferences().edit().putInt(PLACES_AMOUNT, size).apply();
+    }
+
+    public int getFavoSize() {
+        return getSharedPreferences().getInt(PLACES_FAVO_AMOUNT, 0);
+    }
+
+    public void setFavoSize(int size) {
+        getSharedPreferences().edit().putInt(PLACES_FAVO_AMOUNT, size).apply();
     }
 
     public int getColumns() {
         return getSharedPreferences().getInt(COLUMNS, 0);
     }
 
+    public void setColumns(int amount) {
+        getSharedPreferences().edit().putInt(COLUMNS, amount).apply();
+    }
+
+    public boolean storeArray(Boolean[][] array, String arrayName, Context mContext) {
+
+        SharedPreferences prefs = mContext.getSharedPreferences(FAVO_ARRAY, 0);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(arrayName + "_size", array.length);
+
+        for (int i = 0; i < array.length; i++) {
+
+            for (int j = 0; j < array.length; i++) {
+
+                editor.putBoolean(arrayName + "_" + i, array[i][j]);
+            }
+        }
+        return editor.commit();
+    }
+
+    public Boolean[][] loadArray(String arrayName, Context mContext) {
+
+        SharedPreferences prefs = mContext.getSharedPreferences(FAVO_ARRAY, 0);
+        int size = prefs.getInt(arrayName + "_size", 0);
+
+        Boolean array[][] = new Boolean[size][0];
+
+        for (int i = 0; i < size; i++)
+
+            for (int j = 0; j < array.length; i++) {
+                array[i][j] = prefs.getBoolean(arrayName + "_" + i, false);
+            }
+
+        return array;
+    }
 }
