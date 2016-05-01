@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -39,47 +38,15 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 
-public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextListener {
+public class DrawerPlaces extends Fragment {
 
+    private static final String TAG = "DrawerPlaces";
     private static PlaceAdapter mAdapter;
     private static ViewGroup layout;
     private static RecyclerView mRecycler;
     private static Activity context;
-    private static boolean successful;
     private static String filterKey = "All";
     private Preferences mPrefs;
-
-    private static final String TAG = "DrawerPlaces";
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.toolbar_places, menu);
-        super.onCreateOptionsMenu(menu,inflater);
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.column:
-                Dialogs.columnsDialog(context);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 
     public static void filterFavorites() {
 
@@ -130,23 +97,93 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
     }
 
     public static void loadPlacesList(Context context) {
+
         Places.clearList();
 
-        new DrawerPlaces.DownloadJSON(new MainActivity.PlacesListInterface() {
+        new DownloadPlacesJSON(new MainActivity.PlacesListInterface() {
             @Override
             public void checkPlacesListCreation(boolean result) {
-                if (DrawerPlaces.mAdapter != null) {
+
+                if (DrawerPlaces.mAdapter != null)
                     DrawerPlaces.mAdapter.notifyDataSetChanged();
-                }
+
             }
         }, context, filterKey).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
     }
 
+    public static void setupLayout(final boolean otherList, final ArrayList<Place> arrayList) {
+
+        if (Places.getPlacesList() != null && Places.getPlacesList().size() > 0) {
+            context.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mAdapter = new PlaceAdapter(context,
+                            new PlaceAdapter.ClickListener() {
+                                @Override
+                                public void onClick(PlaceAdapter.PlacesViewHolder view, int position, boolean longClick) {
+
+                                    Intent intent = null;
+                                    if (longClick) ;
+                                    else intent = new Intent(context, PlaceView.class);
+
+                                    if (intent != null) {
+                                        intent.putExtra("item", Places.getPlacesList().get(position));
+                                        intent.putExtra("pos", position);
+                                        context.startActivity(intent);
+                                    }
+
+                                }
+                            });
+
+                    if (!otherList) {
+                        mAdapter.setData(Places.getPlacesList());
+                        mRecycler.setAdapter(mAdapter);
+
+                        Preferences mPref = new Preferences(context);
+                        mPref.setPlacesSize(Places.getPlacesList().size());
+
+                    } else {
+                        mAdapter.setData(arrayList);
+                        mRecycler.setAdapter(mAdapter);
+                    }
+
+                    if (Utils.hasNetwork(context))
+                        mRecycler.setVisibility(View.VISIBLE);
+
+                }
+            });
+        }
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.toolbar_places, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.column:
+                Dialogs.columnsDialog(context);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     public void onPause() {
         super.onPause();
-        Inquiry.deinit();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -179,51 +216,6 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
         return layout;
     }
 
-    private static void setupLayout(final boolean otherList, final ArrayList<Place> arrayList) {
-
-        if (Places.getPlacesList() != null && Places.getPlacesList().size() > 0) {
-            context.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mAdapter = new PlaceAdapter(context,
-                            new PlaceAdapter.ClickListener() {
-                                @Override
-                                public void onClick(PlaceAdapter.PlacesViewHolder view, int position, boolean longClick) {
-
-                                    Intent intent = null;
-                                    if (longClick);
-                                    else intent = new Intent(context, PlaceView.class);
-
-                                    if (intent != null) {
-                                    intent.putExtra("item", Places.getPlacesList().get(position));
-                                    intent.putExtra("pos", position);
-                                    context.startActivity(intent);
-                                    }
-
-                                }
-                            });
-
-                    if (!otherList)  {
-                        mAdapter.setData(Places.getPlacesList());
-                        mRecycler.setAdapter(mAdapter);
-
-                        Preferences mPref = new Preferences(context);
-                        mPref.setPlacesSize(Places.getPlacesList().size());
-
-                    } else {
-                        mAdapter.setData(arrayList);
-                        mRecycler.setAdapter(mAdapter);
-                    }
-
-                    if (Utils.hasNetwork(context)) {
-                        mRecycler.setVisibility(View.VISIBLE);
-                    }
-                }
-            });
-        }
-
-    }
-
     public void setColumns(int amount) {
         int columns = amount;
         mRecycler.setLayoutManager(new GridLayoutManager(context, columns, 1, false));
@@ -232,17 +224,17 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
         mPrefs.setColumns(amount);
     }
 
-    public static class DownloadJSON extends AsyncTask<Void, Void, Void> {
+    public static class DownloadPlacesJSON extends AsyncTask<Void, Void, Void> {
 
         private final static ArrayList<Place> places = new ArrayList<>();
         static long startTime, endTime;
+        private static boolean successful;
         private MainActivity.PlacesListInterface wi;
         private WeakReference<Context> taskContext;
         private WeakReference<Activity> wrActivity;
         private String keyWord;
-        private boolean favored;
 
-        public DownloadJSON(MainActivity.PlacesListInterface wi, Context context, String keyWord) {
+        public DownloadPlacesJSON(MainActivity.PlacesListInterface wi, Context context, String keyWord) {
             this.keyWord = keyWord;
             this.wi = wi;
             this.taskContext = new WeakReference<>(context);
@@ -259,6 +251,7 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
                 }
             }
         }
+
         @Override
         protected Void doInBackground(Void... params) {
 
@@ -327,24 +320,15 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
                             json.getString("urlqTitle"), json.getString("urlqDesc"), json.getString("urlq"),
                             json.getString("urlrTitle"), json.getString("urlrDesc"), json.getString("urlr"),
                             json.getString("urlsTitle"), json.getString("urlsDesc"), json.getString("urls"),
-                            json.getString("urltTitle"), json.getString("urltDesc"), json.getString("urlt"),
-
-                            favorite
+                            json.getString("urltTitle"), json.getString("urltDesc"), json.getString("urlt")
                     )
             );
         }
 
-        //   TODO Methods for filtering out the favored items/ json objects
-
-        public void filterFavored() {
-
-        }
-
-
         @Override
         protected void onPostExecute(Void args) {
             endTime = System.currentTimeMillis();
-            Log.d("Places ", "Places Task completed in: " + String.valueOf((endTime - startTime) / 1000) + " secs.");
+            Log.d("Places ", "Task took: " + String.valueOf((endTime - startTime) / 1000) + " seconds");
 
             if (layout != null) setupLayout(false, Places.getPlacesList());
             if (wi != null) wi.checkPlacesListCreation(successful);

@@ -25,7 +25,7 @@ public class Place implements Parcelable {
             religion,
             description,
 
-            url,
+    url,
             url_a_title, url_a_desc, url_a,
             url_b_title, url_b_desc, url_b,
             url_c_title, url_c_desc, url_c,
@@ -47,7 +47,6 @@ public class Place implements Parcelable {
             url_s_title, url_s_desc, url_s,
             url_t_title, url_t_desc, url_t;
 
-    private int favorite;
 
     public Place(String id, String location, String sight, String continent, String religion, String description, String url,
                  String url_a_title, String url_a_desc, String url_a,
@@ -69,9 +68,8 @@ public class Place implements Parcelable {
                  String url_q_title, String url_q_desc, String url_q,
                  String url_r_title, String url_r_desc, String url_r,
                  String url_s_title, String url_s_desc, String url_s,
-                 String url_t_title, String url_t_desc, String url_t,
-
-                 int favorite) {
+                 String url_t_title, String url_t_desc, String url_t
+    ) {
 
         this.id = id;
         this.location = location;
@@ -140,86 +138,6 @@ public class Place implements Parcelable {
         this.url_t_title = url_t_title;
         this.url_t_desc = url_t_desc;
         this.url_t = url_t;
-        this.favorite = favorite;
-    }
-
-    @Override
-    public int describeContents() {
-        return Places.getPlacesList().size();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-        dest.writeString(id);
-        dest.writeString(location);
-        dest.writeString(sight);
-        dest.writeString(continent);
-        dest.writeString(religion);
-        dest.writeString(description);
-        dest.writeInt(favorite);
-        dest.writeString(url);
-        dest.writeString(url_a);
-        dest.writeString(url_a_title);
-        dest.writeString(url_a_desc);
-        dest.writeString(url_b);
-        dest.writeString(url_b_title);
-        dest.writeString(url_b_desc);
-        dest.writeString(url_c);
-        dest.writeString(url_c_title);
-        dest.writeString(url_c_desc);
-        dest.writeString(url_d);
-        dest.writeString(url_d_title);
-        dest.writeString(url_d_desc);
-        dest.writeString(url_e);
-        dest.writeString(url_e_title);
-        dest.writeString(url_e_desc);
-        dest.writeString(url_f);
-        dest.writeString(url_f_title);
-        dest.writeString(url_f_desc);
-        dest.writeString(url_g);
-        dest.writeString(url_g_title);
-        dest.writeString(url_g_desc);
-        dest.writeString(url_h);
-        dest.writeString(url_h_title);
-        dest.writeString(url_h_desc);
-        dest.writeString(url_i);
-        dest.writeString(url_i_title);
-        dest.writeString(url_i_desc);
-        dest.writeString(url_j);
-        dest.writeString(url_j_title);
-        dest.writeString(url_j_desc);
-        dest.writeString(url_k);
-        dest.writeString(url_k_title);
-        dest.writeString(url_k_desc);
-        dest.writeString(url_l);
-        dest.writeString(url_l_title);
-        dest.writeString(url_l_desc);
-        dest.writeString(url_m);
-        dest.writeString(url_m_title);
-        dest.writeString(url_m_desc);
-        dest.writeString(url_n);
-        dest.writeString(url_n_title);
-        dest.writeString(url_n_desc);
-        dest.writeString(url_o);
-        dest.writeString(url_o_title);
-        dest.writeString(url_o_desc);
-        dest.writeString(url_p);
-        dest.writeString(url_p_title);
-        dest.writeString(url_p_desc);
-        dest.writeString(url_q);
-        dest.writeString(url_q_title);
-        dest.writeString(url_q_desc);
-        dest.writeString(url_r);
-        dest.writeString(url_r_title);
-        dest.writeString(url_r_desc);
-        dest.writeString(url_s);
-        dest.writeString(url_s_title);
-        dest.writeString(url_s_desc);
-        dest.writeString(url_t);
-        dest.writeString(url_t_title);
-        dest.writeString(url_t_desc);
-
     }
 
     protected Place(Parcel in) {
@@ -230,7 +148,6 @@ public class Place implements Parcelable {
         continent = in.readString();
         religion = in.readString();
         description = in.readString();
-        favorite = in.readInt();
 
         url = in.readString();
         url_a = in.readString();
@@ -295,6 +212,83 @@ public class Place implements Parcelable {
         url_t_desc = in.readString();
     }
 
+    @Override
+    public int describeContents() {
+        return Places.getPlacesList().size();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeString(id);
+        dest.writeString(location);
+        dest.writeString(sight);
+        dest.writeString(continent);
+        dest.writeString(religion);
+        dest.writeString(description);
+        dest.writeString(url);
+        dest.writeString(url_a);
+        dest.writeString(url_a_title);
+        dest.writeString(url_a_desc);
+        dest.writeString(url_b);
+        dest.writeString(url_b_title);
+        dest.writeString(url_b_desc);
+        dest.writeString(url_c);
+        dest.writeString(url_c_title);
+        dest.writeString(url_c_desc);
+        dest.writeString(url_d);
+        dest.writeString(url_d_title);
+        dest.writeString(url_d_desc);
+        dest.writeString(url_e);
+        dest.writeString(url_e_title);
+        dest.writeString(url_e_desc);
+        dest.writeString(url_f);
+        dest.writeString(url_f_title);
+        dest.writeString(url_f_desc);
+        dest.writeString(url_g);
+        dest.writeString(url_g_title);
+        dest.writeString(url_g_desc);
+        dest.writeString(url_h);
+        dest.writeString(url_h_title);
+        dest.writeString(url_h_desc);
+        dest.writeString(url_i);
+        dest.writeString(url_i_title);
+        dest.writeString(url_i_desc);
+        dest.writeString(url_j);
+        dest.writeString(url_j_title);
+        dest.writeString(url_j_desc);
+        dest.writeString(url_k);
+        dest.writeString(url_k_title);
+        dest.writeString(url_k_desc);
+        dest.writeString(url_l);
+        dest.writeString(url_l_title);
+        dest.writeString(url_l_desc);
+        dest.writeString(url_m);
+        dest.writeString(url_m_title);
+        dest.writeString(url_m_desc);
+        dest.writeString(url_n);
+        dest.writeString(url_n_title);
+        dest.writeString(url_n_desc);
+        dest.writeString(url_o);
+        dest.writeString(url_o_title);
+        dest.writeString(url_o_desc);
+        dest.writeString(url_p);
+        dest.writeString(url_p_title);
+        dest.writeString(url_p_desc);
+        dest.writeString(url_q);
+        dest.writeString(url_q_title);
+        dest.writeString(url_q_desc);
+        dest.writeString(url_r);
+        dest.writeString(url_r_title);
+        dest.writeString(url_r_desc);
+        dest.writeString(url_s);
+        dest.writeString(url_s_title);
+        dest.writeString(url_s_desc);
+        dest.writeString(url_t);
+        dest.writeString(url_t_title);
+        dest.writeString(url_t_desc);
+
+    }
 
     public String getId() {
         return id;
@@ -564,11 +558,4 @@ public class Place implements Parcelable {
         return url_t;
     }
 
-    public int getFavorite() {
-        return favorite;
-    }
-
-    public void setFavorite(int favorite) {
-        this.favorite = favorite;
-    }
 }
