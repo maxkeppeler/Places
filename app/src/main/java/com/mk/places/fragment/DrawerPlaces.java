@@ -46,7 +46,7 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
     private static RecyclerView mRecycler;
     private static Activity context;
     private static boolean successful;
-    private String filterKey = "All";
+    private static String filterKey = "All";
     private Preferences mPrefs;
 
     private static final String TAG = "DrawerPlaces";
@@ -84,7 +84,7 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
     }
 
 
-    public void filterFavorites() {
+    public static void filterFavorites() {
 
         ArrayList<Place> filter = new ArrayList<>();
 
@@ -127,12 +127,12 @@ public class DrawerPlaces extends Fragment implements SearchView.OnQueryTextList
         setupLayout(true, filter);
     }
 
-    public void setFilterKey(String string) {
-        this.filterKey = string;
+    public static void setFilterKey(String string) {
+        filterKey = string;
         loadPlacesList(context);
     }
 
-    public void loadPlacesList(Context context) {
+    public static void loadPlacesList(Context context) {
         Places.clearList();
 
         new DrawerPlaces.DownloadJSON(new MainActivity.PlacesListInterface() {

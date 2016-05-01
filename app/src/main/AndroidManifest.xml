@@ -54,6 +54,12 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".activity.Settings"
+            android:theme="@style/CustomTheme"
+            android:value=".activity.Settings">
+        </activity>
+
         <!-- LIVE CHAT -->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"

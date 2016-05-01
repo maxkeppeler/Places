@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.mk.places.R;
 import com.mk.places.models.MemberItem;
+import com.mk.places.utilities.Utils;
 import com.mk.places.views.ButtonLayout;
 
 public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder> implements View.OnClickListener  {
@@ -38,8 +39,11 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     public void onBindViewHolder(final ViewHolder viewHolder, int position) {
 
         viewHolder.mName.setText(itemsData[position].getmName());
+        viewHolder.mName.setTypeface(Utils.customTypeface(context, 3));
         viewHolder.mTitle.setText(itemsData[position].getmTitle());
+        viewHolder.mTitle.setTypeface(Utils.customTypeface(context, 2));
         viewHolder.mDesc.setText(itemsData[position].getmDesc());
+        viewHolder.mDesc.setTypeface(Utils.customTypeface(context, 2));
 
         viewHolder.buttonLayout.setbAmount(itemsData[position].getmButtomNames().length);
 

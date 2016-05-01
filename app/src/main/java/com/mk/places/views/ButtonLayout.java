@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.mk.places.R;
+import com.mk.places.utilities.Utils;
 
 public class ButtonLayout extends LinearLayout {
 

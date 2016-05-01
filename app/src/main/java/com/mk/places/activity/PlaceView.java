@@ -169,6 +169,7 @@ public class PlaceView extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationIcon(R.drawable.ic_close);;
 
         placeDescTitle.setTypeface(typefaceTitles);
         placeInfoTitle.setTypeface(typefaceTitles);

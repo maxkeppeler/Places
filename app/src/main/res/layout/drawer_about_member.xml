@@ -45,7 +45,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Placeholder Name"
-                        android:textColor="@color/primaryText" />
+                        android:textColor="@color/white" />
 
                     <TextView
                         android:id="@+id/profileTitle"
@@ -54,7 +54,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="Placeholder Text"
-                        android:textColor="@color/secondaryText" />
+                        android:textColor="@color/primaryText" />
 
                 </LinearLayout>
 
@@ -72,7 +72,8 @@
                     android:layout_height="wrap_content"
                     android:text="Placeholder Motivation"
                     android:padding="16dp"
-                    android:textColor="@color/secondaryText" />
+                    android:lineSpacingExtra="3dp"
+                    android:textColor="@color/primaryText" />
 
                 <com.mk.places.views.ButtonLayout
                     android:id="@+id/buttonLayout"

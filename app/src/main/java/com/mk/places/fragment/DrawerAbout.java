@@ -12,10 +12,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.bumptech.glide.util.Util;
 import com.mk.places.R;
 import com.mk.places.adapters.MemberAdapter;
 import com.mk.places.models.MemberItem;
+import com.mk.places.utilities.Utils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,6 +50,10 @@ public class DrawerAbout extends Fragment {
         } catch (InflateException e) {
         }
 
+        final TextView appTitle = (TextView) layout.findViewById(R.id.appTitle);
+        final TextView appDesc = (TextView) layout.findViewById(R.id.appDesc);
+        appTitle.setTypeface(Utils.customTypeface(context, 1));
+        appDesc.setTypeface(Utils.customTypeface(context, 2));
 
         final String[] mImage = getResources().getStringArray(R.array.mImage);
         final String[] mName = getResources().getStringArray(R.array.mName);
