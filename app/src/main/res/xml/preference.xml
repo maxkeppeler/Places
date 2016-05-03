@@ -1,32 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen
+    android:key="pref_screen"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="About">
+    <PreferenceCategory android:title="Communication Settings (DONT WORK)">
 
-    <Preference
-        android:icon="@drawable/ic_changelog"
-        android:key="pref_changelog"
-        android:summary="Check out the latest changes. "
-        android:title="Changelog" />
+        <ListPreference
+            android:defaultValue="2"
+            android:entries="@array/listArray"
+            android:entryValues="@array/listValues"
+            android:key="download_type"
+            android:summary="WiFi and Mobile Data"
+            android:title="Stream Option" />
 
-    <EditTextPreference
-        android:key="username"
-        android:summary="Please provide your username"
-        android:title="Your Name" />
+        <SwitchPreference
+            android:key="pref_notifications"
+            android:summary="Get notified for new Places to see."
+            android:title="Notifications for new Places" />
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="applicationUpdates"
-        android:summary="This option if selected will allow the application to check for latest versions."
-        android:title="Application Updates" />
+    </PreferenceCategory>
 
-    <ListPreference
-        android:defaultValue="1"
-        android:entries="@array/listArray"
-        android:entryValues="@array/listValues"
-        android:key="downloadType"
-        android:summary="Select the kind of data that you would like to download"
-        android:title="Download Details" />
+
+    <PreferenceCategory android:title="About Places">
+
+        <Preference
+            android:key="pref_changelog"
+            android:summary="Check out the latest changes."
+            android:title="Changelog" />
+
+        <Preference
+            android:key="pref_data_base"
+            android:summary="All of your bookmarked Places will be deleted."
+            android:title="Delete Bookmarks" />
+
+
+        <!--<SwitchPreference-->
+        <!--android:key="username"-->
+        <!--android:summary="Please provide your username"-->
+        <!--android:title="Your Name" />-->
+
+        <!--<EditTextPreference-->
+        <!--android:key="username"-->
+        <!--android:summary="Please provide your username"-->
+        <!--android:title="Your Name" />-->
+
+        <!--<CheckBoxPreference-->
+        <!--android:defaultValue="false"-->
+        <!--android:key="applicationUpdates"-->
+        <!--android:summary="This option if selected will allow the application to check for latest versions."-->
+        <!--android:title="Application Updates" />-->
+
 
     </PreferenceCategory>
 

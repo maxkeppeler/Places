@@ -97,7 +97,6 @@
     <color name="Smooch_backgroundInput">@color/appBackgroundColor</color>
     <color name="Smooch_background">@color/appBackgroundColor</color>
 
-
     <color name="Smooch_btnSendHollow">#c0c0c0</color>
     <color name="Smooch_btnSendHollowBorder">#303030</color>
 

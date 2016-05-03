@@ -36,8 +36,10 @@ dependencies {
         transitive = true
     }
 
-    compile 'com.yqritc:recyclerview-flexibledivider:1.2.9'
 
+
+
+    compile 'com.yqritc:recyclerview-flexibledivider:1.2.9'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
     compile 'com.android.support:support-v4:23.3.0'
@@ -54,8 +56,6 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'io.smooch:core:latest.release'
     compile 'io.smooch:ui:latest.release'
-
-
     compile 'com.sothree.slidinguppanel:library:3.3.0'
     compile 'com.github.afollestad:inquiry:2.0.1'
 }

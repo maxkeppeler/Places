@@ -8,6 +8,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -33,7 +35,9 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.mk.places.R;
 import com.mk.places.fragment.DrawerAbout;
+import com.mk.places.fragment.DrawerBookmarks;
 import com.mk.places.fragment.DrawerPlaces;
+import com.mk.places.fragment.DrawerSettings;
 import com.mk.places.fragment.DrawerSupport;
 import com.mk.places.utilities.AnimUtils;
 import com.mk.places.utilities.Dialogs;
@@ -49,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private static AppCompatActivity context;
     private static String
             drawerPlaces,
-            drawerFavorite,
+            drawerBookmared,
             drawerAbout,
             drawerSupport,
             drawerSettings,
@@ -62,11 +66,14 @@ public class MainActivity extends AppCompatActivity {
     private Preferences mPref;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
         context = this;
+
+        DrawerPlaces.loadPlacesList(context);
 
         mPref = new Preferences(context);
 
@@ -78,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         drawerImages = getResources().getStringArray(R.array.headerUrl);
 
         drawerPlaces = getResources().getString(R.string.app_places);
-        drawerFavorite = getResources().getString(R.string.app_favorite);
+        drawerBookmared = getResources().getString(R.string.app_bookmarks);
         drawerAbout = getResources().getString(R.string.app_about);
         drawerSupport = getResources().getString(R.string.app_support);
         drawerSettings = getResources().getString(R.string.app_settings);
@@ -120,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 .withToolbar(toolbar)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(drawerPlaces).withIcon(Icon.gmd_terrain).withIdentifier(0).withBadgeStyle(new BadgeStyle()),
-                        new PrimaryDrawerItem().withName(drawerFavorite).withIcon(Icon.gmd_bookmark).withIdentifier(1).withBadgeStyle(new BadgeStyle()),
+                        new PrimaryDrawerItem().withName(drawerBookmared).withIcon(Icon.gmd_book).withIdentifier(1).withBadgeStyle(new BadgeStyle()),
                         new SectionDrawerItem().withName("Various"),
                         new SecondaryDrawerItem().withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(2),
                         new SecondaryDrawerItem().withName(drawerSupport).withIcon(Icon.gmd_chat).withIdentifier(3),
@@ -147,13 +154,13 @@ public class MainActivity extends AppCompatActivity {
 
                                     case 0:
                                         fragment = new DrawerPlaces();
-                                        DrawerPlaces.loadPlacesList(context);
+//                                        drawerFilter.set
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
                                         drawer.updateBadge(0, new StringHolder("• " + mPref.getPlacesSize() + " •"));
                                         break;
 
                                     case 1:
-                                        DrawerPlaces.filterFavorites();
+                                        fragment = new DrawerBookmarks();
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
                                         drawer.updateBadge(1, new StringHolder("• " + mPref.getFavoSize() + " •"));
                                         break;
@@ -234,47 +241,48 @@ public class MainActivity extends AppCompatActivity {
                             switch ((int) drawerItem.getIdentifier()) {
 
                                 case 101:
-                                    DrawerPlaces.setFilterKey(sightCity);
+//                                    drawer.getCurrentSelectedPosition()_
+                                    DrawerPlaces.filterList(sightCity);
                                     break;
                                 case 102:
-                                    DrawerPlaces.setFilterKey(sightCountry);
+                                    DrawerPlaces.filterList(sightCountry);
                                     break;
                                 case 103:
-                                    DrawerPlaces.setFilterKey(sightNationalPark);
+                                    DrawerPlaces.filterList(sightNationalPark);
                                     break;
                                 case 104:
-                                    DrawerPlaces.setFilterKey(sightPark);
+                                    DrawerPlaces.filterList(sightPark);
                                     break;
 
                                 case 201:
-                                    DrawerPlaces.setFilterKey(continentAfrica);
+                                    DrawerPlaces.filterList(continentAfrica);
                                     break;
                                 case 202:
-                                    DrawerPlaces.setFilterKey(continentAntarctica);
+                                    DrawerPlaces.filterList(continentAntarctica);
                                     break;
                                 case 203:
-                                    DrawerPlaces.setFilterKey(continentAsia);
+                                    DrawerPlaces.filterList(continentAsia);
                                     break;
                                 case 204:
-                                    DrawerPlaces.setFilterKey(continentAustralia);
+                                    DrawerPlaces.filterList(continentAustralia);
                                     break;
                                 case 205:
-                                    DrawerPlaces.setFilterKey(continentEurope);
+                                    DrawerPlaces.filterList(continentEurope);
                                     break;
                                 case 206:
-                                    DrawerPlaces.setFilterKey(continentNorthAmerica);
+                                    DrawerPlaces.filterList(continentNorthAmerica);
                                     break;
                                 case 207:
-                                    DrawerPlaces.setFilterKey(continentSouthAmerica);
+                                    DrawerPlaces.filterList(continentSouthAmerica);
                                     break;
 
                                 case 999:
-                                    DrawerPlaces.setFilterKey("All");
+                                    DrawerPlaces.filterList("All");
                                     drawerFilter.setSelection(0);
                                     break;
 
                                 default:
-                                    DrawerPlaces.setFilterKey("All");
+                                    DrawerPlaces.filterList("All");
                                     drawerFilter.setSelection(0);
                                     break;
                             }
@@ -295,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
             case 0:
                 return drawerPlaces;
             case 1:
-                return drawerFavorite;
+                return drawerBookmared;
             case 2:
                 return drawerAbout;
             case 3:

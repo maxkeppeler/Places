@@ -157,13 +157,18 @@ public class PlaceView extends AppCompatActivity {
 
                 FavoriteUtil.init(context);
 
-                if (FavoriteUtil.isFavorited(item.getId())) {
-                    FavoriteUtil.unfavoriteItem(item.getId());
-                    Log.d("FAB", " with ID: " + item.getId() + " Selected: " + FavoriteUtil.isFavorited(item.getId()));
-                } else if (!FavoriteUtil.isFavorited(item.getId())) {
-                    FavoriteUtil.favoriteItem(item.getId());
-                    Log.d("FAB", " with ID: " + item.getId() + " Selected: " + FavoriteUtil.isFavorited(item.getId()));
-                }
+                FavoriteUtil.favoriteItem(item.getId());
+                Log.d("FAB", " with ID: " + item.getId() + " Selected: " + FavoriteUtil.isFavorited(item.getId()));
+//
+//                if (FavoriteUtil.isFavorited(item.getId())) {
+//                    FavoriteUtil.unfavoriteItem(item.getId());
+//                    Log.d("FAB", " with ID: " + item.getId() + " Selected: " + FavoriteUtil.isFavorited(item.getId()));
+//                }
+//
+//                else if (!FavoriteUtil.isFavorited(item.getId())) {
+//                    FavoriteUtil.favoriteItem(item.getId());
+//                    Log.d("FAB", " with ID: " + item.getId() + " Selected: " + FavoriteUtil.isFavorited(item.getId()));
+//                }
 
                 Inquiry.deinit();
 

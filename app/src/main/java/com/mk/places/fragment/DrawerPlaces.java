@@ -17,9 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.afollestad.inquiry.Inquiry;
 import com.mk.places.R;
-import com.mk.places.activity.FavoriteUtil;
 import com.mk.places.activity.MainActivity;
 import com.mk.places.activity.PlaceView;
 import com.mk.places.adapters.PlaceAdapter;
@@ -45,55 +43,36 @@ public class DrawerPlaces extends Fragment {
     private static ViewGroup layout;
     private static RecyclerView mRecycler;
     private static Activity context;
-    private static String filterKey = "All";
     private Preferences mPrefs;
 
-    public static void filterFavorites() {
+    public static void filterList(String key) {
 
         ArrayList<Place> filter = new ArrayList<>();
 
-        FavoriteUtil.init(context);
-
-        if (FavoriteUtil.getDB() != null) {
-
-            Log.d(TAG, "  ");
+        if (!key.equals("All")) {
 
             int x = 0;
 
             for (int j = 0; j < Places.getPlacesList().size(); j++) {
 
+                if (key.equals(Places.getPlacesList().get(j).getSight())
+                        || key.equals(Places.getPlacesList().get(j).getContinent())) {
 
-                for (int i = 0; i < FavoriteUtil.getDB().length; i++) {
-
-                    if (Places.getPlacesList().get(j).getId().equals(FavoriteUtil.getDB()[i].getID())) {
-
-
-                        if (FavoriteUtil.isFavorited(FavoriteUtil.getDB()[i].getID())) {
-
-                            filter.add(x, Places.getPlacesList().get(j));
-                            mAdapter.notifyItemInserted(x);
-
-                            x++;
-                            Log.i(TAG, "Found Favored Item: " + FavoriteUtil.getDB()[i].getID());
-                        }
-                    }
+                    filter.add(x, Places.getPlacesList().get(j));
+                    x++;
                 }
+
             }
 
-            Log.d(TAG, "  ");
+            setupLayout(true, filter);
 
         }
 
-        Preferences mPref = new Preferences(context);
-        mPref.setFavoSize(filter.size());
+        else  {
 
-        Inquiry.deinit();
-        setupLayout(true, filter);
-    }
+            setupLayout(false, filter);
 
-    public static void setFilterKey(String string) {
-        filterKey = string;
-        loadPlacesList(context);
+        }
     }
 
     public static void loadPlacesList(Context context) {
@@ -108,7 +87,7 @@ public class DrawerPlaces extends Fragment {
                     DrawerPlaces.mAdapter.notifyDataSetChanged();
 
             }
-        }, context, filterKey).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }, context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
     }
 
@@ -232,10 +211,8 @@ public class DrawerPlaces extends Fragment {
         private MainActivity.PlacesListInterface wi;
         private WeakReference<Context> taskContext;
         private WeakReference<Activity> wrActivity;
-        private String keyWord;
 
-        public DownloadPlacesJSON(MainActivity.PlacesListInterface wi, Context context, String keyWord) {
-            this.keyWord = keyWord;
+        public DownloadPlacesJSON(MainActivity.PlacesListInterface wi, Context context) {
             this.wi = wi;
             this.taskContext = new WeakReference<>(context);
         }
@@ -264,14 +241,41 @@ public class DrawerPlaces extends Fragment {
 
                         json = jsonarray.getJSONObject(i);
 
-                        if (!keyWord.equals("All") && (
+                        places.add(new Place(
 
-                                json.getString("sight").equals(keyWord)
-                                        || json.getString("continent").equals(keyWord)
+                                        json.getString("id"),
+                                        json.getString("location"),
+                                        json.getString("sight"),
+                                        json.getString("continent"),
+                                        json.getString("religion"),
+                                        json.getString("description"),
 
-                        )) {
-                            addJsonObject(jsonarray, i);
-                        } else if (keyWord.equals("All")) addJsonObject(jsonarray, i);
+                                        json.getString("url"),
+
+                                        json.getString("urlaTitle"), json.getString("urlaDesc"), json.getString("urla"),
+                                        json.getString("urlbTitle"), json.getString("urlbDesc"), json.getString("urlb"),
+                                        json.getString("urlcTitle"), json.getString("urlcDesc"), json.getString("urlc"),
+                                        json.getString("urldTitle"), json.getString("urldDesc"), json.getString("urld"),
+                                        json.getString("urleTitle"), json.getString("urleDesc"), json.getString("urle"),
+                                        json.getString("urlfTitle"), json.getString("urlfDesc"), json.getString("urlf"),
+                                        json.getString("urlgTitle"), json.getString("urlgDesc"), json.getString("urlg"),
+                                        json.getString("urlhTitle"), json.getString("urlhDesc"), json.getString("urlh"),
+                                        json.getString("urliTitle"), json.getString("urliDesc"), json.getString("urli"),
+                                        json.getString("urljTitle"), json.getString("urljDesc"), json.getString("urlj"),
+                                        json.getString("urlkTitle"), json.getString("urlkDesc"), json.getString("urlk"),
+                                        json.getString("urllTitle"), json.getString("urllDesc"), json.getString("urll"),
+                                        json.getString("urlmTitle"), json.getString("urlmDesc"), json.getString("urlm"),
+                                        json.getString("urlnTitle"), json.getString("urlnDesc"), json.getString("urln"),
+                                        json.getString("urloTitle"), json.getString("urloDesc"), json.getString("urlo"),
+                                        json.getString("urlpTitle"), json.getString("urlpDesc"), json.getString("urlp"),
+                                        json.getString("urlqTitle"), json.getString("urlqDesc"), json.getString("urlq"),
+                                        json.getString("urlrTitle"), json.getString("urlrDesc"), json.getString("urlr"),
+                                        json.getString("urlsTitle"), json.getString("urlsDesc"), json.getString("urls"),
+                                        json.getString("urltTitle"), json.getString("urltDesc"), json.getString("urlt")
+                                )
+                        );
+
+
                     }
 
                     Places.createPlaceList(places);
@@ -285,44 +289,6 @@ public class DrawerPlaces extends Fragment {
                 successful = false;
             }
             return null;
-        }
-
-        private void addJsonObject(JSONArray jsonarray, int i) throws JSONException {
-            JSONObject json = jsonarray.getJSONObject(i);
-            int favorite = 0;
-            places.add(new Place(
-
-                            json.getString("id"),
-                            json.getString("location"),
-                            json.getString("sight"),
-                            json.getString("continent"),
-                            json.getString("religion"),
-                            json.getString("description"),
-
-                            json.getString("url"),
-
-                            json.getString("urlaTitle"), json.getString("urlaDesc"), json.getString("urla"),
-                            json.getString("urlbTitle"), json.getString("urlbDesc"), json.getString("urlb"),
-                            json.getString("urlcTitle"), json.getString("urlcDesc"), json.getString("urlc"),
-                            json.getString("urldTitle"), json.getString("urldDesc"), json.getString("urld"),
-                            json.getString("urleTitle"), json.getString("urleDesc"), json.getString("urle"),
-                            json.getString("urlfTitle"), json.getString("urlfDesc"), json.getString("urlf"),
-                            json.getString("urlgTitle"), json.getString("urlgDesc"), json.getString("urlg"),
-                            json.getString("urlhTitle"), json.getString("urlhDesc"), json.getString("urlh"),
-                            json.getString("urliTitle"), json.getString("urliDesc"), json.getString("urli"),
-                            json.getString("urljTitle"), json.getString("urljDesc"), json.getString("urlj"),
-                            json.getString("urlkTitle"), json.getString("urlkDesc"), json.getString("urlk"),
-                            json.getString("urllTitle"), json.getString("urllDesc"), json.getString("urll"),
-                            json.getString("urlmTitle"), json.getString("urlmDesc"), json.getString("urlm"),
-                            json.getString("urlnTitle"), json.getString("urlnDesc"), json.getString("urln"),
-                            json.getString("urloTitle"), json.getString("urloDesc"), json.getString("urlo"),
-                            json.getString("urlpTitle"), json.getString("urlpDesc"), json.getString("urlp"),
-                            json.getString("urlqTitle"), json.getString("urlqDesc"), json.getString("urlq"),
-                            json.getString("urlrTitle"), json.getString("urlrDesc"), json.getString("urlr"),
-                            json.getString("urlsTitle"), json.getString("urlsDesc"), json.getString("urls"),
-                            json.getString("urltTitle"), json.getString("urltDesc"), json.getString("urlt")
-                    )
-            );
         }
 
         @Override

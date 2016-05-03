@@ -4,11 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.afollestad.inquiry.Inquiry;
-import com.afollestad.inquiry.callbacks.GetCallback;
 
-/**
- * Created by max on 30.04.16.
- */
 public final class FavoriteUtil {
 
     private static final String TABLE_NAME = "favorites";
@@ -41,6 +37,9 @@ public final class FavoriteUtil {
                     .run();
             return true;
         }
+
+        unfavoriteItem(id);
+
         return false;
     }
 
@@ -49,14 +48,16 @@ public final class FavoriteUtil {
      */
     public static Favorites[] getDB() {
 
-            return Inquiry.get().selectFrom(TABLE_NAME, Favorites.class).all();
+        return Inquiry.get().selectFrom(TABLE_NAME, Favorites.class).all();
     }
 
     /**
-     *  Deletes Data Base
+     * Deletes Data Base
      */
-    public static void deleteDB() {
+    public static void deleteDB(Context context) {
+        init(context);
         Inquiry.get().dropTable(TABLE_NAME);
+        Inquiry.deinit();
     }
 
 
@@ -71,6 +72,9 @@ public final class FavoriteUtil {
                     .run();
             return true;
         }
+
+        favoriteItem(id);
+
         return false;
     }
 }

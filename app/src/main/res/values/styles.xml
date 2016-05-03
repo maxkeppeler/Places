@@ -1,13 +1,22 @@
 <resources xmlns:http="http://schemas.android.com/tools">
 
+
+    <style name="AppTheme.Splash">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="android:colorBackground">@color/colorPrimary</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+    </style>
+
     <style name="CustomTheme" parent="MaterialDrawerTheme">
+
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
+        <item name="android:colorBackground">@color/backgroundColor</item>
+        <item name="android:color">@color/backgroundColor</item>
         <item name="material_drawer_background">@color/material_drawer_background</item>
         <item name="material_drawer_primary_text">@color/material_drawer_primary_text</item>
         <item name="material_drawer_primary_icon">@color/material_drawer_primary_icon</item>
@@ -46,7 +55,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="android:colorBackground">@color/colorPrimary</item>
+        <item name="android:color">@color/colorPrimary</item>
+        <!--<item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>-->
     </style>
 
     <style name="TransparentToolbar" parent="AppTheme">

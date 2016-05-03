@@ -7,8 +7,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,16 +22,17 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
 import com.mk.places.models.Place;
 import com.mk.places.utilities.AnimUtils;
-import com.mk.places.utilities.Preferences;
 import com.mk.places.utilities.Utils;
 
 import java.util.ArrayList;
 
 public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHolder> {
 
+
     private ClickListener callback;
     private ArrayList<Place> placesList;
     private Activity context;
+    private AppCompatDelegate mDelegate;
 
     public PlaceAdapter(Activity context, ClickListener callBack) {
         this.context = context;

@@ -31,14 +31,9 @@ public class ButtonLayout extends LinearLayout {
 
         if (horizontal)
         setOrientation(HORIZONTAL);
+        else setOrientation(VERTICAL);
 
-        else {
-            setOrientation(VERTICAL);
-        }
-
-        Button nButton;
-
-        nButton = (Button) LayoutInflater.from(getContext()).inflate(R.layout.borderless_button, this, false);
+        final Button nButton = (Button) LayoutInflater.from(getContext()).inflate(R.layout.borderless_button, this, false);
 
         final LinearLayout.LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.weight = 1;
