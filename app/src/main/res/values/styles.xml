@@ -9,7 +9,7 @@
     </style>
 
     <style name="CustomTheme" parent="MaterialDrawerTheme">
-
+        <item name="android:navigationBarColor">@color/backgroundColor</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -29,13 +29,14 @@
     </style>
 
     <style name="DetailView" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:navigationBarColor">@color/backgroundColor</item>
         <item name="md_dark_theme">true</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowActionBarOverlay">true</item>
-        <item name="colorPrimary">@android:color/white</item>
-        <item name="colorPrimaryDark">@android:color/white</item>
-        <item name="colorAccent">@android:color/white</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="android:colorBackground">@color/backgroundColor</item>
         <item name="android:color">@color/backgroundColor</item>
         <item name="colorControlHighlight">@color/accent_translucent</item> 

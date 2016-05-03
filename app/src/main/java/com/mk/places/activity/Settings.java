@@ -2,6 +2,7 @@ package com.mk.places.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -18,6 +20,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mk.places.R;
 import com.mk.places.utilities.Dialogs;
+import com.mk.places.utilities.Utils;
 
 public class Settings extends PreferenceActivity {
 
@@ -51,20 +54,23 @@ public class Settings extends PreferenceActivity {
 
         addPreferencesFromResource(R.xml.preference);
 
-        final ListPreference prefDownloadType = (ListPreference) findPreference("download_type");
-        prefDownloadType.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        final SwitchPreference prefDownloadType = (SwitchPreference) findPreference("download_mobile_data");
+        prefDownloadType.setDefaultValue(true);
+        prefDownloadType.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                String[] array = getResources().getStringArray(R.array.listArray);
-                prefDownloadType.setSummary(array[Integer.parseInt(newValue.toString())]);
-                prefDownloadType.setValue(newValue.toString());
-                return false;
+            public boolean onPreferenceClick(Preference preference) {
+                return true;
             }
         });
 
 
         SwitchPreference prefNotifications = (SwitchPreference) findPreference("pref_notifications");
-
+        prefNotifications.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                return true;
+            }
+        });
 
         Preference prefChangelog = findPreference("pref_changelog");
         prefChangelog.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -82,8 +88,11 @@ public class Settings extends PreferenceActivity {
 
                 new MaterialDialog.Builder(context)
                         .content("Are you sure you want to delete all bookmarked Places?")
+                        .typeface(Utils.customTypeface(context, 3), Utils.customTypeface(context, 2))
+                        .contentColor(context.getResources().getColor(R.color.primaryText))
+                        .backgroundColor(context.getResources().getColor(R.color.cardBackground))
                         .negativeText("Yes")
-                        .positiveText("No").positiveColor(getResources().getColor(R.color.white))
+                        .positiveText("No")
                         .onNegative(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {

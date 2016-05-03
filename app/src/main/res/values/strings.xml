@@ -54,6 +54,7 @@
     <string name="action_filter">Filter</string>
     <string name="action_search">Search</string>
     <string name="action_sort">Sort</string>
+    <string name="action_refresh">Refresh</string>
     <string name="action_column">Columns</string>
     <string name="action_direction">Swipe Direction</string>
 
@@ -131,9 +132,6 @@
 
     <!-- Support -->
     <string name="supportText">Read the FAQs before you contact us.</string>
-
-    <string name="liveChatTitle">Live Chat</string>
-    <string name="liveChatDesc">Get fast and very convenient replies to your questions. Whatever question you have regarding Places, we will answer it. You have ideas how we could improve Places? Let us know.</string>
 
     <string name="mailTitle">E-Mail</string>
     <string name="mailDesc">Write a mail to us and we will reply as soon as possible. If you have longer content of your purpose to contact us, write us a mail instead of using the live chat.</string>

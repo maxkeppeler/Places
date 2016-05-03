@@ -20,6 +20,7 @@
     </style>
 
     <style name="DetailView" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:navigationBarColor">@color/backgroundColor</item>
         <item name="md_dark_theme">true</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowContentOverlay">@null</item>

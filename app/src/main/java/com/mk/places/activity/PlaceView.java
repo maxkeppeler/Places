@@ -1,6 +1,7 @@
 package com.mk.places.activity;
 
 import android.Manifest;
+import android.animation.Animator;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -23,9 +25,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.ColorUtils;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -35,8 +40,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -93,6 +100,8 @@ public class PlaceView extends AppCompatActivity {
     @Bind(R.id.scroll)
     NestedScrollView scroll;
 
+    @Bind(R.id.imagePlaceDetail) ImageView image;
+
     Window window;
     boolean active;
     private String location, sight, desc, url, continent, religion;
@@ -115,15 +124,14 @@ public class PlaceView extends AppCompatActivity {
             }
         }
 
-
         context = this;
 
         setContentView(R.layout.drawer_places_detail);
 
         ButterKnife.bind(this);
 
-        Typeface typefaceTitles = Utils.customTypeface(context, 1);
-        Typeface typefaceTexts = Utils.customTypeface(context, 2);
+        Typeface typeTitles = Utils.customTypeface(context, 1);
+        Typeface typeTexts = Utils.customTypeface(context, 2);
 
         Intent intent = getIntent();
         final Place item = intent.getParcelableExtra("item");
@@ -144,9 +152,9 @@ public class PlaceView extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_close);
 
-        placeDescTitle.setTypeface(typefaceTitles);
-        placeInfoTitle.setTypeface(typefaceTitles);
-        placesDescText.setTypeface(typefaceTexts);
+        placeDescTitle.setTypeface(typeTitles);
+        placeInfoTitle.setTypeface(typeTitles);
+        placesDescText.setTypeface(typeTexts);
         placesDescText.setText(Html.fromHtml(desc).toString().replace("â€“", "–").replace("â€™", "\"").replace("â€™", "\"").replace("â€˜", "\"").replace("\\n", "\n").replace("\\", ""));
         fab.setVisibility(View.INVISIBLE);
 
@@ -156,20 +164,8 @@ public class PlaceView extends AppCompatActivity {
             public void onClick(View v) {
 
                 FavoriteUtil.init(context);
-
                 FavoriteUtil.favoriteItem(item.getId());
                 Log.d("FAB", " with ID: " + item.getId() + " Selected: " + FavoriteUtil.isFavorited(item.getId()));
-//
-//                if (FavoriteUtil.isFavorited(item.getId())) {
-//                    FavoriteUtil.unfavoriteItem(item.getId());
-//                    Log.d("FAB", " with ID: " + item.getId() + " Selected: " + FavoriteUtil.isFavorited(item.getId()));
-//                }
-//
-//                else if (!FavoriteUtil.isFavorited(item.getId())) {
-//                    FavoriteUtil.favoriteItem(item.getId());
-//                    Log.d("FAB", " with ID: " + item.getId() + " Selected: " + FavoriteUtil.isFavorited(item.getId()));
-//                }
-
                 Inquiry.deinit();
 
                 Utils.simpleSnackBar(context, color, R.id.coordinatorLayout, R.string.snackbarFavoredText, Snackbar.LENGTH_SHORT);
@@ -177,12 +173,10 @@ public class PlaceView extends AppCompatActivity {
         });
 
         collapsingToolbarLayout.setTitle(location);
-        collapsingToolbarLayout.setCollapsedTitleTypeface(typefaceTitles);
-        collapsingToolbarLayout.setExpandedTitleTypeface(typefaceTitles);
+        collapsingToolbarLayout.setCollapsedTitleTypeface(typeTitles);
+        collapsingToolbarLayout.setExpandedTitleTypeface(typeTitles);
         collapsingToolbarLayout.setSelected(true);
         toolbar.setSelected(true);
-
-        final ImageView image = (ImageView) findViewById(R.id.image);
 
         Glide.with(context)
                 .load(url)
@@ -215,6 +209,7 @@ public class PlaceView extends AppCompatActivity {
 
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                                     window.setNavigationBarColor(color);
+
                             }
                         });
                     }
@@ -368,6 +363,8 @@ public class PlaceView extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
         recyclerView.setHasFixedSize(true);
     }
+
+
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {

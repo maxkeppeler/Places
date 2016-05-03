@@ -6,13 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.mk.places.R;
 
-public class SplashActivity extends AppCompatActivity {
+public class Splash extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_onboarding_simple);
+        setContentView(R.layout.splash);
 
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

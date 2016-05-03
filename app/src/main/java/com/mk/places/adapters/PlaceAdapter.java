@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
 import com.mk.places.models.Place;
@@ -69,6 +70,12 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
                         holder.image.setImageDrawable(td);
                         td.startTransition(350);
                     }
+
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        super.onResourceReady(resource, glideAnimation);
+                        holder.viewShadow.setVisibility(View.VISIBLE);
+                    }
                 });
 
         if (context.getResources().getBoolean(R.bool.placesZoomItems)) {
@@ -109,6 +116,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
         public final TextView location, sight, continent;
         public final ImageView sightDrawable;
         private MaterialRippleLayout ripple;
+        private View viewShadow;
 
         PlacesViewHolder(View v) {
             super(v);
@@ -116,6 +124,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
 
             ripple = (MaterialRippleLayout) view.findViewById(R.id.rippleOverlay);
             image = (ImageView) view.findViewById(R.id.placeImage);
+            viewShadow = (View) view.findViewById(R.id.schadowBelow);
             location = (TextView) view.findViewById(R.id.locationText);
 
             location.setTypeface(Utils.customTypeface(context, 1));

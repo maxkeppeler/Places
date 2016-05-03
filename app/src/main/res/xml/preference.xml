@@ -5,13 +5,11 @@
 
     <PreferenceCategory android:title="Communication Settings (DONT WORK)">
 
-        <ListPreference
-            android:defaultValue="2"
-            android:entries="@array/listArray"
-            android:entryValues="@array/listValues"
-            android:key="download_type"
-            android:summary="WiFi and Mobile Data"
-            android:title="Stream Option" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="download_mobile_data"
+            android:summary="If you have a low data volume, deactivate it."
+            android:title="Use Mobile Data"  />
 
         <SwitchPreference
             android:key="pref_notifications"

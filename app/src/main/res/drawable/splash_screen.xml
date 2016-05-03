@@ -4,12 +4,12 @@
 
     <item android:drawable="@color/colorPrimary" />
 
-    <item>
+    <!--<item>-->
 
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/text_places_splash" />
-    </item>
+        <!--<bitmap-->
+            <!--android:gravity="center"-->
+            <!--android:src="@drawable/text_places_splash" />-->
+    <!--</item>-->
 
 </layer-list>
 

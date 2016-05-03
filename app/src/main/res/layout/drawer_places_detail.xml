@@ -30,10 +30,10 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <com.mk.places.views.SquareImageView
-                android:id="@+id/image"
+                android:id="@+id/imagePlaceDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/appBackgroundColor"
+                android:background="@color/backgroundColor"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax" />

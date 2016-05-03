@@ -17,17 +17,6 @@
     <!-- ////////////  FILTER   \\\\\\\\\\\\\ -->
 
 
-    <string-array name="listArray">
-        <item>Only WiFi</item>
-        <item>Only Mobile Data</item>
-        <item>WiFi and Mobile Data</item>
-    </string-array>
-
-    <string-array name="listValues">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>
 
 
 </resources>

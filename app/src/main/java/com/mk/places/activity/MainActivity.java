@@ -37,7 +37,6 @@ import com.mk.places.R;
 import com.mk.places.fragment.DrawerAbout;
 import com.mk.places.fragment.DrawerBookmarks;
 import com.mk.places.fragment.DrawerPlaces;
-import com.mk.places.fragment.DrawerSettings;
 import com.mk.places.fragment.DrawerSupport;
 import com.mk.places.utilities.AnimUtils;
 import com.mk.places.utilities.Dialogs;
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             drawerWrong;
     private Toolbar toolbar;
     private Drawer drawer = null;
-    private Drawer drawerFilter = null;
+    public static Drawer drawerFilter = null;
     private AccountHeader imageDrawer;
     private String[] drawerImages;
     private Preferences mPref;
@@ -215,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
                 .withSavedInstance(savedInstanceState)
                 .addDrawerItems(
 
-                        new SectionDrawerItem().withName(sight).withDivider(false),
+                        new SectionDrawerItem().withName(sight).withDivider(false).withIdentifier(100),
                         new SecondaryDrawerItem().withName(sightCity).withLevel(2).withIcon(Icon.gmd_location_city).withIdentifier(101),
                         new SecondaryDrawerItem().withName(sightCountry).withLevel(2).withIcon(Icon.gmd_terrain).withIdentifier(102),
                         new SecondaryDrawerItem().withName(sightNationalPark).withLevel(2).withIcon(Icon.gmd_nature).withIdentifier(103),

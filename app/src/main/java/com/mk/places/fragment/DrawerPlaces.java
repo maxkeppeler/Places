@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -43,6 +44,7 @@ public class DrawerPlaces extends Fragment {
     private static ViewGroup layout;
     private static RecyclerView mRecycler;
     private static Activity context;
+    private static SwipeRefreshLayout refresh;
     private Preferences mPrefs;
 
     public static void filterList(String key) {
@@ -66,9 +68,7 @@ public class DrawerPlaces extends Fragment {
 
             setupLayout(true, filter);
 
-        }
-
-        else  {
+        } else {
 
             setupLayout(false, filter);
 
@@ -86,6 +86,7 @@ public class DrawerPlaces extends Fragment {
                 if (DrawerPlaces.mAdapter != null)
                     DrawerPlaces.mAdapter.notifyDataSetChanged();
 
+                refresh.setRefreshing(false);
             }
         }, context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
@@ -152,6 +153,7 @@ public class DrawerPlaces extends Fragment {
                 Dialogs.columnsDialog(context);
                 break;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -186,7 +188,19 @@ public class DrawerPlaces extends Fragment {
         mPrefs = new Preferences(context);
         if (mPrefs.getColumns() == 0) mPrefs.setColumns(1);
 
-        mRecycler = (RecyclerView) layout.findViewById(R.id.placecRecyclerView);
+        refresh = (SwipeRefreshLayout) layout.findViewById(R.id.placeRefresh);
+        refresh.setColorSchemeResources(R.color.colorPrimary);
+        refresh.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        loadPlacesList(context);
+                        MainActivity.drawerFilter.setSelection(0);
+                    }
+                }
+        );
+
+        mRecycler = (RecyclerView) layout.findViewById(R.id.bookmarksRecyclerView);
         mRecycler.setLayoutManager(new GridLayoutManager(context, mPrefs.getColumns(), 1, false));
         mRecycler.setAdapter(mAdapter);
         mRecycler.setHasFixedSize(true);

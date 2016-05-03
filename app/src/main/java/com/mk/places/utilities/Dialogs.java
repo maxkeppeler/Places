@@ -22,6 +22,10 @@ public class Dialogs {
     public static void showChangelog(final Context context) {
 
         new MaterialDialog.Builder(context)
+
+                .typeface(Utils.customTypeface(context, 3), Utils.customTypeface(context, 2))
+                .contentColor(context.getResources().getColor(R.color.primaryText))
+                .backgroundColor(context.getResources().getColor(R.color.cardBackground))
                 .title(R.string.changelogTitle)
                 .content(Html.fromHtml(context.getResources().getString(R.string.changelogContent)))
                 .positiveText(R.string.changelogPositive)

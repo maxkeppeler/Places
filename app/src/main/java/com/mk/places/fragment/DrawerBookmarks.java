@@ -52,7 +52,7 @@ public class DrawerBookmarks extends Fragment {
         }
 
         try {
-            layout = (ViewGroup) inflater.inflate(R.layout.drawer_places, container, false);
+            layout = (ViewGroup) inflater.inflate(R.layout.drawer_bookmarks, container, false);
         } catch (InflateException e) {
 
         }
@@ -61,7 +61,7 @@ public class DrawerBookmarks extends Fragment {
         if (mPrefs.getColumns() == 0) mPrefs.setColumns(1);
 
 
-        mRecycler = (RecyclerView) layout.findViewById(R.id.placecRecyclerView);
+        mRecycler = (RecyclerView) layout.findViewById(R.id.bookmarksRecyclerView);
         mRecycler.setLayoutManager(new GridLayoutManager(context, mPrefs.getColumns(), 1, false));
         mRecycler.setAdapter(mAdapter);
         mRecycler.setHasFixedSize(true);

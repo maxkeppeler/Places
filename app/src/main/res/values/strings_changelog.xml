@@ -3,43 +3,33 @@
 
 
 
-    <!-- Changelog Dialog -->
     <string name="changelogTitle">Changelog</string>
 
-    <!--
+    <string name="changelogContent" >
+        <![CDATA[
 
-         Red: #db4437
-         Green: #4CAF50
-         Deep Purple: #673AB7
-         Blue: #2196F3
-         Blue Grey: #607D8B
+        <font color="#42A5F5"><strong>
+        0.1 ALPHA
+        </strong></font>
 
-    -->
-
-    <string name="changelogContent" > <![CDATA[
-
-
-        <strong>v0.1 Beta</strong>
-        <br />
-        <br />  Features added
-        <br />    • Fixed many issues
-        <br />    • Fixed changelog
-        <br />
-        <br />  Improvements
-        <br />    • Fixed many issues
-        <br />    • Fixed changelog
-        <br />
-        <br />  Misc
-        <br />    • Fixed many issues
-        <br />    • Fixed changelog
-        <br />
+        <br />• Swipe to refresh Places
+        <br />• Text shadows will be display after the image was loaded
+        <br />• Custom material dialogs for some settings
         <br />
         <br />
 
+        <font color="#42A5F5"><strong>
+        BEFORE
+        </strong></font>
+        <br />• At a time where there was no changelog
 
-  ]]> </string>
+
+
+
+  ]]>
+    </string>
 
     <string name="changelogPositive">Ok</string>
-    <string name="changelogNegative">Leave a rating</string>
+    <string name="changelogNegative">Rate</string>
 
 </resources>
