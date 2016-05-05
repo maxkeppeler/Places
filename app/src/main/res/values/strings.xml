@@ -6,8 +6,8 @@
     <!-- Drawer Items -->
     <string name="app_places">Places</string>
     <string name="app_bookmarks">Bookmarks</string>
+    <string name="app_uploads">Upload Place</string>
     <string name="app_about">About</string>
-    <string name="app_support">Support</string>
     <string name="app_settings">Settings</string>
     <string name="app_wrong">Sorry, you are lost</string>
 
@@ -133,8 +133,30 @@
     <!-- Support -->
     <string name="supportText">Read the FAQs before you contact us.</string>
 
-    <string name="mailTitle">E-Mail</string>
-    <string name="mailDesc">Write a mail to us and we will reply as soon as possible. If you have longer content of your purpose to contact us, write us a mail instead of using the live chat.</string>
+    <string name="rulesTitle">Rules</string>
+    <string name="rulesText">
+        In order to ensure quality content:
+        \n1. You must use proper English.
+        \n2. You must have experiences in writing.
+        \n3. You must have experiences in traveling.
+        \n4. You are only allowed to share a place, when you have been there.
+    </string>
+
+    <string name="miscTitle">Miscellaneous</string>
+    <string name="miscText">
+           1. You must upload 1 main image.
+        \n2. You must upload at minimum 4 more images, \n at maximum 20 images. You can write a title and description to each image.
+        \n3. You must write a title.
+        \n4. You must fill out some more details - depending on the place.
+        \n\n
+        Every submitted place will be carefully verified.
+    </string>
+
+    <string name="rewardTitle">Reward</string>
+    <string name="rewardText">
+        A clickable profile of you will be created with all submitted places.
+        \nThe profile includes a name, description and many optional link buttons to your other social profiles, blogs, websites or whatever.
+    </string>
 
 
     <!-- Other App Strings -->
@@ -151,6 +173,7 @@
     <!-- TODO: Remove or change this placeholder imageLink -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_image_view">ImageView</string>
+    <string name="search_hint">Berlin, Germany</string>
 
 
 </resources>

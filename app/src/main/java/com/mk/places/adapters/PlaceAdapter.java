@@ -22,7 +22,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
 import com.mk.places.models.Place;
-import com.mk.places.utilities.AnimUtils;
+import com.mk.places.utilities.Anim;
 import com.mk.places.utilities.Utils;
 
 import java.util.ArrayList;
@@ -79,7 +79,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
                 });
 
         if (context.getResources().getBoolean(R.bool.placesZoomItems)) {
-            AnimUtils.zoomInAndOut(context, holder.image);
+            Anim.zoomInAndOut(context, holder.image);
         }
 
         holder.location.setText(place.getLocation());

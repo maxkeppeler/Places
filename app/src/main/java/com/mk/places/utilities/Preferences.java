@@ -30,10 +30,10 @@ public class Preferences {
 
     private static final String
             PREFS_NAME = "DASHBOARD_PREFERENCES",
-            FAVO_ARRAY = "ARRAY",
             FIRST_START = "START",
             PLACES_AMOUNT = "PLACES",
             PLACES_FAVO_AMOUNT = "FAVO",
+
             COLUMNS = "COULMNS";
 
     private final Context context;
@@ -71,42 +71,11 @@ public class Preferences {
     }
 
     public int getColumns() {
-        return getSharedPreferences().getInt(COLUMNS, 0);
+        return getSharedPreferences().getInt(COLUMNS, 1);
     }
 
     public void setColumns(int amount) {
         getSharedPreferences().edit().putInt(COLUMNS, amount).apply();
     }
 
-    public boolean storeArray(Boolean[][] array, String arrayName, Context mContext) {
-
-        SharedPreferences prefs = mContext.getSharedPreferences(FAVO_ARRAY, 0);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(arrayName + "_size", array.length);
-
-        for (int i = 0; i < array.length; i++) {
-
-            for (int j = 0; j < array.length; i++) {
-
-                editor.putBoolean(arrayName + "_" + i, array[i][j]);
-            }
-        }
-        return editor.commit();
-    }
-
-    public Boolean[][] loadArray(String arrayName, Context mContext) {
-
-        SharedPreferences prefs = mContext.getSharedPreferences(FAVO_ARRAY, 0);
-        int size = prefs.getInt(arrayName + "_size", 0);
-
-        Boolean array[][] = new Boolean[size][0];
-
-        for (int i = 0; i < size; i++)
-
-            for (int j = 0; j < array.length; i++) {
-                array[i][j] = prefs.getBoolean(arrayName + "_" + i, false);
-            }
-
-        return array;
-    }
 }

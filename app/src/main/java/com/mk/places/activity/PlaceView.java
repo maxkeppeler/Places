@@ -103,7 +103,6 @@ public class PlaceView extends AppCompatActivity {
     @Bind(R.id.imagePlaceDetail) ImageView image;
 
     Window window;
-    boolean active;
     private String location, sight, desc, url, continent, religion;
     private ViewGroup layout;
     private Activity context;
@@ -115,13 +114,6 @@ public class PlaceView extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window = this.getWindow();
             window.setStatusBarColor(getResources().getColor(R.color.transparent));
-        }
-
-        if (layout != null) {
-            ViewGroup parent = (ViewGroup) layout.getParent();
-            if (parent != null) {
-                parent.removeView(layout);
-            }
         }
 
         context = this;

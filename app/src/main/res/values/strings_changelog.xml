@@ -12,10 +12,13 @@
         0.1 ALPHA
         </strong></font>
 
-        <br />• Swipe to refresh Places
+        <br />• Many filter improvements
+        <br />• Search functionality for Places and Bookmarks
+        <br />• Swipe to refresh for Places and Bookmarks
         <br />• Text shadows will be display after the image was loaded
         <br />• Custom material dialogs for some settings
         <br />
+        <br /> Tested the speed of loading many places. 2048 places took around 6 seconds to load.
         <br />
 
         <font color="#42A5F5"><strong>
@@ -24,11 +27,8 @@
         <br />• At a time where there was no changelog
 
 
-
-
   ]]>
     </string>
-
     <string name="changelogPositive">Ok</string>
     <string name="changelogNegative">Rate</string>
 

@@ -12,7 +12,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/black">
+        android:background="@color/backgroundColorDarker">
 
         <com.mk.places.views.TouchImageView
             android:id="@+id/vImage"
@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@color/appBackgroundColor"
+            android:background="@color/backgroundColor"
             android:gravity="center"
             android:orientation="vertical"
             android:paddingBottom="16dp"
@@ -65,7 +65,6 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:lineSpacingExtra="3dp"
                 android:textColor="@color/primaryText"
                 android:text="Placeholder Text"
                 android:textAlignment="center" />

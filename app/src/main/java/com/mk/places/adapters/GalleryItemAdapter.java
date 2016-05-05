@@ -59,9 +59,6 @@ public class GalleryItemAdapter extends PagerAdapter {
         final TextView vName = (TextView) mView.findViewById(R.id.vName);
         final TextView vDesc = (TextView) mView.findViewById(R.id.vDesc);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            window.setNavigationBarColor(context.getResources().getColor(R.color.appBackgroundColor));
-
         vName.setText(Html.fromHtml(imageName[index]).toString().replace("â€“", "–").replace("â€™", "\"").replace("â€™", "\"").replace("â€˜", "\"").replace("\\n", "\n").replace("\\", ""));
         vDesc.setText(Html.fromHtml(imageDesc[index]).toString().replace("â€“", "–").replace("â€™", "\"").replace("â€™", "\"").replace("â€˜", "\"").replace("\\n", "\n").replace("\\", ""));
 

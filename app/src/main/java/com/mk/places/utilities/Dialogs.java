@@ -11,6 +11,8 @@ import android.view.View;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mk.places.R;
+import com.mk.places.activity.MainActivity;
+import com.mk.places.fragment.DrawerBookmarks;
 import com.mk.places.fragment.DrawerPlaces;
 
 /**
@@ -58,16 +60,22 @@ public class Dialogs {
         new MaterialDialog.Builder(context)
                 .title(R.string.columnsTitle)
                 .items(R.array.columnsArray)
-//                .backgroundColor(context.getResources().getColor(R.color.dialogs))
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
-                        DrawerPlaces drawer = new DrawerPlaces();
 
                         Preferences mPrefs = new Preferences(context);
-                        mPrefs.setColumns(i + 1);
 
-                        drawer.setColumns(i + 1);
+                        if (MainActivity.drawer.getCurrentSelectedPosition() == 1) {
+                        mPrefs.setColumns(i + 1);
+                        DrawerPlaces.setColumns(i + 1);
+                        }
+
+                        if (MainActivity.drawer.getCurrentSelectedPosition() == 2) {
+                            mPrefs.setColumns(i + 1);
+                            DrawerBookmarks.setColumns(i + 1);
+                        }
+
                     }
                 })
                 .show();

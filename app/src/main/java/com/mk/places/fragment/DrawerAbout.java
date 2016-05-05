@@ -20,23 +20,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bumptech.glide.util.Util;
 import com.mk.places.R;
 import com.mk.places.adapters.MemberAdapter;
 import com.mk.places.models.MemberItem;
 import com.mk.places.utilities.Utils;
 import com.mk.places.views.ButtonLayout;
 
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class DrawerAbout extends Fragment implements View.OnClickListener {
 
-    private static ViewGroup layout;
+    private static View view;
     private static Activity context;
 
     @Bind(R.id.recyclerViewMember)
@@ -50,26 +45,17 @@ public class DrawerAbout extends Fragment implements View.OnClickListener {
 
         setHasOptionsMenu(true);
 
-        if (layout != null) {
-            ViewGroup parent = (ViewGroup) layout.getParent();
-            if (parent != null) parent.removeView(layout);
-        }
+        view = inflater.inflate(R.layout.drawer_about, container, false);
 
-        try {
-            layout = (ViewGroup) inflater.inflate(R.layout.drawer_about, container, false);
-
-        } catch (InflateException e) {
-        }
-
-        final TextView appTitle = (TextView) layout.findViewById(R.id.appTitle);
-        final TextView appDesc = (TextView) layout.findViewById(R.id.appDesc);
+        final TextView appTitle = (TextView) view.findViewById(R.id.appTitle);
+        final TextView appDesc = (TextView) view.findViewById(R.id.appDesc);
         appTitle.setTypeface(Utils.customTypeface(context, 1));
         appDesc.setTypeface(Utils.customTypeface(context, 2));
 
         final String[] aBtnNames = getResources().getStringArray(R.array.appButtonNames);
         final String[] aBtnLinks = getResources().getStringArray(R.array.appButtonLinks);
 
-        final ButtonLayout buttonLayout = (ButtonLayout) layout.findViewById(R.id.buttonLayoutApp);
+        final ButtonLayout buttonLayout = (ButtonLayout) view.findViewById(R.id.buttonLayoutApp);
 
         buttonLayout.setbAmount(aBtnNames.length);
 
@@ -111,7 +97,7 @@ public class DrawerAbout extends Fragment implements View.OnClickListener {
 
         MemberAdapter memberAdapter = new MemberAdapter(membersData, context);
 
-        recyclerViewMember = (RecyclerView) layout.findViewById(R.id.recyclerViewMember);
+        recyclerViewMember = (RecyclerView) view.findViewById(R.id.recyclerViewMember);
         recyclerViewMember.setLayoutManager(new LinearLayoutManager(context) {
             @Override
             public boolean canScrollVertically() {
@@ -124,7 +110,7 @@ public class DrawerAbout extends Fragment implements View.OnClickListener {
         recyclerViewMember.setHasFixedSize(true);
 
 
-        return layout;
+        return view;
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.SearchView;
 
 import com.mk.places.R;
 import com.mk.places.activity.MainActivity;
@@ -39,40 +42,44 @@ import java.util.ArrayList;
 
 public class DrawerPlaces extends Fragment {
 
-    private static final String TAG = "DrawerPlaces";
-    private static PlaceAdapter mAdapter;
-    private static ViewGroup layout;
-    private static RecyclerView mRecycler;
-    private static Activity context;
-    private static SwipeRefreshLayout refresh;
-    private Preferences mPrefs;
 
-    public static void filterList(String key) {
+    private static final String TAG = "DrawerPlaces";
+    private static PlaceAdapter adapter;
+    private static View view;
+    private static RecyclerView recyclerView;
+    private static Activity context;
+    private static SwipeRefreshLayout refreshLayout;
+    private static Preferences preferences;
+
+    public static void setColumns(int amount) {
+        recyclerView.setLayoutManager(new GridLayoutManager(context, amount, 1, false));
+
+        preferences = new Preferences(context);
+        preferences.setColumns(amount);
+    }
+
+    public static void searchFilter(String key) {
 
         ArrayList<Place> filter = new ArrayList<>();
 
-        if (!key.equals("All")) {
+        int x = 0;
 
-            int x = 0;
+        for (int j = 0; j < Places.getPlacesList().size(); j++) {
 
-            for (int j = 0; j < Places.getPlacesList().size(); j++) {
+            if (
+                    Places.getPlacesList().get(j).getLocation().toLowerCase().contains(key.toLowerCase())
+                            || Places.getPlacesList().get(j).getReligion().toLowerCase().contains(key.toLowerCase())
 
-                if (key.equals(Places.getPlacesList().get(j).getSight())
-                        || key.equals(Places.getPlacesList().get(j).getContinent())) {
 
-                    filter.add(x, Places.getPlacesList().get(j));
-                    x++;
-                }
+                    ) {
 
+                filter.add(x, Places.getPlacesList().get(j));
+                x++;
             }
 
-            setupLayout(true, filter);
-
-        } else {
-
-            setupLayout(false, filter);
-
         }
+
+        setupLayout(true, filter);
     }
 
     public static void loadPlacesList(Context context) {
@@ -83,10 +90,10 @@ public class DrawerPlaces extends Fragment {
             @Override
             public void checkPlacesListCreation(boolean result) {
 
-                if (DrawerPlaces.mAdapter != null)
-                    DrawerPlaces.mAdapter.notifyDataSetChanged();
+                if (DrawerPlaces.adapter != null)
+                    DrawerPlaces.adapter.notifyDataSetChanged();
 
-                refresh.setRefreshing(false);
+                refreshLayout.setRefreshing(false);
             }
         }, context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
@@ -98,7 +105,7 @@ public class DrawerPlaces extends Fragment {
             context.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mAdapter = new PlaceAdapter(context,
+                    adapter = new PlaceAdapter(context,
                             new PlaceAdapter.ClickListener() {
                                 @Override
                                 public void onClick(PlaceAdapter.PlacesViewHolder view, int position, boolean longClick) {
@@ -117,19 +124,16 @@ public class DrawerPlaces extends Fragment {
                             });
 
                     if (!otherList) {
-                        mAdapter.setData(Places.getPlacesList());
-                        mRecycler.setAdapter(mAdapter);
+                        adapter.setData(Places.getPlacesList());
+                        recyclerView.setAdapter(adapter);
 
                         Preferences mPref = new Preferences(context);
                         mPref.setPlacesSize(Places.getPlacesList().size());
 
                     } else {
-                        mAdapter.setData(arrayList);
-                        mRecycler.setAdapter(mAdapter);
+                        adapter.setData(arrayList);
+                        recyclerView.setAdapter(adapter);
                     }
-
-                    if (Utils.hasNetwork(context))
-                        mRecycler.setVisibility(View.VISIBLE);
 
                 }
             });
@@ -139,22 +143,41 @@ public class DrawerPlaces extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.toolbar_places, menu);
         super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.toolbar_places, menu);
+
+        MenuItem item = menu.findItem(R.id.search);
+        SearchView sv = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
+        MenuItemCompat.setActionView(item, sv);
+        sv.setQueryHint("Berlin, Germany");
+        sv.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String key) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String key) {
+                searchFilter(key);
+                return false;
+            }
+
+        });
+
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem menu) {
 
-        int id = item.getItemId();
-
+        int id = menu.getItemId();
         switch (id) {
             case R.id.column:
                 Dialogs.columnsDialog(context);
                 break;
         }
 
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(menu);
     }
 
     @Override
@@ -171,26 +194,16 @@ public class DrawerPlaces extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        view = inflater.inflate(R.layout.drawer_places, container, false);
+
         setHasOptionsMenu(true);
         context = getActivity();
 
-        if (layout != null) {
-            ViewGroup parent = (ViewGroup) layout.getParent();
-            if (parent != null) parent.removeView(layout);
-        }
+        preferences = new Preferences(context);
 
-        try {
-            layout = (ViewGroup) inflater.inflate(R.layout.drawer_places, container, false);
-        } catch (InflateException e) {
-
-        }
-
-        mPrefs = new Preferences(context);
-        if (mPrefs.getColumns() == 0) mPrefs.setColumns(1);
-
-        refresh = (SwipeRefreshLayout) layout.findViewById(R.id.placeRefresh);
-        refresh.setColorSchemeResources(R.color.colorPrimary);
-        refresh.setOnRefreshListener(
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.placeRefresh);
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        refreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
@@ -200,21 +213,13 @@ public class DrawerPlaces extends Fragment {
                 }
         );
 
-        mRecycler = (RecyclerView) layout.findViewById(R.id.bookmarksRecyclerView);
-        mRecycler.setLayoutManager(new GridLayoutManager(context, mPrefs.getColumns(), 1, false));
-        mRecycler.setAdapter(mAdapter);
-        mRecycler.setHasFixedSize(true);
+        recyclerView = (RecyclerView) view.findViewById(R.id.bookmarksRecyclerView);
+        recyclerView.setLayoutManager(new GridLayoutManager(context, preferences.getColumns(), 1, false));
+        recyclerView.setAdapter(adapter);
+        recyclerView.setHasFixedSize(true);
         setupLayout(false, Places.getPlacesList());
 
-        return layout;
-    }
-
-    public void setColumns(int amount) {
-        int columns = amount;
-        mRecycler.setLayoutManager(new GridLayoutManager(context, columns, 1, false));
-
-        mPrefs = new Preferences(context);
-        mPrefs.setColumns(amount);
+        return view;
     }
 
     public static class DownloadPlacesJSON extends AsyncTask<Void, Void, Void> {
@@ -247,6 +252,7 @@ public class DrawerPlaces extends Fragment {
         protected Void doInBackground(Void... params) {
 
             JSONObject json = JSONParser.getJSONFromURL(Utils.getStringFromResources(taskContext.get(), R.string.json_file_url));
+
             if (json != null) {
                 try {
                     JSONArray jsonarray = json.getJSONArray("places");
@@ -310,7 +316,7 @@ public class DrawerPlaces extends Fragment {
             endTime = System.currentTimeMillis();
             Log.d("Places ", "Task took: " + String.valueOf((endTime - startTime) / 1000) + " seconds");
 
-            if (layout != null) setupLayout(false, Places.getPlacesList());
+            if (view != null) setupLayout(false, Places.getPlacesList());
             if (wi != null) wi.checkPlacesListCreation(successful);
         }
 

@@ -74,7 +74,6 @@
                     android:id="@+id/profileDesc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:lineSpacingExtra="3dp"
                     android:padding="16dp"
                     android:text="Placeholder Motivation"
                     android:textColor="@color/primaryText" />
