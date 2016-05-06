@@ -12,14 +12,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Interpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.ImageViewTarget;
+import com.bumptech.glide.request.target.Target;
 import com.mk.places.R;
 import com.mk.places.models.Place;
 import com.mk.places.utilities.Anim;
@@ -60,27 +69,23 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
 
         Glide.with(context)
                 .load(imgPlaceUrl)
-                .asBitmap()
-                .override(1022, 784)
+                .crossFade()
+                .override(1500, 1500)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .into(new BitmapImageViewTarget(holder.image) {
+                .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
-                    protected void setResource(Bitmap resource) {
-                        TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(context.getResources(), resource)});
-                        holder.image.setImageDrawable(td);
-                        td.startTransition(350);
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        return false;
                     }
 
                     @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        super.onResourceReady(resource, glideAnimation);
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
                         holder.viewShadow.setVisibility(View.VISIBLE);
+                        return false;
                     }
-                });
+                })
+                .into(holder.image);
 
-        if (context.getResources().getBoolean(R.bool.placesZoomItems)) {
-            Anim.zoomInAndOut(context, holder.image);
-        }
 
         holder.location.setText(place.getLocation());
         holder.sight.setText(place.getSight());
@@ -116,7 +121,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
         public final TextView location, sight, continent;
         public final ImageView sightDrawable;
         private MaterialRippleLayout ripple;
-        private View viewShadow;
+        private LinearLayout viewShadow;
 
         PlacesViewHolder(View v) {
             super(v);
@@ -124,7 +129,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
 
             ripple = (MaterialRippleLayout) view.findViewById(R.id.rippleOverlay);
             image = (ImageView) view.findViewById(R.id.placeImage);
-            viewShadow = (View) view.findViewById(R.id.schadowBelow);
+            viewShadow = (LinearLayout) view.findViewById(R.id.schadowBelow);
             location = (TextView) view.findViewById(R.id.locationText);
 
             location.setTypeface(Utils.customTypeface(context, 1));

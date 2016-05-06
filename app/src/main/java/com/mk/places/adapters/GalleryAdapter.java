@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
 
@@ -43,19 +45,10 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
         if (imageLink[position] == null) return;
         Glide.with(context)
                 .load(imageLink[position])
-                .asBitmap()
-                .override(450, 450)
+                .override(800, 800)
                 .centerCrop()
-                .into(new BitmapImageViewTarget(v.imageView) {
-                    @Override
-                    protected void setResource(Bitmap resource) {
-                        TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(context.getResources(), resource)});
-                        assert v.imageView != null;
-                        v.imageView.setImageDrawable(td);
-                        td.startTransition(150);
-                    }
-                });
-
+                .priority(Priority.IMMEDIATE)
+                .into(v.imageView);
 
 
     }

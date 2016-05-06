@@ -33,7 +33,6 @@ public class Preferences {
             FIRST_START = "START",
             PLACES_AMOUNT = "PLACES",
             PLACES_FAVO_AMOUNT = "FAVO",
-
             COLUMNS = "COULMNS";
 
     private final Context context;

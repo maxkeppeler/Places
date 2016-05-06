@@ -25,30 +25,42 @@
         <item name="material_drawer_divider">@color/material_drawer_divider</item>
         <item name="material_drawer_selected">@color/material_drawer_selected</item>
         <item name="material_drawer_selected_text">@color/material_drawer_selected_text</item>
-        <item name="material_drawer_header_selection_text">@color/material_drawer_header_selection_text</item>
+        <item name="material_drawer_header_selection_text">
+            @color/material_drawer_header_selection_text
+        </item>
     </style>
 
     <style name="DetailView" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:navigationBarColor">@color/backgroundColor</item>
-        <item name="md_dark_theme">true</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorEdgeEffect">@color/backgroundColor</item>
         <item name="android:colorBackground">@color/backgroundColor</item>
-        <item name="android:color">@color/backgroundColor</item>
-        <item name="colorControlHighlight">@color/accent_translucent</item> 
-        <item name="selectableItemBackground">@drawable/selectable_item_background</item>
-        <item name="android:selectableItemBackground">@drawable/selectable_item_background</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="GalleryView" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/backgroundColor</item>
-        <item name="android:navigationBarColor">@color/backgroundColor</item>
-        <!--<item name="android:windowActionBar">false</item>-->
-        <!--<item name="android:windowContentOverlay">@null</item>-->
+
+        <!--<item name="android:fitsSystemWindows">true</item>-->
+
+        <item name="android:windowTranslucentNavigation">true</item>
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="windowNoTitle">true</item>-->
+        <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+        <item name="android:windowTranslucentStatus">true</item>
+
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="android:navigationBarColor">@color/transparent</item>-->
+        <!--<item name="android:statusBarColor">@color/transparent</item>-->
+        <item name="android:colorBackground">@color/backgroundColorDarker</item>
     </style>
 
     <style name="ToolbarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -65,7 +77,6 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:colorBackground">@color/colorPrimary</item>
         <item name="android:color">@color/colorPrimary</item>
-        <!--<item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>-->
     </style>
 
     <style name="TransparentToolbar" parent="AppTheme">
@@ -73,7 +84,7 @@
         <item name="windowActionBarOverlay">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"></style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
@@ -90,6 +101,8 @@
         <item name="cardCornerRadius">@dimen/card_radius</item>
         <item name="cardElevation">@dimen/card_elevation</item>
         <item name="android:clickable">true</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:background">@drawable/ripple</item>
     </style>
 
     <style name="FabStyle">
@@ -109,13 +122,6 @@
         <item name="android:clipToPadding">false</item>
         <item name="android:clipChildren">false</item>
     </style>
-
-    <style name="ListView">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:clipToPadding">false</item>
-    </style>
-
 
     <style name="LinearLayoutForTexts">
         <item name="android:layout_width">match_parent</item>

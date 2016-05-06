@@ -10,7 +10,6 @@
         android:id="@+id/cardViewMember"
         style="@style/Card"
         android:layout_marginTop="4dp"
-        android:focusableInTouchMode="true"
         app:cardUseCompatPadding="true">
 
         <LinearLayout

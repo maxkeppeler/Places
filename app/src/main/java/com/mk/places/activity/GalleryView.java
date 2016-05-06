@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.mk.places.R;
 import com.mk.places.adapters.GalleryItemAdapter;
@@ -18,36 +16,14 @@ public class GalleryView extends AppCompatActivity {
 
         setContentView(R.layout.gallery_view);
 
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//      TODO: Add translucent toolbar at the top of the nav bar with a apply and download option
 
         Intent intent = getIntent();
-        final String[] imageLink = intent.getStringArrayExtra("imageLink");
-        final String[] imageName = intent.getStringArrayExtra("imageName");
-        final String[] imageDesc = intent.getStringArrayExtra("imageDesc");
-        final int index = intent.getIntExtra("index", 0);
 
-        ViewPager mPager = (ViewPager) findViewById(R.id.viewPagerImage);
-        mPager.setAdapter(new GalleryItemAdapter(getApplicationContext(), imageLink, imageName, imageDesc, this.getWindow()));
-        mPager.setCurrentItem(index);
-    }
+        ViewPager pager = (ViewPager) findViewById(R.id.galleryViewPager);
+        pager.setAdapter(new GalleryItemAdapter(getApplicationContext(), intent.getStringArrayExtra("imageLink")));
+        pager.setOffscreenPageLimit(1);
+        pager.setCurrentItem(intent.getIntExtra("index", 0));
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 }

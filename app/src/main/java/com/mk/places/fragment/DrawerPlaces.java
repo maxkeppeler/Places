@@ -11,7 +11,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,7 +40,6 @@ import java.util.ArrayList;
 
 
 public class DrawerPlaces extends Fragment {
-
 
     private static final String TAG = "DrawerPlaces";
     private static PlaceAdapter adapter;
@@ -79,7 +77,7 @@ public class DrawerPlaces extends Fragment {
 
         }
 
-        setupLayout(true, filter);
+        createLayout(true, filter);
     }
 
     public static void loadPlacesList(Context context) {
@@ -99,7 +97,7 @@ public class DrawerPlaces extends Fragment {
 
     }
 
-    public static void setupLayout(final boolean otherList, final ArrayList<Place> arrayList) {
+    public static void createLayout(final boolean otherList, final ArrayList<Place> arrayList) {
 
         if (Places.getPlacesList() != null && Places.getPlacesList().size() > 0) {
             context.runOnUiThread(new Runnable() {
@@ -160,6 +158,7 @@ public class DrawerPlaces extends Fragment {
             @Override
             public boolean onQueryTextChange(String key) {
                 searchFilter(key);
+                MainActivity.drawerFilter.setSelection(0);
                 return false;
             }
 
@@ -217,7 +216,7 @@ public class DrawerPlaces extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(context, preferences.getColumns(), 1, false));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-        setupLayout(false, Places.getPlacesList());
+        createLayout(false, Places.getPlacesList());
 
         return view;
     }
@@ -271,27 +270,28 @@ public class DrawerPlaces extends Fragment {
                                         json.getString("description"),
 
                                         json.getString("url"),
+                                        json.getString("url0"),
+                                        json.getString("url1"),
+                                        json.getString("url2"),
+                                        json.getString("url3"),
+                                        json.getString("url4"),
+                                        json.getString("url5"),
+                                        json.getString("url6"),
+                                        json.getString("url7"),
+                                        json.getString("url8"),
+                                        json.getString("url9"),
+                                        json.getString("url10"),
+                                        json.getString("url11"),
+                                        json.getString("url12"),
+                                        json.getString("url13"),
+                                        json.getString("url14"),
+                                        json.getString("url15"),
+                                        json.getString("url16"),
+                                        json.getString("url17"),
+                                        json.getString("url18"),
+                                        json.getString("url19")
 
-                                        json.getString("urlaTitle"), json.getString("urlaDesc"), json.getString("urla"),
-                                        json.getString("urlbTitle"), json.getString("urlbDesc"), json.getString("urlb"),
-                                        json.getString("urlcTitle"), json.getString("urlcDesc"), json.getString("urlc"),
-                                        json.getString("urldTitle"), json.getString("urldDesc"), json.getString("urld"),
-                                        json.getString("urleTitle"), json.getString("urleDesc"), json.getString("urle"),
-                                        json.getString("urlfTitle"), json.getString("urlfDesc"), json.getString("urlf"),
-                                        json.getString("urlgTitle"), json.getString("urlgDesc"), json.getString("urlg"),
-                                        json.getString("urlhTitle"), json.getString("urlhDesc"), json.getString("urlh"),
-                                        json.getString("urliTitle"), json.getString("urliDesc"), json.getString("urli"),
-                                        json.getString("urljTitle"), json.getString("urljDesc"), json.getString("urlj"),
-                                        json.getString("urlkTitle"), json.getString("urlkDesc"), json.getString("urlk"),
-                                        json.getString("urllTitle"), json.getString("urllDesc"), json.getString("urll"),
-                                        json.getString("urlmTitle"), json.getString("urlmDesc"), json.getString("urlm"),
-                                        json.getString("urlnTitle"), json.getString("urlnDesc"), json.getString("urln"),
-                                        json.getString("urloTitle"), json.getString("urloDesc"), json.getString("urlo"),
-                                        json.getString("urlpTitle"), json.getString("urlpDesc"), json.getString("urlp"),
-                                        json.getString("urlqTitle"), json.getString("urlqDesc"), json.getString("urlq"),
-                                        json.getString("urlrTitle"), json.getString("urlrDesc"), json.getString("urlr"),
-                                        json.getString("urlsTitle"), json.getString("urlsDesc"), json.getString("urls"),
-                                        json.getString("urltTitle"), json.getString("urltDesc"), json.getString("urlt")
+
                                 )
                         );
 
@@ -316,7 +316,7 @@ public class DrawerPlaces extends Fragment {
             endTime = System.currentTimeMillis();
             Log.d("Places ", "Task took: " + String.valueOf((endTime - startTime) / 1000) + " seconds");
 
-            if (view != null) setupLayout(false, Places.getPlacesList());
+            if (view != null) createLayout(false, Places.getPlacesList());
             if (wi != null) wi.checkPlacesListCreation(successful);
         }
 

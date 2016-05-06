@@ -32,9 +32,9 @@ public class FilterLogic {
 
                 }
 
-                DrawerPlaces.setupLayout(true, filter);
+                DrawerPlaces.createLayout(true, filter);
 
-            } else DrawerPlaces.setupLayout(false, filter);
+            } else DrawerPlaces.createLayout(false, filter);
 
 
         }
@@ -57,9 +57,9 @@ public class FilterLogic {
 
                 }
 
-                DrawerBookmarks.setupLayout(true, filter);
+                DrawerBookmarks.createLayout(true, filter);
 
-            } else DrawerBookmarks.setupLayout(false, null);
+            } else DrawerBookmarks.createLayout(false, null);
 
 
         }

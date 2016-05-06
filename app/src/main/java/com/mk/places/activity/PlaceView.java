@@ -1,7 +1,6 @@
 package com.mk.places.activity;
 
 import android.Manifest;
-import android.animation.Animator;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -25,12 +23,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.ColorUtils;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -38,15 +32,13 @@ import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.inquiry.Inquiry;
@@ -54,6 +46,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
 import com.mk.places.adapters.GalleryAdapter;
@@ -69,9 +62,7 @@ import butterknife.ButterKnife;
 public class PlaceView extends AppCompatActivity {
 
 
-    //    REQUEST PERMISSIONS
-    private static final int PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE = 42;
-    private static int color;
+
 
     @Bind(R.id.placeItemFAB)
     FloatingActionButton fab;
@@ -80,29 +71,32 @@ public class PlaceView extends AppCompatActivity {
     Toolbar toolbar;
 
     @Bind(R.id.collapsingToolbar)
-    CollapsingToolbarLayout collapsingToolbarLayout;
+    CollapsingToolbarLayout toolbarLayout;
 
-    @Bind(R.id.placeDescTitle)
-    TextView placeDescTitle;
+    @Bind(R.id.pDescTitle)
+    TextView pDescTitle;
 
-    @Bind(R.id.descDetailView)
-    TextView placesDescText;
+    @Bind(R.id.pDescText)
+    TextView pDescText;
 
-    @Bind(R.id.placeInfoTitle)
-    TextView placeInfoTitle;
+    @Bind(R.id.pInfoTitle)
+    TextView pInfoTitle;
 
-    @Bind(R.id.recyclerViewInfoDetail)
-    RecyclerView recyclerViewDetail;
+    @Bind(R.id.pInfoRecycler)
+    RecyclerView pInfoRecycler;
 
-    @Bind(R.id.recyclerViewGallery)
-    RecyclerView recyclerViewGallery;
+    @Bind(R.id.pGalleryRecyler)
+    RecyclerView pGalleryRecycler;
 
-    @Bind(R.id.scroll)
-    NestedScrollView scroll;
+    @Bind(R.id.shadowOverlay)
+    LinearLayout shadowOverlay;
 
-    @Bind(R.id.imagePlaceDetail) ImageView image;
+    @Bind(R.id.pMainImage)
+    ImageView pMainImage;
 
-    Window window;
+    private static final int PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE = 42;
+    private int color;
+    private Window window;
     private String location, sight, desc, url, continent, religion;
     private ViewGroup layout;
     private Activity context;
@@ -117,17 +111,15 @@ public class PlaceView extends AppCompatActivity {
         }
 
         context = this;
-
         setContentView(R.layout.drawer_places_detail);
-
         ButterKnife.bind(this);
 
-        Typeface typeTitles = Utils.customTypeface(context, 1);
-        Typeface typeTexts = Utils.customTypeface(context, 2);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationIcon(R.drawable.ic_close);
 
-        Intent intent = getIntent();
-        final Place item = intent.getParcelableExtra("item");
-
+        final Place item = getIntent().getParcelableExtra("item");
         url = item.getUrl();
         location = item.getLocation();
         sight = item.getSight();
@@ -135,19 +127,63 @@ public class PlaceView extends AppCompatActivity {
         religion = item.getReligion();
         desc = item.getDescription();
 
-        if (continent.isEmpty() || continent.length() < 4) continent = "Unknown";
+        Glide.with(context)
+                .load(url)
+                .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .priority(Priority.IMMEDIATE)
+                .centerCrop()
+                .into(new BitmapImageViewTarget(pMainImage) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(getResources(), resource)});
+
+                        if (pMainImage != null) {
+                            pMainImage.setImageDrawable(td);
+                            td.startTransition(50);
+                            shadowOverlay.setVisibility(View.VISIBLE);
+                        }
+
+                        new Palette.Builder(resource).generate(new Palette.PaletteAsyncListener() {
+                            @Override
+                            public void onGenerated(Palette palette) {
+
+                                if (palette == null) return;
+
+                                color = Utils.colorFromPalette(context, palette);
+                                fab.setBackgroundTintList(ColorStateList.valueOf(color));
+                                fab.setVisibility(View.VISIBLE);
+                                Animation animation = AnimationUtils.loadAnimation(context, R.anim.scale_up);
+                                fab.startAnimation(animation);
+                                toolbarLayout.setContentScrimColor(color);
+                                toolbarLayout.setStatusBarScrimColor((Utils.colorVariant(color, 0.92f)));
+
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                                    window.setNavigationBarColor(color);
+
+
+                            }
+                        });
+                    }
+
+                });
+
+//        TODO: Check if other strings are empty (empty = unknown)
+
+        if (continent.length() < 4) continent = "Unknown";
+        if (religion.length() < 4) religion = "Unknown";
 
         sightDependingLayouts();
 
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationIcon(R.drawable.ic_close);
+        final Typeface typeTitles = Utils.customTypeface(context, 1);
+        final Typeface typeTexts = Utils.customTypeface(context, 2);
 
-        placeDescTitle.setTypeface(typeTitles);
-        placeInfoTitle.setTypeface(typeTitles);
-        placesDescText.setTypeface(typeTexts);
-        placesDescText.setText(Html.fromHtml(desc).toString().replace("â€“", "–").replace("â€™", "\"").replace("â€™", "\"").replace("â€˜", "\"").replace("\\n", "\n").replace("\\", ""));
+        pDescTitle.setTypeface(typeTitles);
+        pInfoTitle.setTypeface(typeTitles);
+        pDescText.setTypeface(typeTexts);
+
+        pDescText.setText(Html.fromHtml(desc).toString().replace("â€“", "–").replace("â€™", "\"").replace("â€™", "\"").replace("â€˜", "\"").replace("\\n", "\n").replace("\\", ""));
+
         fab.setVisibility(View.INVISIBLE);
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -164,138 +200,58 @@ public class PlaceView extends AppCompatActivity {
             }
         });
 
-        collapsingToolbarLayout.setTitle(location);
-        collapsingToolbarLayout.setCollapsedTitleTypeface(typeTitles);
-        collapsingToolbarLayout.setExpandedTitleTypeface(typeTitles);
-        collapsingToolbarLayout.setSelected(true);
+        toolbarLayout.setTitle(location);
+        toolbarLayout.setCollapsedTitleTypeface(typeTitles);
+        toolbarLayout.setExpandedTitleTypeface(typeTitles);
+        toolbarLayout.setSelected(true);
         toolbar.setSelected(true);
 
-        Glide.with(context)
-                .load(url)
-                .asBitmap()
-                .priority(Priority.IMMEDIATE)
-                .skipMemoryCache(true)
-                .centerCrop()
-                .into(new BitmapImageViewTarget(image) {
-                    @Override
-                    protected void setResource(Bitmap resource) {
-                        TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(getResources(), resource)});
-                        assert image != null;
-                        image.setImageDrawable(td);
-                        td.startTransition(150);
+        createGallery(item);
+    }
 
-                        new Palette.Builder(resource).generate(new Palette.PaletteAsyncListener() {
-                            @Override
-                            public void onGenerated(Palette palette) {
 
-                                if (palette == null) return;
+    private void createGallery(Place item) {
 
-                                color = Utils.colorFromPalette(context, palette);
-                                fab.setBackgroundTintList(ColorStateList.valueOf(color));
-                                fab.setVisibility(View.VISIBLE);
-                                Animation animation = AnimationUtils.loadAnimation(context, R.anim.scale_up);
-                                fab.startAnimation(animation);
-
-                                collapsingToolbarLayout.setContentScrimColor(color);
-                                collapsingToolbarLayout.setStatusBarScrimColor((Utils.colorVariant(color, 0.92f)));
-
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                                    window.setNavigationBarColor(color);
-
-                            }
-                        });
-                    }
-
-                });
-
-        recyclerViewGallery.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false));
+        pGalleryRecycler.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false));
 
         int arraySize = 20;
-
-        final String
-                imageLink[] = new String[arraySize],
-                imageName[] = new String[arraySize],
-                imageDesc[] = new String[arraySize];
-
-        imageLink[0] = item.getUrl_a();
-        imageLink[1] = item.getUrl_b();
-        imageLink[2] = item.getUrl_c();
-        imageLink[3] = item.getUrl_d();
-        imageLink[4] = item.getUrl_e();
-        imageLink[5] = item.getUrl_f();
-        imageLink[6] = item.getUrl_g();
-        imageLink[7] = item.getUrl_h();
-        imageLink[8] = item.getUrl_i();
-        imageLink[9] = item.getUrl_j();
-        imageLink[10] = item.getUrl_k();
-        imageLink[11] = item.getUrl_l();
-        imageLink[12] = item.getUrl_m();
-        imageLink[13] = item.getUrl_n();
-        imageLink[14] = item.getUrl_o();
-        imageLink[15] = item.getUrl_p();
-        imageLink[16] = item.getUrl_q();
-        imageLink[17] = item.getUrl_r();
-        imageLink[18] = item.getUrl_s();
-        imageLink[19] = item.getUrl_t();
-
-        imageName[0] = item.getUrl_a_title();
-        imageName[1] = item.getUrl_b_title();
-        imageName[2] = item.getUrl_c_title();
-        imageName[3] = item.getUrl_d_title();
-        imageName[4] = item.getUrl_e_title();
-        imageName[5] = item.getUrl_f_title();
-        imageName[6] = item.getUrl_g_title();
-        imageName[7] = item.getUrl_h_title();
-        imageName[8] = item.getUrl_i_title();
-        imageName[9] = item.getUrl_j_title();
-        imageName[10] = item.getUrl_k_title();
-        imageName[11] = item.getUrl_l_title();
-        imageName[12] = item.getUrl_m_title();
-        imageName[13] = item.getUrl_n_title();
-        imageName[14] = item.getUrl_o_title();
-        imageName[15] = item.getUrl_p_title();
-        imageName[16] = item.getUrl_q_title();
-        imageName[17] = item.getUrl_r_title();
-        imageName[18] = item.getUrl_s_title();
-        imageName[19] = item.getUrl_t_title();
-
-        imageDesc[0] = item.getUrl_a_desc();
-        imageDesc[1] = item.getUrl_b_desc();
-        imageDesc[2] = item.getUrl_c_desc();
-        imageDesc[3] = item.getUrl_d_desc();
-        imageDesc[4] = item.getUrl_e_desc();
-        imageDesc[5] = item.getUrl_f_desc();
-        imageDesc[6] = item.getUrl_g_desc();
-        imageDesc[7] = item.getUrl_h_desc();
-        imageDesc[8] = item.getUrl_i_desc();
-        imageDesc[9] = item.getUrl_j_desc();
-        imageDesc[10] = item.getUrl_k_desc();
-        imageDesc[11] = item.getUrl_l_desc();
-        imageDesc[12] = item.getUrl_m_desc();
-        imageDesc[13] = item.getUrl_n_desc();
-        imageDesc[14] = item.getUrl_o_desc();
-        imageDesc[15] = item.getUrl_p_desc();
-        imageDesc[16] = item.getUrl_q_desc();
-        imageDesc[17] = item.getUrl_r_desc();
-        imageDesc[18] = item.getUrl_s_desc();
-        imageDesc[19] = item.getUrl_t_desc();
-
         int gallerySize = -1;
+        final String imageLink[] = new String[arraySize];
+
+        imageLink[0] = item.getUrl_0();
+        imageLink[1] = item.getUrl_1();
+        imageLink[2] = item.getUrl_2();
+        imageLink[3] = item.getUrl_3();
+        imageLink[4] = item.getUrl_4();
+        imageLink[5] = item.getUrl_5();
+        imageLink[6] = item.getUrl_6();
+        imageLink[7] = item.getUrl_7();
+        imageLink[8] = item.getUrl_8();
+        imageLink[9] = item.getUrl_9();
+        imageLink[10] = item.getUrl_10();
+        imageLink[11] = item.getUrl_11();
+        imageLink[12] = item.getUrl_12();
+        imageLink[13] = item.getUrl_13();
+        imageLink[14] = item.getUrl_14();
+        imageLink[15] = item.getUrl_15();
+        imageLink[16] = item.getUrl_16();
+        imageLink[17] = item.getUrl_17();
+        imageLink[18] = item.getUrl_18();
+        imageLink[19] = item.getUrl_19();
 
         for (int j = 0; j < arraySize; j++) {
-            if (imageLink[j].length() > 5) gallerySize++;
+            if (imageLink[j].length() > 5)
+                gallerySize++;
         }
 
-        final String
-                nImageLink[] = new String[gallerySize],
-                nImageName[] = new String[gallerySize],
-                nImageDesc[] = new String[gallerySize];
+        final String nImageLink[] = new String[gallerySize];
 
+        for (int j = 0; j < gallerySize; j++) {
 
-        for (int i = 0; i < gallerySize; i++) {
-            nImageLink[i] = imageLink[i];
-            nImageName[i] = imageName[i];
-            nImageDesc[i] = imageDesc[i];
+            if (imageLink[j].length() > 5)
+                nImageLink[j] = imageLink[j];
+
+            else nImageLink[j] = imageLink[j + 1];
         }
 
         final GalleryAdapter galleryAdapter = new GalleryAdapter(context, nImageLink, new GalleryAdapter.ClickListener() {
@@ -310,8 +266,6 @@ public class PlaceView extends AppCompatActivity {
 
                     Intent intent = new Intent(context, GalleryView.class);
                     intent.putExtra("imageLink", nImageLink);
-                    intent.putExtra("imageName", nImageName);
-                    intent.putExtra("imageDesc", nImageDesc);
                     intent.putExtra("index", index);
                     context.startActivity(intent);
 
@@ -320,13 +274,15 @@ public class PlaceView extends AppCompatActivity {
             }
         });
 
-        recyclerViewGallery.setNestedScrollingEnabled(true);
-        recyclerViewGallery.setClipToPadding(false);
-        recyclerViewGallery.setAdapter(galleryAdapter);
-        recyclerViewGallery.setHasFixedSize(true);
+        pGalleryRecycler.setNestedScrollingEnabled(true);
+        pGalleryRecycler.setClipToPadding(false);
+        pGalleryRecycler.setAdapter(galleryAdapter);
+        pGalleryRecycler.setHasFixedSize(true);
+
     }
 
-    //  TODO - add more sight depending layouts for variety and more info
+    //  TODO - add more sight depending layouts (more sights?)
+
     private void sightDependingLayouts() {
 
         if (sight.equals("City")) {
@@ -336,58 +292,32 @@ public class PlaceView extends AppCompatActivity {
                     new GalleryItem("Location", continent, R.drawable.ic_location),
                     new GalleryItem("Religion", religion, R.drawable.ic_religion),
             };
-            finishRecycler(recyclerViewDetail, itemsData);
+            completeRecycler(pInfoRecycler, itemsData);
         }
 
         if (sight.equals("National Park")) {
             GalleryItem itemsData[] = {
                     new GalleryItem("Location", continent, R.drawable.ic_location),
             };
-            finishRecycler(recyclerViewDetail, itemsData);
+            completeRecycler(pInfoRecycler, itemsData);
         }
-
-
     }
 
-    private void finishRecycler(RecyclerView recyclerView, GalleryItem itemsData[]) {
+
+
+    private void completeRecycler(RecyclerView recyclerView, GalleryItem itemsData[]) {
+
         recyclerView.setLayoutManager(new GridLayoutManager(context, 1));
         PlaceItemAdapter mAdapter = new PlaceItemAdapter(itemsData, context);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setHasFixedSize(true);
-    }
-
-
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-        try {
-            return super.dispatchTouchEvent(motionEvent);
-        } catch (NullPointerException e) {
-            return false;
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
 
     }
 
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Inquiry.deinit();
-    }
 
     @Override
     public void onBackPressed() {
-        closeViewer();
+        close();
     }
 
     @Override
@@ -401,7 +331,7 @@ public class PlaceView extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                closeViewer();
+                close();
                 break;
 
             case R.id.download:
@@ -429,20 +359,19 @@ public class PlaceView extends AppCompatActivity {
         return true;
     }
 
-    private void closeViewer() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    private void close() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             supportFinishAfterTransition();
-        } else {
-            finish();
-        }
+        else finish();
     }
 
     public void downloadImage() {
 
+//        TODO: FIX: Image will not be downloaded
+
         final DownloadImage downloadTask = new DownloadImage(context, location);
         downloadTask.execute(url);
 
-//                            Snackbar
         View layout = findViewById(R.id.coordinatorLayout);
         Snackbar snackbar = Snackbar.make(layout, R.string.snackbarDownloadImageText, Snackbar.LENGTH_LONG)
                 .setActionTextColor(getResources().getColor(R.color.white))

@@ -49,40 +49,40 @@ import static com.mikepenz.google_material_typeface_library.GoogleMaterial.Icon;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static AppCompatActivity context;
-    private static String
-            drawerPlaces,
-            drawerBookmarks,
-            drawerUpload,
-            drawerAbout,
-            drawerSettings,
-            drawerWrong;
-    private Toolbar toolbar;
     public static Drawer drawer = null;
     public static Drawer drawerFilter = null;
-    private AccountHeader imageDrawer;
-    private String[] drawerImages;
-    private Preferences mPref;
-    private int current;
+    private static AppCompatActivity context;
+    private static String drawerPlaces, drawerBookmarks, drawerUpload, drawerAbout, drawerSettings, drawerWrong;
+    private Toolbar toolbar;
+    private AccountHeader drawerHeader;
+    private String[] drawerHeaderURLS;
+    private Preferences pref;
+    private int drawerIndex;
+    private Random random;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-
         context = this;
+        pref = new Preferences(context);
 
         DrawerPlaces.loadPlacesList(context);
 
-        mPref = new Preferences(context);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
-        if (mPref.getFirstStart()) {
+//        TODO: Fix if app was updated and had then the first start
+
+        if (pref.getFirstStart()) {
             Dialogs.showChangelog(context);
-            mPref.setFirstStart(false);
+            pref.setFirstStart(false);
         }
 
-        drawerImages = getResources().getStringArray(R.array.headerUrl);
+        drawerHeaderURLS = getResources().getStringArray(R.array.headerUrl);
 
         drawerPlaces = getResources().getString(R.string.app_places);
         drawerBookmarks = getResources().getString(R.string.app_bookmarks);
@@ -108,20 +108,14 @@ public class MainActivity extends AppCompatActivity {
                 continentNorthAmerica = getResources().getString(R.string.continentNorthAmerica),
                 continentSouthAmerica = getResources().getString(R.string.continentSouthAmerica);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
-        imageDrawer = new AccountHeaderBuilder().withActivity(this)
+        drawerHeader = new AccountHeaderBuilder().withActivity(this)
                 .withSelectionFirstLine("Places").withSelectionSecondLine("by Maximilian Keppeler")
                 .withTypeface(Utils.customTypeface(context, 2)).withHeightDp(380).build();
-
-        headerImage();
+        drawerHeader();
 
         drawer = new DrawerBuilder()
                 .withActivity(this)
-                .withAccountHeader(imageDrawer)
+                .withAccountHeader(drawerHeader)
                 .withSavedInstance(savedInstanceState)
                 .withSelectedItem(0)
                 .withToolbar(toolbar)
@@ -154,17 +148,17 @@ public class MainActivity extends AppCompatActivity {
                                     case 0:
                                         fragment = new DrawerPlaces();
                                         if (drawerFilter != null)
-                                        drawerFilter.setSelection(0);
+                                            drawerFilter.setSelection(0);
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
-                                        drawer.updateBadge(0, new StringHolder("• " + mPref.getPlacesSize() + " •"));
+                                        drawer.updateBadge(0, new StringHolder("• " + pref.getPlacesSize() + " •"));
                                         break;
 
                                     case 1:
                                         fragment = new DrawerBookmarks();
                                         if (drawerFilter != null)
-                                        drawerFilter.setSelection(0);
+                                            drawerFilter.setSelection(0);
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
-                                        drawer.updateBadge(1, new StringHolder("• " + mPref.getFavoSize() + " •"));
+                                        drawer.updateBadge(1, new StringHolder("• " + pref.getFavoSize() + " •"));
                                         break;
 
                                     case 2:
@@ -193,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                                     fragment.setRetainInstance(true);
                                     transaction.replace(R.id.container, fragment);
                                     transaction.commit();
-                                    current = (int) drawerItem.getIdentifier();
+                                    drawerIndex = (int) drawerItem.getIdentifier();
                                     toolbar.setTitle(toolbarTitle((int) drawerItem.getIdentifier()));
                                 } else if (fragment == null && intent != null) {
                                     startActivity(intent);
@@ -208,8 +202,7 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .build();
 
-        if (drawer != null)
-            drawer.setSelection(0);
+        if (drawer != null) drawer.setSelection(0);
 
         drawerFilter = new DrawerBuilder()
                 .withActivity(this)
@@ -244,47 +237,47 @@ public class MainActivity extends AppCompatActivity {
                             switch ((int) drawerItem.getIdentifier()) {
 
                                 case 101:
-                                    FilterLogic.filterList(current, sightCity);
+                                    FilterLogic.filterList(drawerIndex, sightCity);
                                     break;
                                 case 102:
-                                    FilterLogic.filterList(current, sightCountry);
+                                    FilterLogic.filterList(drawerIndex, sightCountry);
                                     break;
                                 case 103:
-                                    FilterLogic.filterList(current, sightNationalPark);
+                                    FilterLogic.filterList(drawerIndex, sightNationalPark);
                                     break;
                                 case 104:
-                                    FilterLogic.filterList(current, sightPark);
+                                    FilterLogic.filterList(drawerIndex, sightPark);
                                     break;
 
                                 case 201:
-                                    FilterLogic.filterList(current, continentAfrica);
+                                    FilterLogic.filterList(drawerIndex, continentAfrica);
                                     break;
                                 case 202:
-                                    FilterLogic.filterList(current, continentAntarctica);
+                                    FilterLogic.filterList(drawerIndex, continentAntarctica);
                                     break;
                                 case 203:
-                                    FilterLogic.filterList(current, continentAsia);
+                                    FilterLogic.filterList(drawerIndex, continentAsia);
                                     break;
                                 case 204:
-                                    FilterLogic.filterList(current, continentAustralia);
+                                    FilterLogic.filterList(drawerIndex, continentAustralia);
                                     break;
                                 case 205:
-                                    FilterLogic.filterList(current, continentEurope);
+                                    FilterLogic.filterList(drawerIndex, continentEurope);
                                     break;
                                 case 206:
-                                    FilterLogic.filterList(current, continentNorthAmerica);
+                                    FilterLogic.filterList(drawerIndex, continentNorthAmerica);
                                     break;
                                 case 207:
-                                    FilterLogic.filterList(current, continentSouthAmerica);
+                                    FilterLogic.filterList(drawerIndex, continentSouthAmerica);
                                     break;
 
                                 case 999:
-                                    FilterLogic.filterList(current, "All");
+                                    FilterLogic.filterList(drawerIndex, "All");
                                     drawerFilter.setSelection(0);
                                     break;
 
                                 default:
-                                    FilterLogic.filterList(current, "All");
+                                    FilterLogic.filterList(drawerIndex, "All");
                                     drawerFilter.setSelection(0);
                                     break;
                             }
@@ -295,13 +288,12 @@ public class MainActivity extends AppCompatActivity {
                 .withDrawerGravity(Gravity.END)
                 .append(drawer);
 
-        if (drawerFilter != null) {
-            drawerFilter.setSelection(0);
-        }
+        if (drawerFilter != null) drawerFilter.setSelection(0);
     }
 
-    public String toolbarTitle(int position) {
-        switch (position) {
+    public String toolbarTitle(int index) {
+
+        switch (index) {
             case 0: return drawerPlaces;
             case 1: return drawerBookmarks;
             case 2: return drawerUpload;
@@ -309,71 +301,46 @@ public class MainActivity extends AppCompatActivity {
             case 4: return drawerSettings;
             default: return drawerWrong;
         }
+
     }
 
     @Override
     public void onBackPressed() {
-        if (drawer != null && drawer.isDrawerOpen()) {
+
+        if (drawer != null && drawer.isDrawerOpen())
             drawer.closeDrawer();
-        } else if (drawer != null && drawer.getCurrentSelection() != 0) {
-            drawer.setSelection(1);
-        } else if (drawer != null) {
+
+        else if (drawer != null && drawer.getCurrentSelection() != 0)
+            drawer.setSelection(0);
+
+        else if (drawer != null)
             super.onBackPressed();
-        } else {
-            super.onBackPressed();
-        }
+
+        else super.onBackPressed();
+
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
+    public AccountHeader drawerHeader() {
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    public AccountHeader headerImage() {
-
-        final ImageView cover = imageDrawer.getHeaderBackgroundView();
+        final ImageView cover = drawerHeader.getHeaderBackgroundView();
         Random random = new Random();
-        String randomURL = drawerImages[random.nextInt(drawerImages.length)];
+        String randomURL = drawerHeaderURLS[random.nextInt(drawerHeaderURLS.length)];
 
         Glide.with(context)
                 .load(randomURL)
-                .asBitmap()
                 .override(1512, 1288)
                 .centerCrop()
-                .into(new BitmapImageViewTarget(cover) {
-                    @Override
-                    protected void setResource(Bitmap resource) {
-                        TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(getResources(), resource)});
-                        cover.setImageDrawable(td);
-                        td.startTransition(250);
-                    }
-                });
+                .into(cover);
 
         if (this.getResources().getBoolean(R.bool.zoomDrawerHeader))
             Anim.zoomInAndOut(context, cover);
 
-        return imageDrawer;
+        return drawerHeader;
     }
 
     public interface PlacesListInterface {
         void checkPlacesListCreation(boolean result);
     }
-
 
 
 }

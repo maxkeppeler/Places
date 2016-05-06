@@ -10,7 +10,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -48,7 +47,7 @@ public class DrawerBookmarks extends Fragment {
     private static SwipeRefreshLayout refreshLayout;
     private static Preferences preferences;
 
-    public static void setupLayout(final boolean other, final ArrayList<Place> arrayList) {
+    public static void createLayout(final boolean other, final ArrayList<Place> arrayList) {
 
         if (bookmarks != null && bookmarks.size() > 0) {
             context.runOnUiThread(new Runnable() {
@@ -105,7 +104,7 @@ public class DrawerBookmarks extends Fragment {
 
         }
 
-        setupLayout(true, filter);
+        createLayout(true, filter);
     }
 
     public static ArrayList<Place> getBookmarks() {
@@ -138,6 +137,7 @@ public class DrawerBookmarks extends Fragment {
             @Override
             public boolean onQueryTextChange(String key) {
                 searchFilter(key);
+                MainActivity.drawerFilter.setSelection(0);
                 return false;
             }
 
@@ -226,7 +226,7 @@ public class DrawerBookmarks extends Fragment {
         mPref.setFavoSize(bookmarks.size());
 
         Inquiry.deinit();
-        setupLayout(false, bookmarks);
+        createLayout(false, bookmarks);
         refreshLayout.setRefreshing(false);
     }
 
