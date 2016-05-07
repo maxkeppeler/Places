@@ -51,4 +51,5 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.sothree.slidinguppanel:library:3.3.0'
     compile 'com.github.afollestad:inquiry:2.0.1'
+    compile 'com.google.android.gms:play-services:8.4.0'
 }

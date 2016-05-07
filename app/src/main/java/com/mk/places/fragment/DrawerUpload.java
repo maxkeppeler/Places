@@ -13,10 +13,13 @@ import android.widget.TextView;
 import com.mk.places.R;
 import com.mk.places.utilities.Utils;
 
+import butterknife.Bind;
+import butterknife.BindString;
+import butterknife.ButterKnife;
+
 public class DrawerUpload extends Fragment {
 
     final private String TAG = "DrawerUpload";
-    private ViewGroup layout;
     private Activity context;
 
     @Override
@@ -24,6 +27,7 @@ public class DrawerUpload extends Fragment {
         View view = inflater.inflate(R.layout.drawer_upload, container, false);
 
         context = getActivity();
+        ButterKnife.bind(context);
 
         TextView rulesTitle = (TextView) view.findViewById(R.id.infoTitle);
         TextView rulesText = (TextView) view.findViewById(R.id.infoText);

@@ -1,4 +1,4 @@
-package com.mk.places.activity;
+package com.mk.places.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.mk.places.R;
 
-public class Splash extends AppCompatActivity {
+public class SplashScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

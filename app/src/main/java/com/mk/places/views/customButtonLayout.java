@@ -9,17 +9,17 @@ import android.widget.LinearLayout;
 
 import com.mk.places.R;
 
-public class ButtonLayout extends LinearLayout {
+public class customButtonLayout extends LinearLayout {
 
-    public ButtonLayout(Context context) {
+    public customButtonLayout(Context context) {
         super(context);
     }
 
-    public ButtonLayout(Context context, AttributeSet attrs) {
+    public customButtonLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ButtonLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public customButtonLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 

@@ -68,7 +68,7 @@
 
                     </LinearLayout>
 
-                    <com.mk.places.views.ButtonLayout
+                    <com.mk.places.views.customButtonLayout
                         android:id="@+id/buttonLayoutApp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

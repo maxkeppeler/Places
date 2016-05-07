@@ -21,9 +21,9 @@ import android.widget.SearchView;
 
 import com.afollestad.inquiry.Inquiry;
 import com.mk.places.R;
-import com.mk.places.activity.FavoriteUtil;
-import com.mk.places.activity.MainActivity;
-import com.mk.places.activity.PlaceView;
+import com.mk.places.activities.FavoriteUtil;
+import com.mk.places.activities.MainActivity;
+import com.mk.places.activities.PlaceView;
 import com.mk.places.adapters.PlaceAdapter;
 import com.mk.places.models.Place;
 import com.mk.places.models.Places;
@@ -189,6 +189,20 @@ public class DrawerBookmarks extends Fragment {
         loadBookmarks();
 
         return view;
+    }
+
+    public static DrawerBookmarks newInstance(int sectionNumber) {
+        DrawerBookmarks fragment = new DrawerBookmarks();
+        Bundle args = new Bundle();
+        args.putInt("Number", sectionNumber);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static DrawerBookmarks newInstance(String text) {
+
+        DrawerBookmarks f = new DrawerBookmarks();
+        return f;
     }
 
     public void loadBookmarks() {

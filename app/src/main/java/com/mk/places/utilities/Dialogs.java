@@ -11,7 +11,7 @@ import android.view.View;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mk.places.R;
-import com.mk.places.activity.MainActivity;
+import com.mk.places.activities.MainActivity;
 import com.mk.places.fragment.DrawerBookmarks;
 import com.mk.places.fragment.DrawerPlaces;
 
@@ -26,10 +26,10 @@ public class Dialogs {
         new MaterialDialog.Builder(context)
 
                 .typeface(Utils.customTypeface(context, 3), Utils.customTypeface(context, 2))
-                .contentColor(context.getResources().getColor(R.color.primaryText))
-                .backgroundColor(context.getResources().getColor(R.color.cardBackground))
+                .contentColor(Utils.getColor(context, R.color.primaryText))
+                .backgroundColor(Utils.getColor(context, R.color.cardBackground))
                 .title(R.string.changelogTitle)
-                .content(Html.fromHtml(context.getResources().getString(R.string.changelogContent)))
+                .content(Html.fromHtml(Utils.getString(context, R.string.changelogContent)))
                 .positiveText(R.string.changelogPositive)
                 .negativeText(R.string.changelogNegative)
                 .onNegative(new MaterialDialog.SingleButtonCallback() {

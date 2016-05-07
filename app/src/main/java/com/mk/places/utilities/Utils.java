@@ -27,8 +27,10 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.XmlResourceParser;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -82,8 +84,24 @@ public class Utils extends Activity {
         context.unbindService(mCustomTabsServiceConnection);
     }
 
-    public static String getStringFromResources(Context context, int id) {
+    public static String getRessources(Context context, int id) {
         return context.getResources().getString(id);
+    }
+
+    public static int getColor(Context context, int id) {
+        return context.getResources().getColor(id);
+    }
+
+    public static XmlResourceParser getLayout(Context context, int id) {
+        return context.getResources().getLayout(id);
+    }
+
+    public static String getString(Context context, int id) {
+        return context.getResources().getString(id);
+    }
+
+    public static Drawable getDrawable(Context context, int id) {
+        return context.getResources().getDrawable(id);
     }
 
     public static boolean hasNetwork(Context context) {

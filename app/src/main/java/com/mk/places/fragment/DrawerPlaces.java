@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -21,8 +22,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
 
 import com.mk.places.R;
-import com.mk.places.activity.MainActivity;
-import com.mk.places.activity.PlaceView;
+import com.mk.places.activities.MainActivity;
+import com.mk.places.activities.PlaceView;
 import com.mk.places.adapters.PlaceAdapter;
 import com.mk.places.models.Place;
 import com.mk.places.models.Places;
@@ -195,6 +196,9 @@ public class DrawerPlaces extends Fragment {
 
         view = inflater.inflate(R.layout.drawer_places, container, false);
 
+        if (Places.getPlacesList() == null)
+            loadPlacesList(context);
+
         setHasOptionsMenu(true);
         context = getActivity();
 
@@ -219,6 +223,14 @@ public class DrawerPlaces extends Fragment {
         createLayout(false, Places.getPlacesList());
 
         return view;
+    }
+
+    public static DrawerPlaces newInstance(int sectionNumber) {
+        DrawerPlaces fragment = new DrawerPlaces();
+        Bundle args = new Bundle();
+        args.putInt("Number", sectionNumber);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     public static class DownloadPlacesJSON extends AsyncTask<Void, Void, Void> {
@@ -250,7 +262,7 @@ public class DrawerPlaces extends Fragment {
         @Override
         protected Void doInBackground(Void... params) {
 
-            JSONObject json = JSONParser.getJSONFromURL(Utils.getStringFromResources(taskContext.get(), R.string.json_file_url));
+            JSONObject json = JSONParser.getJSONFromURL(Utils.getRessources(taskContext.get(), R.string.json_file_url));
 
             if (json != null) {
                 try {

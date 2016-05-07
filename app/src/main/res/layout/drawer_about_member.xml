@@ -77,7 +77,7 @@
                     android:text="Placeholder Motivation"
                     android:textColor="@color/primaryText" />
 
-                <com.mk.places.views.ButtonLayout
+                <com.mk.places.views.customButtonLayout
                     android:id="@+id/buttonLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

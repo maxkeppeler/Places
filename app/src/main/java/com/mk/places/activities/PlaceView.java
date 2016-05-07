@@ -1,4 +1,4 @@
-package com.mk.places.activity;
+package com.mk.places.activities;
 
 import android.Manifest;
 import android.app.Activity;
@@ -60,8 +60,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class PlaceView extends AppCompatActivity {
-
-
 
 
     @Bind(R.id.placeItemFAB)

@@ -1,26 +1,22 @@
-package com.mk.places.activity;
+package com.mk.places.activities;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -33,8 +29,10 @@ import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.mk.places.R;
+import com.mk.places.adapters.PagerAdapter;
 import com.mk.places.fragment.DrawerAbout;
 import com.mk.places.fragment.DrawerBookmarks;
+import com.mk.places.fragment.DrawerEmpty;
 import com.mk.places.fragment.DrawerPlaces;
 import com.mk.places.fragment.DrawerUpload;
 import com.mk.places.utilities.Anim;
@@ -56,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private AccountHeader drawerHeader;
     private String[] drawerHeaderURLS;
-    private Preferences pref;
     private int drawerIndex;
-    private Random random;
+    private TabLayout placesTabLayout;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,14 +64,46 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         context = this;
-        pref = new Preferences(context);
-
-        DrawerPlaces.loadPlacesList(context);
+        Preferences pref = new Preferences(context);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), 2);
+
+        placesTabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager.setAdapter(adapter);
+
+        placesTabLayout.addTab(placesTabLayout.newTab().setText("Discover"), 0);
+        placesTabLayout.addTab(placesTabLayout.newTab().setText("Bookmarks"), 1);
+
+        viewPager.setOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(placesTabLayout));
+        placesTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(placesTabLayout.getSelectedTabPosition());
+//                android.app.FragmentManager fm = getFragmentManager();
+
+//                android.app.FragmentManager fm = getFragmentManager();
+//                android.app.Fragment current = fm.findFragmentByTag("page:" + viewPager.getCurrentItem());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(placesTabLayout.getSelectedTabPosition());
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(placesTabLayout.getSelectedTabPosition());
+                adapter.notifyDataSetChanged();
+            }
+        });
+
 
 //        TODO: Fix if app was updated and had then the first start
 
@@ -146,40 +176,58 @@ public class MainActivity extends AppCompatActivity {
                                 switch ((int) drawerItem.getIdentifier()) {
 
                                     case 0:
-                                        fragment = new DrawerPlaces();
+                                        fragment = new DrawerEmpty();
+
                                         if (drawerFilter != null)
                                             drawerFilter.setSelection(0);
+
+                                        placesTabLayout.setVisibility(View.VISIBLE);
+                                        viewPager.setVisibility(View.VISIBLE);
+
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
-                                        drawer.updateBadge(0, new StringHolder("• " + pref.getPlacesSize() + " •"));
+//                                        drawer.updateBadge(0, new StringHolder("• " + pref.getPlacesSize() + " •"));
                                         break;
 
                                     case 1:
                                         fragment = new DrawerBookmarks();
                                         if (drawerFilter != null)
                                             drawerFilter.setSelection(0);
+
+                                        placesTabLayout.setVisibility(View.GONE);
+                                        viewPager.setVisibility(View.GONE);
+
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
-                                        drawer.updateBadge(1, new StringHolder("• " + pref.getFavoSize() + " •"));
+//                                        drawer.updateBadge(1, new StringHolder("• " + pref.getFavoSize() + " •"));
                                         break;
 
                                     case 2:
                                         fragment = new DrawerUpload();
+                                        placesTabLayout.setVisibility(View.GONE);
+                                        viewPager.setVisibility(View.GONE);
+
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
                                         break;
 
                                     case 3:
                                         fragment = new DrawerAbout();
+                                        placesTabLayout.setVisibility(View.GONE);
+                                        viewPager.setVisibility(View.GONE);
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
                                         break;
 
                                     case 4:
                                         fragment = null;
                                         intent = new Intent(context, Settings.class);
+                                        placesTabLayout.setVisibility(View.GONE);
+                                        viewPager.setVisibility(View.GONE);
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
                                         break;
 
 
                                     default:
-                                        fragment = new DrawerPlaces();
+                                        fragment = new DrawerEmpty();
+                                        placesTabLayout.setVisibility(View.GONE);
+                                        viewPager.setVisibility(View.GONE);
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
                                 }
 

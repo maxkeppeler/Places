@@ -19,7 +19,7 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
 import com.mk.places.models.MemberItem;
 import com.mk.places.utilities.Utils;
-import com.mk.places.views.ButtonLayout;
+import com.mk.places.views.customButtonLayout;
 import com.mk.places.views.SquareImageView;
 
 public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder> implements View.OnClickListener {
@@ -35,8 +35,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     @Override
     public MemberAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_about_member, parent, false);
-        ViewHolder viewHolder = new ViewHolder(itemLayoutView);
-        return viewHolder;
+        return  new ViewHolder(itemLayoutView);
     }
 
     @Override
@@ -49,7 +48,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         viewHolder.mDesc.setText(itemsData[position].getmDesc());
         viewHolder.mDesc.setTypeface(Utils.customTypeface(context, 2));
 
-        viewHolder.buttonLayout.setbAmount(itemsData[position].getmButtomNames().length);
+        viewHolder.customButtonLayout.setbAmount(itemsData[position].getmButtomNames().length);
 
         Glide.with(context)
                 .load(itemsData[position].getmImage())
@@ -61,16 +60,16 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                         super.onResourceReady(resource, glideAnimation);
                         Palette palette = new Palette.Builder(resource).generate();
-                        viewHolder.buttonLayout.setBackgroundColor(Utils.colorFromPalette(context, palette));
+                        viewHolder.customButtonLayout.setBackgroundColor(Utils.colorFromPalette(context, palette));
                     }
                 });
 
 
         for (int j = 0; j < itemsData[position].getmButtomNames().length; j++)
-            viewHolder.buttonLayout.addButton(itemsData[position].getmButtomNames()[j], itemsData[position].getmButtomLinks()[j], true);
+            viewHolder.customButtonLayout.addButton(itemsData[position].getmButtomNames()[j], itemsData[position].getmButtomLinks()[j], true);
 
-        for (int i = 0; i < viewHolder.buttonLayout.getChildCount(); i++)
-            viewHolder.buttonLayout.getChildAt(i).setOnClickListener(this);
+        for (int i = 0; i < viewHolder.customButtonLayout.getChildCount(); i++)
+            viewHolder.customButtonLayout.getChildAt(i).setOnClickListener(this);
     }
 
     @Override
@@ -94,13 +93,13 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
         private TextView mName, mTitle, mDesc;
         private SquareImageView mImage;
-        private ButtonLayout buttonLayout;
+        private customButtonLayout customButtonLayout;
 
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
 
-            buttonLayout = (ButtonLayout) itemLayoutView.findViewById(R.id.buttonLayout);
+            customButtonLayout = (customButtonLayout) itemLayoutView.findViewById(R.id.buttonLayout);
 
             mName = (TextView) itemLayoutView.findViewById(R.id.profileName);
             mTitle = (TextView) itemLayoutView.findViewById(R.id.profileTitle);

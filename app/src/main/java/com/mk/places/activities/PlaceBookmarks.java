@@ -1,19 +1,19 @@
-package com.mk.places.activity;
+package com.mk.places.activities;
 
 import com.afollestad.inquiry.annotations.Column;
 
 /**
  * Created by max on 30.04.16.
  */
-public class Favorites {
+public class PlaceBookmarks {
 
     @Column(name = "_id", primaryKey = true, notNull = true, autoIncrement = false)
     public String _id;
 
-    public Favorites() {
+    public PlaceBookmarks() {
     }
 
-    public Favorites(String ID) {
+    public PlaceBookmarks(String ID) {
         this._id = ID;
     }
 

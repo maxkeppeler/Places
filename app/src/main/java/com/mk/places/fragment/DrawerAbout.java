@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,7 +23,7 @@ import com.mk.places.R;
 import com.mk.places.adapters.MemberAdapter;
 import com.mk.places.models.MemberItem;
 import com.mk.places.utilities.Utils;
-import com.mk.places.views.ButtonLayout;
+import com.mk.places.views.customButtonLayout;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -55,15 +54,15 @@ public class DrawerAbout extends Fragment implements View.OnClickListener {
         final String[] aBtnNames = getResources().getStringArray(R.array.appButtonNames);
         final String[] aBtnLinks = getResources().getStringArray(R.array.appButtonLinks);
 
-        final ButtonLayout buttonLayout = (ButtonLayout) view.findViewById(R.id.buttonLayoutApp);
+        final customButtonLayout customButtonLayout = (customButtonLayout) view.findViewById(R.id.buttonLayoutApp);
 
-        buttonLayout.setbAmount(aBtnNames.length);
+        customButtonLayout.setbAmount(aBtnNames.length);
 
         for (int j = 0; j < aBtnNames.length; j++)
-            buttonLayout.addButton(aBtnNames[j], aBtnLinks[j], true);
+            customButtonLayout.addButton(aBtnNames[j], aBtnLinks[j], true);
 
-        for (int i = 0; i < buttonLayout.getChildCount(); i++)
-            buttonLayout.getChildAt(i).setOnClickListener(this);
+        for (int i = 0; i < customButtonLayout.getChildCount(); i++)
+            customButtonLayout.getChildAt(i).setOnClickListener(this);
 
         final String[] mImage = getResources().getStringArray(R.array.mImage);
         final String[] mName = getResources().getStringArray(R.array.mName);
@@ -77,9 +76,22 @@ public class DrawerAbout extends Fragment implements View.OnClickListener {
         Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
             @Override
             public void onGenerated( Palette palette ) {
-                buttonLayout.setBackgroundColor(Utils.colorFromPalette(context, palette));
+                customButtonLayout.setBackgroundColor(Utils.colorFromPalette(context, palette));
             }
         });
+
+
+        /*
+        Made by Aidan Follestad
+        - credit him
+
+        ask if it is okay or find another solution
+
+         */
+
+//        2D array with the size of the string array
+//        per loop the 2D array gets for the current index the string until the
+//        | which indicates a break of the string
 
         final String[][] mBtnNamesN = new String[mBtnNames.length][];
         for (int i = 0; i < mBtnNames.length; i++)

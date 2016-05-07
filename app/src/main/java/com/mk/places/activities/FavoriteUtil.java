@@ -1,4 +1,4 @@
-package com.mk.places.activity;
+package com.mk.places.activities;
 
 import android.content.Context;
 import android.util.Log;
@@ -21,7 +21,7 @@ public final class FavoriteUtil {
      */
     public static boolean isFavorited(String id) {
         return Inquiry.get()
-                .selectFrom(TABLE_NAME, Favorites.class)
+                .selectFrom(TABLE_NAME, PlaceBookmarks.class)
                 .where("_id = ?", id)
                 .one() != null;
     }
@@ -32,8 +32,8 @@ public final class FavoriteUtil {
     public static boolean favoriteItem(String id) {
         if (!isFavorited(id)) {
             Inquiry.get()
-                    .insertInto(TABLE_NAME, Favorites.class)
-                    .values(new Favorites(id))
+                    .insertInto(TABLE_NAME, PlaceBookmarks.class)
+                    .values(new PlaceBookmarks(id))
                     .run();
             return true;
         }
@@ -46,9 +46,9 @@ public final class FavoriteUtil {
     /**
      * Returns Array with all IDs
      */
-    public static Favorites[] getDB() {
+    public static PlaceBookmarks[] getDB() {
 
-        return Inquiry.get().selectFrom(TABLE_NAME, Favorites.class).all();
+        return Inquiry.get().selectFrom(TABLE_NAME, PlaceBookmarks.class).all();
     }
 
     /**
@@ -67,7 +67,7 @@ public final class FavoriteUtil {
     public static boolean unfavoriteItem(String id) {
         if (isFavorited(id)) {
             Inquiry.get()
-                    .deleteFrom(TABLE_NAME, Favorites.class)
+                    .deleteFrom(TABLE_NAME, PlaceBookmarks.class)
                     .where("_id = ?", id)
                     .run();
             return true;

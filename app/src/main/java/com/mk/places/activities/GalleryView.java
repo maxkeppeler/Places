@@ -1,4 +1,4 @@
-package com.mk.places.activity;
+package com.mk.places.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
