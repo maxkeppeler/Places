@@ -36,9 +36,10 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DrawerBookmarks extends Fragment {
+public class TabBookmarks extends Fragment {
 
-    private static final String TAG = "DrawerBookmarks";
+    private static final String TAG = "TabBookmarks";
+    private static final String KEY_POSITION = "position";
     private static Activity context;
     private static PlaceAdapter adapter;
     private static View view;
@@ -46,6 +47,19 @@ public class DrawerBookmarks extends Fragment {
     private static ArrayList<Place> bookmarks = new ArrayList<>();
     private static SwipeRefreshLayout refreshLayout;
     private static Preferences preferences;
+
+    public TabBookmarks() {
+    }
+
+    public static TabBookmarks newInstance(int position) {
+        TabBookmarks frag = new TabBookmarks();
+        Bundle args = new Bundle();
+
+        args.putInt(KEY_POSITION, position);
+        frag.setArguments(args);
+
+        return (frag);
+    }
 
     public static void createLayout(final boolean other, final ArrayList<Place> arrayList) {
 
@@ -167,6 +181,8 @@ public class DrawerBookmarks extends Fragment {
 
         view = inflater.inflate(R.layout.drawer_bookmarks, container, false);
 
+        int position = getArguments().getInt(KEY_POSITION, -1);
+
         preferences = new Preferences(context);
 
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.bookmarksRefresh);
@@ -189,20 +205,6 @@ public class DrawerBookmarks extends Fragment {
         loadBookmarks();
 
         return view;
-    }
-
-    public static DrawerBookmarks newInstance(int sectionNumber) {
-        DrawerBookmarks fragment = new DrawerBookmarks();
-        Bundle args = new Bundle();
-        args.putInt("Number", sectionNumber);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public static DrawerBookmarks newInstance(String text) {
-
-        DrawerBookmarks f = new DrawerBookmarks();
-        return f;
     }
 
     public void loadBookmarks() {

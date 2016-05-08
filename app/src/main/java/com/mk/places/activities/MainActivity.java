@@ -22,7 +22,6 @@ import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.holder.BadgeStyle;
-import com.mikepenz.materialdrawer.holder.StringHolder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
@@ -31,10 +30,9 @@ import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.mk.places.R;
 import com.mk.places.adapters.PagerAdapter;
 import com.mk.places.fragment.DrawerAbout;
-import com.mk.places.fragment.DrawerBookmarks;
 import com.mk.places.fragment.DrawerEmpty;
-import com.mk.places.fragment.DrawerPlaces;
 import com.mk.places.fragment.DrawerUpload;
+import com.mk.places.fragment.TabFragment;
 import com.mk.places.utilities.Anim;
 import com.mk.places.utilities.Dialogs;
 import com.mk.places.utilities.FilterLogic;
@@ -50,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     public static Drawer drawer = null;
     public static Drawer drawerFilter = null;
     private static AppCompatActivity context;
-    private static String drawerPlaces, drawerBookmarks, drawerUpload, drawerAbout, drawerSettings, drawerWrong;
+    private static String drawerPlaces, drawerUpload, drawerAbout, drawerSettings, drawerWrong;
     private Toolbar toolbar;
     private AccountHeader drawerHeader;
     private String[] drawerHeaderURLS;
@@ -64,48 +62,24 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         context = this;
-        Preferences pref = new Preferences(context);
+
+//        TabPlaces.loadPlacesList(context);
+
+//        placesTabLayout = (TabLayout) findViewById(R.id.tabLayout);
+//        viewPager = (ViewPager) findViewById(R.id.pager);
+
+
+//        placesTabLayout.addTab(placesTabLayout.newTab(), 0);
+//        placesTabLayout.addTab(placesTabLayout.newTab(), 1);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), 2);
+//        TODO: Check if app was updated and had then the first start
 
-        placesTabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setAdapter(adapter);
-
-        placesTabLayout.addTab(placesTabLayout.newTab().setText("Discover"), 0);
-        placesTabLayout.addTab(placesTabLayout.newTab().setText("Bookmarks"), 1);
-
-        viewPager.setOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(placesTabLayout));
-        placesTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(placesTabLayout.getSelectedTabPosition());
-//                android.app.FragmentManager fm = getFragmentManager();
-
-//                android.app.FragmentManager fm = getFragmentManager();
-//                android.app.Fragment current = fm.findFragmentByTag("page:" + viewPager.getCurrentItem());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(placesTabLayout.getSelectedTabPosition());
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(placesTabLayout.getSelectedTabPosition());
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-
-//        TODO: Fix if app was updated and had then the first start
+        Preferences pref = new Preferences(context);
 
         if (pref.getFirstStart()) {
             Dialogs.showChangelog(context);
@@ -115,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
         drawerHeaderURLS = getResources().getStringArray(R.array.headerUrl);
 
         drawerPlaces = getResources().getString(R.string.app_places);
-        drawerBookmarks = getResources().getString(R.string.app_bookmarks);
         drawerUpload = getResources().getString(R.string.app_uploads);
         drawerAbout = getResources().getString(R.string.app_about);
         drawerSettings = getResources().getString(R.string.app_settings);
@@ -139,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 continentSouthAmerica = getResources().getString(R.string.continentSouthAmerica);
 
         drawerHeader = new AccountHeaderBuilder().withActivity(this)
-                .withSelectionFirstLine("Places").withSelectionSecondLine("by Maximilian Keppeler")
+                .withSelectionFirstLine("Places").withSelectionSecondLine("on our Earth")
                 .withTypeface(Utils.customTypeface(context, 2)).withHeightDp(380).build();
         drawerHeader();
 
@@ -151,11 +124,10 @@ public class MainActivity extends AppCompatActivity {
                 .withToolbar(toolbar)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(drawerPlaces).withIcon(Icon.gmd_terrain).withIdentifier(0).withBadgeStyle(new BadgeStyle()),
-                        new PrimaryDrawerItem().withName(drawerBookmarks).withIcon(Icon.gmd_book).withIdentifier(1).withBadgeStyle(new BadgeStyle()),
-                        new PrimaryDrawerItem().withName(drawerUpload).withIcon(Icon.gmd_cloud_upload).withIdentifier(2),
+                        new PrimaryDrawerItem().withName(drawerUpload).withIcon(Icon.gmd_cloud_upload).withIdentifier(1),
                         new SectionDrawerItem().withName("Various"),
-                        new SecondaryDrawerItem().withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(3),
-                        new SecondaryDrawerItem().withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(4).withSelectable(false)
+                        new SecondaryDrawerItem().withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(2),
+                        new SecondaryDrawerItem().withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(3).withSelectable(false)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -176,68 +148,67 @@ public class MainActivity extends AppCompatActivity {
                                 switch ((int) drawerItem.getIdentifier()) {
 
                                     case 0:
-                                        fragment = new DrawerEmpty();
+                                        fragment = new TabFragment();
+//
+//                                        final android.support.v4.view.PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), 2);
+//                                        viewPager.setAdapter(adapter);
+//
+//                                        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(placesTabLayout));
+//                                        placesTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//                                            @Override
+//                                            public void onTabSelected(TabLayout.Tab tab) {
+//                                                viewPager.setCurrentItem(tab.getPosition());
+//                                                Log.d("MainActivity", "ViewPager - position: " + tab.getPosition() + " TabLayout - position: " + placesTabLayout.getSelectedTabPosition());
+//                                            }
+//
+//                                            @Override
+//                                            public void onTabUnselected(TabLayout.Tab tab) {
+//                                            }
+//
+//                                            @Override
+//                                            public void onTabReselected(TabLayout.Tab tab) {
+//                                            }
+//                                        });
 
                                         if (drawerFilter != null)
                                             drawerFilter.setSelection(0);
 
-                                        placesTabLayout.setVisibility(View.VISIBLE);
-                                        viewPager.setVisibility(View.VISIBLE);
+//                                        placesTabLayout.setVisibility(View.VISIBLE);
+//                                        viewPager.setVisibility(View.VISIBLE);
 
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
-//                                        drawer.updateBadge(0, new StringHolder("• " + pref.getPlacesSize() + " •"));
                                         break;
 
                                     case 1:
-                                        fragment = new DrawerBookmarks();
-                                        if (drawerFilter != null)
-                                            drawerFilter.setSelection(0);
-
-                                        placesTabLayout.setVisibility(View.GONE);
-                                        viewPager.setVisibility(View.GONE);
-
-                                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
-//                                        drawer.updateBadge(1, new StringHolder("• " + pref.getFavoSize() + " •"));
+                                        fragment = new DrawerUpload();
+                                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
                                         break;
 
                                     case 2:
-                                        fragment = new DrawerUpload();
-                                        placesTabLayout.setVisibility(View.GONE);
-                                        viewPager.setVisibility(View.GONE);
-
+                                        fragment = new DrawerAbout();
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
                                         break;
 
                                     case 3:
-                                        fragment = new DrawerAbout();
-                                        placesTabLayout.setVisibility(View.GONE);
-                                        viewPager.setVisibility(View.GONE);
-                                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
-                                        break;
-
-                                    case 4:
                                         fragment = null;
                                         intent = new Intent(context, Settings.class);
-                                        placesTabLayout.setVisibility(View.GONE);
-                                        viewPager.setVisibility(View.GONE);
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
                                         break;
 
 
                                     default:
                                         fragment = new DrawerEmpty();
-                                        placesTabLayout.setVisibility(View.GONE);
-                                        viewPager.setVisibility(View.GONE);
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
                                 }
 
                                 if (fragment != null) {
                                     fragment.setRetainInstance(true);
-                                    transaction.replace(R.id.container, fragment);
-                                    transaction.commit();
+                                    transaction.replace(R.id.container, fragment).commit();
                                     drawerIndex = (int) drawerItem.getIdentifier();
                                     toolbar.setTitle(toolbarTitle((int) drawerItem.getIdentifier()));
-                                } else if (fragment == null && intent != null) {
+                                }
+
+                                else if (fragment == null && intent != null) {
                                     startActivity(intent);
                                 }
 
@@ -337,17 +308,22 @@ public class MainActivity extends AppCompatActivity {
                 .append(drawer);
 
         if (drawerFilter != null) drawerFilter.setSelection(0);
+
     }
 
     public String toolbarTitle(int index) {
 
         switch (index) {
-            case 0: return drawerPlaces;
-            case 1: return drawerBookmarks;
-            case 2: return drawerUpload;
-            case 3: return drawerAbout;
-            case 4: return drawerSettings;
-            default: return drawerWrong;
+            case 0:
+                return drawerPlaces;
+            case 1:
+                return drawerUpload;
+            case 2:
+                return drawerAbout;
+            case 3:
+                return drawerSettings;
+            default:
+                return drawerWrong;
         }
 
     }

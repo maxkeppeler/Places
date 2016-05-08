@@ -1,18 +1,22 @@
 package com.mk.places.adapters;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 
-import com.mk.places.fragment.DrawerBookmarks;
-import com.mk.places.fragment.DrawerPlaces;
+import com.mk.places.fragment.TabBookmarks;
+import com.mk.places.fragment.TabPlaces;
 
-public class PagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
+public class PagerAdapter extends FragmentPagerAdapter {
 
-    private int amount = 0;
+    private int amount = 2;
+    private Context context;
 
-    public PagerAdapter(FragmentManager fm, int amount) {
+    public PagerAdapter(Context context, FragmentManager fm) {
         super(fm);
-        this.amount = amount;
+        this.context = context;
     }
 
     @Override
@@ -21,10 +25,10 @@ public class PagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
         switch (position) {
 
             case 0:
-                return DrawerBookmarks.newInstance(position);
+                return new TabPlaces();
 
             case 1:
-                return DrawerPlaces.newInstance(position);
+                return TabBookmarks.newInstance(position);
 
             default:
                 return null;
@@ -36,4 +40,6 @@ public class PagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
     public int getCount() {
         return amount;
     }
+
+
 }

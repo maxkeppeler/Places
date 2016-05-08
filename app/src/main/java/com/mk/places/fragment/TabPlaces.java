@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -40,15 +40,18 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 
-public class DrawerPlaces extends Fragment {
+public class TabPlaces extends Fragment {
 
-    private static final String TAG = "DrawerPlaces";
+    private static final String TAG = "TabPlaces";
     private static PlaceAdapter adapter;
     private static View view;
     private static RecyclerView recyclerView;
     private static Activity context;
     private static SwipeRefreshLayout refreshLayout;
     private static Preferences preferences;
+
+    public TabPlaces() {
+    }
 
     public static void setColumns(int amount) {
         recyclerView.setLayoutManager(new GridLayoutManager(context, amount, 1, false));
@@ -89,8 +92,8 @@ public class DrawerPlaces extends Fragment {
             @Override
             public void checkPlacesListCreation(boolean result) {
 
-                if (DrawerPlaces.adapter != null)
-                    DrawerPlaces.adapter.notifyDataSetChanged();
+                if (TabPlaces.adapter != null)
+                    TabPlaces.adapter.notifyDataSetChanged();
 
                 refreshLayout.setRefreshing(false);
             }
@@ -181,23 +184,16 @@ public class DrawerPlaces extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
+    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        view = inflater.inflate(R.layout.drawer_places, container, false);
-
-        if (Places.getPlacesList() == null)
-            loadPlacesList(context);
+        view = inflater.inflate(R.layout.drawer_places, null);
 
         setHasOptionsMenu(true);
         context = getActivity();
@@ -216,21 +212,17 @@ public class DrawerPlaces extends Fragment {
                 }
         );
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.bookmarksRecyclerView);
+        recyclerView = (RecyclerView) view.findViewById(R.id.placesRecyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(context, preferences.getColumns(), 1, false));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
+
+        if (Places.getPlacesList() == null)
+            TabPlaces.loadPlacesList(context);
+
         createLayout(false, Places.getPlacesList());
 
         return view;
-    }
-
-    public static DrawerPlaces newInstance(int sectionNumber) {
-        DrawerPlaces fragment = new DrawerPlaces();
-        Bundle args = new Bundle();
-        args.putInt("Number", sectionNumber);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     public static class DownloadPlacesJSON extends AsyncTask<Void, Void, Void> {
