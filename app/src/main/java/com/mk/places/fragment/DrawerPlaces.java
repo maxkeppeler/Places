@@ -40,9 +40,9 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 
-public class TabPlaces extends Fragment {
+public class DrawerPlaces extends Fragment {
 
-    private static final String TAG = "TabPlaces";
+    private static final String TAG = "DrawerPlaces";
     private static PlaceAdapter adapter;
     private static View view;
     private static RecyclerView recyclerView;
@@ -50,7 +50,7 @@ public class TabPlaces extends Fragment {
     private static SwipeRefreshLayout refreshLayout;
     private static Preferences preferences;
 
-    public TabPlaces() {
+    public DrawerPlaces() {
     }
 
     public static void setColumns(int amount) {
@@ -92,8 +92,8 @@ public class TabPlaces extends Fragment {
             @Override
             public void checkPlacesListCreation(boolean result) {
 
-                if (TabPlaces.adapter != null)
-                    TabPlaces.adapter.notifyDataSetChanged();
+                if (DrawerPlaces.adapter != null)
+                    DrawerPlaces.adapter.notifyDataSetChanged();
 
                 refreshLayout.setRefreshing(false);
             }
@@ -218,7 +218,7 @@ public class TabPlaces extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         if (Places.getPlacesList() == null)
-            TabPlaces.loadPlacesList(context);
+            DrawerPlaces.loadPlacesList(context);
 
         createLayout(false, Places.getPlacesList());
 

@@ -5,6 +5,7 @@
 
     <!-- Drawer Items -->
     <string name="app_places">Places</string>
+    <string name="app_bookmarks">Bookmarks</string>
     <string name="app_uploads">Upload Place</string>
     <string name="app_about">About</string>
     <string name="app_settings">Settings</string>

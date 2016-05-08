@@ -1,7 +1,7 @@
 package com.mk.places.utilities;
 
-import com.mk.places.fragment.TabBookmarks;
-import com.mk.places.fragment.TabPlaces;
+import com.mk.places.fragment.DrawerBookmarks;
+import com.mk.places.fragment.DrawerPlaces;
 import com.mk.places.models.Place;
 import com.mk.places.models.Places;
 
@@ -32,9 +32,9 @@ public class FilterLogic {
 
                 }
 
-                TabPlaces.createLayout(true, filter);
+                DrawerPlaces.createLayout(true, filter);
 
-            } else TabPlaces.createLayout(false, filter);
+            } else DrawerPlaces.createLayout(false, filter);
 
 
         }
@@ -46,20 +46,20 @@ public class FilterLogic {
 
                 int x = 0;
 
-                for (int j = 0; j < TabBookmarks.getBookmarks().size(); j++) {
+                for (int j = 0; j < DrawerBookmarks.getBookmarks().size(); j++) {
 
-                    if (key.equals(TabBookmarks.getBookmarks().get(j).getSight())
-                            || key.equals(TabBookmarks.getBookmarks().get(j).getContinent())) {
+                    if (key.equals(DrawerBookmarks.getBookmarks().get(j).getSight())
+                            || key.equals(DrawerBookmarks.getBookmarks().get(j).getContinent())) {
 
-                        filter.add(x, TabBookmarks.getBookmarks().get(j));
+                        filter.add(x, DrawerBookmarks.getBookmarks().get(j));
                         x++;
                     }
 
                 }
 
-                TabBookmarks.createLayout(true, filter);
+                DrawerBookmarks.createLayout(true, filter);
 
-            } else TabBookmarks.createLayout(false, null);
+            } else DrawerBookmarks.createLayout(false, null);
 
 
         }

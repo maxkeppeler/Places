@@ -1,13 +1,17 @@
-package com.mk.places.activities;
+package com.mk.places.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,17 +20,20 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.holder.BadgeStyle;
+import com.mikepenz.materialdrawer.holder.StringHolder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.mk.places.R;
+import com.mk.places.activities.Settings;
 import com.mk.places.fragment.DrawerAbout;
 import com.mk.places.fragment.DrawerBookmarks;
 import com.mk.places.fragment.DrawerPlaces;
@@ -50,7 +57,9 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private AccountHeader drawerHeader;
     private String[] drawerHeaderURLS;
+    private Preferences pref;
     private int drawerIndex;
+    private Random random;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         context = this;
+        pref = new Preferences(context);
 
         DrawerPlaces.loadPlacesList(context);
 
@@ -66,9 +76,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-//        TODO: Check if app was updated and had then the first start
-
-        Preferences pref = new Preferences(context);
+//        TODO: Fix if app was updated and had then the first start
 
         if (pref.getFirstStart()) {
             Dialogs.showChangelog(context);
@@ -102,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 continentSouthAmerica = getResources().getString(R.string.continentSouthAmerica);
 
         drawerHeader = new AccountHeaderBuilder().withActivity(this)
-                .withSelectionFirstLine("Places").withSelectionSecondLine("on OUR Earth")
+                .withSelectionFirstLine("Places").withSelectionSecondLine("by Maximilian Keppeler")
                 .withTypeface(Utils.customTypeface(context, 2)).withHeightDp(380).build();
         drawerHeader();
 
@@ -140,20 +148,18 @@ public class MainActivity extends AppCompatActivity {
 
                                     case 0:
                                         fragment = new DrawerPlaces();
-
                                         if (drawerFilter != null)
                                             drawerFilter.setSelection(0);
-
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
+                                        drawer.updateBadge(0, new StringHolder("• " + pref.getPlacesSize() + " •"));
                                         break;
 
                                     case 1:
                                         fragment = new DrawerBookmarks();
-
                                         if (drawerFilter != null)
                                             drawerFilter.setSelection(0);
-
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
+                                        drawer.updateBadge(1, new StringHolder("• " + pref.getFavoSize() + " •"));
                                         break;
 
                                     case 2:
@@ -169,8 +175,7 @@ public class MainActivity extends AppCompatActivity {
                                     case 4:
                                         fragment = null;
                                         intent = new Intent(context, Settings.class);
-                                        drawer.setSelection(0);
-                                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
+                                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
                                         break;
 
 
@@ -285,7 +290,6 @@ public class MainActivity extends AppCompatActivity {
                 .append(drawer);
 
         if (drawerFilter != null) drawerFilter.setSelection(0);
-
     }
 
     public String toolbarTitle(int index) {
@@ -298,6 +302,7 @@ public class MainActivity extends AppCompatActivity {
             case 4: return drawerSettings;
             default: return drawerWrong;
         }
+
     }
 
     @Override

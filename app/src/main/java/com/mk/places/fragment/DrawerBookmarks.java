@@ -36,9 +36,9 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TabBookmarks extends Fragment {
+public class DrawerBookmarks extends Fragment {
 
-    private static final String TAG = "TabBookmarks";
+    private static final String TAG = "DrawerBookmarks";
     private static final String KEY_POSITION = "position";
     private static Activity context;
     private static PlaceAdapter adapter;
@@ -48,17 +48,7 @@ public class TabBookmarks extends Fragment {
     private static SwipeRefreshLayout refreshLayout;
     private static Preferences preferences;
 
-    public TabBookmarks() {
-    }
-
-    public static TabBookmarks newInstance(int position) {
-        TabBookmarks frag = new TabBookmarks();
-        Bundle args = new Bundle();
-
-        args.putInt(KEY_POSITION, position);
-        frag.setArguments(args);
-
-        return (frag);
+    public DrawerBookmarks() {
     }
 
     public static void createLayout(final boolean other, final ArrayList<Place> arrayList) {
@@ -180,8 +170,6 @@ public class TabBookmarks extends Fragment {
         context = getActivity();
 
         view = inflater.inflate(R.layout.drawer_bookmarks, container, false);
-
-        int position = getArguments().getInt(KEY_POSITION, -1);
 
         preferences = new Preferences(context);
 

@@ -12,8 +12,8 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mk.places.R;
 import com.mk.places.activities.MainActivity;
-import com.mk.places.fragment.TabBookmarks;
-import com.mk.places.fragment.TabPlaces;
+import com.mk.places.fragment.DrawerBookmarks;
+import com.mk.places.fragment.DrawerPlaces;
 
 /**
  * Created by Max on 30.03.16.
@@ -68,12 +68,12 @@ public class Dialogs {
 
                         if (MainActivity.drawer.getCurrentSelectedPosition() == 1) {
                         mPrefs.setColumns(i + 1);
-                        TabPlaces.setColumns(i + 1);
+                        DrawerPlaces.setColumns(i + 1);
                         }
 
                         if (MainActivity.drawer.getCurrentSelectedPosition() == 2) {
                             mPrefs.setColumns(i + 1);
-                            TabBookmarks.setColumns(i + 1);
+                            DrawerBookmarks.setColumns(i + 1);
                         }
 
                     }
