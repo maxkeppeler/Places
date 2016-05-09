@@ -3,11 +3,9 @@ package com.mk.places.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -30,7 +28,7 @@ import com.mk.places.R;
 import com.mk.places.fragment.DrawerAbout;
 import com.mk.places.fragment.DrawerBookmarks;
 import com.mk.places.fragment.DrawerPlaces;
-import com.mk.places.fragment.DrawerUpload;
+import com.mk.places.fragment.DrawerSubmit;
 import com.mk.places.utilities.Anim;
 import com.mk.places.utilities.Dialogs;
 import com.mk.places.utilities.FilterLogic;
@@ -102,8 +100,10 @@ public class MainActivity extends AppCompatActivity {
                 continentSouthAmerica = getResources().getString(R.string.continentSouthAmerica);
 
         drawerHeader = new AccountHeaderBuilder().withActivity(this)
-                .withSelectionFirstLine("Places").withSelectionSecondLine("on OUR Earth")
-                .withTypeface(Utils.customTypeface(context, 2)).withHeightDp(380).build();
+                .withSelectionFirstLine("Beautiful Places").withSelectionSecondLine("on our Earth")
+                .withTypeface(Utils.customTypeface(context, 2))
+                .withHeightDp(350)
+                .build();
         drawerHeader();
 
         drawer = new DrawerBuilder()
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
                                         break;
 
                                     case 2:
-                                        fragment = new DrawerUpload();
+                                        fragment = new DrawerSubmit();
                                         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
                                         break;
 
@@ -291,12 +291,18 @@ public class MainActivity extends AppCompatActivity {
     public String toolbarTitle(int index) {
 
         switch (index) {
-            case 0: return drawerPlaces;
-            case 1: return drawerBookmarks;
-            case 2: return drawerUpload;
-            case 3: return drawerAbout;
-            case 4: return drawerSettings;
-            default: return drawerWrong;
+            case 0:
+                return drawerPlaces;
+            case 1:
+                return drawerBookmarks;
+            case 2:
+                return drawerUpload;
+            case 3:
+                return drawerAbout;
+            case 4:
+                return drawerSettings;
+            default:
+                return drawerWrong;
         }
     }
 

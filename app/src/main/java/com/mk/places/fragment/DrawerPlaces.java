@@ -178,6 +178,10 @@ public class DrawerPlaces extends Fragment {
             case R.id.column:
                 Dialogs.columnsDialog(context);
                 break;
+
+            case R.id.drawer:
+                MainActivity.drawerFilter.openDrawer();
+                break;
         }
 
         return super.onOptionsItemSelected(menu);
@@ -274,26 +278,8 @@ public class DrawerPlaces extends Fragment {
                                         json.getString("description"),
 
                                         json.getString("url"),
-                                        json.getString("url0"),
-                                        json.getString("url1"),
-                                        json.getString("url2"),
-                                        json.getString("url3"),
-                                        json.getString("url4"),
-                                        json.getString("url5"),
-                                        json.getString("url6"),
-                                        json.getString("url7"),
-                                        json.getString("url8"),
-                                        json.getString("url9"),
-                                        json.getString("url10"),
-                                        json.getString("url11"),
-                                        json.getString("url12"),
-                                        json.getString("url13"),
-                                        json.getString("url14"),
-                                        json.getString("url15"),
-                                        json.getString("url16"),
-                                        json.getString("url17"),
-                                        json.getString("url18"),
-                                        json.getString("url19")
+                                        json.getString("mUrl")
+
 
 
                                 )

@@ -1,18 +1,16 @@
 package com.mk.places.activities;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.afollestad.inquiry.Inquiry;
 
-public final class FavoriteUtil {
+public final class Bookmarks {
 
-    private static final String TABLE_NAME = "favorites";
-    private static final String TAG = "FavoriteUtil";
+    private static final String TABLE_NAME = "bookmarks";
+    private static final String TAG = "Bookmarks";
 
     public static void init(Context context) {
         Inquiry.init(context, TABLE_NAME, 1);
-        Log.i(TAG, "Database init");
     }
 
 
@@ -21,7 +19,7 @@ public final class FavoriteUtil {
      */
     public static boolean isFavorited(String id) {
         return Inquiry.get()
-                .selectFrom(TABLE_NAME, PlaceBookmarks.class)
+                .selectFrom(TABLE_NAME, DataBaseBookmarks.class)
                 .where("_id = ?", id)
                 .one() != null;
     }
@@ -32,8 +30,8 @@ public final class FavoriteUtil {
     public static boolean favoriteItem(String id) {
         if (!isFavorited(id)) {
             Inquiry.get()
-                    .insertInto(TABLE_NAME, PlaceBookmarks.class)
-                    .values(new PlaceBookmarks(id))
+                    .insertInto(TABLE_NAME, DataBaseBookmarks.class)
+                    .values(new DataBaseBookmarks(id))
                     .run();
             return true;
         }
@@ -46,9 +44,9 @@ public final class FavoriteUtil {
     /**
      * Returns Array with all IDs
      */
-    public static PlaceBookmarks[] getDB() {
+    public static DataBaseBookmarks[] getDB() {
 
-        return Inquiry.get().selectFrom(TABLE_NAME, PlaceBookmarks.class).all();
+        return Inquiry.get().selectFrom(TABLE_NAME, DataBaseBookmarks.class).all();
     }
 
     /**
@@ -67,7 +65,7 @@ public final class FavoriteUtil {
     public static boolean unfavoriteItem(String id) {
         if (isFavorited(id)) {
             Inquiry.get()
-                    .deleteFrom(TABLE_NAME, PlaceBookmarks.class)
+                    .deleteFrom(TABLE_NAME, DataBaseBookmarks.class)
                     .where("_id = ?", id)
                     .run();
             return true;

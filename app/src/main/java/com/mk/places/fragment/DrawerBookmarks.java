@@ -21,7 +21,7 @@ import android.widget.SearchView;
 
 import com.afollestad.inquiry.Inquiry;
 import com.mk.places.R;
-import com.mk.places.activities.FavoriteUtil;
+import com.mk.places.activities.Bookmarks;
 import com.mk.places.activities.MainActivity;
 import com.mk.places.activities.PlaceView;
 import com.mk.places.adapters.PlaceAdapter;
@@ -157,6 +157,10 @@ public class DrawerBookmarks extends Fragment {
             case R.id.column:
                 Dialogs.columnsDialog(context);
                 break;
+
+            case R.id.drawer:
+                MainActivity.drawerFilter.openDrawer();
+                break;
         }
 
         return super.onOptionsItemSelected(menu);
@@ -199,26 +203,26 @@ public class DrawerBookmarks extends Fragment {
 
         bookmarks.clear();
 
-        FavoriteUtil.init(context);
+        Bookmarks.init(context);
 
-        if (FavoriteUtil.getDB() != null) {
+        if (Bookmarks.getDB() != null) {
 
             int x = 0;
 
             for (int j = 0; j < Places.getPlacesList().size(); j++) {
 
 
-                for (int i = 0; i < FavoriteUtil.getDB().length; i++) {
+                for (int i = 0; i < Bookmarks.getDB().length; i++) {
 
-                    if (Places.getPlacesList().get(j).getId().equals(FavoriteUtil.getDB()[i].getID())) {
+                    if (Places.getPlacesList().get(j).getId().equals(Bookmarks.getDB()[i].getID())) {
 
 
-                        if (FavoriteUtil.isFavorited(FavoriteUtil.getDB()[i].getID())) {
+                        if (Bookmarks.isFavorited(Bookmarks.getDB()[i].getID())) {
 
                             bookmarks.add(x, Places.getPlacesList().get(j));
 
                             x++;
-                            Log.i(TAG, "Found Favored Item: " + FavoriteUtil.getDB()[i].getID());
+                            Log.i(TAG, "Found Favored Item: " + Bookmarks.getDB()[i].getID());
                         }
                     }
                 }

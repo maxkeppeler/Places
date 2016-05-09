@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +12,16 @@ import android.widget.TextView;
 import com.mk.places.R;
 import com.mk.places.utilities.Utils;
 
-import butterknife.Bind;
-import butterknife.BindString;
 import butterknife.ButterKnife;
 
-public class DrawerUpload extends Fragment {
+public class DrawerSubmit extends Fragment {
 
-    final private String TAG = "DrawerUpload";
+    final private String TAG = "DrawerSubmit";
     private Activity context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.drawer_upload, container, false);
+        View view = inflater.inflate(R.layout.drawer_submit, container, false);
 
         context = getActivity();
         ButterKnife.bind(context);

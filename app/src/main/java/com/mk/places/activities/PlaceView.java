@@ -156,8 +156,10 @@ public class PlaceView extends AppCompatActivity {
                                 toolbarLayout.setContentScrimColor(color);
                                 toolbarLayout.setStatusBarScrimColor((Utils.colorVariant(color, 0.92f)));
 
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     window.setNavigationBarColor(color);
+                                }
+
 
 
                             }
@@ -189,9 +191,9 @@ public class PlaceView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                FavoriteUtil.init(context);
-                FavoriteUtil.favoriteItem(item.getId());
-                Log.d("FAB", " with ID: " + item.getId() + " Selected: " + FavoriteUtil.isFavorited(item.getId()));
+                Bookmarks.init(context);
+                Bookmarks.favoriteItem(item.getId());
+                Log.d("FAB", " with ID: " + item.getId() + " Selected: " + Bookmarks.isFavorited(item.getId()));
                 Inquiry.deinit();
 
                 Utils.simpleSnackBar(context, color, R.id.coordinatorLayout, R.string.snackbarFavoredText, Snackbar.LENGTH_SHORT);
@@ -201,79 +203,27 @@ public class PlaceView extends AppCompatActivity {
         toolbarLayout.setTitle(location);
         toolbarLayout.setCollapsedTitleTypeface(typeTitles);
         toolbarLayout.setExpandedTitleTypeface(typeTitles);
-        toolbarLayout.setSelected(true);
-        toolbar.setSelected(true);
-
         createGallery(item);
     }
 
 
     private void createGallery(Place item) {
 
-        pGalleryRecycler.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false));
 
-        int arraySize = 20;
-        int gallerySize = -1;
-        final String imageLink[] = new String[arraySize];
-
-        imageLink[0] = item.getUrl_0();
-        imageLink[1] = item.getUrl_1();
-        imageLink[2] = item.getUrl_2();
-        imageLink[3] = item.getUrl_3();
-        imageLink[4] = item.getUrl_4();
-        imageLink[5] = item.getUrl_5();
-        imageLink[6] = item.getUrl_6();
-        imageLink[7] = item.getUrl_7();
-        imageLink[8] = item.getUrl_8();
-        imageLink[9] = item.getUrl_9();
-        imageLink[10] = item.getUrl_10();
-        imageLink[11] = item.getUrl_11();
-        imageLink[12] = item.getUrl_12();
-        imageLink[13] = item.getUrl_13();
-        imageLink[14] = item.getUrl_14();
-        imageLink[15] = item.getUrl_15();
-        imageLink[16] = item.getUrl_16();
-        imageLink[17] = item.getUrl_17();
-        imageLink[18] = item.getUrl_18();
-        imageLink[19] = item.getUrl_19();
-
-        for (int j = 0; j < arraySize; j++) {
-            if (imageLink[j].length() > 5)
-                gallerySize++;
-        }
-
-        final String nImageLink[] = new String[gallerySize];
-
-        for (int j = 0; j < gallerySize; j++) {
-
-            if (imageLink[j].length() > 5)
-                nImageLink[j] = imageLink[j];
-
-            else nImageLink[j] = imageLink[j + 1];
-        }
-
-        final GalleryAdapter galleryAdapter = new GalleryAdapter(context, nImageLink, new GalleryAdapter.ClickListener() {
+        final String[] images = item.getmUrl().replace(" ", "").split("\\|");
+        final GalleryAdapter galleryAdapter = new GalleryAdapter(context, images, new GalleryAdapter.ClickListener() {
 
             @Override
-            public void onClick(GalleryAdapter.ViewHolder view, int index, boolean longClick) {
-
-                if (longClick) {
-                    Log.d("Lang", "onClick: with ID " + index);
-
-                } else {
+            public void onClick(GalleryAdapter.ViewHolder view, int index) {
 
                     Intent intent = new Intent(context, GalleryView.class);
-                    intent.putExtra("imageLink", nImageLink);
+                    intent.putExtra("imageLink", images);
                     intent.putExtra("index", index);
                     context.startActivity(intent);
-
-                    Log.d("Kurz", "onClick: with ID " + index);
-                }
             }
         });
 
-        pGalleryRecycler.setNestedScrollingEnabled(true);
-        pGalleryRecycler.setClipToPadding(false);
+        pGalleryRecycler.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false));
         pGalleryRecycler.setAdapter(galleryAdapter);
         pGalleryRecycler.setHasFixedSize(true);
 

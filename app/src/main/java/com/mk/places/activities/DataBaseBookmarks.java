@@ -5,15 +5,15 @@ import com.afollestad.inquiry.annotations.Column;
 /**
  * Created by max on 30.04.16.
  */
-public class PlaceBookmarks {
+public class DataBaseBookmarks {
 
     @Column(name = "_id", primaryKey = true, notNull = true, autoIncrement = false)
     public String _id;
 
-    public PlaceBookmarks() {
+    public DataBaseBookmarks() {
     }
 
-    public PlaceBookmarks(String ID) {
+    public DataBaseBookmarks(String ID) {
         this._id = ID;
     }
 

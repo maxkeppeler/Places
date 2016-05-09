@@ -18,7 +18,7 @@
         <ImageView
             android:id="@+id/placeImage"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="320dp"
             android:scaleType="centerCrop" />
 
     </com.balysv.materialripple.MaterialRippleLayout>

@@ -93,7 +93,7 @@ public class Settings extends PreferenceActivity {
                         .onNegative(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                FavoriteUtil.deleteDB(context);
+                                Bookmarks.deleteDB(context);
                             }
                         })
                         .show();

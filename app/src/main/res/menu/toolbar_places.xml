@@ -5,11 +5,10 @@
 
     <item
         android:id="@+id/search"
-        android:title="@string/action_search"
-        android:icon="@drawable/ic_search"
-        app:showAsAction="always"
         android:actionViewClass="android.widget.SearchView"
-        />
+        android:icon="@drawable/ic_search"
+        android:title="@string/action_search"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/column"
@@ -17,5 +16,12 @@
         android:orderInCategory="-1"
         android:title="@string/action_column"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/drawer"
+        android:icon="@drawable/ic_filter"
+        android:orderInCategory="-1"
+        android:title="@string/action_filter"
+        app:showAsAction="always" />
 
 </menu>

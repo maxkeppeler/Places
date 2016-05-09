@@ -67,8 +67,8 @@ public class Dialogs {
                         Preferences mPrefs = new Preferences(context);
 
                         if (MainActivity.drawer.getCurrentSelectedPosition() == 1) {
-                        mPrefs.setColumns(i + 1);
-                        DrawerPlaces.setColumns(i + 1);
+                            mPrefs.setColumns(i + 1);
+                            DrawerPlaces.setColumns(i + 1);
                         }
 
                         if (MainActivity.drawer.getCurrentSelectedPosition() == 2) {
