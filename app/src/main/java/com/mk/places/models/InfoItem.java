@@ -1,15 +1,13 @@
 package com.mk.places.models;
 
-public class GalleryItem {
+public class InfoItem {
 
     private String text;
     private String title;
-    private int drawable;
 
-    public GalleryItem(String title, String text, int drawable) {
+    public InfoItem(String title, String text) {
         this.text = text;
         this.title = title;
-        this.drawable = drawable;
     }
 
     public String getTitle() {
@@ -28,11 +26,4 @@ public class GalleryItem {
         this.text = text;
     }
 
-    public int getDrawable() {
-        return drawable;
-    }
-
-    public void setDrawable(int drawable) {
-        this.drawable = drawable;
-    }
 }

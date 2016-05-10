@@ -1,5 +1,6 @@
 package com.mk.places.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -28,16 +29,18 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.ImageViewTarget;
 import com.bumptech.glide.request.target.Target;
 import com.mk.places.R;
+import com.mk.places.activities.GalleryView;
+import com.mk.places.activities.PlaceView;
 import com.mk.places.utilities.Utils;
 import com.mk.places.views.TouchImageView;
 
 public class GalleryItemAdapter extends PagerAdapter {
 
-    private Context context;
+    private Activity context;
     private String[] imageLink;
     private LayoutInflater inflater;
 
-    public GalleryItemAdapter(Context context, String[] imageLink) {
+    public GalleryItemAdapter(Activity context, String[] imageLink) {
         this.context = context;
         this.imageLink = imageLink;
         this.inflater = LayoutInflater.from(context);
@@ -54,15 +57,25 @@ public class GalleryItemAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup view, final int index) {
+    public Object instantiateItem(ViewGroup view, final int i) {
 
         final View mView = inflater.inflate(R.layout.gallery_view_item, view, false);
         final ImageView vImage = (ImageView) mView.findViewById(R.id.vImage);
 
-        Glide.with(context)
-                .load(imageLink[index])
-                .thumbnail(0.4f)
-                .into(vImage);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                Glide.with(context)
+                        .load(imageLink[i])
+                        .crossFade()
+                        .override(context.getWindowManager().getDefaultDisplay().getWidth(), context.getWindowManager().getDefaultDisplay().getHeight())
+                        .into(vImage);
+
+//                Call this if image download failed  and select current page again
+//                GalleryView.pager.setAdapter(GalleryView.adapter);
+            }
+        }).run();
 
         view.addView(mView, 0);
         return mView;

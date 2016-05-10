@@ -43,7 +43,7 @@ import java.util.ArrayList;
 public class DrawerPlaces extends Fragment {
 
     private static final String TAG = "DrawerPlaces";
-    private static PlaceAdapter adapter;
+    public static PlaceAdapter adapter;
     private static View view;
     private static RecyclerView recyclerView;
     private static Activity context;
@@ -70,7 +70,6 @@ public class DrawerPlaces extends Fragment {
 
             if (
                     Places.getPlacesList().get(j).getLocation().toLowerCase().contains(key.toLowerCase())
-                            || Places.getPlacesList().get(j).getReligion().toLowerCase().contains(key.toLowerCase())
 
 
                     ) {
@@ -269,19 +268,14 @@ public class DrawerPlaces extends Fragment {
                         json = jsonarray.getJSONObject(i);
 
                         places.add(new Place(
-
                                         json.getString("id"),
                                         json.getString("location"),
                                         json.getString("sight"),
                                         json.getString("continent"),
-                                        json.getString("religion"),
+                                        json.getString("infoTitle"),
+                                        json.getString("info"),
                                         json.getString("description"),
-
-                                        json.getString("url"),
-                                        json.getString("mUrl")
-
-
-
+                                        json.getString("url")
                                 )
                         );
 

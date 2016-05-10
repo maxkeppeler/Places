@@ -26,6 +26,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -50,8 +51,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
 import com.mk.places.adapters.GalleryAdapter;
-import com.mk.places.adapters.PlaceItemAdapter;
-import com.mk.places.models.GalleryItem;
+import com.mk.places.adapters.PlaceInfoAdapter;
+import com.mk.places.models.InfoItem;
 import com.mk.places.models.Place;
 import com.mk.places.threads.DownloadImage;
 import com.mk.places.utilities.Utils;
@@ -62,42 +63,34 @@ import butterknife.ButterKnife;
 public class PlaceView extends AppCompatActivity {
 
 
+    private static final int PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE = 42;
     @Bind(R.id.placeItemFAB)
     FloatingActionButton fab;
-
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-
     @Bind(R.id.collapsingToolbar)
     CollapsingToolbarLayout toolbarLayout;
-
     @Bind(R.id.pDescTitle)
     TextView pDescTitle;
-
     @Bind(R.id.pDescText)
     TextView pDescText;
-
     @Bind(R.id.pInfoTitle)
     TextView pInfoTitle;
-
     @Bind(R.id.pInfoRecycler)
     RecyclerView pInfoRecycler;
-
     @Bind(R.id.pGalleryRecyler)
     RecyclerView pGalleryRecycler;
-
     @Bind(R.id.shadowOverlay)
     LinearLayout shadowOverlay;
-
     @Bind(R.id.pMainImage)
     ImageView pMainImage;
-
-    private static final int PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE = 42;
     private int color;
     private Window window;
-    private String location, sight, desc, url, continent, religion;
+    private String location, desc;
+    private String[] infoTitle, info;
     private ViewGroup layout;
     private Activity context;
+    private String[] images;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,15 +111,14 @@ public class PlaceView extends AppCompatActivity {
         toolbar.setNavigationIcon(R.drawable.ic_close);
 
         final Place item = getIntent().getParcelableExtra("item");
-        url = item.getUrl();
         location = item.getLocation();
-        sight = item.getSight();
-        continent = item.getContinent();
-        religion = item.getReligion();
         desc = item.getDescription();
+        images = item.getUrl().replace(" ", "").split("\\|");
+        info = item.getInfo().split("\\|");
+        infoTitle = item.getInfoTitle().split("\\|");
 
         Glide.with(context)
-                .load(url)
+                .load(images[0])
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .priority(Priority.IMMEDIATE)
@@ -161,19 +153,23 @@ public class PlaceView extends AppCompatActivity {
                                 }
 
 
-
                             }
                         });
                     }
 
                 });
 
-//        TODO: Check if other strings are empty (empty = unknown)
 
-        if (continent.length() < 4) continent = "Unknown";
-        if (religion.length() < 4) religion = "Unknown";
+        InfoItem[] infoItems = new InfoItem[infoTitle.length];
 
-        sightDependingLayouts();
+        for (int i = 0; i < infoTitle.length; i++)
+            infoItems[i] = new InfoItem(infoTitle[i], info[i]);
+
+        pInfoRecycler.setLayoutManager(new LinearLayoutManager(context));
+        PlaceInfoAdapter mAdapter = new PlaceInfoAdapter(infoItems, context);
+        pInfoRecycler.setAdapter(mAdapter);
+        pInfoRecycler.setHasFixedSize(true);
+
 
         final Typeface typeTitles = Utils.customTypeface(context, 1);
         final Typeface typeTexts = Utils.customTypeface(context, 2);
@@ -203,23 +199,22 @@ public class PlaceView extends AppCompatActivity {
         toolbarLayout.setTitle(location);
         toolbarLayout.setCollapsedTitleTypeface(typeTitles);
         toolbarLayout.setExpandedTitleTypeface(typeTitles);
-        createGallery(item);
+        createGallery();
     }
 
 
-    private void createGallery(Place item) {
+    private void createGallery() {
 
 
-        final String[] images = item.getmUrl().replace(" ", "").split("\\|");
         final GalleryAdapter galleryAdapter = new GalleryAdapter(context, images, new GalleryAdapter.ClickListener() {
 
             @Override
             public void onClick(GalleryAdapter.ViewHolder view, int index) {
 
-                    Intent intent = new Intent(context, GalleryView.class);
-                    intent.putExtra("imageLink", images);
-                    intent.putExtra("index", index);
-                    context.startActivity(intent);
+                Intent intent = new Intent(context, GalleryView.class);
+                intent.putExtra("imageLink", images);
+                intent.putExtra("index", index);
+                context.startActivity(intent);
             }
         });
 
@@ -228,40 +223,6 @@ public class PlaceView extends AppCompatActivity {
         pGalleryRecycler.setHasFixedSize(true);
 
     }
-
-    //  TODO - add more sight depending layouts (more sights?)
-
-    private void sightDependingLayouts() {
-
-        if (sight.equals("City")) {
-            GalleryItem itemsData[] = {
-                    new GalleryItem("Location", continent, R.drawable.ic_location),
-                    new GalleryItem("Location", continent, R.drawable.ic_location),
-                    new GalleryItem("Location", continent, R.drawable.ic_location),
-                    new GalleryItem("Religion", religion, R.drawable.ic_religion),
-            };
-            completeRecycler(pInfoRecycler, itemsData);
-        }
-
-        if (sight.equals("National Park")) {
-            GalleryItem itemsData[] = {
-                    new GalleryItem("Location", continent, R.drawable.ic_location),
-            };
-            completeRecycler(pInfoRecycler, itemsData);
-        }
-    }
-
-
-
-    private void completeRecycler(RecyclerView recyclerView, GalleryItem itemsData[]) {
-
-        recyclerView.setLayoutManager(new GridLayoutManager(context, 1));
-        PlaceItemAdapter mAdapter = new PlaceItemAdapter(itemsData, context);
-        recyclerView.setAdapter(mAdapter);
-        recyclerView.setHasFixedSize(true);
-
-    }
-
 
     @Override
     public void onBackPressed() {
@@ -318,11 +279,11 @@ public class PlaceView extends AppCompatActivity {
 //        TODO: FIX: Image will not be downloaded
 
         final DownloadImage downloadTask = new DownloadImage(context, location);
-        downloadTask.execute(url);
+        downloadTask.execute(images[0]);
 
         View layout = findViewById(R.id.coordinatorLayout);
         Snackbar snackbar = Snackbar.make(layout, R.string.snackbarDownloadImageText, Snackbar.LENGTH_LONG)
-                .setActionTextColor(getResources().getColor(R.color.white))
+                .setActionTextColor(Utils.getColor(context, R.color.white))
                 .setAction(R.string.snackbarDownloadImageAction, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

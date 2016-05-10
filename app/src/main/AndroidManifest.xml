@@ -54,7 +54,7 @@
             android:name=".activities.GalleryView"
             android:largeHeap="true"
             android:theme="@style/GalleryView"
-            android:value=".activity.GalleryView"></activity>
+            android:value=".activity.GalleryView" />
         <activity
             android:name=".activities.Settings"
             android:theme="@style/CustomTheme"

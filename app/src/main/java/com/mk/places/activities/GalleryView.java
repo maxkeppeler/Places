@@ -1,5 +1,7 @@
 package com.mk.places.activities;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -9,6 +11,10 @@ import com.mk.places.R;
 import com.mk.places.adapters.GalleryItemAdapter;
 
 public class GalleryView extends AppCompatActivity {
+
+    private Activity context = this;
+    public static ViewPager pager;
+    public static GalleryItemAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,9 +26,10 @@ public class GalleryView extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        ViewPager pager = (ViewPager) findViewById(R.id.galleryViewPager);
-        pager.setAdapter(new GalleryItemAdapter(getApplicationContext(), intent.getStringArrayExtra("imageLink")));
-        pager.setOffscreenPageLimit(1);
+        pager = (ViewPager) findViewById(R.id.galleryViewPager);
+        adapter = new GalleryItemAdapter(context, intent.getStringArrayExtra("imageLink"));
+
+        pager.setAdapter(adapter);
         pager.setCurrentItem(intent.getIntExtra("index", 0));
 
     }

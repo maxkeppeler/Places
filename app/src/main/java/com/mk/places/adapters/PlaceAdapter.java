@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
@@ -65,26 +66,32 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
     public void onBindViewHolder(final PlacesViewHolder holder, int index) {
 
         Place place = placesList.get(index);
-        final String imgPlaceUrl = place.getUrl();
+        final String[] imgPlaceUrl = place.getUrl().replace(" ", "").split("\\|");
 
-        Glide.with(context)
-                .load(imgPlaceUrl)
-                .crossFade()
-                .override(1500, 1500)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .listener(new RequestListener<String, GlideDrawable>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                        return false;
-                    }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Glide.with(context)
+                        .load(imgPlaceUrl[0])
+                        .crossFade()
+//                        .override(context.getWindowManager().getDefaultDisplay().getWidth(), context.getWindowManager().getDefaultDisplay().getHeight())
+                        .listener(new RequestListener<String, GlideDrawable>() {
+                            @Override
+                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                                return false;
+                            }
 
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        holder.viewShadow.setVisibility(View.VISIBLE);
-                        return false;
-                    }
-                })
-                .into(holder.image);
+                            @Override
+                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                holder.viewShadow.setVisibility(View.VISIBLE);
+                                return false;
+                            }
+                        })
+                        .into(holder.image);
+            }
+        }).run();
+
+
 
 
         holder.location.setText(place.getLocation());

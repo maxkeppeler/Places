@@ -11,11 +11,10 @@ public class Places {
             ArrayList<String> locations,
             ArrayList<String> sights,
             ArrayList<String> continents,
-            ArrayList<String> religions,
+            ArrayList<String> infoTitle,
+            ArrayList<String> info,
             ArrayList<String> descriptions,
-            ArrayList<String> urls,
-            ArrayList<String> mUrls
-
+            ArrayList<String> urls
     ) {
         try {
 
@@ -26,11 +25,10 @@ public class Places {
                         locations.get(i),
                         sights.get(i),
                         continents.get(i),
-                        religions.get(i),
+                        infoTitle.get(i),
+                        info.get(i),
                         descriptions.get(i),
-                        urls.get(i),
-                        mUrls.get(i)
-
+                        urls.get(i)
                 );
                 placesList.add(place);
             }

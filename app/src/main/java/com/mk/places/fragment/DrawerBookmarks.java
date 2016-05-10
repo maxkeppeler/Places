@@ -68,7 +68,6 @@ public class DrawerBookmarks extends Fragment {
 
                                     if (intent != null) {
                                         intent.putExtra("item", Places.getPlacesList().get(position));
-                                        intent.putExtra("pos", position);
                                         context.startActivity(intent);
                                     }
 
@@ -97,7 +96,7 @@ public class DrawerBookmarks extends Fragment {
         for (int j = 0; j < bookmarks.size(); j++) {
             if (
                     Places.getPlacesList().get(j).getLocation().toLowerCase().contains(key.toLowerCase())
-                            || Places.getPlacesList().get(j).getReligion().toLowerCase().contains(key.toLowerCase())
+
 
 
                     ) {

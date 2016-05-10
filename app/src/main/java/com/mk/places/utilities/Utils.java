@@ -34,6 +34,7 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.support.annotation.DrawableRes;
 import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsServiceConnection;
@@ -98,10 +99,6 @@ public class Utils extends Activity {
 
     public static String getString(Context context, int id) {
         return context.getResources().getString(id);
-    }
-
-    public static Drawable getDrawable(Context context, int id) {
-        return context.getResources().getDrawable(id);
     }
 
     public static boolean hasNetwork(Context context) {
