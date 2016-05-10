@@ -28,6 +28,7 @@ public class GalleryView extends AppCompatActivity {
 
         pager = (ViewPager) findViewById(R.id.galleryViewPager);
         adapter = new GalleryItemAdapter(context, intent.getStringArrayExtra("imageLink"));
+        pager.setOffscreenPageLimit(0);
 
         pager.setAdapter(adapter);
         pager.setCurrentItem(intent.getIntExtra("index", 0));

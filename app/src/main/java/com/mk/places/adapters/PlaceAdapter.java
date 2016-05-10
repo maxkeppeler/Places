@@ -68,31 +68,14 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
         Place place = placesList.get(index);
         final String[] imgPlaceUrl = place.getUrl().replace(" ", "").split("\\|");
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
                 Glide.with(context)
                         .load(imgPlaceUrl[0])
                         .crossFade()
-//                        .override(context.getWindowManager().getDefaultDisplay().getWidth(), context.getWindowManager().getDefaultDisplay().getHeight())
-                        .listener(new RequestListener<String, GlideDrawable>() {
-                            @Override
-                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                                return false;
-                            }
-
-                            @Override
-                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                                holder.viewShadow.setVisibility(View.VISIBLE);
-                                return false;
-                            }
-                        })
+                        .override(1000, 800)
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(holder.image);
-            }
-        }).run();
 
-
-
+        holder.viewShadow.setVisibility(View.VISIBLE);
 
         holder.location.setText(place.getLocation());
         holder.sight.setText(place.getSight());

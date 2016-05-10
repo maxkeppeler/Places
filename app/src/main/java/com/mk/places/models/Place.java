@@ -27,6 +27,7 @@ public class Place implements Parcelable {
             description,
             url;
 
+
     protected Place(Parcel in) {
 
         id = in.readString();
@@ -41,11 +42,6 @@ public class Place implements Parcelable {
     }
 
 
-    @Override
-    public int describeContents() {
-        return Places.getPlacesList().size();
-    }
-
     public Place(String id, String location, String sight, String continent, String infoTitle, String info, String description, String url) {
         this.id = id;
         this.location = location;
@@ -55,6 +51,11 @@ public class Place implements Parcelable {
         this.info = info;
         this.description = description;
         this.url = url;
+    }
+
+    @Override
+    public int describeContents() {
+        return Places.getPlacesList().size();
     }
 
     public String getUrl() {

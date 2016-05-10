@@ -7,12 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,7 +17,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.GridLayoutManager;
@@ -46,9 +40,8 @@ import com.afollestad.inquiry.Inquiry;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.mk.places.R;
 import com.mk.places.adapters.GalleryAdapter;
 import com.mk.places.adapters.PlaceInfoAdapter;
@@ -120,26 +113,23 @@ public class PlaceView extends AppCompatActivity {
         Glide.with(context)
                 .load(images[0])
                 .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .priority(Priority.IMMEDIATE)
-                .centerCrop()
-                .into(new BitmapImageViewTarget(pMainImage) {
+                .override(1000, 1000)
+                .fitCenter()
+                .listener(new RequestListener<String, Bitmap>() {
                     @Override
-                    protected void setResource(Bitmap resource) {
-                        TransitionDrawable td = new TransitionDrawable(new Drawable[]{new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(getResources(), resource)});
+                    public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                        return false;
+                    }
 
-                        if (pMainImage != null) {
-                            pMainImage.setImageDrawable(td);
-                            td.startTransition(50);
-                            shadowOverlay.setVisibility(View.VISIBLE);
-                        }
+                    @Override
+                    public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        shadowOverlay.setVisibility(View.VISIBLE);
 
                         new Palette.Builder(resource).generate(new Palette.PaletteAsyncListener() {
                             @Override
                             public void onGenerated(Palette palette) {
 
                                 if (palette == null) return;
-
                                 color = Utils.colorFromPalette(context, palette);
                                 fab.setBackgroundTintList(ColorStateList.valueOf(color));
                                 fab.setVisibility(View.VISIBLE);
@@ -151,13 +141,13 @@ public class PlaceView extends AppCompatActivity {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     window.setNavigationBarColor(color);
                                 }
-
-
                             }
                         });
-                    }
 
-                });
+                        return false;
+                    }
+                })
+                .into(pMainImage);
 
 
         InfoItem[] infoItems = new InfoItem[infoTitle.length];
@@ -232,7 +222,7 @@ public class PlaceView extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.clear();
-        getMenuInflater().inflate(R.menu.toolbar_places_details, menu);
+        getMenuInflater().inflate(R.menu.toolbar_place, menu);
         return true;
     }
 
@@ -243,14 +233,14 @@ public class PlaceView extends AppCompatActivity {
                 close();
                 break;
 
-            case R.id.download:
-
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
-                        PackageManager.PERMISSION_GRANTED) {
-                    getStoragePermission();
-                } else downloadImage();
-
-                break;
+//            case R.id.download:
+//
+//                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+//                        PackageManager.PERMISSION_GRANTED) {
+//                    getStoragePermission();
+//                } else downloadImage();
+//
+//                break;
 
             case R.id.share:
                 Intent intent = new Intent(Intent.ACTION_SEND);
