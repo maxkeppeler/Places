@@ -1,11 +1,16 @@
 package com.mk.places.threads;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.View;
 
 import com.mk.places.R;
+import com.mk.places.utilities.Utils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,13 +23,15 @@ import java.net.URL;
 public class DownloadImage extends AsyncTask<String, Integer, String> {
 
     private File openPath;
-    private Context context;
+    private Activity context;
     private String location;
     private String TAG = "ImageFromUrl/ Async Task";
+    private int color;
 
-    public DownloadImage(Context context, String location) {
+    public DownloadImage(Activity context, String location, int color) {
         this.context = context;
         this.location = location;
+        this.color = color;
     }
 
     @Override
@@ -76,10 +83,10 @@ public class DownloadImage extends AsyncTask<String, Integer, String> {
         } catch (Exception e) {
             return e.toString();
         } finally {
-            try  {
+            try {
                 if (output != null)
                     output.close();
-                    Log.d(TAG, "Image was successfully downloaded.");
+                Log.d(TAG, "Image was successfully downloaded.");
 
                 if (input != null)
                     input.close();
@@ -94,8 +101,31 @@ public class DownloadImage extends AsyncTask<String, Integer, String> {
         return null;
     }
 
-    public File getOpenPath() {
-        return openPath;
+    @Override
+    protected void onPostExecute(String s) {
+
+        View layout = context.findViewById(R.id.coordinatorLayout);
+        Snackbar snackbar = Snackbar.make(layout, R.string.snackbarDownloadImageText, Snackbar.LENGTH_INDEFINITE)
+                .setActionTextColor(Utils.getColor(context, R.color.white))
+                .setAction(R.string.snackbarDownloadImageAction, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Uri uri = Uri.fromFile(openPath.getAbsoluteFile());
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setDataAndType(uri, "image/*");
+//                        intent.setDataAndType(Uri.parse("file://" + uri), "image/*");
+                        context.startActivity(intent);
+//                        context.startActivity(Intent.createChooser(intent, text));
+
+                    }
+                });
+
+        View snackBarView = snackbar.getView();
+        snackBarView.setBackgroundColor(color);
+        snackbar.show();
+
+        super.onPostExecute(s);
     }
 
 }

@@ -2,13 +2,13 @@ package com.mk.places.activities;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -17,6 +17,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.GridLayoutManager;
@@ -177,6 +178,8 @@ public class PlaceView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+//                TODO: Select / deselect!
+
                 Bookmarks.init(context);
                 Bookmarks.favoriteItem(item.getId());
                 Log.d("FAB", " with ID: " + item.getId() + " Selected: " + Bookmarks.isFavorited(item.getId()));
@@ -198,13 +201,30 @@ public class PlaceView extends AppCompatActivity {
 
         final GalleryAdapter galleryAdapter = new GalleryAdapter(context, images, new GalleryAdapter.ClickListener() {
 
-            @Override
-            public void onClick(GalleryAdapter.ViewHolder view, int index) {
 
-                Intent intent = new Intent(context, GalleryView.class);
-                intent.putExtra("imageLink", images);
-                intent.putExtra("index", index);
-                context.startActivity(intent);
+            @Override
+            public void onClick(GalleryAdapter.ViewHolder view, int index, boolean longOnClick) {
+
+                if (longOnClick) {
+
+
+                    if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                            PackageManager.PERMISSION_GRANTED) {
+                        getStoragePermission();
+                    } else downloadImage();
+
+
+                } else if (!longOnClick) {
+
+                    Log.d("PlaceView Short", "long click" + longOnClick);
+                    Intent intent = new Intent(context, GalleryView.class);
+                    intent.putExtra("imageLink", images);
+                    intent.putExtra("index", index);
+                    context.startActivity(intent);
+
+                }
+
+
             }
         });
 
@@ -232,16 +252,6 @@ public class PlaceView extends AppCompatActivity {
             case android.R.id.home:
                 close();
                 break;
-
-//            case R.id.download:
-//
-//                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
-//                        PackageManager.PERMISSION_GRANTED) {
-//                    getStoragePermission();
-//                } else downloadImage();
-//
-//                break;
-
             case R.id.share:
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("*/*");
@@ -268,22 +278,27 @@ public class PlaceView extends AppCompatActivity {
 
 //        TODO: FIX: Image will not be downloaded
 
-        final DownloadImage downloadTask = new DownloadImage(context, location);
+        final DownloadImage downloadTask = new DownloadImage(context, location, color);
         downloadTask.execute(images[0]);
 
-        View layout = findViewById(R.id.coordinatorLayout);
-        Snackbar snackbar = Snackbar.make(layout, R.string.snackbarDownloadImageText, Snackbar.LENGTH_LONG)
-                .setActionTextColor(Utils.getColor(context, R.color.white))
-                .setAction(R.string.snackbarDownloadImageAction, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Utils.intentOpen(Uri.fromFile(downloadTask.getOpenPath().getAbsoluteFile()), context, getResources().getString(R.string.snackbarDownloadImageIntent));
-                    }
-                });
-
-        View snackBarView = snackbar.getView();
-        snackBarView.setBackgroundColor(color);
-        snackbar.show();
+//
+//        if (downloadTask.getStatus() == AsyncTask.Status.FINISHED) {
+//
+//            View layout = findViewById(R.id.coordinatorLayout);
+//            Snackbar snackbar = Snackbar.make(layout, R.string.snackbarDownloadImageText, Snackbar.LENGTH_INDEFINITE)
+//                    .setActionTextColor(Utils.getColor(context, R.color.white))
+//                    .setAction(R.string.snackbarDownloadImageAction, new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            Utils.intentOpen(Uri.fromFile(downloadTask.getOpenPath().getAbsoluteFile()), context, getResources().getString(R.string.snackbarDownloadImageIntent));
+//                        }
+//                    });
+//
+//            View snackBarView = snackbar.getView();
+//            snackBarView.setBackgroundColor(color);
+//            snackbar.show();
+//
+//        } else
 
     }
 
@@ -334,25 +349,16 @@ public class PlaceView extends AppCompatActivity {
 
             new MaterialDialog.Builder(this)
                     .content(R.string.storageContent)
+                    .canceledOnTouchOutside(false)
+                    .contentColor(Utils.getColor(context, R.color.primaryText))
+                    .backgroundColor(Utils.getColor(context, R.color.cardBackground))
                     .positiveText(R.string.storagePositive).positiveColor(color)
                     .negativeText(R.string.storageNegative).negativeColor(color)
-                    .onAny(new MaterialDialog.SingleButtonCallback() {
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            switch (which) {
-                                case POSITIVE:
-                                    ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                            PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE);
-                                    break;
-                                case NEGATIVE:
-                                    break;
-                            }
-                        }
-                    })
-                    .cancelListener(new DialogInterface.OnCancelListener() {
-                        @Override
-                        public void onCancel(DialogInterface dialog) {
-                            downloadImage();
+                            ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                    PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE);
                         }
                     })
                     .show();

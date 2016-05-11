@@ -1,5 +1,6 @@
 package com.mk.places.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -50,10 +51,10 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
     }
 
     public interface ClickListener {
-        void onClick(ViewHolder view, int index);
+        void onClick(ViewHolder view, int index, boolean longOnClick);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         private final ImageView imageView;
         private final View mView;
@@ -64,15 +65,23 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
 
             imageView = (ImageView) mView.findViewById(R.id.thumbImage);
             imageView.setOnClickListener(this);
+            imageView.setOnLongClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             int index = getLayoutPosition();
             if (clickListener != null)
-                clickListener.onClick(this, index);
+                clickListener.onClick(this, index, false);
         }
 
+        @Override
+        public boolean onLongClick(View v) {
+            int index = getLayoutPosition();
+            if (clickListener != null)
+                clickListener.onClick(this, index, true);
+            return true;
+        }
     }
 
 

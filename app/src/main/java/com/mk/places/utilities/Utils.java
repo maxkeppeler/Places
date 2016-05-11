@@ -116,12 +116,6 @@ public class Utils extends Activity {
         return color;
     }
 
-    public static void intentOpen(Uri uri, Context context, String text) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(uri, "image/*");
-        context.startActivity(Intent.createChooser(intent, text));
-    }
-
     public static int colorFromPalette(Context context, Palette palette) {
 
         final int defaultColor = context.getResources().getColor(R.color.colorPrimary);

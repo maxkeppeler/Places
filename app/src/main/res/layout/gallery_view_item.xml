@@ -5,6 +5,8 @@
 
     <ImageView
         android:id="@+id/vImage"
+        android:longClickable="true"
+        android:clickable="true"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="center"
