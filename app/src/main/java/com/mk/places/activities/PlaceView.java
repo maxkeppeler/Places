@@ -62,7 +62,7 @@ import butterknife.ButterKnife;
 public class PlaceView extends AppCompatActivity {
 
 
-    private static final int PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE = 42;
+
     @Bind(R.id.placeItemFAB)
     FloatingActionButton fab;
     @Bind(R.id.toolbar)
@@ -87,7 +87,6 @@ public class PlaceView extends AppCompatActivity {
     private Window window;
     private String location, desc;
     private String[] infoTitle, info;
-    private ViewGroup layout;
     private Activity context;
     private String[] images;
 
@@ -214,19 +213,13 @@ public class PlaceView extends AppCompatActivity {
 
                 if (longOnClick) {
 
-
-                    if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
-                            PackageManager.PERMISSION_GRANTED) {
-                        getStoragePermission();
-                    } else downloadImage(location + String.valueOf(index), index);
-
-
                 } else if (!longOnClick) {
 
                     Log.d("PlaceView Short", "long click" + longOnClick);
                     Intent intent = new Intent(context, GalleryView.class);
                     intent.putExtra("imageLink", images);
                     intent.putExtra("index", index);
+                    intent.putExtra("location", location);
                     context.startActivity(intent);
 
                 }
@@ -281,79 +274,8 @@ public class PlaceView extends AppCompatActivity {
         else finish();
     }
 
-    public void downloadImage(String location, int index) {
-
-        final DownloadImage downloadTask = new DownloadImage(context, location, color);
-        downloadTask.execute(images[index]);
-
-    }
 
 
-//    PERMISSION METHODS
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-
-        switch (requestCode) {
-
-            case PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE: {
-                if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    downloadImage(location, 0);
-                    Log.d("requestPermission", "Write External Storage: Permission granted.");
-
-                } else {
-
-                    //Show snack bar if check never ask again
-                    Log.d("requestPermission", "Write External Storage: Permission NOT granted.");
-
-                    if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                        Snackbar.make(layout, "sdad",
-                                Snackbar.LENGTH_LONG)
-                                .setAction("dasdas", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + getPackageName()));
-                                        intent.addCategory(Intent.CATEGORY_DEFAULT);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivityForResult(intent, PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE);
-                                    }
-                                })
-                                .show();
-                    }
-                    Log.d("requestPermission", "Write External Storage: Permission denied.");
-                }
-            }
-        }
-    }
-
-    private void getStoragePermission() {
-        //Explain the first time for what we need this permission and also if check never ask again
-        if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-            new MaterialDialog.Builder(this)
-                    .content(R.string.storageContent)
-                    .canceledOnTouchOutside(false)
-                    .contentColor(Utils.getColor(context, R.color.primaryText))
-                    .backgroundColor(Utils.getColor(context, R.color.cardBackground))
-                    .positiveText(R.string.storagePositive).positiveColor(color)
-                    .negativeText(R.string.storageNegative).negativeColor(color)
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                    PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE);
-                        }
-                    })
-                    .show();
-        } else {
-
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE);
-        }
-    }
 
 
 }
