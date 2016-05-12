@@ -45,22 +45,13 @@
     </style>
 
     <style name="GalleryView" parent="Theme.AppCompat.Light.NoActionBar">
-
-        <!--<item name="android:fitsSystemWindows">true</item>-->
-
         <item name="android:windowTranslucentNavigation">true</item>
-        <!--<item name="windowActionBar">false</item>-->
-        <!--<item name="windowNoTitle">true</item>-->
-        <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
         <item name="android:windowTranslucentStatus">true</item>
-
         <item name="android:windowContentOverlay">@null</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <!--<item name="android:navigationBarColor">@color/transparent</item>-->
-        <!--<item name="android:statusBarColor">@color/transparent</item>-->
         <item name="android:colorBackground">@color/backgroundColorDarker</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
     </style>
 
     <style name="ToolbarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -229,6 +220,11 @@
         <item name="android:textSize">@dimen/textSizeCaption</item>
         <item name="android:fontFamily">sans-serif-regular</item>
         <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="navBarAnim">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:duration">300</item>
     </style>
 
 </resources>

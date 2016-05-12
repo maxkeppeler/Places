@@ -3,12 +3,14 @@ package com.mk.places.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,13 +23,15 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.mk.places.R;
 import com.mk.places.activities.MainActivity;
 import com.mk.places.activities.PlaceView;
 import com.mk.places.adapters.PlaceAdapter;
 import com.mk.places.models.Place;
 import com.mk.places.models.Places;
-import com.mk.places.utilities.Dialogs;
 import com.mk.places.utilities.JSONParser;
 import com.mk.places.utilities.Preferences;
 import com.mk.places.utilities.Utils;
@@ -49,6 +53,7 @@ public class DrawerPlaces extends Fragment {
     private static Activity context;
     private static SwipeRefreshLayout refreshLayout;
     private static Preferences preferences;
+    private static int color;
 
     public DrawerPlaces() {
     }
@@ -109,15 +114,15 @@ public class DrawerPlaces extends Fragment {
                     adapter = new PlaceAdapter(context,
                             new PlaceAdapter.ClickListener() {
                                 @Override
-                                public void onClick(PlaceAdapter.PlacesViewHolder view, int position, boolean longClick) {
+                                public void onClick(PlaceAdapter.PlacesViewHolder view, final int position, boolean longClick) {
 
-                                    Intent intent = null;
-                                    if (longClick) ;
-                                    else intent = new Intent(context, PlaceView.class);
+                                    Intent intent = new Intent(context, PlaceView.class);
 
                                     if (intent != null) {
                                         intent.putExtra("item", Places.getPlacesList().get(position));
                                         intent.putExtra("pos", position);
+                                        intent.putExtra("color", color);
+                                        Log.d(TAG, "onClick: " + color);
                                         context.startActivity(intent);
                                     }
 

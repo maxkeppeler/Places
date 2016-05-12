@@ -62,10 +62,6 @@ public class Place implements Parcelable {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public String getId() {
         return id;
     }
@@ -78,32 +74,16 @@ public class Place implements Parcelable {
         return location;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
     public String getSight() {
         return sight;
-    }
-
-    public void setSight(String sight) {
-        this.sight = sight;
     }
 
     public String getContinent() {
         return continent;
     }
 
-    public void setContinent(String continent) {
-        this.continent = continent;
-    }
-
     public String getInfoTitle() {
         return infoTitle;
-    }
-
-    public void setInfoTitle(String infoTitle) {
-        this.infoTitle = infoTitle;
     }
 
     public String getInfo() {
@@ -116,10 +96,6 @@ public class Place implements Parcelable {
 
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     @Override

@@ -26,6 +26,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.transition.Slide;
+import android.transition.Transition;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -142,8 +144,11 @@ public class PlaceView extends AppCompatActivity {
                                 toolbarLayout.setContentScrimColor(color);
                                 toolbarLayout.setStatusBarScrimColor((Utils.colorVariant(color, 0.92f)));
 
+                                Transition transition = new Slide();
+
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     window.setNavigationBarColor(color);
+                                    window.setWindowAnimations(R.style.navBarAnim);
                                 }
                             }
                         });
@@ -155,7 +160,6 @@ public class PlaceView extends AppCompatActivity {
 
 
         InfoItem[] infoItems = new InfoItem[infoTitle.length];
-
         for (int i = 0; i < infoTitle.length; i++)
             infoItems[i] = new InfoItem(infoTitle[i], info[i]);
 
@@ -192,7 +196,7 @@ public class PlaceView extends AppCompatActivity {
         });
 
         toolbarLayout.setTitle(location);
-        toolbarLayout.setHorizontalScrollBarEnabled(true);
+//        toolbarLayout.setHorizontalScrollBarEnabled(true);
         toolbarLayout.setCollapsedTitleTypeface(typeTitles);
         toolbarLayout.setExpandedTitleTypeface(typeTitles);
 
