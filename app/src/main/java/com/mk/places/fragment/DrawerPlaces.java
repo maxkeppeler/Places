@@ -174,9 +174,9 @@ public class DrawerPlaces extends Fragment {
 
         int id = menu.getItemId();
         switch (id) {
-            case R.id.column:
-                Dialogs.columnsDialog(context);
-                break;
+//            case R.id.column:
+//                Dialogs.columnsDialog(context);
+//                break;
 
             case R.id.drawer:
                 MainActivity.drawerFilter.openDrawer();

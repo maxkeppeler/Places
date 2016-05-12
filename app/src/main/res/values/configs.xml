@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- ////////////  ANIMATIONS   \\\\\\\\\\\\\ -->
-
     <bool name="zoomDrawerHeader">true</bool>
-    <bool name="placesZoomItems">true</bool>
-    <bool name="zoomCollapsingToolbarImage">true</bool>
-
-
-    <!-- TODO - SORT & FILTER OPTIONS FOR USERS -->
-
-
-    <!-- ////////////  SORT   \\\\\\\\\\\\\ -->
-
-
-    <!-- ////////////  FILTER   \\\\\\\\\\\\\ -->
-
-
 
 
 </resources>

@@ -19,6 +19,7 @@ import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.holder.BadgeStyle;
+import com.mikepenz.materialdrawer.holder.StringHolder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
@@ -199,6 +200,10 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         if (drawer != null) drawer.setSelection(0);
+
+        drawer.updateBadge(0, new StringHolder(pref.getPlacesSize() + ""));
+        drawer.updateBadge(1, new StringHolder(pref.getFavoSize() + ""));
+
 
         drawerFilter = new DrawerBuilder()
                 .withActivity(this)

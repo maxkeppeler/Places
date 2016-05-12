@@ -63,14 +63,9 @@
     <!-- ////////////  Snack Bars   \\\\\\\\\\\\\ -->
 
     <!-- Download Image -->
-    <string name="snackbarDownloadImageText">Layout was saved in the folder \"Places\".</string>
-    <string name="snackbarDownloadImageAction">Open</string>
+    <string name="downloadImageText">Image was downloaded in the folder Places.</string>
+    <string name="downloadImageAction">Open</string>
     <string name="snackbarDownloadImageIntent">Open folder with</string>
-
-    <!-- Download Layout -->
-    <string name="snackbarDownloadLayoutText">Image was saved in the folder \"Places\".</string>
-    <string name="snackbarDownloadLayoutAction">Open</string>
-    <string name="snackbarDownloadLayoutIntent">Open folder with</string>
 
     <!-- Download Layout -->
     <string name="snackbarFavoredText">Place added to your favorites.</string>

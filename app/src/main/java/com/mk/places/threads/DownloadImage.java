@@ -22,11 +22,11 @@ import java.net.URL;
 
 public class DownloadImage extends AsyncTask<String, Integer, String> {
 
-    private File openPath;
     private Activity context;
     private String location;
     private String TAG = "ImageFromUrl/ Async Task";
     private int color;
+    private File file;
 
     public DownloadImage(Activity context, String location, int color) {
         this.context = context;
@@ -47,30 +47,21 @@ public class DownloadImage extends AsyncTask<String, Integer, String> {
             connection = (HttpURLConnection) url.openConnection();
             connection.connect();
 
-            // expect HTTP 200 OK, so we don't mistakenly save error report instead of the file
-            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+            // expect HTTP 200
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK)
                 return "HTTP Issue: Server returned HTTP " + connection.getResponseCode() + " " + connection.getResponseMessage();
-            }
-
 
             input = connection.getInputStream();
-
-            String imageName = location + ".jpeg";
-            File path = new File(Environment.getExternalStorageDirectory().toString());
-            File myDir = new File(path, context.getResources().getString(R.string.app_name));
+            File myDir = new File(Environment.getExternalStorageDirectory().toString(), context.getResources().getString(R.string.app_name));
 
             if (!myDir.exists()) {
                 myDir.mkdir();
-                Log.d(TAG, "New Places folder created: ");
+                Log.d(TAG, "Places folder was created: ");
 
             } else
-                Log.d(TAG, "Places folder does exist. Image will be downloaded in this folder. ");
+                Log.d(TAG, "Folder already exist. Image will be downloaded in this folder.");
 
-
-            openPath = myDir;
-
-            File file = new File(myDir, imageName);
-
+            file = new File(myDir, location + ".jpeg");
             output = new FileOutputStream(file);
 
             byte data[] = new byte[4096];
@@ -86,16 +77,16 @@ public class DownloadImage extends AsyncTask<String, Integer, String> {
             try {
                 if (output != null)
                     output.close();
-                Log.d(TAG, "Image was successfully downloaded.");
-
                 if (input != null)
                     input.close();
 
             } catch (IOException ignored) {
             }
 
-            if (connection != null)
+            if (connection != null) {
                 connection.disconnect();
+                Log.d(TAG, "Image was successfully downloaded.");
+            }
         }
 
         return null;
@@ -105,24 +96,21 @@ public class DownloadImage extends AsyncTask<String, Integer, String> {
     protected void onPostExecute(String s) {
 
         View layout = context.findViewById(R.id.coordinatorLayout);
-        Snackbar snackbar = Snackbar.make(layout, R.string.snackbarDownloadImageText, Snackbar.LENGTH_INDEFINITE)
+        Snackbar snackbar = Snackbar.make(layout, R.string.downloadImageText, Snackbar.LENGTH_LONG)
                 .setActionTextColor(Utils.getColor(context, R.color.white))
-                .setAction(R.string.snackbarDownloadImageAction, new View.OnClickListener() {
+                .setAction(R.string.downloadImageAction, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
-                        Uri uri = Uri.fromFile(openPath.getAbsoluteFile());
                         Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setDataAndType(uri, "image/*");
-//                        intent.setDataAndType(Uri.parse("file://" + uri), "image/*");
+                        intent.setDataAndType(Uri.fromFile(file), "image/*");
                         context.startActivity(intent);
-//                        context.startActivity(Intent.createChooser(intent, text));
 
                     }
                 });
 
         View snackBarView = snackbar.getView();
-        snackBarView.setBackgroundColor(color);
+        snackBarView.setBackgroundColor(Utils.colorVariant(color, 1.06f));
         snackbar.show();
 
         super.onPostExecute(s);

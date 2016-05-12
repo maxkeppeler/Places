@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -43,12 +44,14 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.mikepenz.materialdrawer.holder.StringHolder;
 import com.mk.places.R;
 import com.mk.places.adapters.GalleryAdapter;
 import com.mk.places.adapters.PlaceInfoAdapter;
 import com.mk.places.models.InfoItem;
 import com.mk.places.models.Place;
 import com.mk.places.threads.DownloadImage;
+import com.mk.places.utilities.Preferences;
 import com.mk.places.utilities.Utils;
 
 import butterknife.Bind;
@@ -157,10 +160,8 @@ public class PlaceView extends AppCompatActivity {
             infoItems[i] = new InfoItem(infoTitle[i], info[i]);
 
         pInfoRecycler.setLayoutManager(new LinearLayoutManager(context));
-        PlaceInfoAdapter mAdapter = new PlaceInfoAdapter(infoItems, context);
-        pInfoRecycler.setAdapter(mAdapter);
+        pInfoRecycler.setAdapter(new PlaceInfoAdapter(infoItems, context));
         pInfoRecycler.setHasFixedSize(true);
-
 
         final Typeface typeTitles = Utils.customTypeface(context, 1);
         final Typeface typeTexts = Utils.customTypeface(context, 2);
@@ -172,26 +173,29 @@ public class PlaceView extends AppCompatActivity {
         pDescText.setText(Html.fromHtml(desc).toString().replace("â€“", "–").replace("â€™", "\"").replace("â€™", "\"").replace("â€˜", "\"").replace("\\n", "\n").replace("\\", ""));
 
         fab.setVisibility(View.INVISIBLE);
-
         fab.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-//                TODO: Select / deselect!
+//                TODO: Deselecting the bookmarked place does not work correctly
 
                 Bookmarks.init(context);
                 Bookmarks.favoriteItem(item.getId());
                 Log.d("FAB", " with ID: " + item.getId() + " Selected: " + Bookmarks.isFavorited(item.getId()));
-                Inquiry.deinit();
 
-                Utils.simpleSnackBar(context, color, R.id.coordinatorLayout, R.string.snackbarFavoredText, Snackbar.LENGTH_SHORT);
+
+                MainActivity.drawer.updateBadge(1, new StringHolder(new Preferences(context).getFavoSize() + ""));
+
+                Utils.simpleSnackBar(context, color, R.id.coordinatorLayout, R.string.snackbarFavoredText, Snackbar.LENGTH_LONG);
             }
         });
 
         toolbarLayout.setTitle(location);
+        toolbarLayout.setHorizontalScrollBarEnabled(true);
         toolbarLayout.setCollapsedTitleTypeface(typeTitles);
         toolbarLayout.setExpandedTitleTypeface(typeTitles);
+
         createGallery();
     }
 
@@ -211,7 +215,7 @@ public class PlaceView extends AppCompatActivity {
                     if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
                             PackageManager.PERMISSION_GRANTED) {
                         getStoragePermission();
-                    } else downloadImage();
+                    } else downloadImage(location + String.valueOf(index), index);
 
 
                 } else if (!longOnClick) {
@@ -274,31 +278,10 @@ public class PlaceView extends AppCompatActivity {
         else finish();
     }
 
-    public void downloadImage() {
-
-//        TODO: FIX: Image will not be downloaded
+    public void downloadImage(String location, int index) {
 
         final DownloadImage downloadTask = new DownloadImage(context, location, color);
-        downloadTask.execute(images[0]);
-
-//
-//        if (downloadTask.getStatus() == AsyncTask.Status.FINISHED) {
-//
-//            View layout = findViewById(R.id.coordinatorLayout);
-//            Snackbar snackbar = Snackbar.make(layout, R.string.snackbarDownloadImageText, Snackbar.LENGTH_INDEFINITE)
-//                    .setActionTextColor(Utils.getColor(context, R.color.white))
-//                    .setAction(R.string.snackbarDownloadImageAction, new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//                            Utils.intentOpen(Uri.fromFile(downloadTask.getOpenPath().getAbsoluteFile()), context, getResources().getString(R.string.snackbarDownloadImageIntent));
-//                        }
-//                    });
-//
-//            View snackBarView = snackbar.getView();
-//            snackBarView.setBackgroundColor(color);
-//            snackbar.show();
-//
-//        } else
+        downloadTask.execute(images[index]);
 
     }
 
@@ -313,7 +296,7 @@ public class PlaceView extends AppCompatActivity {
             case PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE: {
                 if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    downloadImage();
+                    downloadImage(location, 0);
                     Log.d("requestPermission", "Write External Storage: Permission granted.");
 
                 } else {
