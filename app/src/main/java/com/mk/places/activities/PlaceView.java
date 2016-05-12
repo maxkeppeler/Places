@@ -196,7 +196,6 @@ public class PlaceView extends AppCompatActivity {
         });
 
         toolbarLayout.setTitle(location);
-//        toolbarLayout.setHorizontalScrollBarEnabled(true);
         toolbarLayout.setCollapsedTitleTypeface(typeTitles);
         toolbarLayout.setExpandedTitleTypeface(typeTitles);
 

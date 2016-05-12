@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.mk.places.R;
+import com.mk.places.activities.GalleryView;
 
 public class GalleryItemAdapter extends PagerAdapter {
 
@@ -43,9 +44,6 @@ public class GalleryItemAdapter extends PagerAdapter {
                 .crossFade()
                 .override(context.getWindowManager().getDefaultDisplay().getWidth(), context.getWindowManager().getDefaultDisplay().getHeight())
                 .into(vImage);
-
-//                Call this if image download failed  and select current page again
-//                GalleryView.pager.setAdapter(GalleryView.adapter);
 
         view.addView(mView, 0);
         return mView;
