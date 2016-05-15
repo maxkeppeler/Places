@@ -30,7 +30,6 @@ import com.mk.places.fragment.DrawerAbout;
 import com.mk.places.fragment.DrawerBookmarks;
 import com.mk.places.fragment.DrawerPlaces;
 import com.mk.places.fragment.DrawerSubmit;
-import com.mk.places.utilities.Anim;
 import com.mk.places.utilities.Dialogs;
 import com.mk.places.utilities.FilterLogic;
 import com.mk.places.utilities.Preferences;
@@ -338,9 +337,6 @@ public class MainActivity extends AppCompatActivity {
                 .override(1512, 1288)
                 .centerCrop()
                 .into(cover);
-
-        if (this.getResources().getBoolean(R.bool.zoomDrawerHeader))
-            Anim.zoomInAndOut(context, cover);
 
         return drawerHeader;
     }

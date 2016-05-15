@@ -24,6 +24,9 @@ public class Place implements Parcelable {
             continent,
             infoTitle,
             info,
+            creditsTitle,
+            creditsDesc,
+            credits,
             description,
             url;
 
@@ -36,19 +39,25 @@ public class Place implements Parcelable {
         continent = in.readString();
         infoTitle = in.readString();
         info = in.readString();
+        creditsTitle = in.readString();
+        creditsDesc = in.readString();
+        credits = in.readString();
         description = in.readString();
         url = in.readString();
 
+
     }
 
-
-    public Place(String id, String location, String sight, String continent, String infoTitle, String info, String description, String url) {
+    public Place(String id, String location, String sight, String continent, String infoTitle, String info, String creditsTitle, String creditsDesc, String credits, String description, String url) {
         this.id = id;
         this.location = location;
         this.sight = sight;
         this.continent = continent;
         this.infoTitle = infoTitle;
         this.info = info;
+        this.creditsTitle = creditsTitle;
+        this.creditsDesc = creditsDesc;
+        this.credits = credits;
         this.description = description;
         this.url = url;
     }
@@ -86,6 +95,14 @@ public class Place implements Parcelable {
         return infoTitle;
     }
 
+    public String getCreditsTitle() {
+        return creditsTitle;
+    }
+
+    public String getCredits() {
+        return credits;
+    }
+
     public String getInfo() {
         return info;
     }
@@ -98,6 +115,10 @@ public class Place implements Parcelable {
         return description;
     }
 
+    public String getCreditsDesc() {
+        return creditsDesc;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 
@@ -107,6 +128,9 @@ public class Place implements Parcelable {
         dest.writeString(continent);
         dest.writeString(infoTitle);
         dest.writeString(info);
+        dest.writeString(creditsTitle);
+        dest.writeString(creditsDesc);
+        dest.writeString(credits);
         dest.writeString(description);
         dest.writeString(url);
     }

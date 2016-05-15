@@ -1,11 +1,11 @@
 package com.mk.places.models;
 
-public class InfoItem {
+public class DetailsItem {
 
     private String text;
     private String title;
 
-    public InfoItem(String title, String text) {
+    public DetailsItem(String title, String text) {
         this.text = text;
         this.title = title;
     }

@@ -74,6 +74,8 @@ public class Utils extends Activity {
             }
         };
 
+        if (color == 0) color = context.getResources().getColor(R.color.cardBackground);
+
         CustomTabsClient.bindCustomTabsService(context, "com.android.chrome", mCustomTabsServiceConnection);
         CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder(mCustomTabsSession[0])
                 .setToolbarColor(color)

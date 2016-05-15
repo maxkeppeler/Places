@@ -13,6 +13,9 @@ public class Places {
             ArrayList<String> continents,
             ArrayList<String> infoTitle,
             ArrayList<String> info,
+            ArrayList<String> creditsTitle,
+            ArrayList<String> creditsDesc,
+            ArrayList<String> credits,
             ArrayList<String> descriptions,
             ArrayList<String> urls
     ) {
@@ -27,6 +30,9 @@ public class Places {
                         continents.get(i),
                         infoTitle.get(i),
                         info.get(i),
+                        creditsTitle.get(i),
+                        creditsDesc.get(i),
+                        credits.get(i),
                         descriptions.get(i),
                         urls.get(i)
                 );

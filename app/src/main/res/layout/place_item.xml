@@ -76,54 +76,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="16dp">
+                android:paddingBottom="8dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingBottom="8dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingTop="8dp">
+                <android.support.v7.widget.CardView
+                    android:id="@+id/aboutCardView"
+                    style="@style/Card"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp">
 
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/aboutCardView"
-                        style="@style/Card"
-                        app:cardUseCompatPadding="true">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="24dp"
+                        android:paddingEnd="16dp"
+                        android:paddingStart="16dp"
+                        android:paddingTop="24dp">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:paddingBottom="24dp"
-                            android:paddingEnd="16dp"
-                            android:paddingStart="16dp"
-                            android:paddingTop="24dp">
+                        <TextView
+                            android:id="@+id/pDescTitle"
+                            style="@style/TextViewTitle"
+                            android:text="About"
+                            android:textColor="@color/white" />
 
-                            <TextView
-                                android:id="@+id/pDescTitle"
-                                style="@style/TextViewTitle"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="About"
-                                android:textColor="@color/white" />
+                        <TextView
+                            android:id="@+id/pDescText"
+                            style="@style/TextViewBody1"
+                            android:layout_marginTop="16dp"
+                            android:textColor="@color/primaryText" />
 
-                            <TextView
-                                android:id="@+id/pDescText"
-                                style="@style/TextViewBody1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="16dp"
-                                android:text="Description"
-                                android:textColor="@color/primaryText" />
+                    </LinearLayout>
 
-                        </LinearLayout>
-
-                    </android.support.v7.widget.CardView>
-
-
-                </LinearLayout>
+                </android.support.v7.widget.CardView>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -134,58 +120,82 @@
                         android:id="@+id/pGalleryRecyler"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:clipToPadding="false"
                         android:paddingEnd="8dp"
-                        android:paddingStart="8dp"
-                        android:scrollbars="vertical" />
+                        android:paddingStart="8dp" />
 
                 </LinearLayout>
 
+                <android.support.v7.widget.CardView
+                    android:id="@+id/infoCardView"
+                    style="@style/Card"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingTop="8dp">
-
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/infoCardView"
-                        style="@style/Card"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        app:cardUseCompatPadding="true">
+                        android:orientation="vertical"
+                        android:paddingBottom="24dp"
+                        android:paddingEnd="16dp"
+                        android:paddingStart="16dp"
+                        android:paddingTop="24dp">
 
-                        <LinearLayout
+                        <TextView
+                            android:id="@+id/pInfoTitle"
+                            style="@style/TextViewTitle"
+                            android:drawablePadding="16dp"
+                            android:drawableStart="@drawable/ic_info_outline"
+                            android:text="Details"
+                            android:textColor="@color/white" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/pInfoRecycler"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:paddingBottom="24dp"
-                            android:paddingEnd="16dp"
-                            android:paddingStart="16dp"
-                            android:paddingTop="24dp">
+                            android:layout_marginTop="16dp" />
 
-                            <TextView
-                                android:id="@+id/pInfoTitle"
-                                style="@style/TextViewTitle"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Details"
-                                android:textColor="@color/white" />
+                    </LinearLayout>
 
-                            <android.support.v7.widget.RecyclerView
-                                android:id="@+id/pInfoRecycler"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="16dp" />
+                </android.support.v7.widget.CardView>
 
-                        </LinearLayout>
 
-                    </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:id="@+id/creditsCardView"
+                    style="@style/Card"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp">
 
-                </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="16dp"
+                        android:paddingEnd="16dp"
+                        android:paddingStart="16dp"
+                        android:paddingTop="24dp">
 
+                        <TextView
+                            android:id="@+id/pCreditsTitle"
+                            style="@style/TextViewTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="16dp"
+                            android:drawableStart="@drawable/ic_launch"
+                            android:text="Credits"
+                            android:textColor="@color/white" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/pCreditsRecycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp" />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
 
             </LinearLayout>
 

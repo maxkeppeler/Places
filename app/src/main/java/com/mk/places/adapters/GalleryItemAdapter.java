@@ -9,7 +9,6 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.mk.places.R;
-import com.mk.places.activities.GalleryView;
 
 public class GalleryItemAdapter extends PagerAdapter {
 
@@ -36,7 +35,7 @@ public class GalleryItemAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup view, final int i) {
 
-        final View mView = inflater.inflate(R.layout.gallery_view_item, view, false);
+        final View mView = inflater.inflate(R.layout.place_item_gallery_view_item, view, false);
         final ImageView vImage = (ImageView) mView.findViewById(R.id.vImage);
 
         Glide.with(context)

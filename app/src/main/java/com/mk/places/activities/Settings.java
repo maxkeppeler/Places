@@ -30,7 +30,7 @@ public class Settings extends PreferenceActivity {
         context = this;
 
         LinearLayout root = (LinearLayout) findViewById(android.R.id.list).getParent().getParent().getParent();
-        Toolbar toolbar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
+        Toolbar toolbar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.component_settings_toolbar, root, false);
 
         ListView lv = (ListView) findViewById(android.R.id.list);
         ViewGroup parent = (ViewGroup) lv.getParent();

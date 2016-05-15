@@ -2,19 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <item
-        android:id="@+id/download"
+        android:id="@+id/search"
         android:actionViewClass="android.widget.SearchView"
-        android:icon="@drawable/ic_download"
-        android:title="@string/action_download"
+        android:icon="@drawable/ic_search"
+        android:title="@string/action_search"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/apply"
+        android:id="@+id/drawer"
         android:icon="@drawable/ic_filter"
         android:orderInCategory="-1"
-        android:title="@string/action_apply"
+        android:title="@string/action_filter"
         app:showAsAction="ifRoom" />
 
 </menu>

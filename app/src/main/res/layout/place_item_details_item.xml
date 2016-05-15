@@ -5,9 +5,7 @@
     android:layout_height="wrap_content"
     android:gravity="top"
     android:orientation="horizontal"
-    android:paddingBottom="6dp"
-    android:paddingTop="6dp">
-
+    android:paddingBottom="8dp" >
     <TextView
         android:id="@+id/placeItemTitle"
         style="@style/TextViewBody1"
@@ -16,7 +14,7 @@
         android:text="Info Title"
         android:textAllCaps="true"
         android:textColor="@color/secondaryText"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:layout_gravity="center_vertical" />
 
     <LinearLayout

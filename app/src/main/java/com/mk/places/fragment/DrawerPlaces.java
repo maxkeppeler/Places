@@ -3,14 +3,12 @@ package com.mk.places.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,9 +21,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.mk.places.R;
 import com.mk.places.activities.MainActivity;
 import com.mk.places.activities.PlaceView;
@@ -150,7 +145,7 @@ public class DrawerPlaces extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.toolbar_places, menu);
+        inflater.inflate(R.menu.actions_places, menu);
 
         MenuItem item = menu.findItem(R.id.search);
         SearchView sv = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
@@ -279,6 +274,9 @@ public class DrawerPlaces extends Fragment {
                                         json.getString("continent"),
                                         json.getString("infoTitle"),
                                         json.getString("info"),
+                                        json.getString("creditsTitle"),
+                                        json.getString("creditsDesc"),
+                                        json.getString("credits"),
                                         json.getString("description"),
                                         json.getString("url")
                                 )

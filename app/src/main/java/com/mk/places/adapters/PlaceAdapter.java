@@ -32,7 +32,6 @@ import com.bumptech.glide.request.target.ImageViewTarget;
 import com.bumptech.glide.request.target.Target;
 import com.mk.places.R;
 import com.mk.places.models.Place;
-import com.mk.places.utilities.Anim;
 import com.mk.places.utilities.Utils;
 
 import java.util.ArrayList;

@@ -27,7 +27,6 @@ import com.mk.places.activities.PlaceView;
 import com.mk.places.adapters.PlaceAdapter;
 import com.mk.places.models.Place;
 import com.mk.places.models.Places;
-import com.mk.places.utilities.Dialogs;
 import com.mk.places.utilities.Preferences;
 
 import java.util.ArrayList;
@@ -124,7 +123,7 @@ public class DrawerBookmarks extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.toolbar_places, menu);
+        inflater.inflate(R.menu.actions_places, menu);
 
         MenuItem item = menu.findItem(R.id.search);
         SearchView sv = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());

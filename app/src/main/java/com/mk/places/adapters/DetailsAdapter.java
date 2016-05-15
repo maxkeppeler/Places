@@ -8,22 +8,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mk.places.R;
-import com.mk.places.models.InfoItem;
+import com.mk.places.models.DetailsItem;
 import com.mk.places.utilities.Utils;
 
-public class PlaceInfoAdapter extends RecyclerView.Adapter<PlaceInfoAdapter.ViewHolder> {
+public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHolder> {
 
-    private InfoItem[] itemsData;
+    private DetailsItem[] itemsData;
     private Context context;
 
-    public PlaceInfoAdapter(InfoItem[] itemsData, Context context) {
+    public DetailsAdapter(DetailsItem[] itemsData, Context context) {
         this.itemsData = itemsData;
         this.context = context;
     }
 
     @Override
-    public PlaceInfoAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_places_detail_item, parent, false);
+    public DetailsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.place_item_details_item, parent, false);
         return new ViewHolder(itemLayoutView);
     }
 

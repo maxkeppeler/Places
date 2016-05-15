@@ -3,11 +3,11 @@ package com.mk.places.activities;
 import android.content.Context;
 
 import com.afollestad.inquiry.Inquiry;
+import com.afollestad.inquiry.annotations.Column;
 
 public final class Bookmarks {
 
-    private static final String TABLE_NAME = "bookmarks";
-    private static final String TAG = "Bookmarks";
+    private static final String TABLE_NAME = "BOOKMARKS";
 
     public static void init(Context context) {
         Inquiry.init(context, TABLE_NAME, 1);
@@ -19,7 +19,7 @@ public final class Bookmarks {
      */
     public static boolean isFavorited(String id) {
         return Inquiry.get()
-                .selectFrom(TABLE_NAME, DataBaseBookmarks.class)
+                .selectFrom(TABLE_NAME, BookmarksDB.class)
                 .where("_id = ?", id)
                 .one() != null;
     }
@@ -30,8 +30,8 @@ public final class Bookmarks {
     public static boolean favoriteItem(String id) {
         if (!isFavorited(id)) {
             Inquiry.get()
-                    .insertInto(TABLE_NAME, DataBaseBookmarks.class)
-                    .values(new DataBaseBookmarks(id))
+                    .insertInto(TABLE_NAME, BookmarksDB.class)
+                    .values(new BookmarksDB(id))
                     .run();
             return true;
         }
@@ -44,9 +44,9 @@ public final class Bookmarks {
     /**
      * Returns Array with all IDs
      */
-    public static DataBaseBookmarks[] getDB() {
+    public static BookmarksDB[] getDB() {
 
-        return Inquiry.get().selectFrom(TABLE_NAME, DataBaseBookmarks.class).all();
+        return Inquiry.get().selectFrom(TABLE_NAME, BookmarksDB.class).all();
     }
 
     /**
@@ -65,7 +65,7 @@ public final class Bookmarks {
     public static boolean unfavoriteItem(String id) {
         if (isFavorited(id)) {
             Inquiry.get()
-                    .deleteFrom(TABLE_NAME, DataBaseBookmarks.class)
+                    .deleteFrom(TABLE_NAME, BookmarksDB.class)
                     .where("_id = ?", id)
                     .run();
             return true;
@@ -74,5 +74,22 @@ public final class Bookmarks {
         favoriteItem(id);
 
         return false;
+    }
+
+    public static class BookmarksDB {
+
+        @Column(name = "_id", primaryKey = true, notNull = true, autoIncrement = false)
+        public String _id;
+
+        public BookmarksDB() {
+        }
+
+        public BookmarksDB(String ID) {
+            this._id = ID;
+        }
+
+        public String getID() {
+            return _id;
+        }
     }
 }

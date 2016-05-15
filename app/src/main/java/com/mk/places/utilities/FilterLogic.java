@@ -14,54 +14,34 @@ public class FilterLogic {
         ArrayList<Place> filter = new ArrayList<>();
 
 
-        if (index == 0) {
-
-
+        if (index == 0)
             if (!key.equals("All")) {
-
                 int x = 0;
-
                 for (int j = 0; j < Places.getPlacesList().size(); j++) {
-
                     if (key.equals(Places.getPlacesList().get(j).getSight())
                             || key.equals(Places.getPlacesList().get(j).getContinent())) {
-
                         filter.add(x, Places.getPlacesList().get(j));
                         x++;
                     }
-
                 }
-
                 DrawerPlaces.createLayout(true, filter);
-
             } else DrawerPlaces.createLayout(false, filter);
 
 
-        }
-
-
-        if (index == 1) {
-
+        if (index == 1)
             if (!key.equals("All")) {
-
                 int x = 0;
-
                 for (int j = 0; j < DrawerBookmarks.getBookmarks().size(); j++) {
-
                     if (key.equals(DrawerBookmarks.getBookmarks().get(j).getSight())
                             || key.equals(DrawerBookmarks.getBookmarks().get(j).getContinent())) {
 
                         filter.add(x, DrawerBookmarks.getBookmarks().get(j));
                         x++;
                     }
-
                 }
-
                 DrawerBookmarks.createLayout(true, filter);
-
             } else DrawerBookmarks.createLayout(false, null);
 
 
-        }
     }
 }
