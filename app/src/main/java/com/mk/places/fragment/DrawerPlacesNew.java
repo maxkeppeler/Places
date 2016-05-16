@@ -1,10 +1,11 @@
 package com.mk.places.fragment;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -20,68 +21,28 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
 
-import com.afollestad.inquiry.Inquiry;
+import com.google.gson.Gson;
 import com.mk.places.R;
-import com.mk.places.activities.Bookmarks;
 import com.mk.places.activities.MainActivity;
 import com.mk.places.activities.PlaceView;
 import com.mk.places.adapters.PlaceAdapter;
 import com.mk.places.models.Place;
+import com.mk.places.models.PlaceGSON;
 import com.mk.places.models.Places;
 import com.mk.places.utilities.Preferences;
 
 import java.util.ArrayList;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class DrawerBookmarks extends Fragment {
+public class DrawerPlacesNew extends Fragment {
 
-    private static final String TAG = "DrawerBookmarks";
-    private static Activity context;
-    private static PlaceAdapter adapter;
+    private static final String TAG = "DrawerPlaces";
+    public static PlaceAdapter adapter;
     private static View view;
-    private static RecyclerView recycler;
-    private static ArrayList<Place> bookmarks = new ArrayList<>();
+    private static RecyclerView recyclerView;
+    private static Activity context;
     private static SwipeRefreshLayout refreshLayout;
     private static Preferences preferences;
-
-    public static void createLayout(final boolean other, final ArrayList<Place> arrayList) {
-
-        if (bookmarks != null && bookmarks.size() > 0) {
-            context.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    adapter = new PlaceAdapter(context,
-                            new PlaceAdapter.ClickListener() {
-                                @Override
-                                public void onClick(PlaceAdapter.PlacesViewHolder view, int position, boolean longClick) {
-
-                                    Intent intent = null;
-                                    if (longClick) ;
-                                    else intent = new Intent(context, PlaceView.class);
-
-                                    if (intent != null) {
-                                        intent.putExtra("item", Places.getPlacesList().get(position));
-                                        context.startActivity(intent);
-                                    }
-
-                                }
-                            });
-
-                    if (other) {
-                        adapter.setData(arrayList);
-                        recycler.setAdapter(adapter);
-                    } else {
-                        adapter.setData(bookmarks);
-                        recycler.setAdapter(adapter);
-                    }
-                }
-            });
-        }
-
-    }
 
     public static void searchFilter(String key) {
 
@@ -89,15 +50,15 @@ public class DrawerBookmarks extends Fragment {
 
         int x = 0;
 
-        for (int j = 0; j < bookmarks.size(); j++) {
+        for (int j = 0; j < Places.getPlacesList().size(); j++) {
+
             if (
                     Places.getPlacesList().get(j).getLocation().toLowerCase().contains(key.toLowerCase())
 
 
-
                     ) {
 
-                filter.add(x, bookmarks.get(j));
+                filter.add(x, Places.getPlacesList().get(j));
                 x++;
             }
 
@@ -106,9 +67,82 @@ public class DrawerBookmarks extends Fragment {
         createLayout(true, filter);
     }
 
-    public static ArrayList<Place> getBookmarks() {
-        return bookmarks;
+    public static void loadPlacesList(final Context context) {
+
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+
+                String json = "https://drive.google.com/uc?id=0B6ky9fzTGl9XNFBhTTlxU2hhQmM";
+
+                Gson gson = new Gson();
+                PlaceGSON[] arr = gson.fromJson(json, PlaceGSON[].class);
+
+//                TODO parse json with gson
+
+                Log.d(TAG, "doInBackground: " + arr[0].getId());
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+
+                PlaceGSON placeGson = new PlaceGSON();
+                Log.d(TAG, "doInBackground: " + placeGson.getId());
+
+            }
+        }.execute();
+
     }
+
+    public static void createLayout(final boolean otherList, final ArrayList<Place> arrayList) {
+
+        if (Places.getPlacesList() != null && Places.getPlacesList().size() > 0) {
+            context.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapter = new PlaceAdapter(context,
+                            new PlaceAdapter.ClickListener() {
+                                @Override
+                                public void onClick(PlaceAdapter.PlacesViewHolder view, final int position, boolean longClick) {
+
+                                    Intent intent = new Intent(context, PlaceView.class);
+
+                                    if (intent != null) {
+                                        intent.putExtra("item", Places.getPlacesList().get(position));
+                                        intent.putExtra("pos", position);
+                                        context.startActivity(intent);
+                                    }
+
+                                }
+                            });
+
+                    if (!otherList) {
+                        adapter.setData(Places.getPlacesList());
+                        recyclerView.setAdapter(adapter);
+
+                        Preferences mPref = new Preferences(context);
+                        mPref.setPlacesSize(Places.getPlacesList().size());
+
+                    } else {
+                        adapter.setData(arrayList);
+                        recyclerView.setAdapter(adapter);
+                    }
+
+                }
+            });
+        }
+
+    }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -151,86 +185,46 @@ public class DrawerBookmarks extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Nullable
+    @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        view = inflater.inflate(R.layout.drawer_places, null);
 
         setHasOptionsMenu(true);
         context = getActivity();
 
-        view = inflater.inflate(R.layout.drawer_bookmarks, container, false);
-
         preferences = new Preferences(context);
 
-        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.bookmarksRefresh);
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.placeRefresh);
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
         refreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        loadBookmarks(context);
+//                        loadPlacesList(context);
                         MainActivity.drawerFilter.setSelection(0);
                     }
                 }
         );
 
-        recycler = (RecyclerView) view.findViewById(R.id.bookmarksRecyclerView);
-        recycler.setLayoutManager(new GridLayoutManager(context, preferences.getColumns(), 1, false));
-        recycler.setAdapter(adapter);
-        recycler.setHasFixedSize(true);
+        recyclerView = (RecyclerView) view.findViewById(R.id.placesRecyclerView);
+        recyclerView.setLayoutManager(new GridLayoutManager(context, preferences.getColumns(), 1, false));
+        recyclerView.setAdapter(adapter);
+        recyclerView.setHasFixedSize(true);
 
-        loadBookmarks(context);
+        if (Places.getPlacesList() == null)
+//            DrawerPlacesNew.loadPlacesList(context);
+
+            createLayout(false, Places.getPlacesList());
 
         return view;
     }
 
-    public static void loadBookmarks(Context context) {
 
-        bookmarks.clear();
-
-        Bookmarks.init(context);
-
-        if (Bookmarks.getDB() != null) {
-
-            int x = 0;
-
-            for (int j = 0; j < Places.getPlacesList().size(); j++) {
-
-
-                for (int i = 0; i < Bookmarks.getDB().length; i++) {
-
-                    if (Places.getPlacesList().get(j).getId().equals(Bookmarks.getDB()[i].getID())) {
-
-
-                        if (Bookmarks.isFavorited(Bookmarks.getDB()[i].getID())) {
-
-                            bookmarks.add(x, Places.getPlacesList().get(j));
-
-                            x++;
-                            Log.i(TAG, "Found Favored Item: " + Bookmarks.getDB()[i].getID());
-                        }
-                    }
-                }
-            }
-
-        }
-
-        Preferences mPref = new Preferences(context);
-        mPref.setFavoSize(bookmarks.size());
-
-        Inquiry.deinit();
-        createLayout(false, bookmarks);
-
-        if (refreshLayout != null)
-        refreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
 }

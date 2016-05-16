@@ -11,6 +11,7 @@
         android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         android:fitsSystemWindows="false">
 
         <android.support.design.widget.AppBarLayout
@@ -26,6 +27,12 @@
                 android:background="?attr/colorPrimary"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible" />
+
         </android.support.design.widget.AppBarLayout>
 
         <FrameLayout
@@ -33,6 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
 
     </android.support.design.widget.CoordinatorLayout>
 

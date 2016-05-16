@@ -38,7 +38,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
                 .load(imageLink[position])
                 .override(800, 800)
                 .centerCrop()
-                .priority(Priority.IMMEDIATE)
                 .into(v.imageView);
 
 

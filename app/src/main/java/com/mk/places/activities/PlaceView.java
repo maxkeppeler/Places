@@ -129,8 +129,6 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
                                 toolbarLayout.setContentScrimColor(color);
                                 toolbarLayout.setStatusBarScrimColor((Utils.colorVariant(color, 0.92f)));
 
-                                Transition transition = new Slide();
-
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     window.setNavigationBarColor(color);
                                     window.setWindowAnimations(R.style.navBarAnim);
@@ -199,7 +197,7 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
                 if (longOnClick) {
 //                    TODO: For what could the long click be used?
 
-                } else if (!longOnClick) {
+                } else {
                     Intent intent = new Intent(context, GalleryView.class);
                     intent.putExtra("imageLink", images);
                     intent.putExtra("index", index);

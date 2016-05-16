@@ -55,30 +55,4 @@ public class Dialogs {
 
     }
 
-    public static void columnsDialog(final Context context) {
-
-        new MaterialDialog.Builder(context)
-                .title(R.string.columnsTitle)
-                .items(R.array.columnsArray)
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int i, CharSequence text) {
-
-                        Preferences mPrefs = new Preferences(context);
-
-                        if (MainActivity.drawer.getCurrentSelectedPosition() == 1) {
-                            mPrefs.setColumns(i + 1);
-                            DrawerPlaces.setColumns(i + 1);
-                        }
-
-                        if (MainActivity.drawer.getCurrentSelectedPosition() == 2) {
-                            mPrefs.setColumns(i + 1);
-                            DrawerBookmarks.setColumns(i + 1);
-                        }
-
-                    }
-                })
-                .show();
-    }
-
 }

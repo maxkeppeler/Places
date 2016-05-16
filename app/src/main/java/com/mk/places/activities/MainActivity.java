@@ -3,6 +3,7 @@ package com.mk.places.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -19,7 +20,6 @@ import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.holder.BadgeStyle;
-import com.mikepenz.materialdrawer.holder.StringHolder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
@@ -29,6 +29,8 @@ import com.mk.places.R;
 import com.mk.places.fragment.DrawerAbout;
 import com.mk.places.fragment.DrawerBookmarks;
 import com.mk.places.fragment.DrawerPlaces;
+import com.mk.places.fragment.DrawerPlacesNew;
+import com.mk.places.fragment.DrawerPlacesTabs;
 import com.mk.places.fragment.DrawerSubmit;
 import com.mk.places.utilities.Dialogs;
 import com.mk.places.utilities.FilterLogic;
@@ -43,8 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
     public static Drawer drawer = null;
     public static Drawer drawerFilter = null;
+    public static TabLayout tabLayout;
     private static AppCompatActivity context;
-    private static String drawerPlaces, drawerBookmarks, drawerUpload, drawerAbout, drawerSettings, drawerWrong;
+    private static String drawerPlaces, drawerUpload, drawerAbout, drawerSettings, drawerWrong;
     private Toolbar toolbar;
     private AccountHeader drawerHeader;
     private String[] drawerHeaderURLS;
@@ -56,17 +59,26 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         context = this;
+        Preferences pref = new Preferences(context);
 
+//        DrawerPlacesNew.loadPlacesList(context);
         DrawerPlaces.loadPlacesList(context);
+        DrawerBookmarks.loadBookmarks(context);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-//        TODO: Check if app was updated and had then the first start
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        final TabLayout.Tab pushTab = tabLayout.newTab().setText("Discover" + " (" + pref.getPlacesSize() + ")");
+        final TabLayout.Tab statisticsTab = tabLayout.newTab().setText("Bookmarks");
 
-        Preferences pref = new Preferences(context);
+        tabLayout.addTab(pushTab);
+        tabLayout.addTab(statisticsTab);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+//        TODO: Check if app was updated and had then the first start
 
         if (pref.getFirstStart()) {
             Dialogs.showChangelog(context);
@@ -76,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
         drawerHeaderURLS = getResources().getStringArray(R.array.headerUrl);
 
         drawerPlaces = getResources().getString(R.string.app_places);
-        drawerBookmarks = getResources().getString(R.string.app_bookmarks);
         drawerUpload = getResources().getString(R.string.app_uploads);
         drawerAbout = getResources().getString(R.string.app_about);
         drawerSettings = getResources().getString(R.string.app_settings);
@@ -114,11 +125,10 @@ public class MainActivity extends AppCompatActivity {
                 .withToolbar(toolbar)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(drawerPlaces).withIcon(Icon.gmd_terrain).withIdentifier(0).withBadgeStyle(new BadgeStyle()),
-                        new PrimaryDrawerItem().withName(drawerBookmarks).withIcon(Icon.gmd_book).withIdentifier(1).withBadgeStyle(new BadgeStyle()),
-                        new PrimaryDrawerItem().withName(drawerUpload).withIcon(Icon.gmd_cloud_upload).withIdentifier(2),
+                        new PrimaryDrawerItem().withName(drawerUpload).withIcon(Icon.gmd_cloud_upload).withIdentifier(1),
                         new SectionDrawerItem().withName("Various"),
-                        new SecondaryDrawerItem().withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(3),
-                        new SecondaryDrawerItem().withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(4).withSelectable(false)
+                        new SecondaryDrawerItem().withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(2),
+                        new SecondaryDrawerItem().withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(3).withSelectable(false)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -129,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
 
                                 FragmentManager manager = getSupportFragmentManager();
                                 FragmentTransaction transaction = manager.beginTransaction();
-                                transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
 
                                 Fragment fragment = null;
                                 DrawerLayout drawerLayout = drawer.getDrawerLayout();
@@ -139,44 +148,23 @@ public class MainActivity extends AppCompatActivity {
                                 switch ((int) drawerItem.getIdentifier()) {
 
                                     case 0:
-                                        fragment = new DrawerPlaces();
-
-                                        if (drawerFilter != null)
-                                            drawerFilter.setSelection(0);
-
-                                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
+                                        fragment = new DrawerPlacesTabs();
                                         break;
 
                                     case 1:
-                                        fragment = new DrawerBookmarks();
-
-                                        if (drawerFilter != null)
-                                            drawerFilter.setSelection(0);
-
-                                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
+                                        fragment = new DrawerSubmit();
                                         break;
 
                                     case 2:
-                                        fragment = new DrawerSubmit();
-                                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
+                                        fragment = new DrawerAbout();
                                         break;
 
                                     case 3:
-                                        fragment = new DrawerAbout();
-                                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
-                                        break;
-
-                                    case 4:
-                                        fragment = null;
                                         intent = new Intent(context, Settings.class);
-                                        drawer.setSelection(0);
-                                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
                                         break;
-
 
                                     default:
                                         fragment = new DrawerPlaces();
-                                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
                                 }
 
                                 if (fragment != null) {
@@ -184,9 +172,23 @@ public class MainActivity extends AppCompatActivity {
                                     transaction.replace(R.id.container, fragment);
                                     transaction.commit();
                                     drawerIndex = (int) drawerItem.getIdentifier();
-                                    toolbar.setTitle(toolbarTitle((int) drawerItem.getIdentifier()));
-                                } else if (fragment == null && intent != null) {
+                                    toolbar.setTitle(toolbarTitle(drawerIndex));
+
+                                } else if (intent != null && fragment == null) {
                                     startActivity(intent);
+                                    drawer.setSelection(0);
+                                }
+
+                                if (drawerIndex == 0) {
+
+                                    if (drawerFilter != null)
+                                        drawerFilter.setSelection(0);
+
+                                    tabLayout.setVisibility(View.VISIBLE);
+                                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
+                                } else {
+                                    tabLayout.setVisibility(View.GONE);
+                                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
                                 }
 
 
@@ -199,9 +201,6 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         if (drawer != null) drawer.setSelection(0);
-
-        drawer.updateBadge(0, new StringHolder(pref.getPlacesSize() + ""));
-        drawer.updateBadge(1, new StringHolder(pref.getFavoSize() + ""));
 
 
         drawerFilter = new DrawerBuilder()
@@ -237,47 +236,47 @@ public class MainActivity extends AppCompatActivity {
                             switch ((int) drawerItem.getIdentifier()) {
 
                                 case 101:
-                                    FilterLogic.filterList(drawerIndex, sightCity);
+                                    FilterLogic.filterList(sightCity);
                                     break;
                                 case 102:
-                                    FilterLogic.filterList(drawerIndex, sightCountry);
+                                    FilterLogic.filterList(sightCountry);
                                     break;
                                 case 103:
-                                    FilterLogic.filterList(drawerIndex, sightNationalPark);
+                                    FilterLogic.filterList(sightNationalPark);
                                     break;
                                 case 104:
-                                    FilterLogic.filterList(drawerIndex, sightPark);
+                                    FilterLogic.filterList(sightPark);
                                     break;
 
                                 case 201:
-                                    FilterLogic.filterList(drawerIndex, continentAfrica);
+                                    FilterLogic.filterList(continentAfrica);
                                     break;
                                 case 202:
-                                    FilterLogic.filterList(drawerIndex, continentAntarctica);
+                                    FilterLogic.filterList(continentAntarctica);
                                     break;
                                 case 203:
-                                    FilterLogic.filterList(drawerIndex, continentAsia);
+                                    FilterLogic.filterList(continentAsia);
                                     break;
                                 case 204:
-                                    FilterLogic.filterList(drawerIndex, continentAustralia);
+                                    FilterLogic.filterList(continentAustralia);
                                     break;
                                 case 205:
-                                    FilterLogic.filterList(drawerIndex, continentEurope);
+                                    FilterLogic.filterList(continentEurope);
                                     break;
                                 case 206:
-                                    FilterLogic.filterList(drawerIndex, continentNorthAmerica);
+                                    FilterLogic.filterList(continentNorthAmerica);
                                     break;
                                 case 207:
-                                    FilterLogic.filterList(drawerIndex, continentSouthAmerica);
+                                    FilterLogic.filterList(continentSouthAmerica);
                                     break;
 
                                 case 999:
-                                    FilterLogic.filterList(drawerIndex, "All");
+                                    FilterLogic.filterList("All");
                                     drawerFilter.setSelection(0);
                                     break;
 
                                 default:
-                                    FilterLogic.filterList(drawerIndex, "All");
+                                    FilterLogic.filterList("All");
                                     drawerFilter.setSelection(0);
                                     break;
                             }
@@ -298,12 +297,10 @@ public class MainActivity extends AppCompatActivity {
             case 0:
                 return drawerPlaces;
             case 1:
-                return drawerBookmarks;
-            case 2:
                 return drawerUpload;
-            case 3:
+            case 2:
                 return drawerAbout;
-            case 4:
+            case 3:
                 return drawerSettings;
             default:
                 return drawerWrong;

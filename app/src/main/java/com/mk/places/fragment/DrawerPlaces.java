@@ -50,16 +50,6 @@ public class DrawerPlaces extends Fragment {
     private static Preferences preferences;
     private static int color;
 
-    public DrawerPlaces() {
-    }
-
-    public static void setColumns(int amount) {
-        recyclerView.setLayoutManager(new GridLayoutManager(context, amount, 1, false));
-
-        preferences = new Preferences(context);
-        preferences.setColumns(amount);
-    }
-
     public static void searchFilter(String key) {
 
         ArrayList<Place> filter = new ArrayList<>();
@@ -142,6 +132,7 @@ public class DrawerPlaces extends Fragment {
 
     }
 
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -174,10 +165,6 @@ public class DrawerPlaces extends Fragment {
 
         int id = menu.getItemId();
         switch (id) {
-//            case R.id.column:
-//                Dialogs.columnsDialog(context);
-//                break;
-
             case R.id.drawer:
                 MainActivity.drawerFilter.openDrawer();
                 break;
