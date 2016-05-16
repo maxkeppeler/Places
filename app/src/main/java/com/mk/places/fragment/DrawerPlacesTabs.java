@@ -1,22 +1,22 @@
 package com.mk.places.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import com.mk.places.R;
 import com.mk.places.activities.MainActivity;
 import com.mk.places.adapters.FragmentPagerAdapter;
-import com.mk.places.models.Places;
 
 import butterknife.ButterKnife;
 
@@ -28,7 +28,8 @@ public class DrawerPlacesTabs extends Fragment {
         final Activity context = getActivity();
         ButterKnife.bind(context);
 
-        View view = inflater.inflate(R.layout.places_tab_layout, null);
+        final View view = inflater.inflate(R.layout.places_tab_layout, null);
+        final InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPager);
         final FragmentPagerAdapter adapter = new FragmentPagerAdapter(getChildFragmentManager(), MainActivity.tabLayout.getTabCount());
@@ -40,15 +41,22 @@ public class DrawerPlacesTabs extends Fragment {
 
                 viewPager.setCurrentItem(tab.getPosition());
 
+                /*
+                Check if the use has searched but swiped to another fragment.
+                If the user has done that:
+                1. Break searching and old list of places/ bookmarks.
+                2. Hide System Soft Keyboard automatically
+                */
 
-//                Check if
                 if (tab.getPosition() == 1)
                     if (FragmentPlaces.filter != null && !FragmentPlaces.sv.isIconified()) {
                         FragmentPlaces.updateLayout(false, null);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
                 if (tab.getPosition() == 0) {
                     if (FragmentBookmarks.filter != null && !FragmentBookmarks.sv.isIconified()) {
                         FragmentBookmarks.updateLayout(false, null);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
                 }
 
