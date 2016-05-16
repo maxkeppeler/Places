@@ -1,16 +1,22 @@
 package com.mk.places.activities;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.afollestad.inquiry.Inquiry;
 import com.afollestad.inquiry.annotations.Column;
 
+import java.util.Arrays;
+
 public final class Bookmarks {
 
     private static final String TABLE_NAME = "BOOKMARKS";
+    private static Activity context;
 
-    public static void init(Context context) {
-        Inquiry.init(context, TABLE_NAME, 1);
+    public static void init(Activity ctxt) {
+        context = ctxt;
+        Inquiry.init(ctxt, TABLE_NAME, 1);
     }
 
 
@@ -28,6 +34,9 @@ public final class Bookmarks {
      * Returns true if the item was favorited successfully.
      */
     public static boolean favoriteItem(String id) {
+
+        init(context);
+
         if (!isFavorited(id)) {
             Inquiry.get()
                     .insertInto(TABLE_NAME, BookmarksDB.class)
@@ -43,15 +52,16 @@ public final class Bookmarks {
      * Returns Array with all IDs
      */
     public static BookmarksDB[] getDB() {
-
         return Inquiry.get().selectFrom(TABLE_NAME, BookmarksDB.class).all();
     }
 
     /**
      * Deletes Data Base
      */
-    public static void deleteDB(Context context) {
+    public static void deleteDB() {
+
         init(context);
+
         Inquiry.get().dropTable(TABLE_NAME);
         Inquiry.deinit();
     }

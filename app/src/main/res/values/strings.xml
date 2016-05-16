@@ -69,7 +69,8 @@
     <string name="snackbarDownloadImageIntent">Open folder with</string>
 
     <!-- Download Layout -->
-    <string name="snackbarFavoredText">Place added to your favorites.</string>
+    <string name="bookmarkedPlace">Place has been added to your bookmarks.</string>
+    <string name="removedPlace">Place has been removed from your bookmarks.</string>
 
 
     <!-- ////////////   PERMISSION DIALOGS   \\\\\\\\\\\\\ -->

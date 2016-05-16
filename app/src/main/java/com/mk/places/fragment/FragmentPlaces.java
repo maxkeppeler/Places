@@ -30,16 +30,15 @@ import com.mk.places.utilities.Preferences;
 
 import java.util.ArrayList;
 
-
 public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "FragmentPlaces";
-    public static PlaceAdapter adapter;
-    public static SwipeRefreshLayout refreshLayout;
-    private static RecyclerView recyclerView;
-    private static Activity context;
+    public static SwipeRefreshLayout mRefreshLayout;
     public static ArrayList<Place> filter = new ArrayList<>();
     public static SearchView sv;
+    public static RecyclerView mRecyclerView;
+    private static PlaceAdapter mAdapter;
+    private static Activity context;
 
     public static void updateLayout(final boolean filtering, final ArrayList<Place> searchFiltering) {
 
@@ -48,14 +47,14 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
 
                 @Override
                 public void run() {
-                    adapter = new PlaceAdapter(context, new PlaceAdapter.ClickListener() {
+                    mAdapter = new PlaceAdapter(context, new PlaceAdapter.ClickListener() {
 
                         @Override
                         public void onClick(PlaceAdapter.PlacesViewHolder view, final int position, boolean longClick) {
 
                             Intent intent = new Intent(context, PlaceView.class);
                             if (filtering)
-                            intent.putExtra("item", filter.get(position));
+                                intent.putExtra("item", filter.get(position));
                             else intent.putExtra("item", Places.getPlacesList().get(position));
                             intent.putExtra("pos", position);
                             context.startActivity(intent);
@@ -69,16 +68,16 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
                     if (filtering) {
 
                         if (searchFiltering != null) {
-                            adapter.setData(searchFiltering);
-                            recyclerView.setAdapter(adapter);
+                            mAdapter.setData(searchFiltering);
+                            mRecyclerView.setAdapter(mAdapter);
                         } else {
-                            adapter.setData(filter);
-                            recyclerView.setAdapter(adapter);
+                            mAdapter.setData(filter);
+                            mRecyclerView.setAdapter(mAdapter);
                         }
 
                     } else {
-                        adapter.setData(Places.getPlacesList());
-                        recyclerView.setAdapter(adapter);
+                        mAdapter.setData(Places.getPlacesList());
+                        mRecyclerView.setAdapter(mAdapter);
                     }
 
                 }
@@ -104,6 +103,8 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
             }
         }
         updateLayout(true, null);
+
+        MainActivity.updateTabs(filter.size(), FragmentBookmarks.bookmarks.size());
     }
 
     @Override
@@ -163,14 +164,14 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
         setHasOptionsMenu(true);
         context = getActivity();
 
-        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.placeRefresh);
-        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        refreshLayout.setOnRefreshListener(this);
+        mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.placeRefresh);
+        mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        mRefreshLayout.setOnRefreshListener(this);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.placesRecyclerView);
-        recyclerView.setLayoutManager(new GridLayoutManager(context, 1));
-        recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.placesRecyclerView);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(context, 1));
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setHasFixedSize(true);
 
         updateLayout(false, null);
         return view;
@@ -178,6 +179,7 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
 
     @Override
     public void onRefresh() {
+        mRecyclerView.setVisibility(View.INVISIBLE);
         loadPlacesList(context);
         MainActivity.drawerFilter.setSelection(0);
     }

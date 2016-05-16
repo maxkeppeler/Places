@@ -27,10 +27,9 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.mk.places.R;
 import com.mk.places.fragment.DrawerAbout;
-import com.mk.places.fragment.FragmentBookmarks;
-import com.mk.places.fragment.FragmentPlaces;
 import com.mk.places.fragment.DrawerPlacesTabs;
 import com.mk.places.fragment.DrawerSubmit;
+import com.mk.places.fragment.FragmentPlaces;
 import com.mk.places.utilities.Dialogs;
 import com.mk.places.utilities.FilterLogic;
 import com.mk.places.utilities.Preferences;
@@ -47,10 +46,18 @@ public class MainActivity extends AppCompatActivity {
     public static TabLayout tabLayout;
     private static AppCompatActivity context;
     private static String drawerPlaces, drawerUpload, drawerAbout, drawerSettings, drawerWrong;
+    private static TabLayout.Tab discover;
+    private static TabLayout.Tab bookmarks;
     private Toolbar toolbar;
     private AccountHeader drawerHeader;
     private String[] drawerHeaderURLS;
     private int drawerIndex;
+    private Preferences pref;
+
+    public static void updateTabs(int valueDiscover, int valueBookmarks) {
+        discover.setText("Discover" + " (" + valueDiscover + ")");
+        bookmarks.setText("Bookmarks" + " (" + valueBookmarks + ")");
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,10 +65,9 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         context = this;
-        Preferences pref = new Preferences(context);
+        pref = new Preferences(context);
 
         FragmentPlaces.loadPlacesList(context);
-//        FragmentBookmarks.loadBookmarks(context);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -69,12 +75,13 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        final TabLayout.Tab pushTab = tabLayout.newTab().setText("Discover" + " (" + pref.getPlacesSize() + ")");
-        final TabLayout.Tab statisticsTab = tabLayout.newTab().setText("Bookmarks"+ " (" + pref.getFavoSize() + ")");
+        discover = tabLayout.newTab().setText("Discover");
+        bookmarks = tabLayout.newTab().setText("Bookmarks");
 
-        tabLayout.addTab(pushTab);
-        tabLayout.addTab(statisticsTab);
+        tabLayout.addTab(discover);
+        tabLayout.addTab(bookmarks);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.white));
 
 //        TODO: Check if app was updated and had then the first start
 

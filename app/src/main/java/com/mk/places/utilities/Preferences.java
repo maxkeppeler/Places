@@ -31,9 +31,7 @@ public class Preferences {
     private static final String
             PREFS_NAME = "DASHBOARD_PREFERENCES",
             FIRST_START = "START",
-            PLACES_AMOUNT = "PLACES",
-            PLACES_FAVO_AMOUNT = "FAVO",
-            COLUMNS = "COULMNS";
+            PLACES_AMOUNT = "PLACES";
 
     private final Context context;
 
@@ -53,28 +51,7 @@ public class Preferences {
         getSharedPreferences().edit().putBoolean(FIRST_START, state).apply();
     }
 
-    public int getPlacesSize() {
-        return getSharedPreferences().getInt(PLACES_AMOUNT, 0);
-    }
-
     public void setPlacesSize(int size) {
         getSharedPreferences().edit().putInt(PLACES_AMOUNT, size).apply();
     }
-
-    public int getFavoSize() {
-        return getSharedPreferences().getInt(PLACES_FAVO_AMOUNT, 0);
-    }
-
-    public void setFavoSize(int size) {
-        getSharedPreferences().edit().putInt(PLACES_FAVO_AMOUNT, size).apply();
-    }
-
-    public int getColumns() {
-        return getSharedPreferences().getInt(COLUMNS, 1);
-    }
-
-    public void setColumns(int amount) {
-        getSharedPreferences().edit().putInt(COLUMNS, amount).apply();
-    }
-
 }

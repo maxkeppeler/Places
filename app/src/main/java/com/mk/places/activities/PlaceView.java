@@ -17,9 +17,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.transition.Slide;
-import android.transition.Transition;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,20 +27,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.inquiry.Inquiry;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.mikepenz.materialdrawer.holder.StringHolder;
 import com.mk.places.R;
 import com.mk.places.adapters.CreditsAdapter;
 import com.mk.places.adapters.GalleryAdapter;
 import com.mk.places.adapters.DetailsAdapter;
 import com.mk.places.fragment.FragmentBookmarks;
-import com.mk.places.fragment.FragmentPlaces;
 import com.mk.places.models.CreditsItem;
 import com.mk.places.models.DetailsItem;
 import com.mk.places.models.Place;
-import com.mk.places.utilities.Preferences;
 import com.mk.places.utilities.Utils;
 
 import butterknife.Bind;
@@ -259,17 +254,17 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
 
-//                TODO: Deselecting the bookmarked place does not work correctly
+        if (Bookmarks.favoriteItem(item.getId()))
+            Utils.simpleSnackBar(context, Utils.colorVariant(color, 1.07f), R.id.coordinatorLayout, R.string.bookmarkedPlace, Snackbar.LENGTH_LONG);
+        else
+            Utils.simpleSnackBar(context, Utils.colorVariant(color, 1.07f), R.id.coordinatorLayout, R.string.removedPlace, Snackbar.LENGTH_LONG);
 
-        Bookmarks.init(context);
-        Bookmarks.favoriteItem(item.getId());
-        Log.d("FAB", " with ID: " + item.getId() + " Selected: " + Bookmarks.isFavorited(item.getId()));
+
+        Inquiry.deinit();
 
         FragmentBookmarks.loadBookmarks(context);
 
-        MainActivity.drawer.updateBadge(1, new StringHolder(new Preferences(context).getFavoSize() + ""));
 
-        Utils.simpleSnackBar(context, color, R.id.coordinatorLayout, R.string.snackbarFavoredText, Snackbar.LENGTH_LONG);
 
     }
 }

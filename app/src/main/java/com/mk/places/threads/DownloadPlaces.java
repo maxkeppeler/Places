@@ -3,6 +3,7 @@ package com.mk.places.threads;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 
 import com.mk.places.R;
 import com.mk.places.fragment.FragmentBookmarks;
@@ -77,11 +78,14 @@ public class DownloadPlaces extends AsyncTask<Void, Void, Void> {
         Log.d(TAG, "Task took " + String.valueOf((System.currentTimeMillis() - startTime) / 1000) + " seconds");
         FragmentPlaces.updateLayout(false, null);
 
-        if (FragmentPlaces.refreshLayout != null)
-        FragmentPlaces.refreshLayout.setRefreshing(false);
+        if (FragmentPlaces.mRefreshLayout != null)
+        FragmentPlaces.mRefreshLayout.setRefreshing(false);
+
+        FragmentPlaces.mRecyclerView.setVisibility(View.VISIBLE);
 
         FragmentBookmarks.loadBookmarks(context);
     }
+
 
 
 }

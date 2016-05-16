@@ -2,7 +2,6 @@ package com.mk.places.fragment;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,24 +27,19 @@ import com.mk.places.activities.PlaceView;
 import com.mk.places.adapters.PlaceAdapter;
 import com.mk.places.models.Place;
 import com.mk.places.models.Places;
-import com.mk.places.utilities.Preferences;
 
 import java.util.ArrayList;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "FragmentBookmarks";
-    public static PlaceAdapter adapter;
-    public static RecyclerView recycler;
-    public static ArrayList<Place> bookmarks;
-    public static SwipeRefreshLayout refreshLayout;
-    private static Activity context;
+    public static ArrayList<Place> bookmarks = new ArrayList<>();
+    public static SwipeRefreshLayout mRefreshLayout;
     public static ArrayList<Place> filter;
     public static SearchView sv;
+    private static PlaceAdapter mAdapter;
+    private static RecyclerView mRecyclerView;
+    private static Activity context;
 
     public static void updateLayout(final boolean filtering, final ArrayList<Place> searchFiltering) {
 
@@ -53,7 +47,7 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
             context.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    adapter = new PlaceAdapter(context,
+                    mAdapter = new PlaceAdapter(context,
                             new PlaceAdapter.ClickListener() {
                                 @Override
                                 public void onClick(PlaceAdapter.PlacesViewHolder view, int position, boolean longClick) {
@@ -71,21 +65,22 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
                     if (filtering) {
 
                         if (searchFiltering != null) {
-                            adapter.setData(searchFiltering);
-                            recycler.setAdapter(adapter);
+                            mAdapter.setData(searchFiltering);
+                            mRecyclerView.setAdapter(mAdapter);
                         } else {
-                            adapter.setData(filter);
-                            recycler.setAdapter(adapter);
+                            mAdapter.setData(filter);
+                            mRecyclerView.setAdapter(mAdapter);
                         }
 
                     } else {
-                        adapter.setData(bookmarks);
-                        recycler.setAdapter(adapter);
+                        mAdapter.setData(bookmarks);
+                        mRecyclerView.setAdapter(mAdapter);
                     }
                 }
             });
         }
 
+        mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     public static void searchFilter(String key) {
@@ -100,17 +95,17 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
             }
         }
         updateLayout(true, null);
+
+        MainActivity.updateTabs(Places.getPlacesList().size(), filter.size());
     }
 
-    public static void loadBookmarks(Context context) {
+    public static void loadBookmarks(final Activity context) {
 
-        bookmarks = new ArrayList<>();
+        bookmarks.clear();
 
         Bookmarks.init(context);
 
         if (Bookmarks.getDB() != null) {
-
-            int x = 0;
 
             for (int j = 0; j < Places.getPlacesList().size(); j++) {
 
@@ -120,25 +115,23 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
 
                         if (Bookmarks.isFavorited(Bookmarks.getDB()[i].getID())) {
 
-                            bookmarks.add(x, Places.getPlacesList().get(j));
-
-                            x++;
-                            Log.i(TAG, "Found Favored Item: " + Bookmarks.getDB()[i].getID());
+                            bookmarks.add(Places.getPlacesList().get(j));
+                            Log.i(TAG, "Bookmarked Place: " + Bookmarks.getDB()[i].getID());
                         }
                     }
                 }
             }
 
-        }
+
+        } else mRecyclerView.setAdapter(mAdapter);
 
         Inquiry.deinit();
-        Preferences mPref = new Preferences(context);
-        mPref.setFavoSize(bookmarks.size());
+
+        MainActivity.updateTabs(Places.getPlacesList().size(), bookmarks.size());
 
         updateLayout(false, null);
 
-        if (refreshLayout != null)
-            refreshLayout.setRefreshing(false);
+        if (mRefreshLayout != null) mRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -197,22 +190,21 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
 
         View view = inflater.inflate(R.layout.fragment_bookmarks, container, false);
 
-        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.bookmarksRefresh);
-        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        refreshLayout.setOnRefreshListener(this);
+        mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.bookmarksRefresh);
+        mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        mRefreshLayout.setOnRefreshListener(this);
 
-        recycler = (RecyclerView) view.findViewById(R.id.bookmarksRecyclerView);
-        recycler.setLayoutManager(new GridLayoutManager(context, 1));
-        recycler.setAdapter(adapter);
-        recycler.setHasFixedSize(true);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.bookmarksRecyclerView);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(context, 1));
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setHasFixedSize(true);
 
-        loadBookmarks(context);
-        Log.d(TAG, "onCreateView: " + bookmarks.size());
         return view;
     }
 
     @Override
     public void onRefresh() {
+        mRecyclerView.setVisibility(View.INVISIBLE);
         loadBookmarks(context);
         MainActivity.drawerFilter.setSelection(0);
     }
