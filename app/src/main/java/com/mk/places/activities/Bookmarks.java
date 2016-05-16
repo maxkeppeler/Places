@@ -34,9 +34,7 @@ public final class Bookmarks {
                     .values(new BookmarksDB(id))
                     .run();
             return true;
-        }
-
-        unfavoriteItem(id);
+        } else unfavoriteItem(id);
 
         return false;
     }
