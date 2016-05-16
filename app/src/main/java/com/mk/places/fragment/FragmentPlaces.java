@@ -21,28 +21,34 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
 
-import com.google.gson.Gson;
 import com.mk.places.R;
 import com.mk.places.activities.MainActivity;
 import com.mk.places.activities.PlaceView;
 import com.mk.places.adapters.PlaceAdapter;
 import com.mk.places.models.Place;
-import com.mk.places.models.PlaceGSON;
 import com.mk.places.models.Places;
+import com.mk.places.utilities.JSONParser;
 import com.mk.places.utilities.Preferences;
+import com.mk.places.utilities.Utils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 
-public class DrawerPlacesNew extends Fragment {
+public class FragmentPlaces extends Fragment {
 
-    private static final String TAG = "DrawerPlaces";
+    private static final String TAG = "FragmentPlaces";
     public static PlaceAdapter adapter;
     private static View view;
     private static RecyclerView recyclerView;
     private static Activity context;
     private static SwipeRefreshLayout refreshLayout;
     private static Preferences preferences;
+    private static int color;
 
     public static void searchFilter(String key) {
 
@@ -67,39 +73,20 @@ public class DrawerPlacesNew extends Fragment {
         createLayout(true, filter);
     }
 
-    public static void loadPlacesList(final Context context) {
+    public static void loadPlacesList(Context context) {
 
-        new AsyncTask<Void, Void, Void>() {
+        Places.clearList();
 
+        new DownloadPlacesJSON(new MainActivity.PlacesListInterface() {
             @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+            public void checkPlacesListCreation(boolean result) {
+
+                if (FragmentPlaces.adapter != null)
+                    FragmentPlaces.adapter.notifyDataSetChanged();
+
+                refreshLayout.setRefreshing(false);
             }
-
-            @Override
-            protected Void doInBackground(Void... voids) {
-
-                String json = "https://drive.google.com/uc?id=0B6ky9fzTGl9XNFBhTTlxU2hhQmM";
-
-                Gson gson = new Gson();
-                PlaceGSON[] arr = gson.fromJson(json, PlaceGSON[].class);
-
-//                TODO parse json with gson
-
-                Log.d(TAG, "doInBackground: " + arr[0].getId());
-
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-
-                PlaceGSON placeGson = new PlaceGSON();
-                Log.d(TAG, "doInBackground: " + placeGson.getId());
-
-            }
-        }.execute();
+        }, context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
     }
 
@@ -119,6 +106,8 @@ public class DrawerPlacesNew extends Fragment {
                                     if (intent != null) {
                                         intent.putExtra("item", Places.getPlacesList().get(position));
                                         intent.putExtra("pos", position);
+                                        intent.putExtra("color", color);
+                                        Log.d(TAG, "onClick: " + color);
                                         context.startActivity(intent);
                                     }
 
@@ -194,7 +183,7 @@ public class DrawerPlacesNew extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        view = inflater.inflate(R.layout.drawer_places, null);
+        view = inflater.inflate(R.layout.fragment_places, null);
 
         setHasOptionsMenu(true);
         context = getActivity();
@@ -207,7 +196,7 @@ public class DrawerPlacesNew extends Fragment {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-//                        loadPlacesList(context);
+                        loadPlacesList(context);
                         MainActivity.drawerFilter.setSelection(0);
                     }
                 }
@@ -219,11 +208,93 @@ public class DrawerPlacesNew extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         if (Places.getPlacesList() == null)
-//            DrawerPlacesNew.loadPlacesList(context);
+            FragmentPlaces.loadPlacesList(context);
 
-            createLayout(false, Places.getPlacesList());
+        createLayout(false, Places.getPlacesList());
 
         return view;
+    }
+
+    public static class DownloadPlacesJSON extends AsyncTask<Void, Void, Void> {
+
+        private final static ArrayList<Place> places = new ArrayList<>();
+        static long startTime, endTime;
+        private static boolean successful;
+        private MainActivity.PlacesListInterface wi;
+        private WeakReference<Context> taskContext;
+        private WeakReference<Activity> wrActivity;
+
+        public DownloadPlacesJSON(MainActivity.PlacesListInterface wi, Context context) {
+            this.wi = wi;
+            this.taskContext = new WeakReference<>(context);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            startTime = System.currentTimeMillis();
+
+            if (wrActivity != null) {
+                final Activity a = wrActivity.get();
+                if (a != null) {
+                    this.taskContext = new WeakReference<>(a.getApplicationContext());
+                }
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            JSONObject json = JSONParser.getJSONFromURL(Utils.getRessources(taskContext.get(), R.string.json_file_url));
+
+            if (json != null) {
+                try {
+                    JSONArray jsonarray = json.getJSONArray("places");
+
+                    for (int i = 0; i < jsonarray.length(); i++) {
+
+                        json = jsonarray.getJSONObject(i);
+
+                        places.add(new Place(
+                                        json.getString("id"),
+                                        json.getString("location"),
+                                        json.getString("sight"),
+                                        json.getString("continent"),
+                                        json.getString("infoTitle"),
+                                        json.getString("info"),
+                                        json.getString("creditsTitle"),
+                                        json.getString("creditsDesc"),
+                                        json.getString("credits"),
+                                        json.getString("description"),
+                                        json.getString("url")
+                                )
+                        );
+
+
+                    }
+
+                    Places.createPlaceList(places);
+                    successful = true;
+
+                } catch (JSONException e) {
+                    successful = false;
+                }
+
+            } else {
+                successful = false;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void args) {
+            endTime = System.currentTimeMillis();
+            Log.d("Places ", "Task took: " + String.valueOf((endTime - startTime) / 1000) + " seconds");
+
+            if (view != null) createLayout(false, Places.getPlacesList());
+            if (wi != null) wi.checkPlacesListCreation(successful);
+        }
+
+
     }
 
 

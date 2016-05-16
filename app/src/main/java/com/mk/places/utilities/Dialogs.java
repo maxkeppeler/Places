@@ -6,14 +6,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.Html;
-import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mk.places.R;
-import com.mk.places.activities.MainActivity;
-import com.mk.places.fragment.DrawerBookmarks;
-import com.mk.places.fragment.DrawerPlaces;
 
 /**
  * Created by Max on 30.03.16.

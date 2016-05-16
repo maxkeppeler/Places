@@ -1,7 +1,7 @@
 package com.mk.places.utilities;
 
-import com.mk.places.fragment.DrawerBookmarks;
-import com.mk.places.fragment.DrawerPlaces;
+import com.mk.places.fragment.FragmentBookmarks;
+import com.mk.places.fragment.FragmentPlaces;
 import com.mk.places.models.Place;
 import com.mk.places.models.Places;
 
@@ -17,11 +17,11 @@ public class FilterLogic {
         if (!key.equals("All")) {
             int x = 0;
             int y = 0;
-            for (int j = 0; j < DrawerBookmarks.getBookmarks().size(); j++) {
-                if (key.equals(DrawerBookmarks.getBookmarks().get(j).getSight())
-                        || key.equals(DrawerBookmarks.getBookmarks().get(j).getContinent())) {
+            for (int j = 0; j < FragmentBookmarks.getBookmarks().size(); j++) {
+                if (key.equals(FragmentBookmarks.getBookmarks().get(j).getSight())
+                        || key.equals(FragmentBookmarks.getBookmarks().get(j).getContinent())) {
 
-                    filterBookmarks.add(x, DrawerBookmarks.getBookmarks().get(j));
+                    filterBookmarks.add(x, FragmentBookmarks.getBookmarks().get(j));
                     x++;
                 }
             }
@@ -33,11 +33,11 @@ public class FilterLogic {
                     y++;
                 }
             }
-            DrawerBookmarks.createLayout(true, filterBookmarks);
-            DrawerPlaces.createLayout(true, filterPlaces);
+            FragmentBookmarks.createLayout(true, filterBookmarks);
+            FragmentPlaces.createLayout(true, filterPlaces);
         } else {
-            DrawerBookmarks.createLayout(false, null);
-            DrawerPlaces.createLayout(false, null);
+            FragmentBookmarks.createLayout(false, null);
+            FragmentPlaces.createLayout(false, null);
         }
 
 

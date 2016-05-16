@@ -36,9 +36,9 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DrawerBookmarks extends Fragment {
+public class FragmentBookmarks extends Fragment {
 
-    private static final String TAG = "DrawerBookmarks";
+    private static final String TAG = "FragmentBookmarks";
     private static Activity context;
     private static PlaceAdapter adapter;
     private static View view;
@@ -157,7 +157,7 @@ public class DrawerBookmarks extends Fragment {
         setHasOptionsMenu(true);
         context = getActivity();
 
-        view = inflater.inflate(R.layout.drawer_bookmarks, container, false);
+        view = inflater.inflate(R.layout.fragment_bookmarks, container, false);
 
         preferences = new Preferences(context);
 

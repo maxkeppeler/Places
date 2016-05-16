@@ -27,9 +27,8 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.mk.places.R;
 import com.mk.places.fragment.DrawerAbout;
-import com.mk.places.fragment.DrawerBookmarks;
-import com.mk.places.fragment.DrawerPlaces;
-import com.mk.places.fragment.DrawerPlacesNew;
+import com.mk.places.fragment.FragmentBookmarks;
+import com.mk.places.fragment.FragmentPlaces;
 import com.mk.places.fragment.DrawerPlacesTabs;
 import com.mk.places.fragment.DrawerSubmit;
 import com.mk.places.utilities.Dialogs;
@@ -61,9 +60,8 @@ public class MainActivity extends AppCompatActivity {
         context = this;
         Preferences pref = new Preferences(context);
 
-//        DrawerPlacesNew.loadPlacesList(context);
-        DrawerPlaces.loadPlacesList(context);
-        DrawerBookmarks.loadBookmarks(context);
+        FragmentPlaces.loadPlacesList(context);
+        FragmentBookmarks.loadBookmarks(context);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -164,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
                                         break;
 
                                     default:
-                                        fragment = new DrawerPlaces();
+                                        fragment = new FragmentPlaces();
                                 }
 
                                 if (fragment != null) {

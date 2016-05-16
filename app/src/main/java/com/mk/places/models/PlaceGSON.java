@@ -2,6 +2,10 @@ package com.mk.places.models;
 
 import com.google.gson.annotations.SerializedName;
 
+
+// Place Object for parsing JSON with GSON
+// TODO: Parsing JSON WITH GSON
+
 public class PlaceGSON {
 
     @SerializedName("id")

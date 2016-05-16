@@ -4,9 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.mk.places.fragment.DrawerBookmarks;
-import com.mk.places.fragment.DrawerPlaces;
-import com.mk.places.fragment.DrawerPlacesNew;
+import com.mk.places.fragment.FragmentBookmarks;
+import com.mk.places.fragment.FragmentPlaces;
 
 /**
  * Created by max on 15.05.16.
@@ -25,9 +24,9 @@ public class FragmentPagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                return new DrawerPlaces();
+                return new FragmentPlaces();
             case 1:
-                return new DrawerBookmarks();
+                return new FragmentBookmarks();
             default:
                 return null;
         }
