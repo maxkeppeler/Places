@@ -36,18 +36,18 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentBookmarks extends Fragment {
+public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "FragmentBookmarks";
+    public static PlaceAdapter adapter;
+    public static RecyclerView recycler;
+    public static ArrayList<Place> bookmarks;
+    public static SwipeRefreshLayout refreshLayout;
     private static Activity context;
-    private static PlaceAdapter adapter;
-    private static View view;
-    private static RecyclerView recycler;
-    private static ArrayList<Place> bookmarks = new ArrayList<>();
-    private static SwipeRefreshLayout refreshLayout;
-    private static Preferences preferences;
+    public static ArrayList<Place> filter;
+    public static SearchView sv;
 
-    public static void createLayout(final boolean other, final ArrayList<Place> arrayList) {
+    public static void updateLayout(final boolean filtering, final ArrayList<Place> searchFiltering) {
 
         if (bookmarks != null && bookmarks.size() > 0) {
             context.runOnUiThread(new Runnable() {
@@ -58,21 +58,26 @@ public class FragmentBookmarks extends Fragment {
                                 @Override
                                 public void onClick(PlaceAdapter.PlacesViewHolder view, int position, boolean longClick) {
 
-                                    Intent intent = null;
-                                    if (longClick) ;
-                                    else intent = new Intent(context, PlaceView.class);
-
-                                    if (intent != null) {
-                                        intent.putExtra("item", Places.getPlacesList().get(position));
-                                        context.startActivity(intent);
-                                    }
+                                    Intent intent = new Intent(context, PlaceView.class);
+                                    if (filtering)
+                                        intent.putExtra("item", filter.get(position));
+                                    else intent.putExtra("item", bookmarks.get(position));
+                                    intent.putExtra("pos", position);
+                                    context.startActivity(intent);
 
                                 }
                             });
 
-                    if (other) {
-                        adapter.setData(arrayList);
-                        recycler.setAdapter(adapter);
+                    if (filtering) {
+
+                        if (searchFiltering != null) {
+                            adapter.setData(searchFiltering);
+                            recycler.setAdapter(adapter);
+                        } else {
+                            adapter.setData(filter);
+                            recycler.setAdapter(adapter);
+                        }
+
                     } else {
                         adapter.setData(bookmarks);
                         recycler.setAdapter(adapter);
@@ -85,29 +90,55 @@ public class FragmentBookmarks extends Fragment {
 
     public static void searchFilter(String key) {
 
-        ArrayList<Place> filter = new ArrayList<>();
-
+        filter = new ArrayList<>();
         int x = 0;
-
         for (int j = 0; j < bookmarks.size(); j++) {
-            if (
-                    Places.getPlacesList().get(j).getLocation().toLowerCase().contains(key.toLowerCase())
 
-
-
-                    ) {
-
+            if (bookmarks.get(j).getLocation().toLowerCase().contains(key.toLowerCase())) {
                 filter.add(x, bookmarks.get(j));
                 x++;
+            }
+        }
+        updateLayout(true, null);
+    }
+
+    public static void loadBookmarks(Context context) {
+
+        bookmarks = new ArrayList<>();
+
+        Bookmarks.init(context);
+
+        if (Bookmarks.getDB() != null) {
+
+            int x = 0;
+
+            for (int j = 0; j < Places.getPlacesList().size(); j++) {
+
+                for (int i = 0; i < Bookmarks.getDB().length; i++) {
+
+                    if (Places.getPlacesList().get(j).getId().equals(Bookmarks.getDB()[i].getID())) {
+
+                        if (Bookmarks.isFavorited(Bookmarks.getDB()[i].getID())) {
+
+                            bookmarks.add(x, Places.getPlacesList().get(j));
+
+                            x++;
+                            Log.i(TAG, "Found Favored Item: " + Bookmarks.getDB()[i].getID());
+                        }
+                    }
+                }
             }
 
         }
 
-        createLayout(true, filter);
-    }
+        Inquiry.deinit();
+        Preferences mPref = new Preferences(context);
+        mPref.setFavoSize(bookmarks.size());
 
-    public static ArrayList<Place> getBookmarks() {
-        return bookmarks;
+        updateLayout(false, null);
+
+        if (refreshLayout != null)
+            refreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -116,10 +147,17 @@ public class FragmentBookmarks extends Fragment {
         inflater.inflate(R.menu.actions_places, menu);
 
         MenuItem item = menu.findItem(R.id.search);
-        SearchView sv = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
+        sv = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
         MenuItemCompat.setActionView(item, sv);
         sv.setQueryHint("Berlin, Germany");
         sv.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        sv.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                updateLayout(false, null);
+                return false;
+            }
+        });
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String key) {
@@ -157,80 +195,25 @@ public class FragmentBookmarks extends Fragment {
         setHasOptionsMenu(true);
         context = getActivity();
 
-        view = inflater.inflate(R.layout.fragment_bookmarks, container, false);
-
-        preferences = new Preferences(context);
+        View view = inflater.inflate(R.layout.fragment_bookmarks, container, false);
 
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.bookmarksRefresh);
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        refreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        loadBookmarks(context);
-                        MainActivity.drawerFilter.setSelection(0);
-                    }
-                }
-        );
+        refreshLayout.setOnRefreshListener(this);
 
         recycler = (RecyclerView) view.findViewById(R.id.bookmarksRecyclerView);
-        recycler.setLayoutManager(new GridLayoutManager(context, preferences.getColumns(), 1, false));
+        recycler.setLayoutManager(new GridLayoutManager(context, 1));
         recycler.setAdapter(adapter);
         recycler.setHasFixedSize(true);
 
         loadBookmarks(context);
-
+        Log.d(TAG, "onCreateView: " + bookmarks.size());
         return view;
     }
 
-    public static void loadBookmarks(Context context) {
-
-        bookmarks.clear();
-
-        Bookmarks.init(context);
-
-        if (Bookmarks.getDB() != null) {
-
-            int x = 0;
-
-            for (int j = 0; j < Places.getPlacesList().size(); j++) {
-
-
-                for (int i = 0; i < Bookmarks.getDB().length; i++) {
-
-                    if (Places.getPlacesList().get(j).getId().equals(Bookmarks.getDB()[i].getID())) {
-
-
-                        if (Bookmarks.isFavorited(Bookmarks.getDB()[i].getID())) {
-
-                            bookmarks.add(x, Places.getPlacesList().get(j));
-
-                            x++;
-                            Log.i(TAG, "Found Favored Item: " + Bookmarks.getDB()[i].getID());
-                        }
-                    }
-                }
-            }
-
-        }
-
-        Preferences mPref = new Preferences(context);
-        mPref.setFavoSize(bookmarks.size());
-
-        Inquiry.deinit();
-        createLayout(false, bookmarks);
-
-        if (refreshLayout != null)
-        refreshLayout.setRefreshing(false);
-    }
-
     @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onRefresh() {
+        loadBookmarks(context);
+        MainActivity.drawerFilter.setSelection(0);
     }
 }

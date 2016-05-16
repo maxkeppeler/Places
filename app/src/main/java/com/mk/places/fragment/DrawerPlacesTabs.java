@@ -1,50 +1,34 @@
 package com.mk.places.fragment;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.graphics.Palette;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mk.places.R;
 import com.mk.places.activities.MainActivity;
 import com.mk.places.adapters.FragmentPagerAdapter;
-import com.mk.places.adapters.MemberAdapter;
-import com.mk.places.models.MemberItem;
-import com.mk.places.utilities.Utils;
-import com.mk.places.views.customButtonLayout;
+import com.mk.places.models.Places;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class DrawerPlacesTabs extends Fragment {
 
-    private static View view;
-    private static Activity context;
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)  {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        context = getActivity();
+        final Activity context = getActivity();
         ButterKnife.bind(context);
 
-        view = inflater.inflate(R.layout.places_tab_layout, null);
+        View view = inflater.inflate(R.layout.places_tab_layout, null);
 
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPager);
         final FragmentPagerAdapter adapter = new FragmentPagerAdapter(getChildFragmentManager(), MainActivity.tabLayout.getTabCount());
@@ -53,12 +37,27 @@ public class DrawerPlacesTabs extends Fragment {
         MainActivity.tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+
                 viewPager.setCurrentItem(tab.getPosition());
+
+
+//                Check if
+                if (tab.getPosition() == 1)
+                    if (FragmentPlaces.filter != null && !FragmentPlaces.sv.isIconified()) {
+                        FragmentPlaces.updateLayout(false, null);
+                    }
+                if (tab.getPosition() == 0) {
+                    if (FragmentBookmarks.filter != null && !FragmentBookmarks.sv.isIconified()) {
+                        FragmentBookmarks.updateLayout(false, null);
+                    }
+                }
 
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+
+
             }
 
             @Override
@@ -75,7 +74,6 @@ public class DrawerPlacesTabs extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
 
 
     @Override

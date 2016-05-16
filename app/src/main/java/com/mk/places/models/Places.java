@@ -21,7 +21,7 @@ public class Places {
     ) {
         try {
 
-            for (int i = 0; i < locations.size(); i++) {
+            for (int i = 0; i < id.size(); i++) {
                 Place place = new Place(
 
                         id.get(i),

@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         Preferences pref = new Preferences(context);
 
         FragmentPlaces.loadPlacesList(context);
-        FragmentBookmarks.loadBookmarks(context);
+//        FragmentBookmarks.loadBookmarks(context);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         final TabLayout.Tab pushTab = tabLayout.newTab().setText("Discover" + " (" + pref.getPlacesSize() + ")");
-        final TabLayout.Tab statisticsTab = tabLayout.newTab().setText("Bookmarks");
+        final TabLayout.Tab statisticsTab = tabLayout.newTab().setText("Bookmarks"+ " (" + pref.getFavoSize() + ")");
 
         tabLayout.addTab(pushTab);
         tabLayout.addTab(statisticsTab);
@@ -335,10 +335,5 @@ public class MainActivity extends AppCompatActivity {
 
         return drawerHeader;
     }
-
-    public interface PlacesListInterface {
-        void checkPlacesListCreation(boolean result);
-    }
-
 
 }

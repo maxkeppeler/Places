@@ -38,6 +38,8 @@ import com.mk.places.R;
 import com.mk.places.adapters.CreditsAdapter;
 import com.mk.places.adapters.GalleryAdapter;
 import com.mk.places.adapters.DetailsAdapter;
+import com.mk.places.fragment.FragmentBookmarks;
+import com.mk.places.fragment.FragmentPlaces;
 import com.mk.places.models.CreditsItem;
 import com.mk.places.models.DetailsItem;
 import com.mk.places.models.Place;
@@ -263,6 +265,7 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
         Bookmarks.favoriteItem(item.getId());
         Log.d("FAB", " with ID: " + item.getId() + " Selected: " + Bookmarks.isFavorited(item.getId()));
 
+        FragmentBookmarks.loadBookmarks(context);
 
         MainActivity.drawer.updateBadge(1, new StringHolder(new Preferences(context).getFavoSize() + ""));
 

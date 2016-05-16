@@ -63,6 +63,22 @@ public class Place implements Parcelable {
     }
 
     @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeString(id);
+        dest.writeString(location);
+        dest.writeString(sight);
+        dest.writeString(continent);
+        dest.writeString(infoTitle);
+        dest.writeString(info);
+        dest.writeString(creditsTitle);
+        dest.writeString(creditsDesc);
+        dest.writeString(credits);
+        dest.writeString(description);
+        dest.writeString(url);
+    }
+
+    @Override
     public int describeContents() {
         return Places.getPlacesList().size();
     }
@@ -118,22 +134,5 @@ public class Place implements Parcelable {
     public String getCreditsDesc() {
         return creditsDesc;
     }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-        dest.writeString(id);
-        dest.writeString(location);
-        dest.writeString(sight);
-        dest.writeString(continent);
-        dest.writeString(infoTitle);
-        dest.writeString(info);
-        dest.writeString(creditsTitle);
-        dest.writeString(creditsDesc);
-        dest.writeString(credits);
-        dest.writeString(description);
-        dest.writeString(url);
-    }
-
 
 }

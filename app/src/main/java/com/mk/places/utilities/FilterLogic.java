@@ -17,11 +17,11 @@ public class FilterLogic {
         if (!key.equals("All")) {
             int x = 0;
             int y = 0;
-            for (int j = 0; j < FragmentBookmarks.getBookmarks().size(); j++) {
-                if (key.equals(FragmentBookmarks.getBookmarks().get(j).getSight())
-                        || key.equals(FragmentBookmarks.getBookmarks().get(j).getContinent())) {
+            for (int j = 0; j < FragmentBookmarks.bookmarks.size(); j++) {
+                if (key.equals(FragmentBookmarks.bookmarks.get(j).getSight())
+                        || key.equals(FragmentBookmarks.bookmarks.get(j).getContinent())) {
 
-                    filterBookmarks.add(x, FragmentBookmarks.getBookmarks().get(j));
+                    filterBookmarks.add(x, FragmentBookmarks.bookmarks.get(j));
                     x++;
                 }
             }
@@ -33,11 +33,11 @@ public class FilterLogic {
                     y++;
                 }
             }
-            FragmentBookmarks.createLayout(true, filterBookmarks);
-            FragmentPlaces.createLayout(true, filterPlaces);
+            FragmentBookmarks.updateLayout(true, filterBookmarks);
+            FragmentPlaces.updateLayout(true, filterPlaces);
         } else {
-            FragmentBookmarks.createLayout(false, null);
-            FragmentPlaces.createLayout(false, null);
+            FragmentBookmarks.updateLayout(false, null);
+            FragmentPlaces.updateLayout(false, null);
         }
 
 

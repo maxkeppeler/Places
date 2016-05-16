@@ -12,7 +12,7 @@ import com.mk.places.fragment.FragmentPlaces;
  */
 public class FragmentPagerAdapter extends FragmentStatePagerAdapter {
 
-    int mNumOfTabs;
+    private int mNumOfTabs;
 
     public FragmentPagerAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
