@@ -3,6 +3,8 @@ package com.mk.places.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.mk.places.utilities.Utils;
+
 public class Place implements Parcelable {
 
     public static final Creator<Place> CREATOR = new Creator<Place>() {
@@ -49,17 +51,17 @@ public class Place implements Parcelable {
     }
 
     public Place(String id, String location, String sight, String continent, String infoTitle, String info, String creditsTitle, String creditsDesc, String credits, String description, String url) {
-        this.id = id;
-        this.location = location;
-        this.sight = sight;
-        this.continent = continent;
-        this.infoTitle = infoTitle;
-        this.info = info;
-        this.creditsTitle = creditsTitle;
-        this.creditsDesc = creditsDesc;
-        this.credits = credits;
-        this.description = description;
-        this.url = url;
+        this.id = Utils.convertEntitiesCharsHTML(id);
+        this.location = Utils.convertEntitiesCharsHTML(location);
+        this.sight = Utils.convertEntitiesCharsHTML(sight);
+        this.continent = Utils.convertEntitiesCharsHTML(continent);
+        this.infoTitle = Utils.convertEntitiesCharsHTML(infoTitle);
+        this.info = Utils.convertEntitiesCharsHTML(info);
+        this.creditsTitle = Utils.convertEntitiesCharsHTML(creditsTitle);
+        this.creditsDesc = Utils.convertEntitiesCharsHTML(creditsDesc);
+        this.credits = credits.replace(" ", "");
+        this.description = Utils.convertEntitiesCharsHTML(description);
+        this.url = url.replace(" ", "");
     }
 
     @Override

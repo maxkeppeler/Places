@@ -6,6 +6,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.SwitchPreference;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +41,7 @@ public class Settings extends PreferenceActivity {
         toolbar.setTitle("Settings");
         toolbar.setElevation(15);
         toolbar.setNavigationIcon(R.drawable.ic_close);
-        toolbar.setTitleTextColor(Utils.getColor(context, R.color.white));
+        toolbar.setTitleTextColor(ContextCompat.getColor(context, R.color.white));
         root.addView(toolbar, 0);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +87,7 @@ public class Settings extends PreferenceActivity {
                 new MaterialDialog.Builder(context)
                         .content("Are you sure you want to delete all bookmarked Places?")
                         .typeface(Utils.customTypeface(context, 3), Utils.customTypeface(context, 2))
-                        .contentColor(Utils.getColor(context, R.color.primaryText))
+                        .contentColor(ContextCompat.getColor(context, R.color.primaryText))
                         .backgroundColor(context.getResources().getColor(R.color.cardBackground))
                         .negativeText("Yes")
                         .positiveText("No")

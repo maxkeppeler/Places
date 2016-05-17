@@ -96,7 +96,7 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
         }
         updateLayout(true, null);
 
-        MainActivity.updateTabs(Places.getPlacesList().size(), filter.size());
+        MainActivity.updateTabTexts(Places.getPlacesList().size(), filter.size());
     }
 
     public static void loadBookmarks(final Activity context) {
@@ -127,7 +127,7 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
 
         Inquiry.deinit();
 
-        MainActivity.updateTabs(Places.getPlacesList().size(), bookmarks.size());
+        MainActivity.updateTabTexts(Places.getPlacesList().size(), bookmarks.size());
 
         updateLayout(false, null);
 

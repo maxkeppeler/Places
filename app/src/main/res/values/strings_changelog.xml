@@ -12,6 +12,11 @@
         0.1 ALPHA
         </strong></font>
 
+        <br />• Html chars from the json will now be correctly displayed in the app
+        <br />• Local drawables replaces with drawables loaded from the web
+        <br />• More sights
+        <br />• Code clean-up
+        <br />• Tab Layout for Places (and later for nature section)
         <br />• Many filter improvements
         <br />• Search functionality for Places and Bookmarks
         <br />• Swipe to refresh for Places and Bookmarks

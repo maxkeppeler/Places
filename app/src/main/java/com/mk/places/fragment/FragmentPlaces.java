@@ -104,7 +104,7 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
         }
         updateLayout(true, null);
 
-        MainActivity.updateTabs(filter.size(), FragmentBookmarks.bookmarks.size());
+        MainActivity.updateTabTexts(filter.size(), FragmentBookmarks.bookmarks.size());
     }
 
     @Override

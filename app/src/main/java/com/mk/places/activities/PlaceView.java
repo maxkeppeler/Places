@@ -31,6 +31,8 @@ import com.afollestad.inquiry.Inquiry;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.mk.places.R;
 import com.mk.places.adapters.CreditsAdapter;
 import com.mk.places.adapters.GalleryAdapter;
@@ -48,18 +50,18 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
 
 
 
-    @Bind(R.id.placeItemFAB) FloatingActionButton fab;
+    @Bind(R.id.fab) FloatingActionButton fab;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.collapsingToolbar) CollapsingToolbarLayout toolbarLayout;
-    @Bind(R.id.pDescTitle) TextView pDescTitle;
-    @Bind(R.id.pDescText) TextView pDescText;
-    @Bind(R.id.pInfoTitle) TextView pInfoTitle;
-    @Bind(R.id.pCreditsTitle) TextView pCreditsTitle;
-    @Bind(R.id.pInfoRecycler) RecyclerView pInfoRecycler;
-    @Bind(R.id.pCreditsRecycler) RecyclerView pCreditsRecycler;
-    @Bind(R.id.pGalleryRecyler) RecyclerView pGalleryRecycler;
-    @Bind(R.id.shadowOverlay) LinearLayout shadowOverlay;
-    @Bind(R.id.pMainImage) ImageView pMainImage;
+    @Bind(R.id.collapsingToolbarLayout) CollapsingToolbarLayout collapsingToolbarLayout;
+    @Bind(R.id.tvDescTitle) TextView tvDescTitle;
+    @Bind(R.id.tvDescText) TextView tvDescText;
+    @Bind(R.id.tvInfoTitle) TextView tvInfoTitle;
+    @Bind(R.id.tvCreditsTitle) TextView tvCreditsTitle;
+    @Bind(R.id.infoRecycler) RecyclerView infoRecycler;
+    @Bind(R.id.creditsRecycler) RecyclerView creditsRecycler;
+    @Bind(R.id.galleryRecyler) RecyclerView galleryRecycler;
+    @Bind(R.id.shadow) LinearLayout shadow;
+    @Bind(R.id.toolbarImage) ImageView toolbarImage;
 
     private int color;
     private Window window;
@@ -91,10 +93,10 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
         item = getIntent().getParcelableExtra("item");
         location = item.getLocation();
         desc = item.getDescription();
-        images = item.getUrl().replace(" ", "").split("\\|");
+        images = item.getUrl().split("\\|");
         info = item.getInfo().split("\\|");
         infoTitle = item.getInfoTitle().split("\\|");
-        credits = item.getCredits().replace(" ", "").split("\\|");
+        credits = item.getCredits().split("\\|");
         creditsTitle = item.getCreditsTitle().split("\\|");
         creditsDesc = item.getCreditsDesc().split("\\|");
 
@@ -111,7 +113,7 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
 
                     @Override
                     public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        shadowOverlay.setVisibility(View.VISIBLE);
+                        shadow.setVisibility(View.VISIBLE);
 
                         new Palette.Builder(resource).generate(new Palette.PaletteAsyncListener() {
                             @Override
@@ -123,8 +125,8 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
                                 fab.setVisibility(View.VISIBLE);
                                 Animation animation = AnimationUtils.loadAnimation(context, R.anim.scale_up);
                                 fab.startAnimation(animation);
-                                toolbarLayout.setContentScrimColor(color);
-                                toolbarLayout.setStatusBarScrimColor((Utils.colorVariant(color, 0.92f)));
+                                collapsingToolbarLayout.setContentScrimColor(color);
+                                collapsingToolbarLayout.setStatusBarScrimColor((Utils.colorVariant(color, 0.92f)));
 
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     window.setNavigationBarColor(color);
@@ -136,25 +138,28 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
                         return false;
                     }
                 })
-                .into(pMainImage);
+                .into(toolbarImage);
 
         final Typeface typeTitles = Utils.customTypeface(context, 1);
         final Typeface typeTexts = Utils.customTypeface(context, 2);
 
-        pDescTitle.setTypeface(typeTitles);
-        pInfoTitle.setTypeface(typeTitles);
-        pCreditsTitle.setTypeface(typeTitles);
+        tvDescTitle.setTypeface(typeTitles);
+        tvInfoTitle.setTypeface(typeTitles);
+        tvCreditsTitle.setTypeface(typeTitles);
 
-        pDescText.setTypeface(typeTexts);
+        tvDescText.setTypeface(typeTexts);
 
-        pDescText.setText(Html.fromHtml(desc).toString().replace("â€“", "–").replace("â€™", "\"").replace("â€™", "\"").replace("â€˜", "\"").replace("\\n", "\n").replace("\\", ""));
+        tvDescText.setText(desc);
+
+        IconicsDrawable fabIcon = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_collections_bookmark).color(getResources().getColor(R.color.white)).sizeDp(24);
 
         fab.setVisibility(View.INVISIBLE);
+        fab.setImageDrawable(fabIcon);
         fab.setOnClickListener(this);
 
-        toolbarLayout.setTitle(location);
-        toolbarLayout.setCollapsedTitleTypeface(typeTitles);
-        toolbarLayout.setExpandedTitleTypeface(typeTitles);
+        collapsingToolbarLayout.setTitle(location);
+        collapsingToolbarLayout.setCollapsedTitleTypeface(typeTitles);
+        collapsingToolbarLayout.setExpandedTitleTypeface(typeTitles);
 
         createCreditsCard();
         createDetailsCard();
@@ -167,9 +172,9 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
         for (int i = 0; i < creditsTitle.length; i++)
             creditsCard[i] = new CreditsItem(creditsTitle[i], creditsDesc[i], credits[i]);
 
-        pCreditsRecycler.setLayoutManager(new LinearLayoutManager(context));
-        pCreditsRecycler.setAdapter(new CreditsAdapter(creditsCard, context));
-        pCreditsRecycler.setHasFixedSize(true);
+        creditsRecycler.setLayoutManager(new LinearLayoutManager(context));
+        creditsRecycler.setAdapter(new CreditsAdapter(creditsCard, context));
+        creditsRecycler.setHasFixedSize(true);
     }
 
     private void createDetailsCard() {
@@ -178,9 +183,9 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
         for (int i = 0; i < infoTitle.length; i++)
             detailsCard[i] = new DetailsItem(infoTitle[i], info[i]);
 
-        pInfoRecycler.setLayoutManager(new LinearLayoutManager(context));
-        pInfoRecycler.setAdapter(new DetailsAdapter(detailsCard, context));
-        pInfoRecycler.setHasFixedSize(true);
+        infoRecycler.setLayoutManager(new LinearLayoutManager(context));
+        infoRecycler.setAdapter(new DetailsAdapter(detailsCard, context));
+        infoRecycler.setHasFixedSize(true);
 
     }
 
@@ -204,9 +209,9 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
             }
         });
 
-        pGalleryRecycler.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false));
-        pGalleryRecycler.setAdapter(galleryAdapter);
-        pGalleryRecycler.setHasFixedSize(true);
+        galleryRecycler.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false));
+        galleryRecycler.setAdapter(galleryAdapter);
+        galleryRecycler.setHasFixedSize(true);
 
     }
 

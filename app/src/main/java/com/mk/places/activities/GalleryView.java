@@ -119,7 +119,7 @@ public class GalleryView extends AppCompatActivity {
 
     public void downloadImage(String location, int index) {
 
-        final DownloadImage downloadTask = new DownloadImage(context, location, Utils.getColor(context, R.color.transparentBit));
+        final DownloadImage downloadTask = new DownloadImage(context, location, ContextCompat.getColor(context, R.color.transparentBit));
         downloadTask.execute(imageLinks[index]);
 
     }
@@ -171,8 +171,8 @@ public class GalleryView extends AppCompatActivity {
             new MaterialDialog.Builder(this)
                     .content(R.string.storageContent)
                     .canceledOnTouchOutside(false)
-                    .contentColor(Utils.getColor(context, R.color.primaryText))
-                    .backgroundColor(Utils.getColor(context, R.color.cardBackground))
+                    .contentColor(ContextCompat.getColor(context, R.color.primaryText))
+                    .backgroundColor(ContextCompat.getColor(context, R.color.cardBackground))
 //                    .positiveText(R.string.storagePositive).positiveColor(color)
 //                    .negativeText(R.string.storageNegative).negativeColor(color)
                     .onPositive(new MaterialDialog.SingleButtonCallback() {

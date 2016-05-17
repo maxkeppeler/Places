@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 
@@ -97,7 +98,7 @@ public class DownloadImage extends AsyncTask<String, Integer, String> {
 
         View layout = context.findViewById(R.id.coordinatorLayout);
         Snackbar snackbar = Snackbar.make(layout, R.string.downloadImageText, Snackbar.LENGTH_LONG)
-                .setActionTextColor(Utils.getColor(context, R.color.white))
+                .setActionTextColor(ContextCompat.getColor(context, R.color.white))
                 .setAction(R.string.downloadImageAction, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

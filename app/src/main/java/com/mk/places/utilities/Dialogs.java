@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -22,10 +23,10 @@ public class Dialogs {
         new MaterialDialog.Builder(context)
 
                 .typeface(Utils.customTypeface(context, 3), Utils.customTypeface(context, 2))
-                .contentColor(Utils.getColor(context, R.color.primaryText))
-                .backgroundColor(Utils.getColor(context, R.color.cardBackground))
+                .contentColor(ContextCompat.getColor(context, R.color.primaryText))
+                .backgroundColor(ContextCompat.getColor(context, R.color.cardBackground))
                 .title(R.string.changelogTitle)
-                .content(Html.fromHtml(Utils.getString(context, R.string.changelogContent)))
+                .content(Html.fromHtml(context.getResources().getString(R.string.changelogContent)))
                 .positiveText(R.string.changelogPositive)
                 .negativeText(R.string.changelogNegative)
                 .onNegative(new MaterialDialog.SingleButtonCallback() {

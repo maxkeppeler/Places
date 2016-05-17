@@ -41,11 +41,16 @@ import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
 import android.support.design.widget.Snackbar;
 import android.support.v7.graphics.Palette;
+import android.text.Html;
 import android.view.View;
 
 import com.mk.places.R;
 
 public class Utils extends Activity {
+
+    public static String convertEntitiesCharsHTML(String string) {
+        return Html.fromHtml((String) string).toString().replace("\\n ", "\n");
+    }
 
     public static Typeface customTypeface(Context context, int index) {
         Typeface typeface = null;
@@ -85,22 +90,6 @@ public class Utils extends Activity {
 
         customTabsIntent.launchUrl((Activity) context, Uri.parse(link));
         context.unbindService(mCustomTabsServiceConnection);
-    }
-
-    public static String getRessources(Context context, int id) {
-        return context.getResources().getString(id);
-    }
-
-    public static int getColor(Context context, int id) {
-        return context.getResources().getColor(id);
-    }
-
-    public static XmlResourceParser getLayout(Context context, int id) {
-        return context.getResources().getLayout(id);
-    }
-
-    public static String getString(Context context, int id) {
-        return context.getResources().getString(id);
     }
 
     public static boolean hasNetwork(Context context) {

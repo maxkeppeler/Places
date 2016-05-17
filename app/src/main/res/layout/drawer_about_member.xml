@@ -21,13 +21,15 @@
                 android:id="@+id/coloredLinearLaoyut"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/cardBackgroundDarker"
                 android:orientation="horizontal">
 
-                <com.mk.places.views.SquareImageView
+                <ImageView
                     android:id="@+id/profileImage"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:layout_gravity="start|center_horizontal"
+                    android:layout_gravity="start"
+                    android:padding="16dp"
                     android:scaleType="centerCrop" />
 
                 <LinearLayout
@@ -36,27 +38,27 @@
                     android:layout_gravity="center_vertical"
                     android:orientation="vertical"
                     android:paddingBottom="16dp"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
+                    android:paddingEnd="8dp"
+                    android:paddingStart="8dp"
                     android:paddingTop="16dp">
 
                     <TextView
                         android:id="@+id/profileName"
+                        android:name="Placeholder Name"
                         style="@style/TextViewTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLines="1"
-                        android:name="Placeholder Name"
                         android:textColor="@color/white" />
 
                     <TextView
                         android:id="@+id/profileTitle"
+                        android:name="Placeholder Text"
                         style="@style/TextViewBody1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="4dp"
                         android:maxLines="1"
-                        android:name="Placeholder Text"
                         android:textColor="@color/primaryText" />
 
                 </LinearLayout>
@@ -66,24 +68,30 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/cardBackgroundDarker"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/profileDesc"
+                    android:name="Placeholder Motivation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
-                    android:name="Placeholder Motivation"
                     android:textColor="@color/primaryText" />
 
-                <com.mk.places.views.customButtonLayout
-                    android:id="@+id/buttonLayout"
+                <LinearLayout
+                    android:id="@+id/buttons"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingEnd="8dp"
-                    android:paddingStart="8dp" />
+                    android:layout_height="wrap_content">
+
+                    <com.mk.places.views.ButtonLayout
+                        android:id="@+id/buttonLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingEnd="8dp"
+                        android:paddingStart="8dp" />
+
+                </LinearLayout>
 
             </LinearLayout>
 

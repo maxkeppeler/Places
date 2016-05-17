@@ -58,9 +58,8 @@
 
                 <ImageView
                     android:id="@+id/sightImage"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:background="@drawable/sight_city" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/sightText"

@@ -7,12 +7,14 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -27,6 +29,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.mk.places.R;
 import com.mk.places.fragment.DrawerAbout;
+import com.mk.places.fragment.DrawerEmpty;
 import com.mk.places.fragment.DrawerPlacesTabs;
 import com.mk.places.fragment.DrawerSubmit;
 import com.mk.places.fragment.FragmentPlaces;
@@ -41,20 +44,41 @@ import static com.mikepenz.google_material_typeface_library.GoogleMaterial.Icon;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String
+            SIGHT = "Sight",
+            SIGHT_CITY = "City",
+            SIGHT_COUNTRY = "Country",
+            SIGHT_NATIONAL_PARK = "National Park",
+            SIGHT_PARK = "Park",
+            SIGHT_BEACH = "Beach",
+            SIGHT_LAKE = "Lake",
+            SIGHT_DESERT = "Desert",
+            SIGHT_GEYSER = "Geyser",
+            SIGHT_LANDFORM = "Landform";
+
+    private final String
+            CONTINENT = "Continent",
+            CONTINENT_AFRICA = "Africa",
+            CONTINENT_ANTARCTICA = "Antarctica",
+            CONTINENT_ASIA = "Asia",
+            CONTINENT_AUSTRALIA = "Australia",
+            CONTINENT_EUROPE = "Europe",
+            CONTINENT_NORTH_AMERICA = "North America",
+            CONTINENT_SOUTH_AMERICA = "South America";
+
     public static Drawer drawer = null;
     public static Drawer drawerFilter = null;
     public static TabLayout tabLayout;
     private static AppCompatActivity context;
-    private static String drawerPlaces, drawerUpload, drawerAbout, drawerSettings, drawerWrong;
+    private static String drawerPlaces, drawerNature, drawerUpload, drawerAbout, drawerSettings, drawerWrong;
     private static TabLayout.Tab discover;
     private static TabLayout.Tab bookmarks;
     private Toolbar toolbar;
     private AccountHeader drawerHeader;
     private String[] drawerHeaderURLS;
     private int drawerIndex;
-    private Preferences pref;
 
-    public static void updateTabs(int valueDiscover, int valueBookmarks) {
+    public static void updateTabTexts(int valueDiscover, int valueBookmarks) {
         discover.setText("Discover" + " (" + valueDiscover + ")");
         bookmarks.setText("Bookmarks" + " (" + valueBookmarks + ")");
     }
@@ -65,7 +89,9 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         context = this;
-        pref = new Preferences(context);
+        Preferences pref = new Preferences(context);
+
+//        TODO: If user has no WIFI, ask if we can use the mobile internet. Inform user that much data will be loaded. Afterwards load places list
 
         FragmentPlaces.loadPlacesList(context);
 
@@ -81,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addTab(discover);
         tabLayout.addTab(bookmarks);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.white));
+        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(context, R.color.white));
 
 //        TODO: Check if app was updated and had then the first start
 
@@ -93,27 +119,11 @@ public class MainActivity extends AppCompatActivity {
         drawerHeaderURLS = getResources().getStringArray(R.array.headerUrl);
 
         drawerPlaces = getResources().getString(R.string.app_places);
+        drawerNature = getResources().getString(R.string.app_nature);
         drawerUpload = getResources().getString(R.string.app_uploads);
         drawerAbout = getResources().getString(R.string.app_about);
         drawerSettings = getResources().getString(R.string.app_settings);
         drawerWrong = getResources().getString(R.string.app_wrong);
-
-        final String
-
-                sight = getResources().getString(R.string.sight),
-                sightCity = getResources().getString(R.string.sight_city),
-                sightCountry = getResources().getString(R.string.sight_country),
-                sightNationalPark = getResources().getString(R.string.sight_national_park),
-                sightPark = getResources().getString(R.string.sight_park),
-
-                continent = getResources().getString(R.string.continent),
-                continentAfrica = getResources().getString(R.string.continentAfrica),
-                continentAntarctica = getResources().getString(R.string.continentAntarctica),
-                continentAsia = getResources().getString(R.string.continentAsia),
-                continentAustralia = getResources().getString(R.string.continentAustralia),
-                continentEurope = getResources().getString(R.string.continentEurope),
-                continentNorthAmerica = getResources().getString(R.string.continentNorthAmerica),
-                continentSouthAmerica = getResources().getString(R.string.continentSouthAmerica);
 
         drawerHeader = new AccountHeaderBuilder().withActivity(this)
                 .withSelectionFirstLine("Beautiful Places").withSelectionSecondLine("on our Earth")
@@ -130,10 +140,11 @@ public class MainActivity extends AppCompatActivity {
                 .withToolbar(toolbar)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(drawerPlaces).withIcon(Icon.gmd_terrain).withIdentifier(0).withBadgeStyle(new BadgeStyle()),
-                        new PrimaryDrawerItem().withName(drawerUpload).withIcon(Icon.gmd_cloud_upload).withIdentifier(1),
+                        new PrimaryDrawerItem().withName(drawerNature).withIcon(Icon.gmd_public).withIdentifier(1),
+                        new PrimaryDrawerItem().withName(drawerUpload).withIcon(Icon.gmd_cloud_upload).withIdentifier(2),
                         new SectionDrawerItem().withName("Various"),
-                        new SecondaryDrawerItem().withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(2),
-                        new SecondaryDrawerItem().withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(3).withSelectable(false)
+                        new SecondaryDrawerItem().withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(3),
+                        new SecondaryDrawerItem().withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(4).withSelectable(false)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -157,14 +168,20 @@ public class MainActivity extends AppCompatActivity {
                                         break;
 
                                     case 1:
-                                        fragment = new DrawerSubmit();
+
+                                        Toast.makeText(context, "No. You shouldn't be here. Go away. Now. OR I WILL DELTE YOUR PHONE", Toast.LENGTH_SHORT).show();
+                                        fragment = new DrawerEmpty();
                                         break;
 
                                     case 2:
-                                        fragment = new DrawerAbout();
+                                        fragment = new DrawerSubmit();
                                         break;
 
                                     case 3:
+                                        fragment = new DrawerAbout();
+                                        break;
+
+                                    case 4:
                                         intent = new Intent(context, Settings.class);
                                         break;
 
@@ -215,20 +232,25 @@ public class MainActivity extends AppCompatActivity {
                 .withSavedInstance(savedInstanceState)
                 .addDrawerItems(
 
-                        new SectionDrawerItem().withName(sight).withDivider(false),
-                        new SecondaryDrawerItem().withName(sightCity).withLevel(2).withIcon(Icon.gmd_location_city).withIdentifier(101),
-                        new SecondaryDrawerItem().withName(sightCountry).withLevel(2).withIcon(Icon.gmd_terrain).withIdentifier(102),
-                        new SecondaryDrawerItem().withName(sightNationalPark).withLevel(2).withIcon(Icon.gmd_nature).withIdentifier(103),
-                        new SecondaryDrawerItem().withName(sightPark).withLevel(2).withIcon(Icon.gmd_nature_people).withIdentifier(104),
+                        new SectionDrawerItem().withName(SIGHT).withDivider(false),
+                        new SecondaryDrawerItem().withName(SIGHT_CITY).withLevel(2).withIcon(Icon.gmd_location_city).withIdentifier(101),
+                        new SecondaryDrawerItem().withName(SIGHT_COUNTRY).withLevel(2).withIcon(Icon.gmd_terrain).withIdentifier(102),
+                        new SecondaryDrawerItem().withName(SIGHT_NATIONAL_PARK).withLevel(2).withIcon(Icon.gmd_nature).withIdentifier(103),
+                        new SecondaryDrawerItem().withName(SIGHT_PARK).withLevel(2).withIcon(Icon.gmd_nature_people).withIdentifier(104),
+                        new SecondaryDrawerItem().withName(SIGHT_BEACH).withLevel(2).withIcon(Icon.gmd_beach_access).withIdentifier(105),
+                        new SecondaryDrawerItem().withName(SIGHT_LAKE).withLevel(2).withIcon(Icon.gmd_more).withIdentifier(106),
+                        new SecondaryDrawerItem().withName(SIGHT_GEYSER).withLevel(2).withIcon(Icon.gmd_more).withIdentifier(107),
+                        new SecondaryDrawerItem().withName(SIGHT_LANDFORM).withLevel(2).withIcon(Icon.gmd_more).withIdentifier(108),
+                        new SecondaryDrawerItem().withName(SIGHT_DESERT).withLevel(2).withIcon(Icon.gmd_more).withIdentifier(109),
 
-                        new SectionDrawerItem().withName(continent).withDivider(false),
-                        new SecondaryDrawerItem().withName(continentAfrica).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(201),
-                        new SecondaryDrawerItem().withName(continentAntarctica).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(202),
-                        new SecondaryDrawerItem().withName(continentAsia).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(203),
-                        new SecondaryDrawerItem().withName(continentAustralia).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(204),
-                        new SecondaryDrawerItem().withName(continentEurope).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(205),
-                        new SecondaryDrawerItem().withName(continentNorthAmerica).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(206),
-                        new SecondaryDrawerItem().withName(continentSouthAmerica).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(207)
+                        new SectionDrawerItem().withName(CONTINENT).withDivider(false),
+                        new SecondaryDrawerItem().withName(CONTINENT_AFRICA).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(201),
+                        new SecondaryDrawerItem().withName(CONTINENT_ANTARCTICA).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(202),
+                        new SecondaryDrawerItem().withName(CONTINENT_ASIA).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(203),
+                        new SecondaryDrawerItem().withName(CONTINENT_AUSTRALIA).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(204),
+                        new SecondaryDrawerItem().withName(CONTINENT_EUROPE).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(205),
+                        new SecondaryDrawerItem().withName(CONTINENT_NORTH_AMERICA).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(206),
+                        new SecondaryDrawerItem().withName(CONTINENT_SOUTH_AMERICA).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(207)
 
                 ).addStickyDrawerItems(
                         new PrimaryDrawerItem().withName("Reset Filter").withSelectable(false).withIcon(Icon.gmd_clear_all).withIdentifier(999)
@@ -241,38 +263,53 @@ public class MainActivity extends AppCompatActivity {
                             switch ((int) drawerItem.getIdentifier()) {
 
                                 case 101:
-                                    FilterLogic.filterList(sightCity);
+                                    FilterLogic.filterList(SIGHT_CITY);
                                     break;
                                 case 102:
-                                    FilterLogic.filterList(sightCountry);
+                                    FilterLogic.filterList(SIGHT_COUNTRY);
                                     break;
                                 case 103:
-                                    FilterLogic.filterList(sightNationalPark);
+                                    FilterLogic.filterList(SIGHT_NATIONAL_PARK);
                                     break;
                                 case 104:
-                                    FilterLogic.filterList(sightPark);
+                                    FilterLogic.filterList(SIGHT_PARK);
+                                    break;
+                                case 105:
+                                    FilterLogic.filterList(SIGHT_BEACH);
+                                    break;
+                                case 106:
+                                    FilterLogic.filterList(SIGHT_LAKE);
+                                    break;
+                                case 107:
+                                    FilterLogic.filterList(SIGHT_GEYSER);
+                                    break;
+                                case 108:
+                                    FilterLogic.filterList(SIGHT_LANDFORM);
+                                    break;
+                                case 109:
+                                    FilterLogic.filterList(SIGHT_DESERT);
                                     break;
 
                                 case 201:
-                                    FilterLogic.filterList(continentAfrica);
+                                    FilterLogic.filterList(CONTINENT_AFRICA);
                                     break;
                                 case 202:
-                                    FilterLogic.filterList(continentAntarctica);
+                                    FilterLogic.filterList(CONTINENT_ANTARCTICA);
                                     break;
                                 case 203:
-                                    FilterLogic.filterList(continentAsia);
+                                    FilterLogic.filterList(CONTINENT_ASIA);
                                     break;
                                 case 204:
-                                    FilterLogic.filterList(continentAustralia);
+                                    FilterLogic.filterList(CONTINENT_AUSTRALIA);
                                     break;
                                 case 205:
-                                    FilterLogic.filterList(continentEurope);
+                                    FilterLogic.filterList(CONTINENT_EUROPE);
                                     break;
                                 case 206:
-                                    FilterLogic.filterList(continentNorthAmerica);
+                                    FilterLogic.filterList(CONTINENT_NORTH_AMERICA);
                                     break;
                                 case 207:
-                                    FilterLogic.filterList(continentSouthAmerica);
+                                    FilterLogic.filterList(CONTINENT_SOUTH_AMERICA);
                                     break;
 
                                 case 999:
@@ -302,10 +339,12 @@ public class MainActivity extends AppCompatActivity {
             case 0:
                 return drawerPlaces;
             case 1:
-                return drawerUpload;
+                return drawerNature;
             case 2:
-                return drawerAbout;
+                return drawerUpload;
             case 3:
+                return drawerAbout;
+            case 4:
                 return drawerSettings;
             default:
                 return drawerWrong;

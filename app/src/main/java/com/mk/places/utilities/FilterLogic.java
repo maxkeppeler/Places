@@ -1,7 +1,5 @@
 package com.mk.places.utilities;
 
-import android.util.Log;
-
 import com.mk.places.activities.MainActivity;
 import com.mk.places.fragment.FragmentBookmarks;
 import com.mk.places.fragment.FragmentPlaces;
@@ -40,14 +38,14 @@ public class FilterLogic {
             FragmentPlaces.updateLayout(true, filterPlaces);
             FragmentBookmarks.updateLayout(true, filterBookmarks);
 
-            MainActivity.updateTabs(filterPlaces.size(), filterBookmarks.size());
+            MainActivity.updateTabTexts(filterPlaces.size(), filterBookmarks.size());
 
         } else {
 
             FragmentPlaces.updateLayout(false, null);
             FragmentBookmarks.updateLayout(false, null);
 
-            MainActivity.updateTabs(Places.getPlacesList().size(), FragmentBookmarks.bookmarks.size());
+            MainActivity.updateTabTexts(Places.getPlacesList().size(), FragmentBookmarks.bookmarks.size());
         }
 
 

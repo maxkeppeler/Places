@@ -30,7 +30,10 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.ImageViewTarget;
 import com.bumptech.glide.request.target.Target;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.mk.places.R;
+import com.mk.places.activities.MainActivity;
 import com.mk.places.models.Place;
 import com.mk.places.utilities.Utils;
 
@@ -80,17 +83,43 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
         holder.sight.setText(place.getSight());
         holder.continent.setText(place.getContinent());
 
-        if (holder.sight.getText().equals("City"))
-            holder.sightDrawable.setBackground(context.getResources().getDrawable(R.drawable.sight_city));
 
-        else if (holder.sight.getText().equals("Country"))
-            holder.sightDrawable.setBackground(context.getResources().getDrawable(R.drawable.sight_country));
+        final int size = 18;
+        final int color = context.getResources().getColor(R.color.white);
 
-        else if (holder.sight.getText().equals("National Park"))
-            holder.sightDrawable.setBackground(context.getResources().getDrawable(R.drawable.sight_national_park));
+        IconicsDrawable city = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_location_city).color(color).sizeDp(size);
+        IconicsDrawable country = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_terrain).color(color).sizeDp(size);
+        IconicsDrawable nationalPark = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_nature).color(color).sizeDp(size);
+        IconicsDrawable park = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_nature_people).color(color).sizeDp(size);
+        IconicsDrawable more = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_more).color(color).sizeDp(size);
 
-        else if (holder.sight.getText().equals("Park"))
-            holder.sightDrawable.setBackground(context.getResources().getDrawable(R.drawable.sight_park));
+
+        if (holder.sight.getText().equals(MainActivity.SIGHT_CITY))
+            holder.sightDrawable.setBackground(city);
+
+        if (holder.sight.getText().equals(MainActivity.SIGHT_COUNTRY))
+            holder.sightDrawable.setBackground(country);
+
+        if (holder.sight.getText().equals(MainActivity.SIGHT_NATIONAL_PARK))
+            holder.sightDrawable.setBackground(nationalPark);
+
+        if (holder.sight.getText().equals(MainActivity.SIGHT_PARK))
+            holder.sightDrawable.setBackground(park);
+
+        if (holder.sight.getText().equals(MainActivity.SIGHT_BEACH))
+            holder.sightDrawable.setBackground(more);
+
+        if (holder.sight.getText().equals(MainActivity.SIGHT_LAKE))
+            holder.sightDrawable.setBackground(more);
+
+        if (holder.sight.getText().equals(MainActivity.SIGHT_DESERT))
+            holder.sightDrawable.setBackground(more);
+
+        if (holder.sight.getText().equals(MainActivity.SIGHT_GEYSER))
+            holder.sightDrawable.setBackground(more);
+
+        if (holder.sight.getText().equals(MainActivity.SIGHT_LANDFORM))
+            holder.sightDrawable.setBackground(more);
 
     }
 

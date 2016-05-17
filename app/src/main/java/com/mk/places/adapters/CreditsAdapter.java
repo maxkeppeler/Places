@@ -35,7 +35,7 @@ public class CreditsAdapter extends RecyclerView.Adapter<CreditsAdapter.ViewHold
         vH.placeCreditsDesc.setTypeface(Utils.customTypeface(context, 2));
 
         vH.placeCreditsTitle.setText(itemsData[i].getTitle());
-        vH.placeCreditsDesc.setText(itemsData[i].getDesc() + " (...)");
+        vH.placeCreditsDesc.setText(itemsData[i].getDesc());
 
         vH.creditsLayout.setTag(itemsData[i].getTag());
         vH.creditsLayout.setOnClickListener(this);

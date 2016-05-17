@@ -39,7 +39,7 @@ public class DownloadPlaces extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
 
-        JSONObject json = JSONParser.getJSONFromURL(Utils.getRessources(context, R.string.json_places));
+        JSONObject json = JSONParser.getJSONFromURL(context.getResources().getString(R.string.json_places));
 
         if (json != null)
             try {

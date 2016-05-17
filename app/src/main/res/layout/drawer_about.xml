@@ -14,7 +14,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <android.support.v7.widget.CardView
@@ -45,16 +45,16 @@
                         android:paddingTop="16dp">
 
                         <TextView
-                            android:id="@+id/appTitle"
+                            android:id="@+id/aboutTitle"
                             style="@style/TextViewDisplay2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
-                            android:name="@string/appName"
+                            android:text="@string/appName"
                             android:textColor="@color/white" />
 
                         <TextView
-                            android:id="@+id/appDesc"
+                            android:id="@+id/aboutDesc"
                             style="@style/TextViewBody1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -63,12 +63,12 @@
                             android:paddingLeft="16dp"
                             android:paddingRight="16dp"
                             android:paddingTop="16dp"
-                            android:name="@string/appDescription"
+                            android:text="@string/appDescription"
                             android:textColor="@color/primaryText" />
 
                     </LinearLayout>
 
-                    <com.mk.places.views.customButtonLayout
+                    <com.mk.places.views.ButtonLayout
                         android:id="@+id/buttonLayoutApp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
