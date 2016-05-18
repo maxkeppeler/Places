@@ -31,7 +31,7 @@ public class CreditsAdapter extends RecyclerView.Adapter<CreditsAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder vH, int i) {
 
-        vH.placeCreditsTitle.setTypeface(Utils.customTypeface(context, 1));
+        vH.placeCreditsTitle.setTypeface(Utils.customTypeface(context, 3));
         vH.placeCreditsDesc.setTypeface(Utils.customTypeface(context, 2));
 
         vH.placeCreditsTitle.setText(itemsData[i].getTitle());

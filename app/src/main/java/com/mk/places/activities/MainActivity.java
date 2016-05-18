@@ -14,7 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -70,9 +69,13 @@ public class MainActivity extends AppCompatActivity {
     public static Drawer drawerFilter = null;
     public static TabLayout tabLayout;
     private static AppCompatActivity context;
-    private static String drawerPlaces, drawerNature, drawerUpload, drawerAbout, drawerSettings, drawerWrong;
-    private static TabLayout.Tab discover;
-    private static TabLayout.Tab bookmarks;
+    private static String drawerPlaces, drawerNature, drawerHall, drawerUpload, drawerAbout, drawerSettings, drawerWrong;
+    private static TabLayout.Tab
+            discover,
+            bookmarks,
+            people,
+            websites
+            ;
     private Toolbar toolbar;
     private AccountHeader drawerHeader;
     private String[] drawerHeaderURLS;
@@ -101,11 +104,13 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+
         discover = tabLayout.newTab().setText("Discover");
         bookmarks = tabLayout.newTab().setText("Bookmarks");
 
-        tabLayout.addTab(discover);
-        tabLayout.addTab(bookmarks);
+        people = tabLayout.newTab().setText("People");
+        websites = tabLayout.newTab().setText("Websites");
+
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(context, R.color.white));
 
@@ -120,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
         drawerPlaces = getResources().getString(R.string.app_places);
         drawerNature = getResources().getString(R.string.app_nature);
+        drawerHall = getResources().getString(R.string.app_hall);
         drawerUpload = getResources().getString(R.string.app_uploads);
         drawerAbout = getResources().getString(R.string.app_about);
         drawerSettings = getResources().getString(R.string.app_settings);
@@ -127,8 +133,8 @@ public class MainActivity extends AppCompatActivity {
 
         drawerHeader = new AccountHeaderBuilder().withActivity(this)
                 .withSelectionFirstLine("Beautiful Places").withSelectionSecondLine("on our Earth")
-                .withTypeface(Utils.customTypeface(context, 2))
-                .withHeightDp(350)
+                .withTypeface(Utils.customTypeface(context, 1))
+                .withHeightDp(330)
                 .build();
         drawerHeader();
 
@@ -141,10 +147,11 @@ public class MainActivity extends AppCompatActivity {
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(drawerPlaces).withIcon(Icon.gmd_terrain).withIdentifier(0).withBadgeStyle(new BadgeStyle()),
                         new PrimaryDrawerItem().withName(drawerNature).withIcon(Icon.gmd_public).withIdentifier(1),
-                        new PrimaryDrawerItem().withName(drawerUpload).withIcon(Icon.gmd_cloud_upload).withIdentifier(2),
+                        new PrimaryDrawerItem().withName(drawerHall).withIcon(Icon.gmd_card_giftcard).withIdentifier(2),
+                        new PrimaryDrawerItem().withName(drawerUpload).withIcon(Icon.gmd_cloud_upload).withIdentifier(3),
                         new SectionDrawerItem().withName("Various"),
-                        new SecondaryDrawerItem().withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(3),
-                        new SecondaryDrawerItem().withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(4).withSelectable(false)
+                        new SecondaryDrawerItem().withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(4),
+                        new SecondaryDrawerItem().withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(5).withSelectable(false)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -155,45 +162,37 @@ public class MainActivity extends AppCompatActivity {
 
                                 FragmentManager manager = getSupportFragmentManager();
                                 FragmentTransaction transaction = manager.beginTransaction();
-
                                 Fragment fragment = null;
-                                DrawerLayout drawerLayout = drawer.getDrawerLayout();
-
                                 Intent intent = null;
+                                drawerIndex = (int) drawerItem.getIdentifier();
 
                                 switch ((int) drawerItem.getIdentifier()) {
 
-                                    case 0:
-                                        fragment = new DrawerPlacesTabs();
+                                    case 0: fragment = new DrawerPlacesTabs();
                                         break;
 
-                                    case 1:
-
-                                        Toast.makeText(context, "No. You shouldn't be here. Go away. Now. OR I WILL DELTE YOUR PHONE", Toast.LENGTH_SHORT).show();
-                                        fragment = new DrawerEmpty();
+                                    case 1: fragment = new DrawerEmpty();
                                         break;
 
-                                    case 2:
-                                        fragment = new DrawerSubmit();
+                                    case 2: fragment = new DrawerEmpty();
                                         break;
 
-                                    case 3:
-                                        fragment = new DrawerAbout();
+                                    case 3: fragment = new DrawerSubmit();
                                         break;
 
-                                    case 4:
-                                        intent = new Intent(context, Settings.class);
+                                    case 4: fragment = new DrawerAbout();
                                         break;
 
-                                    default:
-                                        fragment = new FragmentPlaces();
+                                    case 5: intent = new Intent(context, Settings.class);
+                                        break;
+
+                                    default: fragment = new FragmentPlaces();
                                 }
 
                                 if (fragment != null) {
                                     fragment.setRetainInstance(true);
                                     transaction.replace(R.id.container, fragment);
                                     transaction.commit();
-                                    drawerIndex = (int) drawerItem.getIdentifier();
                                     toolbar.setTitle(toolbarTitle(drawerIndex));
 
                                 } else if (intent != null && fragment == null) {
@@ -201,17 +200,38 @@ public class MainActivity extends AppCompatActivity {
                                     drawer.setSelection(0);
                                 }
 
-                                if (drawerIndex == 0) {
+                                DrawerLayout drawerLayout = drawer.getDrawerLayout();
 
-                                    if (drawerFilter != null)
-                                        drawerFilter.setSelection(0);
+                                if (drawerFilter != null)
+                                    drawerFilter.setSelection(0);
 
+                                if (drawerIndex == 0 || drawerIndex == 1) {
                                     tabLayout.setVisibility(View.VISIBLE);
-                                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
-                                } else {
-                                    tabLayout.setVisibility(View.GONE);
-                                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
+
+                                    if (drawerIndex == 0) {
+
+                                        if (tabLayout != null)
+                                        tabLayout.removeAllTabs();
+
+                                        tabLayout.addTab(discover);
+                                        tabLayout.addTab(bookmarks);
+                                    }
+                                    if (drawerIndex == 1) {
+
+                                        if (tabLayout != null)
+                                        tabLayout.removeAllTabs();
+
+                                        tabLayout.addTab(people);
+                                        tabLayout.addTab(websites);
+                                    }
+
                                 }
+                                else tabLayout.setVisibility(View.GONE);
+
+                                if (drawerIndex == 0)
+                                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
+                                else
+                                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
 
 
                             }
@@ -262,61 +282,42 @@ public class MainActivity extends AppCompatActivity {
 
                             switch ((int) drawerItem.getIdentifier()) {
 
-                                case 101:
-                                    FilterLogic.filterList(SIGHT_CITY);
+                                case 101: FilterLogic.filterList(SIGHT_CITY);
                                     break;
-                                case 102:
-                                    FilterLogic.filterList(SIGHT_COUNTRY);
+                                case 102: FilterLogic.filterList(SIGHT_COUNTRY);
                                     break;
-                                case 103:
-                                    FilterLogic.filterList(SIGHT_NATIONAL_PARK);
+                                case 103: FilterLogic.filterList(SIGHT_NATIONAL_PARK);
                                     break;
-                                case 104:
-                                    FilterLogic.filterList(SIGHT_PARK);
+                                case 104: FilterLogic.filterList(SIGHT_PARK);
                                     break;
-                                case 105:
-                                    FilterLogic.filterList(SIGHT_BEACH);
+                                case 105: FilterLogic.filterList(SIGHT_BEACH);
                                     break;
-                                case 106:
-                                    FilterLogic.filterList(SIGHT_LAKE);
+                                case 106: FilterLogic.filterList(SIGHT_LAKE);
                                     break;
-                                case 107:
-                                    FilterLogic.filterList(SIGHT_GEYSER);
+                                case 107: FilterLogic.filterList(SIGHT_GEYSER);
                                     break;
-                                case 108:
-                                    FilterLogic.filterList(SIGHT_LANDFORM);
+                                case 108: FilterLogic.filterList(SIGHT_LANDFORM);
                                     break;
-                                case 109:
-                                    FilterLogic.filterList(SIGHT_DESERT);
+                                case 109: FilterLogic.filterList(SIGHT_DESERT);
                                     break;
-
-                                case 201:
-                                    FilterLogic.filterList(CONTINENT_AFRICA);
+                                case 201: FilterLogic.filterList(CONTINENT_AFRICA);
                                     break;
-                                case 202:
-                                    FilterLogic.filterList(CONTINENT_ANTARCTICA);
+                                case 202: FilterLogic.filterList(CONTINENT_ANTARCTICA);
                                     break;
-                                case 203:
-                                    FilterLogic.filterList(CONTINENT_ASIA);
+                                case 203: FilterLogic.filterList(CONTINENT_ASIA);
                                     break;
-                                case 204:
-                                    FilterLogic.filterList(CONTINENT_AUSTRALIA);
+                                case 204: FilterLogic.filterList(CONTINENT_AUSTRALIA);
                                     break;
-                                case 205:
-                                    FilterLogic.filterList(CONTINENT_EUROPE);
+                                case 205: FilterLogic.filterList(CONTINENT_EUROPE);
                                     break;
-                                case 206:
-                                    FilterLogic.filterList(CONTINENT_NORTH_AMERICA);
+                                case 206: FilterLogic.filterList(CONTINENT_NORTH_AMERICA);
                                     break;
-                                case 207:
-                                    FilterLogic.filterList(CONTINENT_SOUTH_AMERICA);
+                                case 207: FilterLogic.filterList(CONTINENT_SOUTH_AMERICA);
                                     break;
-
                                 case 999:
                                     FilterLogic.filterList("All");
                                     drawerFilter.setSelection(0);
                                     break;
-
                                 default:
                                     FilterLogic.filterList("All");
                                     drawerFilter.setSelection(0);
@@ -341,10 +342,12 @@ public class MainActivity extends AppCompatActivity {
             case 1:
                 return drawerNature;
             case 2:
-                return drawerUpload;
+                return drawerHall;
             case 3:
-                return drawerAbout;
+                return drawerUpload;
             case 4:
+                return drawerAbout;
+            case 5:
                 return drawerSettings;
             default:
                 return drawerWrong;

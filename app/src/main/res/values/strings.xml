@@ -6,6 +6,7 @@
     <!-- Drawer Items -->
     <string name="app_places">Places</string>
     <string name="app_nature">Nature</string>
+    <string name="app_hall">Hall of Honor</string>
     <string name="app_bookmarks">Bookmarks</string>
     <string name="app_uploads">Submit Places</string>
     <string name="app_about">About</string>
