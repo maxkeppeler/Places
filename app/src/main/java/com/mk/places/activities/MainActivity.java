@@ -1,5 +1,6 @@
 package com.mk.places.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -68,14 +70,11 @@ public class MainActivity extends AppCompatActivity {
     public static Drawer drawer = null;
     public static Drawer drawerFilter = null;
     public static TabLayout tabLayout;
-    private static AppCompatActivity context;
+    private Activity context;
     private static String drawerPlaces, drawerNature, drawerHall, drawerUpload, drawerAbout, drawerSettings, drawerWrong;
     private static TabLayout.Tab
             discover,
-            bookmarks,
-            people,
-            websites
-            ;
+            bookmarks;
     private Toolbar toolbar;
     private AccountHeader drawerHeader;
     private String[] drawerHeaderURLS;
@@ -92,6 +91,9 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         context = this;
+
+        FragmentPlaces.loadPlacesList(context);
+
         Preferences pref = new Preferences(context);
 
 //        TODO: If user has no WIFI, ask if we can use the mobile internet. Inform user that much data will be loaded. Afterwards load places list
@@ -106,9 +108,6 @@ public class MainActivity extends AppCompatActivity {
         discover = tabLayout.newTab().setText("Discover");
         bookmarks = tabLayout.newTab().setText("Bookmarks");
 
-//        people = tabLayout.newTab().setText("People");
-//        websites = tabLayout.newTab().setText("Websites");
-
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(context, R.color.white));
 
@@ -118,8 +117,6 @@ public class MainActivity extends AppCompatActivity {
             Dialogs.showChangelog(context);
             pref.setFirstStart(false);
         }
-
-        FragmentPlaces.loadPlacesList(context);
 
         drawerHeaderURLS = getResources().getStringArray(R.array.headerUrl);
 
@@ -241,7 +238,6 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         if (drawer != null) drawer.setSelection(0);
-
 
         drawerFilter = new DrawerBuilder()
                 .withActivity(this)
