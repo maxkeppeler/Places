@@ -1,6 +1,5 @@
 package com.mk.places.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,7 +11,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -70,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     public static Drawer drawer = null;
     public static Drawer drawerFilter = null;
     public static TabLayout tabLayout;
-    private Activity context;
+    private static AppCompatActivity context;
     private static String drawerPlaces, drawerNature, drawerHall, drawerUpload, drawerAbout, drawerSettings, drawerWrong;
     private static TabLayout.Tab
             discover,
