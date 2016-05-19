@@ -10,6 +10,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -53,8 +54,7 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
                         public void onClick(PlaceAdapter.PlacesViewHolder view, final int position, boolean longClick) {
 
                             Intent intent = new Intent(context, PlaceView.class);
-                            if (filtering)
-                                intent.putExtra("item", filter.get(position));
+                            if (filtering) intent.putExtra("item", filter.get(position));
                             else intent.putExtra("item", Places.getPlacesList().get(position));
                             intent.putExtra("pos", position);
                             context.startActivity(intent);
@@ -154,7 +154,6 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
         return super.onOptionsItemSelected(menu);
     }
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

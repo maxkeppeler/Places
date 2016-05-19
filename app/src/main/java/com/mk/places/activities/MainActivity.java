@@ -96,8 +96,6 @@ public class MainActivity extends AppCompatActivity {
 
 //        TODO: If user has no WIFI, ask if we can use the mobile internet. Inform user that much data will be loaded. Afterwards load places list
 
-        FragmentPlaces.loadPlacesList(context);
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -108,8 +106,8 @@ public class MainActivity extends AppCompatActivity {
         discover = tabLayout.newTab().setText("Discover");
         bookmarks = tabLayout.newTab().setText("Bookmarks");
 
-        people = tabLayout.newTab().setText("People");
-        websites = tabLayout.newTab().setText("Websites");
+//        people = tabLayout.newTab().setText("People");
+//        websites = tabLayout.newTab().setText("Websites");
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(context, R.color.white));
@@ -120,6 +118,8 @@ public class MainActivity extends AppCompatActivity {
             Dialogs.showChangelog(context);
             pref.setFirstStart(false);
         }
+
+        FragmentPlaces.loadPlacesList(context);
 
         drawerHeaderURLS = getResources().getStringArray(R.array.headerUrl);
 
@@ -208,22 +208,20 @@ public class MainActivity extends AppCompatActivity {
                                 if (drawerIndex == 0 || drawerIndex == 1) {
                                     tabLayout.setVisibility(View.VISIBLE);
 
-                                    if (drawerIndex == 0) {
-
-                                        if (tabLayout != null)
-                                        tabLayout.removeAllTabs();
-
-                                        tabLayout.addTab(discover);
-                                        tabLayout.addTab(bookmarks);
-                                    }
-                                    if (drawerIndex == 1) {
-
-                                        if (tabLayout != null)
-                                        tabLayout.removeAllTabs();
-
-                                        tabLayout.addTab(people);
-                                        tabLayout.addTab(websites);
-                                    }
+//                                    if (drawerIndex == 0) {
+//
+//                                        tabLayout.removeAllTabs();
+//
+//                                        tabLayout.addTab(discover);
+//                                        tabLayout.addTab(bookmarks);
+//                                    }
+//                                    if (drawerIndex == 1) {
+//
+//                                        tabLayout.removeAllTabs();
+//
+//                                        tabLayout.addTab(people);
+//                                        tabLayout.addTab(websites);
+//                                    }
 
                                 }
                                 else tabLayout.setVisibility(View.GONE);
