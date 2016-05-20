@@ -5,14 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:animateLayoutChanges="true"
     tools:context=".activities.MainActivity">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
         android:fitsSystemWindows="false">
 
         <android.support.design.widget.AppBarLayout
@@ -32,7 +30,6 @@
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
                 android:visibility="invisible" />
 
         </android.support.design.widget.AppBarLayout>
@@ -42,7 +39,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
 
     </android.support.design.widget.CoordinatorLayout>
 

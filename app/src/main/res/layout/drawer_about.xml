@@ -81,6 +81,17 @@
 
         </LinearLayout>
 
+        <TextView
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:text="Team Members"
+            android:layout_marginTop="3dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:textColor="@color/cardBackgroundLighter"
+            android:layout_height="wrap_content" />
+
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

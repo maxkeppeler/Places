@@ -16,7 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.mk.places.R;
 import com.mk.places.activities.MainActivity;
-import com.mk.places.adapters.FragmentPagerAdapter;
+import com.mk.places.adapters.PagerAdapter;
 
 import butterknife.ButterKnife;
 
@@ -32,7 +32,7 @@ public class DrawerPlacesTabs extends Fragment {
         final InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPager);
-        final FragmentPagerAdapter adapter = new FragmentPagerAdapter(getChildFragmentManager(), MainActivity.tabLayout.getTabCount());
+        final PagerAdapter adapter = new PagerAdapter(getChildFragmentManager(), MainActivity.tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(MainActivity.tabLayout));
         MainActivity.tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

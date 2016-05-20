@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,7 +24,7 @@ import com.mk.places.activities.PlaceView;
 import com.mk.places.adapters.PlaceAdapter;
 import com.mk.places.models.Place;
 import com.mk.places.models.Places;
-import com.mk.places.threads.DownloadPlaces;
+import com.mk.places.threads.ParsePlacesJSON;
 import com.mk.places.utilities.Preferences;
 
 import java.util.ArrayList;
@@ -44,6 +42,8 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
     public static void updateLayout(final boolean filtering, final ArrayList<Place> searchFiltering) {
 
         if (Places.getPlacesList() != null && Places.getPlacesList().size() > 0) {
+
+
             context.runOnUiThread(new Runnable() {
 
                 @Override
@@ -51,7 +51,7 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
                     mAdapter = new PlaceAdapter(context, new PlaceAdapter.ClickListener() {
 
                         @Override
-                        public void onClick(PlaceAdapter.PlacesViewHolder view, final int position, boolean longClick) {
+                        public void onClick(PlaceAdapter.PlacesViewHolder view, final int position) {
 
                             Intent intent = new Intent(context, PlaceView.class);
                             if (filtering) intent.putExtra("item", filter.get(position));
@@ -88,7 +88,7 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
 
     public static void loadPlacesList(Activity context) {
 
-        new DownloadPlaces(context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new ParsePlacesJSON(context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
     }
 
@@ -161,6 +161,7 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
         View view = inflater.inflate(R.layout.fragment_places, null);
 
         setHasOptionsMenu(true);
+
         context = getActivity();
 
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.placeRefresh);

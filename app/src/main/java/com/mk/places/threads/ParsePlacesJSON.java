@@ -11,7 +11,6 @@ import com.mk.places.fragment.FragmentPlaces;
 import com.mk.places.models.Place;
 import com.mk.places.models.Places;
 import com.mk.places.utilities.JSONParser;
-import com.mk.places.utilities.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,14 +18,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class DownloadPlaces extends AsyncTask<Void, Void, Void> {
+public class ParsePlacesJSON extends AsyncTask<Void, Void, Void> {
 
     private final static ArrayList<Place> places = new ArrayList<>();
     private long startTime;
     private Activity context;
-    private static final String TAG = "DownloadPlaces";
+    private static final String TAG = "ParsePlacesJSON";
 
-    public DownloadPlaces(Activity context) {
+    public ParsePlacesJSON(Activity context) {
         this.context = context;
     }
 
@@ -39,7 +38,7 @@ public class DownloadPlaces extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
 
-        JSONObject json = JSONParser.getJSONFromURL(context.getResources().getString(R.string.json_places));
+        JSONObject json = JSONParser.getJSONFromURL(context.getResources().getString(R.string.Places_JSON));
 
         if (json != null)
             try {
@@ -76,6 +75,7 @@ public class DownloadPlaces extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void args) {
         Log.d(TAG, "Task took " + String.valueOf((System.currentTimeMillis() - startTime) / 1000) + " seconds");
+
         FragmentPlaces.updateLayout(false, null);
 
         if (FragmentPlaces.mRefreshLayout != null)

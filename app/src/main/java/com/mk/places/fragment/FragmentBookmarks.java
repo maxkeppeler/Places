@@ -50,7 +50,7 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
                     mAdapter = new PlaceAdapter(context,
                             new PlaceAdapter.ClickListener() {
                                 @Override
-                                public void onClick(PlaceAdapter.PlacesViewHolder view, int position, boolean longClick) {
+                                public void onClick(PlaceAdapter.PlacesViewHolder view, int position) {
 
                                     Intent intent = new Intent(context, PlaceView.class);
                                     if (filtering)

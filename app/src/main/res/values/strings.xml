@@ -104,8 +104,24 @@
 
     <!-- ////////////   APP SECTIONS   \\\\\\\\\\\\\ -->
 
+    <!-- JSONS -->
+
+    <!--GOOGLE DRIVE
+    https://drive.google.com/file/d/0B6ky9fzTGl9XNFBhTTlxU2hhQmM/view?usp=sharing
+
+    https://drive.google.com/uc?id=  0B6ky9fzTGl9XNFBhTTlxU2hhQmM
+    -->
+
+
+    <string name="Places_JSON">https://drive.google.com/uc?id=0B6ky9fzTGl9XNFBhTTlxU2hhQmM</string>
+
+    <string name="Sins_JSON">Link</string>
+    <string name="GoodActs_JSON">Link</string>
+
+    <string name="People_JSON">Link</string>
+    <string name="Websites_JSON">Link</string>
     <!-- Places -->
-    <string name="json_places">https://drive.google.com/uc?id=0B6ky9fzTGl9XNFBhTTlxU2hhQmM</string>
+
     <string name="title_activity_detailed_places">Places Viewer</string>
 
     <!-- Submit -->

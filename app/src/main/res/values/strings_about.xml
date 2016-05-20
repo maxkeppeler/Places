@@ -31,34 +31,40 @@
     <!-- ////////////   TEAM MEMBERS & SUPPORTERS   \\\\\\\\\\\\\ -->
 
     <array name="mImage">
-        <item>https://lh3.googleusercontent.com/-Bm12kx-vq9M/Vyh4OUmkBAI/AAAAAAABLxg/EGBLl3IR8dA0GsgLxVCypHXSCF7WolaEACL0B/s1415-no/IMG_20160503_113834.jpg</item>
+        <item>https://goo.gl/Z3j7y9</item>
+        <item>https://lh3.googleusercontent.com/5dOaLh_fdXXLAjrKKTnddqCL7Q-r4F_0r-myj-t6gIj872QH3eKQYwB7W3372WGzy5kTyylzOw=w6337-h3961-rw-no</item>
         <item>https://lh3.googleusercontent.com/FiJvb5KdaxOPMMRTBZWK1jwK8hGKQC0N8RbTH8Q4sDoAzKPoi-36X8GhGS4Cf97ElEwe5iZm9g=s632-fcrop64=1,00001682ffffffff</item>
     </array>
 
 
     <array name="mName">
         <item>Maximilian Keppeler</item>
+        <item>Oliver Nitzschke - PingPong</item>
         <item>Kevin Aguilar - 221 Pixels</item>
     </array>
 
     <array name="mTitle">
         <item>Founder, Developer, Designer</item>
+        <item>A Great Developer</item>
         <item>Designer</item>
     </array>
 
     <array name="mDesc">
         <item>I will write a text, when I have a bit more time. I need to work on the app. And somewhen I should really start to learn for the 9+ exams in a few weeks.
             \n\nI created Places.</item>
+        <item>Known Developer. I created a great Equalizer. \n\nI fixed every issue Max reported to me. I am Batman.</item>
         <item>Known Icon Pack Designer. I made the beautiful Places icon.</item>
     </array>
 
     <string-array name="profileButtonNames">
         <item>Website|Google+|Twitter|Play</item>
+        <item>Play Store | Google+</item>
         <item>Google+</item>
     </string-array>
 
     <string-array name="profileButtonLinks">
         <item>http://www.maximiliankeppeler.com/|https://plus.google.com/+MaxKeppeler/posts|https://twitter.com/maxKeppeler|https://play.google.com/store/apps/dev?id=9187145836369403051</item>
+        <item>https://play.google.com/store/apps/dev?id=4984669254809771046|https://plus.google.com/+OliverNitzschkee</item>
         <item>https://plus.google.com/u/0/+KevinAguilarC/posts</item>
     </string-array>
 

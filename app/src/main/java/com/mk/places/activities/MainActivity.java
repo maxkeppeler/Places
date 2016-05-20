@@ -2,7 +2,6 @@ package com.mk.places.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,7 +31,9 @@ import com.mk.places.fragment.DrawerAbout;
 import com.mk.places.fragment.DrawerEmpty;
 import com.mk.places.fragment.DrawerPlacesTabs;
 import com.mk.places.fragment.DrawerSubmit;
+import com.mk.places.fragment.FragmentBookmarks;
 import com.mk.places.fragment.FragmentPlaces;
+import com.mk.places.models.Places;
 import com.mk.places.utilities.Dialogs;
 import com.mk.places.utilities.FilterLogic;
 import com.mk.places.utilities.Preferences;
@@ -70,29 +72,33 @@ public class MainActivity extends AppCompatActivity {
     public static TabLayout tabLayout;
     private static AppCompatActivity context;
     private static String drawerPlaces, drawerNature, drawerHall, drawerUpload, drawerAbout, drawerSettings, drawerWrong;
-    private static TabLayout.Tab
-            discover,
-            bookmarks;
+    private static TabLayout.Tab tab1, tab2;
     private Toolbar toolbar;
     private AccountHeader drawerHeader;
     private String[] drawerHeaderURLS;
-    private int drawerIndex;
+    public static int drawerIndex;
 
-    public static void updateTabTexts(int valueDiscover, int valueBookmarks) {
-        discover.setText("Discover" + " (" + valueDiscover + ")");
-        bookmarks.setText("Bookmarks" + " (" + valueBookmarks + ")");
+    public static void updateTabTexts(int discover, int bookmarks) {
+        tab1.setText("Discover" + " (" + discover + ")");
+        tab2.setText("Bookmarks" + " (" + bookmarks + ")");
+    }
+
+    public static void setTabTexts(String nameTab1, String nameTab2) {
+        tab1.setText(nameTab1);
+        tab2.setText(nameTab2);
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
         context = this;
 
-        FragmentPlaces.loadPlacesList(context);
-
         Preferences pref = new Preferences(context);
+
+        FragmentPlaces.loadPlacesList(context);
 
 //        TODO: If user has no WIFI, ask if we can use the mobile internet. Inform user that much data will be loaded. Afterwards load places list
 
@@ -102,10 +108,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-
-        discover = tabLayout.newTab().setText("Discover");
-        bookmarks = tabLayout.newTab().setText("Bookmarks");
-
+        tab1 = tabLayout.newTab();
+        tab2 = tabLayout.newTab();
+        tabLayout.addTab(tab1);
+        tabLayout.addTab(tab2);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(context, R.color.white));
 
@@ -159,17 +165,21 @@ public class MainActivity extends AppCompatActivity {
                                 FragmentTransaction transaction = manager.beginTransaction();
                                 Fragment fragment = null;
                                 Intent intent = null;
+
                                 drawerIndex = (int) drawerItem.getIdentifier();
 
                                 switch ((int) drawerItem.getIdentifier()) {
 
                                     case 0: fragment = new DrawerPlacesTabs();
+                                        MainActivity.updateTabTexts(Places.getPlacesList().size(), FragmentBookmarks.bookmarks.size());
                                         break;
 
-                                    case 1: fragment = new DrawerEmpty();
+                                    case 1: fragment = new DrawerPlacesTabs();
+                                        MainActivity.setTabTexts("Sins", "Good Acts");
                                         break;
 
-                                    case 2: fragment = new DrawerEmpty();
+                                    case 2: fragment = new DrawerPlacesTabs();
+                                        MainActivity.setTabTexts("People", "Websites");
                                         break;
 
                                     case 3: fragment = new DrawerSubmit();
@@ -197,35 +207,20 @@ public class MainActivity extends AppCompatActivity {
 
                                 DrawerLayout drawerLayout = drawer.getDrawerLayout();
 
+                                Log.d("MainActivity", "onItemClick: Drawer: " + drawerIndex);
+
                                 if (drawerFilter != null)
                                     drawerFilter.setSelection(0);
 
-                                if (drawerIndex == 0 || drawerIndex == 1) {
+                                if (drawerIndex == 0 || drawerIndex < 3)
                                     tabLayout.setVisibility(View.VISIBLE);
 
-//                                    if (drawerIndex == 0) {
-//
-//                                        tabLayout.removeAllTabs();
-//
-//                                        tabLayout.addTab(discover);
-//                                        tabLayout.addTab(bookmarks);
-//                                    }
-//                                    if (drawerIndex == 1) {
-//
-//                                        tabLayout.removeAllTabs();
-//
-//                                        tabLayout.addTab(people);
-//                                        tabLayout.addTab(websites);
-//                                    }
-
-                                }
                                 else tabLayout.setVisibility(View.GONE);
 
                                 if (drawerIndex == 0)
                                     drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
                                 else
                                     drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
-
 
                             }
                         }
