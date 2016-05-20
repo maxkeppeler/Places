@@ -25,6 +25,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.mk.places.R;
 import com.mk.places.adapters.GalleryItemAdapter;
 import com.mk.places.threads.DownloadImage;
+import com.mk.places.utilities.Constants;
 import com.mk.places.utilities.Utils;
 
 public class GalleryView extends AppCompatActivity {
@@ -35,8 +36,6 @@ public class GalleryView extends AppCompatActivity {
     private int truePosition;
     private String location;
     private CoordinatorLayout layout;
-
-    private static final int PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE = 42;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +100,7 @@ public class GalleryView extends AppCompatActivity {
 
             case R.id.download:
 
-                if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                if (ContextCompat.checkSelfPermission(context, Constants.PERMISSION_WRITE_EXTERNAL_STORAGE) !=
                         PackageManager.PERMISSION_GRANTED) {
                     getStoragePermission();
                 } else downloadImage(location + String.valueOf(truePosition), truePosition);
@@ -131,7 +130,7 @@ public class GalleryView extends AppCompatActivity {
 
         switch (requestCode) {
 
-            case PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE: {
+            case Constants.PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE: {
                 if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     downloadImage(location, 0);
@@ -143,7 +142,7 @@ public class GalleryView extends AppCompatActivity {
                     Log.d("requestPermission", "Write External Storage: Permission NOT granted.");
 
                     if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            Constants.PERMISSION_WRITE_EXTERNAL_STORAGE)) {
                         Snackbar.make(layout, "sdad",
                                 Snackbar.LENGTH_LONG)
                                 .setAction("dasdas", new View.OnClickListener() {
@@ -152,7 +151,7 @@ public class GalleryView extends AppCompatActivity {
                                         Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + getPackageName()));
                                         intent.addCategory(Intent.CATEGORY_DEFAULT);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivityForResult(intent, PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE);
+                                        startActivityForResult(intent, Constants.PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE);
                                     }
                                 })
                                 .show();
@@ -166,7 +165,7 @@ public class GalleryView extends AppCompatActivity {
     private void getStoragePermission() {
         //Explain the first time for what we need this permission and also if check never ask again
         if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                Constants.PERMISSION_WRITE_EXTERNAL_STORAGE)) {
 
             new MaterialDialog.Builder(this)
                     .content(R.string.storageContent)
@@ -178,15 +177,15 @@ public class GalleryView extends AppCompatActivity {
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                    PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE);
+                            ActivityCompat.requestPermissions(context, new String[]{Constants.PERMISSION_WRITE_EXTERNAL_STORAGE},
+                                    Constants.PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE);
                         }
                     })
                     .show();
         } else {
 
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE);
+            ActivityCompat.requestPermissions(this, new String[]{Constants.PERMISSION_WRITE_EXTERNAL_STORAGE},
+                    Constants.PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE);
         }
     }
 
