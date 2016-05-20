@@ -8,44 +8,39 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
 import com.mk.places.R;
 
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
 
     private final ClickListener clickListener;
-    private String[] imageLink;
+    private String[] url;
     private Context context;
 
-    public GalleryAdapter(Context context, String[] imageLink, ClickListener callBack) {
+    public GalleryAdapter(Context context, String[] url, ClickListener clickListener) {
         this.context = context;
-        this.imageLink = imageLink;
-        this.clickListener = callBack;
+        this.url = url;
+        this.clickListener = clickListener;
     }
-
 
     @Override
     public GalleryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.place_item_gallery_item, parent, false);
-        return new ViewHolder(itemLayoutView);
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.place_item_gallery_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder v, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int index) {
 
-        if (imageLink[position] == null) return;
+        if (!url[index].isEmpty() || url.length > 3)
         Glide.with(context)
-                .load(imageLink[position])
+                .load(url[index])
                 .override(800, 800)
                 .centerCrop()
-                .into(v.imageView);
-
-
+                .into(holder.viewImage);
     }
 
     @Override
     public int getItemCount() {
-        return imageLink.length;
+        return url.length;
     }
 
     public interface ClickListener {
@@ -54,16 +49,15 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-        private final ImageView imageView;
-        private final View mView;
+        private final ImageView viewImage;
 
         public ViewHolder(View v) {
             super(v);
-            mView = v;
 
-            imageView = (ImageView) mView.findViewById(R.id.thumbImage);
-            imageView.setOnClickListener(this);
-            imageView.setOnLongClickListener(this);
+            viewImage = (ImageView) v.findViewById(R.id.viewImage);
+
+            viewImage.setOnClickListener(this);
+            viewImage.setOnLongClickListener(this);
         }
 
         @Override

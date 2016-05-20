@@ -1,7 +1,7 @@
 package com.mk.places.adapters;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatDelegate;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +19,8 @@ import com.bumptech.glide.request.target.Target;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mk.places.R;
-import com.mk.places.activities.MainActivity;
 import com.mk.places.models.Place;
+import com.mk.places.utilities.Constants;
 import com.mk.places.utilities.Utils;
 
 import java.util.ArrayList;
@@ -28,20 +28,18 @@ import java.util.ArrayList;
 public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHolder> {
 
 
-    private ClickListener callback;
+    private ClickListener clickListener;
     private ArrayList<Place> placesList;
     private Activity context;
-    private AppCompatDelegate mDelegate;
 
-    public PlaceAdapter(Activity context, ClickListener callBack) {
+    public PlaceAdapter(Activity context, ClickListener clickListener) {
         this.context = context;
-        this.callback = callBack;
+        this.clickListener = clickListener;
     }
 
     @Override
     public PlacesViewHolder onCreateViewHolder(ViewGroup parent, int index) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        return new PlacesViewHolder(inflater.inflate(R.layout.fragment_places_item, parent, false));
+        return new PlacesViewHolder(LayoutInflater.from(context).inflate(R.layout.fragment_places_item, parent, false));
     }
 
     public void setData(ArrayList<Place> placesList) {
@@ -53,69 +51,69 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
     @Override
     public void onBindViewHolder(final PlacesViewHolder holder, int index) {
 
-        Place place = placesList.get(index);
-        final String[] imgPlaceUrl = place.getUrl().replace(" ", "").split("\\|");
+        final Place place = placesList.get(index);
+        final String sight = place.getSight();
 
-                Glide.with(context)
-                        .load(imgPlaceUrl[0])
-                        .override(1000, 800)
-                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .listener(new RequestListener<String, GlideDrawable>() {
-                            @Override
-                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                                return false;
-                            }
-
-                            @Override
-                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                                holder.viewShadow.setVisibility(View.VISIBLE);
-                                return false;
-                            }
-                        })
-                        .into(holder.image);
-
-        
-        holder.location.setText(place.getLocation());
-        holder.sight.setText(place.getSight());
-        holder.continent.setText(place.getContinent());
+        final String[] url = place.getUrl().replace(" ", "").split("\\|");
 
         final int size = 18;
-        final int color = context.getResources().getColor(R.color.white);
+        final int color = ContextCompat.getColor(context, R.color.white);
+        final IconicsDrawable
+                city = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_location_city).color(color).sizeDp(size),
+                country = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_terrain).color(color).sizeDp(size),
+                nationalPark = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_nature).color(color).sizeDp(size),
+                park = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_nature_people).color(color).sizeDp(size),
+                misc = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_more).color(color).sizeDp(size);
 
-        IconicsDrawable city = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_location_city).color(color).sizeDp(size);
-        IconicsDrawable country = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_terrain).color(color).sizeDp(size);
-        IconicsDrawable nationalPark = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_nature).color(color).sizeDp(size);
-        IconicsDrawable park = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_nature_people).color(color).sizeDp(size);
-        IconicsDrawable more = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_more).color(color).sizeDp(size);
 
+        Glide.with(context)
+                .load(url[0])
+                .override(1000, 800)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        return false;
+                    }
 
-        if (holder.sight.getText().equals(MainActivity.SIGHT_CITY))
-            holder.sightDrawable.setBackground(city);
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        holder.shadow.setVisibility(View.VISIBLE);
+                        return false;
+                    }
+                })
+                .into(holder.image);
 
-        if (holder.sight.getText().equals(MainActivity.SIGHT_COUNTRY))
-            holder.sightDrawable.setBackground(country);
+        holder.sight.setText(sight);
+        holder.place.setText(place.getLocation());
+        holder.continent.setText(place.getContinent());
 
-        if (holder.sight.getText().equals(MainActivity.SIGHT_NATIONAL_PARK))
-            holder.sightDrawable.setBackground(nationalPark);
+        if (Utils.compareStrings(sight, Constants.SIGHT_CITY))
+            holder.drawable.setBackground(city);
 
-        if (holder.sight.getText().equals(MainActivity.SIGHT_PARK))
-            holder.sightDrawable.setBackground(park);
+        if (Utils.compareStrings(sight, Constants.SIGHT_COUNTRY))
+            holder.drawable.setBackground(country);
 
-        if (holder.sight.getText().equals(MainActivity.SIGHT_BEACH))
-            holder.sightDrawable.setBackground(more);
+        if (Utils.compareStrings(sight, Constants.SIGHT_NATIONAL_PARK))
+            holder.drawable.setBackground(nationalPark);
 
-        if (holder.sight.getText().equals(MainActivity.SIGHT_LAKE))
-            holder.sightDrawable.setBackground(more);
+        if (Utils.compareStrings(sight, Constants.SIGHT_PARK))
+            holder.drawable.setBackground(park);
 
-        if (holder.sight.getText().equals(MainActivity.SIGHT_DESERT))
-            holder.sightDrawable.setBackground(more);
+        if (Utils.compareStrings(sight, Constants.SIGHT_BEACH))
+            holder.drawable.setBackground(misc);
 
-        if (holder.sight.getText().equals(MainActivity.SIGHT_GEYSER))
-            holder.sightDrawable.setBackground(more);
+        if (Utils.compareStrings(sight, Constants.SIGHT_LAKE))
+            holder.drawable.setBackground(misc);
 
-        if (holder.sight.getText().equals(MainActivity.SIGHT_LANDFORM))
-            holder.sightDrawable.setBackground(more);
+        if (Utils.compareStrings(sight, Constants.SIGHT_DESERT))
+            holder.drawable.setBackground(misc);
 
+        if (Utils.compareStrings(sight, Constants.SIGHT_GEYSER))
+            holder.drawable.setBackground(misc);
+
+        if (Utils.compareStrings(sight, Constants.SIGHT_LANDFORM))
+            holder.drawable.setBackground(misc);
     }
 
     @Override
@@ -124,34 +122,30 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
     }
 
     public interface ClickListener {
-        void onClick(PlacesViewHolder view, int index);
+        void onClick(PlacesViewHolder v, int index);
     }
 
     public class PlacesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public final View view;
-        public final ImageView image;
-        public final TextView location, sight, continent;
-        public final ImageView sightDrawable;
-        private MaterialRippleLayout ripple;
-        private LinearLayout viewShadow;
+        private final ImageView image;
+        private final TextView place, sight, continent;
+        private final ImageView drawable;
+        private final MaterialRippleLayout ripple;
+        private final LinearLayout shadow;
 
         PlacesViewHolder(View v) {
             super(v);
-            view = v;
 
-            ripple = (MaterialRippleLayout) view.findViewById(R.id.rippleOverlay);
-            image = (ImageView) view.findViewById(R.id.placeImage);
-            viewShadow = (LinearLayout) view.findViewById(R.id.schadowBelow);
-            location = (TextView) view.findViewById(R.id.locationText);
+            ripple = (MaterialRippleLayout) v.findViewById(R.id.thumbRipple);
+            image = (ImageView) v.findViewById(R.id.thumbImage);
+            shadow = (LinearLayout) v.findViewById(R.id.thumbShadow);
+            place = (TextView) v.findViewById(R.id.thumbPlace);
+            continent = (TextView) v.findViewById(R.id.thumbContinent);
+            sight = (TextView) v.findViewById(R.id.thumbSight);
+            drawable = (ImageView) v.findViewById(R.id.thumbSightDrawable);
 
-            location.setTypeface(Utils.customTypeface(context, 1));
-            sight = (TextView) view.findViewById(R.id.sightText);
-
+            place.setTypeface(Utils.customTypeface(context, 1));
             sight.setTypeface(Utils.customTypeface(context, 2));
-            sightDrawable = (ImageView) view.findViewById(R.id.sightImage);
-
-            continent = (TextView) view.findViewById(R.id.continentText);
             continent.setTypeface(Utils.customTypeface(context, 2));
 
             ripple.setOnClickListener(this);
@@ -161,8 +155,8 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
         @Override
         public void onClick(View v) {
             int index = getLayoutPosition();
-            if (callback != null)
-                callback.onClick(this, index);
+            if (clickListener != null)
+                clickListener.onClick(this, index);
         }
 
     }

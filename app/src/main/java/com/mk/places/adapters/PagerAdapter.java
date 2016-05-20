@@ -8,9 +8,6 @@ import com.mk.places.activities.MainActivity;
 import com.mk.places.fragment.FragmentBookmarks;
 import com.mk.places.fragment.FragmentPlaces;
 
-/**
- * Created by max on 15.05.16.
- */
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
     private int tabAmount;

@@ -13,13 +13,11 @@ import com.mk.places.R;
 public class GalleryItemAdapter extends PagerAdapter {
 
     private Activity context;
-    private String[] imageLink;
-    private LayoutInflater inflater;
+    private String[] url;
 
-    public GalleryItemAdapter(Activity context, String[] imageLink) {
+    public GalleryItemAdapter(Activity context, String[] url) {
         this.context = context;
-        this.imageLink = imageLink;
-        this.inflater = LayoutInflater.from(context);
+        this.url = url;
     }
 
     @Override
@@ -29,23 +27,23 @@ public class GalleryItemAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return imageLink.length;
+        return url.length;
     }
 
     @Override
-    public Object instantiateItem(ViewGroup view, final int i) {
+    public Object instantiateItem(ViewGroup viewGroup, final int i) {
 
-        final View mView = inflater.inflate(R.layout.place_item_gallery_view_item, view, false);
-        final ImageView vImage = (ImageView) mView.findViewById(R.id.vImage);
+        final View view = LayoutInflater.from(context).inflate(R.layout.place_item_gallery_view_item, viewGroup, false);
+        final ImageView vImage = (ImageView) view.findViewById(R.id.vImage);
 
         Glide.with(context)
-                .load(imageLink[i])
+                .load(url[i])
                 .crossFade()
                 .override(context.getWindowManager().getDefaultDisplay().getWidth(), context.getWindowManager().getDefaultDisplay().getHeight())
                 .into(vImage);
 
-        view.addView(mView, 0);
-        return mView;
+        viewGroup.addView(view, 0);
+        return view;
     }
 
     @Override

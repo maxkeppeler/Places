@@ -13,45 +13,44 @@ import com.mk.places.utilities.Utils;
 
 public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHolder> {
 
-    private DetailsItem[] itemsData;
+    private DetailsItem[] detailsData;
     private Context context;
 
-    public DetailsAdapter(DetailsItem[] itemsData, Context context) {
-        this.itemsData = itemsData;
+    public DetailsAdapter(DetailsItem[] detailsData, Context context) {
+        this.detailsData = detailsData;
         this.context = context;
     }
 
     @Override
     public DetailsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.place_item_details_item, parent, false);
-        return new ViewHolder(itemLayoutView);
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.place_item_details_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder vH, int i) {
+    public void onBindViewHolder(ViewHolder vH, int index) {
 
-        vH.placeItemTitle.setTypeface(Utils.customTypeface(context, 2));
-        vH.placeItemText.setTypeface(Utils.customTypeface(context, 2));
+        vH.detailsTitle.setText(detailsData[index].getTitle());
+        vH.detailsText.setText(detailsData[index].getText());
 
-        vH.placeItemTitle.setText(itemsData[i].getTitle());
-        vH.placeItemText.setText(itemsData[i].getText());
+        vH.detailsTitle.setTypeface(Utils.customTypeface(context, 2));
+        vH.detailsText.setTypeface(Utils.customTypeface(context, 2));
 
     }
 
     @Override
     public int getItemCount() {
-        return itemsData.length;
+        return detailsData.length;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView placeItemTitle, placeItemText;
+        private TextView detailsTitle, detailsText;
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
 
-            placeItemTitle = (TextView) itemLayoutView.findViewById(R.id.placeItemTitle);
-            placeItemText = (TextView) itemLayoutView.findViewById(R.id.placeItemText);
+            detailsTitle = (TextView) itemLayoutView.findViewById(R.id.detailsTitle);
+            detailsText = (TextView) itemLayoutView.findViewById(R.id.detailsText);
         }
     }
 

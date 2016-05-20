@@ -1,9 +1,7 @@
 package com.mk.places.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.graphics.Palette;
@@ -15,54 +13,51 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.mk.places.R;
 import com.mk.places.models.MemberItem;
 import com.mk.places.utilities.Utils;
 import com.mk.places.views.ButtonLayout;
-import com.mk.places.views.SquareImageView;
 
 public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder> implements View.OnClickListener {
 
-    private MemberItem[] itemsData;
+    private MemberItem[] memberData;
     private Context context;
     private int color = 0;
 
-    public MemberAdapter(MemberItem[] itemsData, Context context) {
+    public MemberAdapter(MemberItem[] memberData, Context context) {
         this.context = context;
-        this.itemsData = itemsData;
+        this.memberData = memberData;
     }
 
     @Override
     public MemberAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_about_member, parent, false);
-        return  new ViewHolder(itemLayoutView);
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_about_member, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int index) {
 
-        viewHolder.mName.setText(itemsData[position].getmName());
-        viewHolder.mName.setTypeface(Utils.customTypeface(context, 3));
-        viewHolder.mTitle.setText(itemsData[position].getmTitle());
-        viewHolder.mTitle.setTypeface(Utils.customTypeface(context, 1));
-        viewHolder.mDesc.setText(itemsData[position].getmDesc());
-        viewHolder.mDesc.setTypeface(Utils.customTypeface(context, 2));
+        holder.memberName.setText(memberData[index].getmName());
+        holder.memberTitle.setText(memberData[index].getmTitle());
+        holder.memberDesc.setText(memberData[index].getmDesc());
 
-        viewHolder.ButtonLayout.setbAmount(itemsData[position].getmButtomNames().length);
+        holder.memberName.setTypeface(Utils.customTypeface(context, 3));
+        holder.memberTitle.setTypeface(Utils.customTypeface(context, 1));
+        holder.memberDesc.setTypeface(Utils.customTypeface(context, 2));
+
+        holder.memberButtonLayout.setbAmount(memberData[index].getmButtomNames().length);
 
         Glide.with(context)
-                .load(itemsData[position].getmImage())
+                .load(memberData[index].getmImage())
                 .asBitmap()
                 .override(500, 500)
                 .centerCrop()
                 .skipMemoryCache(true)
-                .into(new BitmapImageViewTarget(viewHolder.mImage) {
+                .into(new BitmapImageViewTarget(holder.memberImage) {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                         super.onResourceReady(resource, glideAnimation);
@@ -70,61 +65,58 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
                         RoundedBitmapDrawable circularBitmapDrawable = RoundedBitmapDrawableFactory.create(context.getResources(), resource);
                         circularBitmapDrawable.setCircular(true);
 
-                        viewHolder.mImage.setImageDrawable(circularBitmapDrawable);
+                        holder.memberImage.setImageDrawable(circularBitmapDrawable);
 
                         Palette palette = new Palette.Builder(resource).generate();
 
                         color = Utils.colorFromPalette(context, palette);
 
-                        viewHolder.cardView.setCardBackgroundColor(color);
-                        viewHolder.coloredLinearLaoyut.setBackgroundColor(Utils.colorVariant(color, 0.9f));
-                        viewHolder.buttons.setBackgroundColor(Utils.colorVariant(color, 0.9f));
-
+                        holder.memberCard.setCardBackgroundColor(color);
+                        holder.memberLinearLayout.setBackgroundColor(Utils.colorVariant(color, 0.9f));
+                        holder.memberButtonLayout.setBackgroundColor(Utils.colorVariant(color, 0.9f));
 
 
                     }
                 });
 
-        for (int j = 0; j < itemsData[position].getmButtomNames().length; j++)
-            viewHolder.ButtonLayout.addButton(itemsData[position].getmButtomNames()[j], itemsData[position].getmButtomLinks()[j], true);
+        for (int j = 0; j < memberData[index].getmButtomNames().length; j++)
+            holder.memberButtonLayout.addButton(memberData[index].getmButtomNames()[j], memberData[index].getmButtomLinks()[j], true);
 
-        for (int i = 0; i < viewHolder.ButtonLayout.getChildCount(); i++)
-            viewHolder.ButtonLayout.getChildAt(i).setOnClickListener(MemberAdapter.this);
+        for (int i = 0; i < holder.memberButtonLayout.getChildCount(); i++)
+            holder.memberButtonLayout.getChildAt(i).setOnClickListener(MemberAdapter.this);
 
     }
 
     @Override
     public int getItemCount() {
-        return itemsData.length;
+        return memberData.length;
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(View v) {
 
-        Utils.customChromeTab(context, (String) view.getTag(), 0);
+        Utils.customChromeTab(context, (String) v.getTag(), 0);
 
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView mName, mTitle, mDesc;
-        private ImageView mImage;
-        private ButtonLayout ButtonLayout;
-        private CardView cardView;
-        private LinearLayout coloredLinearLaoyut, buttons;
+        private TextView memberName, memberTitle, memberDesc;
+        private ImageView memberImage;
+        private ButtonLayout memberButtonLayout;
+        private CardView memberCard;
+        private LinearLayout memberLinearLayout;
 
         public ViewHolder(View v) {
             super(v);
 
-            ButtonLayout = (ButtonLayout) v.findViewById(R.id.buttonLayout);
-
-            mName = (TextView) v.findViewById(R.id.profileName);
-            mTitle = (TextView) v.findViewById(R.id.profileTitle);
-            mDesc = (TextView) v.findViewById(R.id.profileDesc);
-            mImage = (ImageView) v.findViewById(R.id.profileImage);
-            cardView = (CardView) v.findViewById(R.id.cardViewMember);
-            coloredLinearLaoyut = (LinearLayout) v.findViewById(R.id.coloredLinearLaoyut);
-            buttons = (LinearLayout) v.findViewById(R.id.buttons);
+            memberName = (TextView) v.findViewById(R.id.memberName);
+            memberTitle = (TextView) v.findViewById(R.id.memberTitle);
+            memberDesc = (TextView) v.findViewById(R.id.memberDesc);
+            memberImage = (ImageView) v.findViewById(R.id.memberImage);
+            memberCard = (CardView) v.findViewById(R.id.memberCard);
+            memberButtonLayout = (ButtonLayout) v.findViewById(R.id.memberButtonLayout);
+            memberLinearLayout = (LinearLayout) v.findViewById(R.id.memberLinearLayout);
         }
     }
 
