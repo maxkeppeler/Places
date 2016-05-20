@@ -28,9 +28,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.mk.places.R;
 import com.mk.places.fragment.DrawerAbout;
-import com.mk.places.fragment.DrawerEmpty;
 import com.mk.places.fragment.DrawerPlacesTabs;
-import com.mk.places.fragment.DrawerSubmit;
 import com.mk.places.fragment.FragmentBookmarks;
 import com.mk.places.fragment.FragmentPlaces;
 import com.mk.places.models.Places;
@@ -53,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     public static Drawer drawerFilter = null;
     public static TabLayout tabLayout;
     private static AppCompatActivity context;
-    private static String drawerPlaces, drawerNature, drawerHall, drawerUpload, drawerAbout, drawerSettings, drawerWrong;
+    private static String drawerPlaces, drawerNature, drawerHall, drawerAbout, drawerSettings, drawerWrong;
     private static TabLayout.Tab tab1, tab2;
     private Toolbar toolbar;
     private AccountHeader drawerHeader;
@@ -109,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
         drawerPlaces = getResources().getString(R.string.app_places);
         drawerNature = getResources().getString(R.string.app_nature);
         drawerHall = getResources().getString(R.string.app_hall);
-        drawerUpload = getResources().getString(R.string.app_uploads);
         drawerAbout = getResources().getString(R.string.app_about);
         drawerSettings = getResources().getString(R.string.app_settings);
         drawerWrong = getResources().getString(R.string.app_wrong);
@@ -131,7 +128,6 @@ public class MainActivity extends AppCompatActivity {
                         new PrimaryDrawerItem().withName(drawerPlaces).withIcon(Icon.gmd_terrain).withIdentifier(0).withBadgeStyle(new BadgeStyle()),
                         new PrimaryDrawerItem().withName(drawerNature).withIcon(Icon.gmd_public).withIdentifier(1),
                         new PrimaryDrawerItem().withName(drawerHall).withIcon(Icon.gmd_card_giftcard).withIdentifier(2),
-                        new PrimaryDrawerItem().withName(drawerUpload).withIcon(Icon.gmd_cloud_upload).withIdentifier(3),
                         new SectionDrawerItem().withName("Various"),
                         new SecondaryDrawerItem().withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(4),
                         new SecondaryDrawerItem().withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(5).withSelectable(false)
@@ -164,13 +160,10 @@ public class MainActivity extends AppCompatActivity {
                                         MainActivity.setTabTexts("People", "Websites");
                                         break;
 
-                                    case 3: fragment = new DrawerSubmit();
+                                    case 3: fragment = new DrawerAbout();
                                         break;
 
-                                    case 4: fragment = new DrawerAbout();
-                                        break;
-
-                                    case 5: intent = new Intent(context, Settings.class);
+                                    case 4: intent = new Intent(context, Settings.class);
                                         break;
 
                                     default: fragment = new FragmentPlaces();
@@ -313,10 +306,8 @@ public class MainActivity extends AppCompatActivity {
             case 2:
                 return drawerHall;
             case 3:
-                return drawerUpload;
-            case 4:
                 return drawerAbout;
-            case 5:
+            case 4:
                 return drawerSettings;
             default:
                 return drawerWrong;
