@@ -6,10 +6,10 @@
     android:gravity="top"
     android:orientation="vertical"
     android:paddingBottom="16dp"
-    android:id="@+id/CreditsLayout" >
+    android:id="@+id/creditsLayout" >
 
     <TextView
-        android:id="@+id/placeCreditsTitle"
+        android:id="@+id/creditsTitle"
         style="@style/TextViewSubheading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
 
     <TextView
         style="@style/TextViewBody1"
-        android:id="@+id/placeCreditsDesc"
+        android:id="@+id/creditsDesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="4dp"

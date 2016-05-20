@@ -167,7 +167,7 @@
     <string name="permissions_not_granted">Storage permissions are needed to demonstrate access.</string>
     <string name="title_activity_live_chat">LiveChat</string>
 
-    <!-- TODO: Remove or change this placeholder imageLink -->
+    <!-- TODO: Remove or change this placeholder url -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_image_view">ImageView</string>
     <string name="search_hint">Berlin, Germany</string>

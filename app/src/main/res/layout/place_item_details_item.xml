@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     android:paddingBottom="8dp" >
     <TextView
-        android:id="@+id/placeItemTitle"
+        android:id="@+id/detailsTitle"
         style="@style/TextViewBody1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
         android:layout_gravity="top">
 
         <TextView
-            android:id="@+id/placeItemText"
+            android:id="@+id/detailsText"
             style="@style/TextViewBody2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

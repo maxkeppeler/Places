@@ -6,7 +6,7 @@
 
 
     <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/rippleOverlay"
+        android:id="@+id/thumbRipple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:mrl_rippleColor="@color/md_white_1000"
@@ -16,7 +16,7 @@
         app:mrl_rippleOverlay="true">
 
         <ImageView
-            android:id="@+id/placeImage"
+            android:id="@+id/thumbImage"
             android:layout_width="match_parent"
             android:layout_height="320dp"
             android:scaleType="centerCrop" />
@@ -25,7 +25,7 @@
 
 
     <LinearLayout
-        android:id="@+id/schadowBelow"
+        android:id="@+id/thumbShadow"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_gravity="bottom"
@@ -39,7 +39,7 @@
         android:layout_gravity="bottom">
 
         <TextView
-            android:id="@+id/locationText"
+            android:id="@+id/thumbPlace"
             style="@style/TextViewHeadline"
             android:text="Location"
             android:textColor="@color/textPrimary" />
@@ -57,12 +57,12 @@
                 android:weightSum="1">
 
                 <ImageView
-                    android:id="@+id/sightImage"
+                    android:id="@+id/thumbSightDrawable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/sightText"
+                    android:id="@+id/thumbSight"
                     style="@style/TextViewBody1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
                     android:background="@drawable/ic_continent" />
 
                 <TextView
-                    android:id="@+id/continentText"
+                    android:id="@+id/thumbContinent"
                     style="@style/TextViewBody1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
