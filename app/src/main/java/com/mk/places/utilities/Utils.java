@@ -49,11 +49,27 @@ import com.mk.places.R;
 public class Utils extends Activity {
 
     public static String convertEntitiesCharsHTML(String string) {
+
         return Html.fromHtml((String) string).toString().replace("\\n ", "\n");
+
+    }
+
+    public static boolean compareStrings(String string_1, String string_2) {
+
+        return string_1.toLowerCase().replace(" ", "").replace(",", "")
+                .equals(string_2.toLowerCase().replace(" ", "").replace(",", ""));
+    }
+
+    public static boolean stringIsContained(String string_1, String string_2) {
+
+        return string_1.toLowerCase().replace(" ", "").replace(",", "")
+                .contains(string_2.toLowerCase().replace(" ", "").replace(",", ""));
     }
 
     public static Typeface customTypeface(Context context, int index) {
+
         Typeface typeface = null;
+
         if (index == 1) typeface = Typeface.createFromAsset(context.getAssets(), "fonts/BreeSerif-Regular.ttf");
         if (index == 2) typeface = Typeface.createFromAsset(context.getAssets(), "fonts/OpenSans-Regular.ttf");
         if (index == 3) typeface = Typeface.createFromAsset(context.getAssets(), "fonts/OpenSans-Bold.ttf");
