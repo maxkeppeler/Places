@@ -85,7 +85,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
                 .into(holder.image);
 
         holder.sight.setText(sight);
-        holder.place.setText(place.getLocation());
+        holder.place.setText(place.getPlace());
         holder.continent.setText(place.getContinent());
 
         if (Utils.compareStrings(sight, Constants.SIGHT_CITY))

@@ -16,7 +16,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,8 +34,8 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mk.places.R;
 import com.mk.places.adapters.CreditsAdapter;
-import com.mk.places.adapters.GalleryAdapter;
 import com.mk.places.adapters.DetailsAdapter;
+import com.mk.places.adapters.GalleryAdapter;
 import com.mk.places.fragment.FragmentBookmarks;
 import com.mk.places.models.CreditsItem;
 import com.mk.places.models.DetailsItem;
@@ -47,8 +46,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class PlaceView extends AppCompatActivity implements View.OnClickListener {
-
-
 
     @Bind(R.id.fab) FloatingActionButton fab;
     @Bind(R.id.toolbar) Toolbar toolbar;
@@ -65,16 +62,18 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
 
     private int color;
     private Window window;
-    private String location, desc;
+    private String place, desc;
     private String[] infoTitle, info;
     private String[] creditsTitle, creditsDesc, credits;
     private Activity context;
-    private String[] images;
+    private String[] url;
     private Place item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.place_item);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window = this.getWindow();
@@ -82,7 +81,6 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
         }
 
         context = this;
-        setContentView(R.layout.place_item);
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
@@ -91,17 +89,21 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
         toolbar.setNavigationIcon(R.drawable.ic_close);
 
         item = getIntent().getParcelableExtra("item");
-        location = item.getLocation();
+
+        place = item.getPlace();
         desc = item.getDescription();
-        images = item.getUrl().split("\\|");
+
+        url = item.getUrl().split("\\|");
+
         info = item.getInfo().split("\\|");
         infoTitle = item.getInfoTitle().split("\\|");
+
         credits = item.getCredits().split("\\|");
         creditsTitle = item.getCreditsTitle().split("\\|");
         creditsDesc = item.getCreditsDesc().split("\\|");
 
         Glide.with(context)
-                .load(images[0])
+                .load(url[0])
                 .asBitmap()
                 .override(1000, 1000)
                 .fitCenter()
@@ -140,30 +142,34 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
                 })
                 .into(toolbarImage);
 
+
+        tvDescText.setText(desc);
+        collapsingToolbarLayout.setTitle(place);
+
+
+        final IconicsDrawable drawable = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_collections_bookmark).color(getResources().getColor(R.color.white)).sizeDp(24);
+        fab.setVisibility(View.INVISIBLE);
+        fab.setImageDrawable(drawable);
+        fab.setOnClickListener(this);
+
+
         final Typeface typeTitles = Utils.customTypeface(context, 1);
         final Typeface typeTexts = Utils.customTypeface(context, 2);
 
+        collapsingToolbarLayout.setCollapsedTitleTypeface(typeTitles);
+        collapsingToolbarLayout.setExpandedTitleTypeface(typeTitles);
         tvDescTitle.setTypeface(typeTitles);
         tvInfoTitle.setTypeface(typeTitles);
         tvCreditsTitle.setTypeface(typeTitles);
-
         tvDescText.setTypeface(typeTexts);
 
-        tvDescText.setText(desc);
-
-        IconicsDrawable fabIcon = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_collections_bookmark).color(getResources().getColor(R.color.white)).sizeDp(24);
-
-        fab.setVisibility(View.INVISIBLE);
-        fab.setImageDrawable(fabIcon);
-        fab.setOnClickListener(this);
-
-        collapsingToolbarLayout.setTitle(location);
-        collapsingToolbarLayout.setCollapsedTitleTypeface(typeTitles);
-        collapsingToolbarLayout.setExpandedTitleTypeface(typeTitles);
 
         createCreditsCard();
+
         createDetailsCard();
+
         createGallery();
+
     }
 
     private void createCreditsCard() {
@@ -191,7 +197,7 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
 
     private void createGallery() {
 
-        final GalleryAdapter galleryAdapter = new GalleryAdapter(context, images, new GalleryAdapter.ClickListener() {
+        final GalleryAdapter galleryAdapter = new GalleryAdapter(context, url, new GalleryAdapter.ClickListener() {
 
             @Override
             public void onClick(GalleryAdapter.ViewHolder view, int index, boolean longOnClick) {
@@ -201,9 +207,9 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
 
                 } else {
                     Intent intent = new Intent(context, GalleryView.class);
-                    intent.putExtra("imageLink", images);
+                    intent.putExtra("url", url);
                     intent.putExtra("index", index);
-                    intent.putExtra("location", location);
+                    intent.putExtra("place", place);
                     context.startActivity(intent);
                 }
             }
@@ -243,7 +249,7 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
                 break;
 
             case R.id.launch:
-                Utils.customChromeTab(context, "http://www.google.com/search?q=" + location, color);
+                Utils.customChromeTab(context, "http://www.google.com/search?q=" + place, color);
                 break;
         }
         return true;

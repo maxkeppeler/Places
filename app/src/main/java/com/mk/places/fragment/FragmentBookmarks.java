@@ -50,7 +50,7 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
                     mAdapter = new PlaceAdapter(context,
                             new PlaceAdapter.ClickListener() {
                                 @Override
-                                public void onClick(PlaceAdapter.PlacesViewHolder view, int position) {
+                                public void onClick(PlaceAdapter.PlacesViewHolder v, int position) {
 
                                     Intent intent = new Intent(context, PlaceView.class);
                                     if (filtering)
@@ -89,7 +89,7 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
         int x = 0;
         for (int j = 0; j < bookmarks.size(); j++) {
 
-            if (bookmarks.get(j).getLocation().toLowerCase().contains(key.toLowerCase())) {
+            if (bookmarks.get(j).getPlace().toLowerCase().contains(key.toLowerCase())) {
                 filter.add(x, bookmarks.get(j));
                 x++;
             }

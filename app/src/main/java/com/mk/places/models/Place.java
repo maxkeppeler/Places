@@ -21,7 +21,7 @@ public class Place implements Parcelable {
 
     private String
             id,
-            location,
+            place,
             sight,
             continent,
             infoTitle,
@@ -36,7 +36,7 @@ public class Place implements Parcelable {
     protected Place(Parcel in) {
 
         id = in.readString();
-        location = in.readString();
+        place = in.readString();
         sight = in.readString();
         continent = in.readString();
         infoTitle = in.readString();
@@ -50,9 +50,9 @@ public class Place implements Parcelable {
 
     }
 
-    public Place(String id, String location, String sight, String continent, String infoTitle, String info, String creditsTitle, String creditsDesc, String credits, String description, String url) {
+    public Place(String id, String place, String sight, String continent, String infoTitle, String info, String creditsTitle, String creditsDesc, String credits, String description, String url) {
         this.id = Utils.convertEntitiesCharsHTML(id);
-        this.location = Utils.convertEntitiesCharsHTML(location);
+        this.place = Utils.convertEntitiesCharsHTML(place);
         this.sight = Utils.convertEntitiesCharsHTML(sight);
         this.continent = Utils.convertEntitiesCharsHTML(continent);
         this.infoTitle = Utils.convertEntitiesCharsHTML(infoTitle);
@@ -68,7 +68,7 @@ public class Place implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
 
         dest.writeString(id);
-        dest.writeString(location);
+        dest.writeString(place);
         dest.writeString(sight);
         dest.writeString(continent);
         dest.writeString(infoTitle);
@@ -97,8 +97,8 @@ public class Place implements Parcelable {
         this.id = id;
     }
 
-    public String getLocation() {
-        return location;
+    public String getPlace() {
+        return place;
     }
 
     public String getSight() {

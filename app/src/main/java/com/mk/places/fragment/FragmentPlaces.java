@@ -51,7 +51,7 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
                     mAdapter = new PlaceAdapter(context, new PlaceAdapter.ClickListener() {
 
                         @Override
-                        public void onClick(PlaceAdapter.PlacesViewHolder view, final int position) {
+                        public void onClick(PlaceAdapter.PlacesViewHolder v, final int position) {
 
                             Intent intent = new Intent(context, PlaceView.class);
                             if (filtering) intent.putExtra("item", filter.get(position));
@@ -98,7 +98,7 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
 
         for (int j = 0; j < Places.getPlacesList().size(); j++) {
 
-            if (Places.getPlacesList().get(j).getLocation().toLowerCase().contains(key.toLowerCase())) {
+            if (Places.getPlacesList().get(j).getPlace().toLowerCase().contains(key.toLowerCase())) {
                 filter.add(Places.getPlacesList().get(j));
             }
         }
