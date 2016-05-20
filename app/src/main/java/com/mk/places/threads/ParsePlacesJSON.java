@@ -50,7 +50,7 @@ public class ParsePlacesJSON extends AsyncTask<Void, Void, Void> {
 
                     places.add(new Place(
                                     json.getString("id"),
-                                    json.getString("location"),
+                                    json.getString("place"),
                                     json.getString("sight"),
                                     json.getString("continent"),
                                     json.getString("infoTitle"),
