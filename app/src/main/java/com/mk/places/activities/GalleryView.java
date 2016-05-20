@@ -47,7 +47,7 @@ public class GalleryView extends AppCompatActivity {
         int index = intent.getIntExtra("index", 0);
         int userPosition = index + 1;
         imageLinks = intent.getStringArrayExtra("imageLink");
-        location = intent.getStringExtra("location");
+        location = intent.getStringExtra("place");
         layout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
 
 //        TODO: Snackbar is behind the Navigation Bar
