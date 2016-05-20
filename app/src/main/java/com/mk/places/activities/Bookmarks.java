@@ -6,17 +6,17 @@ import android.util.Log;
 
 import com.afollestad.inquiry.Inquiry;
 import com.afollestad.inquiry.annotations.Column;
+import com.mk.places.utilities.Constants;
 
 import java.util.Arrays;
 
 public final class Bookmarks {
 
-    private static final String TABLE_NAME = "BOOKMARKS";
     private static Activity context;
 
     public static void init(Activity ctxt) {
         context = ctxt;
-        Inquiry.init(ctxt, TABLE_NAME, 1);
+        Inquiry.init(ctxt, Constants.DATABASE_NAME, Constants.DATABASE_VERSION);
     }
 
 
@@ -25,7 +25,7 @@ public final class Bookmarks {
      */
     public static boolean isFavorited(String id) {
         return Inquiry.get()
-                .selectFrom(TABLE_NAME, BookmarksDB.class)
+                .selectFrom(Constants.DATABASE_NAME, BookmarksDB.class)
                 .where("_id = ?", id)
                 .one() != null;
     }
@@ -39,7 +39,7 @@ public final class Bookmarks {
 
         if (!isFavorited(id)) {
             Inquiry.get()
-                    .insertInto(TABLE_NAME, BookmarksDB.class)
+                    .insertInto(Constants.DATABASE_NAME, BookmarksDB.class)
                     .values(new BookmarksDB(id))
                     .run();
             return true;
@@ -52,7 +52,7 @@ public final class Bookmarks {
      * Returns Array with all IDs
      */
     public static BookmarksDB[] getDB() {
-        return Inquiry.get().selectFrom(TABLE_NAME, BookmarksDB.class).all();
+        return Inquiry.get().selectFrom(Constants.DATABASE_NAME, BookmarksDB.class).all();
     }
 
     /**
@@ -62,7 +62,7 @@ public final class Bookmarks {
 
         init(context);
 
-        Inquiry.get().dropTable(TABLE_NAME);
+        Inquiry.get().dropTable(Constants.DATABASE_NAME);
         Inquiry.deinit();
     }
 
@@ -73,7 +73,7 @@ public final class Bookmarks {
     public static boolean unfavoriteItem(String id) {
         if (isFavorited(id)) {
             Inquiry.get()
-                    .deleteFrom(TABLE_NAME, BookmarksDB.class)
+                    .deleteFrom(Constants.DATABASE_NAME, BookmarksDB.class)
                     .where("_id = ?", id)
                     .run();
             return true;

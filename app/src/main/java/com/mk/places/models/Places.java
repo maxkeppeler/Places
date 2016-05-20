@@ -39,6 +39,7 @@ public class Places {
                 placesList.add(place);
             }
         } catch (IndexOutOfBoundsException e) {
+            e.getStackTrace();
         }
     }
 
