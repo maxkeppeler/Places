@@ -129,8 +129,8 @@ public class MainActivity extends AppCompatActivity {
                         new PrimaryDrawerItem().withName(drawerNature).withIcon(Icon.gmd_public).withIdentifier(1),
                         new PrimaryDrawerItem().withName(drawerHall).withIcon(Icon.gmd_card_giftcard).withIdentifier(2),
                         new SectionDrawerItem().withName("Various"),
-                        new SecondaryDrawerItem().withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(4),
-                        new SecondaryDrawerItem().withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(5).withSelectable(false)
+                        new SecondaryDrawerItem().withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(3),
+                        new SecondaryDrawerItem().withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(4).withSelectable(false)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
