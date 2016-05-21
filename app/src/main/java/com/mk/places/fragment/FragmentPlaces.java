@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private static final String TAG = "FragmentPlaces";
+    private static final String TAG = FragmentPlaces.class.getName();
     public static SwipeRefreshLayout mRefreshLayout;
     public static ArrayList<Place> filter = new ArrayList<>();
     public static SearchView sv;

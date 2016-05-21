@@ -22,6 +22,8 @@ import butterknife.ButterKnife;
 
 public class DrawerPlacesTabs extends Fragment {
 
+    private static final String TAG = DrawerPlacesTabs.class.getName();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 

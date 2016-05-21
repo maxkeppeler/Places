@@ -23,6 +23,8 @@
 
 package com.mk.places.utilities;
 
+import android.util.Log;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -33,17 +35,26 @@ import org.json.JSONObject;
 @SuppressWarnings("deprecation")
 public class JSONParser {
 
+    private static final String TAG = JSONParser.class.getName();
+
     public static JSONObject getJSONFromURL(String url) {
+
         try {
-            HttpClient cl = new DefaultHttpClient();
-            HttpResponse response = cl.execute(new HttpGet(url));
+
+            HttpClient client = new DefaultHttpClient();
+            HttpResponse response = client.execute(new HttpGet(url));
+
             if (response.getStatusLine().getStatusCode() == 200) {
+
                 final String data = EntityUtils.toString(response.getEntity());
                 return new JSONObject(data);
+
             }
+
         } catch (Exception e) {
-            //Do nothing
+            Log.d(TAG, "No response from the server, where you have stored your json: " + e.getMessage());
         }
+
         return null;
     }
 }

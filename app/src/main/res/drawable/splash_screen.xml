@@ -2,14 +2,14 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:opacity="transparent">
 
-    <item android:drawable="@color/colorPrimary" />
+    <item android:drawable="@color/cardBackground" />
 
-    <!--<item>-->
+    <item>
 
-        <!--<bitmap-->
-            <!--android:gravity="center"-->
-            <!--android:src="@drawable/text_places_splash" />-->
-    <!--</item>-->
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/ic_places_splash" />
+    </item>
 
 </layer-list>
 

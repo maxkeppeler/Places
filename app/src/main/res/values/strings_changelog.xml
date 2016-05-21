@@ -8,8 +8,9 @@
     <string name="changelogContent" >
         <![CDATA[
 
+        <font
         <font color="#42A5F5"><strong>
-        0.2 ALPHA
+        0.2 Alpha
         </strong></font>
 
         <br />• TabLayout for the new Nature and Hall of Honor pages
@@ -17,7 +18,7 @@
         <br />
 
         <font color="#42A5F5"><strong>
-        0.1 ALPHA
+        0.1 Alpha
         </strong></font>
 
         <br />• Html chars from the json will now be correctly displayed in the app
@@ -39,7 +40,7 @@
         <br />
 
         <font color="#42A5F5"><strong>
-        BEFORE
+        Before
         </strong></font>
         <br />• At a time where there was no changelog
 

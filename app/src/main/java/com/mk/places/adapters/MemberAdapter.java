@@ -49,7 +49,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         holder.memberTitle.setTypeface(Utils.customTypeface(context, 1));
         holder.memberDesc.setTypeface(Utils.customTypeface(context, 2));
 
-        holder.memberButtonLayout.setbAmount(memberData[index].getmButtomNames().length);
+        holder.memberButtonLayout.setAmount(memberData[index].getmButtomNames().length);
 
         Glide.with(context)
                 .load(memberData[index].getmImage())

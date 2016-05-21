@@ -3,9 +3,9 @@
 
     <style name="AppTheme.Splash">
         <item name="android:windowBackground">@drawable/splash_screen</item>
-        <item name="android:colorBackground">@color/colorPrimary</item>
-        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
-        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:colorBackground">@color/cardBackground</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
     <style name="CustomTheme" parent="MaterialDrawerTheme">
@@ -142,34 +142,10 @@
 
     <!-- Text Styles -->
 
-    <style name="TextViewDisplay4">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/textSizeDisplay4</item>
-        <item name="android:fontFamily">sans-serif-light</item>
-        <item name="android:textStyle">normal</item>
-    </style>
-
-    <style name="TextViewDisplay3">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/textSizeDisplay3</item>
-        <item name="android:fontFamily">sans-serif-regular</item>
-        <item name="android:textStyle">normal</item>
-    </style>
-
     <style name="TextViewDisplay2">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/textSizeDisplay2</item>
-        <item name="android:fontFamily">sans-serif-regular</item>
-        <item name="android:textStyle">normal</item>
-    </style>
-
-    <style name="TextViewDisplay1">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/textSizeDisplay1</item>
         <item name="android:fontFamily">sans-serif-regular</item>
         <item name="android:textStyle">normal</item>
     </style>
@@ -218,14 +194,6 @@
         <item name="android:lineSpacingExtra">3dp</item>
     </style>
 
-
-    <style name="TextViewCaption">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/textSizeCaption</item>
-        <item name="android:fontFamily">sans-serif-regular</item>
-        <item name="android:textStyle">normal</item>
-    </style>
 
     <style name="navBarAnim">
         <item name="android:windowEnterAnimation">@anim/fade_in</item>

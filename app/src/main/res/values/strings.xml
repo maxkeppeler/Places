@@ -7,8 +7,6 @@
     <string name="app_places">Places</string>
     <string name="app_nature">Nature</string>
     <string name="app_hall">Hall of Honor</string>
-    <string name="app_bookmarks">Bookmarks</string>
-    <string name="app_uploads">Submit Places</string>
     <string name="app_about">About</string>
     <string name="app_settings">Settings</string>
     <string name="app_wrong">Sorry, you are lost</string>
@@ -32,16 +30,9 @@
     <!--  Toolbar Texts -->
     <string name="action_share">Share</string>
     <string name="action_launch">Launch</string>
-    <string name="action_changelog">Changelog</string>
     <string name="action_filter">Filter</string>
     <string name="action_search">Search</string>
     <string name="action_download">Download</string>
-    <string name="action_apply">Apply</string>
-    <string name="action_sort">Sort</string>
-    <string name="action_refresh">Refresh</string>
-    <string name="action_column">Columns</string>
-    <string name="action_drawer">Drawer Filter</string>
-    <string name="action_direction">Swipe Direction</string>
 
 
     <!-- ////////////  Snack Bars   \\\\\\\\\\\\\ -->
@@ -49,7 +40,6 @@
     <!-- Download Image -->
     <string name="downloadImageText">Image was downloaded in the folder Places.</string>
     <string name="downloadImageAction">Open</string>
-    <string name="snackbarDownloadImageIntent">Open folder with</string>
 
     <!-- Download Layout -->
     <string name="bookmarkedPlace">Place has been added to your bookmarks.</string>
@@ -63,43 +53,17 @@
          \n • Download images
          \n • Download this page with all info
     </string>
-    <string name="storagePositive">Allow</string>
-    <string name="storageNegative">No</string>
 
 
     <!-- ////////////   DIALOGS   \\\\\\\\\\\\\ -->
 
     <!-- Filter Dialog -->
-    <string name="filterTitle">Filter by</string>
-    <string name="filterPositive">Apply Changes</string>
-    <array name="filterContentArray">
-        <item>Sight</item>
-        <item>Country</item>
-    </array>
 
     <!-- Sight Dialog -->
-    <string name="sightTitle">Sight</string>
-    <string name="categoryPositive">Apply Changes</string>
-    <array name="sightContentArray">
-        <item>City</item>
-        <item>Country</item>
-        <item>National Park</item>
-        <item>Landscape</item>
-    </array>
 
     <!-- Columns Dialog -->
-    <string name="columnsTitle">Amount Of Columns</string>
-    <array name="columnsArray">
-        <item>1 column</item>
-        <item>2 columns</item>
-    </array>
 
     <!-- Filter Dialog -->
-    <string name="saveImageTitle">What do you want to save?</string>
-    <array name="saveImageContentArray">
-        <item>Image</item>
-        <item>Page as Image</item>
-    </array>
 
 
     <!-- ////////////   APP SECTIONS   \\\\\\\\\\\\\ -->
@@ -115,62 +79,18 @@
 
     <string name="Places_JSON">https://drive.google.com/uc?id=0B6ky9fzTGl9XNFBhTTlxU2hhQmM</string>
 
-    <string name="Sins_JSON">Link</string>
-    <string name="GoodActs_JSON">Link</string>
-
-    <string name="People_JSON">Link</string>
-    <string name="Websites_JSON">Link</string>
     <!-- Places -->
 
-    <string name="title_activity_detailed_places">Places Viewer</string>
-
     <!-- Submit -->
-    <string name="drawer_submit_info">A beautiful place is missing? Submit it. I will look after it if I can add it.</string>
 
     <!-- Support -->
-    <string name="supportText">Read the FAQs before you contact us.</string>
-
-    <string name="rulesTitle">Rules</string>
-    <string name="rulesText">
-        In order to ensure quality content:
-        \n1. You must use proper English.
-        \n2. You must have experiences in writing.
-        \n3. You must have experiences in traveling.
-        \n4. You are only allowed to share a place, when you have been there.
-    </string>
-
-    <string name="miscTitle">Miscellaneous</string>
-    <string name="miscText">
-           1. You must upload 1 main image.
-        \n2. You must upload at minimum 4 more images, \n at maximum 20 images. You can write a title and description to each image.
-        \n3. You must write a title.
-        \n4. You must fill out some more details - depending on the place.
-        \n\n
-        Every submitted place will be carefully verified.
-    </string>
-
-    <string name="rewardTitle">Reward</string>
-    <string name="rewardText">
-        A clickable profile of you will be created with all submitted places.
-        \nThe profile includes a name, description and many optional link buttons to your other social profiles, blogs, websites, etc.
-    </string>
 
 
     <!-- Other App Strings -->
     <string name="app_name">Places</string>
-    <string name="no_internet">No Internet Connection</string>
-    <string name="send_to" />
-    <string name="walls_save_location" />
-    <string name="ok" />
-    <string name="permission_storage_rationale">Storage permissions are needed to demonstrate access.</string>
-    <string name="permision_available_storage">Storage permissions are needed to demonstrate access.</string>
-    <string name="permissions_not_granted">Storage permissions are needed to demonstrate access.</string>
-    <string name="title_activity_live_chat">LiveChat</string>
 
     <!-- TODO: Remove or change this placeholder url -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_image_view">ImageView</string>
-    <string name="search_hint">Berlin, Germany</string>
 
 
 </resources>

@@ -210,7 +210,8 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
                     intent.putExtra("url", url);
                     intent.putExtra("index", index);
                     intent.putExtra("place", place);
-                    context.startActivity(intent);
+                    startActivity(intent);
+                    finish();
                 }
             }
         });

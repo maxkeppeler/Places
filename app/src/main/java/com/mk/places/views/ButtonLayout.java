@@ -23,8 +23,8 @@ public class ButtonLayout extends LinearLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    public void setbAmount(int bAmount) {
-        setWeightSum(bAmount);
+    public void setAmount(int amount) {
+        setWeightSum(amount);
     }
 
     public void addButton(String bText, String bLink, boolean horizontal) {

@@ -32,7 +32,7 @@ import java.util.ArrayList;
 
 public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private static final String TAG = "FragmentBookmarks";
+    private static final String TAG = FragmentBookmarks.class.getName();
     public static ArrayList<Place> bookmarks = new ArrayList<>();
     public static SwipeRefreshLayout mRefreshLayout;
     public static ArrayList<Place> filter;

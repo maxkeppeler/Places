@@ -21,9 +21,9 @@ import java.util.ArrayList;
 public class ParsePlacesJSON extends AsyncTask<Void, Void, Void> {
 
     private final static ArrayList<Place> places = new ArrayList<>();
+    private static final String TAG = ParsePlacesJSON.class.getName();
     private long startTime;
     private Activity context;
-    private static final String TAG = "ParsePlacesJSON";
 
     public ParsePlacesJSON(Activity context) {
         this.context = context;
@@ -49,24 +49,24 @@ public class ParsePlacesJSON extends AsyncTask<Void, Void, Void> {
                     json = jsonarray.getJSONObject(i);
 
                     places.add(new Place(
-                                    json.getString("id"),
-                                    json.getString("place"),
-                                    json.getString("sight"),
-                                    json.getString("continent"),
-                                    json.getString("infoTitle"),
-                                    json.getString("info"),
-                                    json.getString("creditsTitle"),
-                                    json.getString("creditsDesc"),
-                                    json.getString("credits"),
-                                    json.getString("description"),
-                                    json.getString("url")
+                            json.getString("id"),
+                            json.getString("place"),
+                            json.getString("sight"),
+                            json.getString("continent"),
+                            json.getString("infoTitle"),
+                            json.getString("info"),
+                            json.getString("creditsTitle"),
+                            json.getString("creditsDesc"),
+                            json.getString("credits"),
+                            json.getString("description"),
+                            json.getString("url")
                     ));
                 }
 
                 Places.createPlaceList(places);
 
-            } catch (JSONException ignored) {
-
+            } catch (JSONException e) {
+                Log.e(TAG, " Problem with the JSON API", e);
             }
 
         return null;
@@ -79,13 +79,12 @@ public class ParsePlacesJSON extends AsyncTask<Void, Void, Void> {
         FragmentPlaces.updateLayout(false, null);
 
         if (FragmentPlaces.mRefreshLayout != null)
-        FragmentPlaces.mRefreshLayout.setRefreshing(false);
+            FragmentPlaces.mRefreshLayout.setRefreshing(false);
 
         FragmentPlaces.mRecyclerView.setVisibility(View.VISIBLE);
 
         FragmentBookmarks.loadBookmarks(context);
     }
-
 
 
 }

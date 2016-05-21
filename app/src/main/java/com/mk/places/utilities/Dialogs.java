@@ -22,7 +22,7 @@ public class Dialogs {
 
         new MaterialDialog.Builder(context)
 
-                .typeface(Utils.customTypeface(context, 3), Utils.customTypeface(context, 2))
+                .typeface(Utils.customTypeface(context, 2), Utils.customTypeface(context, 2))
                 .contentColor(ContextCompat.getColor(context, R.color.primaryText))
                 .backgroundColor(ContextCompat.getColor(context, R.color.cardBackground))
                 .title(R.string.changelogTitle)

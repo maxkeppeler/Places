@@ -25,7 +25,7 @@ public class DownloadImage extends AsyncTask<String, Integer, String> {
 
     private Activity context;
     private String location;
-    private String TAG = "ImageFromUrl/ Async Task";
+    private String TAG = DownloadImage.class.getName();
     private int color;
     private File file;
 

@@ -1,10 +1,7 @@
 package com.mk.places.fragment;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mk.places.R;
 import com.mk.places.adapters.MemberAdapter;
@@ -26,6 +22,8 @@ import butterknife.ButterKnife;
 
 public class DrawerAbout extends Fragment implements View.OnClickListener {
 
+
+    private static String TAG = DrawerAbout.class.getName();
     private static Activity context;
 
     @Override
@@ -49,7 +47,7 @@ public class DrawerAbout extends Fragment implements View.OnClickListener {
 
         final ButtonLayout ButtonLayout = (ButtonLayout) view.findViewById(R.id.buttonLayoutApp);
 
-        ButtonLayout.setbAmount(aBtnNames.length);
+        ButtonLayout.setAmount(aBtnNames.length);
 
         for (int j = 0; j < aBtnNames.length; j++)
             ButtonLayout.addButton(aBtnNames[j], aBtnLinks[j], true);
