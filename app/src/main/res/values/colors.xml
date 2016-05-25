@@ -12,13 +12,13 @@
     <color name="colorPrimaryDark">@color/md_blue_600</color>
     <color name="colorAccent">@color/md_light_blue_500</color>
 
+    <color name="imageViewToolbar">#44000000</color>
 
-    <!-- Statusbar & Navigation Bar -->
+
 
 
     <!-- Other colors -->
     <color name="fabRipple">#aeffffff</color>
-
     <!--<color name="appBackgroundColor">#000</color>-->
 
     <!-- ////////////  TEXT COLORS   \\\\\\\\\\\\\ -->

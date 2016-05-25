@@ -12,9 +12,6 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mk.places.R;
 
-/**
- * Created by Max on 30.03.16.
- */
 public class Dialogs {
 
 
@@ -52,4 +49,12 @@ public class Dialogs {
 
     }
 
+    public static void mailReport(final Context context) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{context.getResources().getString(R.string.mail_adress)});
+        intent.setData(Uri.parse(context.getResources().getString(R.string.mail_uri)));
+        intent.putExtra(Intent.EXTRA_SUBJECT, context.getResources().getString(R.string.mail_subject));
+        intent.putExtra(Intent.EXTRA_TEXT, context.getResources().getString(R.string.mail_text));
+        context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.mail_title)));
+    }
 }

@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.mk.places.activities.MainActivity;
+import com.mk.places.fragment.DrawerEmpty;
 import com.mk.places.fragment.FragmentBookmarks;
 import com.mk.places.fragment.FragmentPlaces;
 
@@ -36,9 +37,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
             switch (position) {
                 case 0:
-                    return new FragmentPlaces();
+                    return new DrawerEmpty();
                 case 1:
-                    return new FragmentPlaces();
+                    return new DrawerEmpty();
                 default:
                     return null;
             }
@@ -49,9 +50,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
             switch (position) {
                 case 0:
-                    return new FragmentBookmarks();
+                    return new DrawerEmpty();
                 case 1:
-                    return new FragmentPlaces();
+                    return new DrawerEmpty();
                 default:
                     return null;
             }

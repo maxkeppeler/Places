@@ -1,15 +1,8 @@
 <resources>
 
+    <string name="app_name">Places</string>
 
     <!-- ////////////   MATERIAL DRAWER   \\\\\\\\\\\\\ -->
-
-    <!-- Drawer Items -->
-    <string name="app_places">Places</string>
-    <string name="app_nature">Nature</string>
-    <string name="app_hall">Hall of Honor</string>
-    <string name="app_about">About</string>
-    <string name="app_settings">Settings</string>
-    <string name="app_wrong">Sorry, you are lost</string>
 
     <!-- Header Images (URLs) -->
     <string-array name="headerUrl">
@@ -29,16 +22,17 @@
 
     <!--  Toolbar Texts -->
     <string name="action_share">Share</string>
-    <string name="action_launch">Launch</string>
+    <string name="action_launch">Launch Browser</string>
     <string name="action_filter">Filter</string>
     <string name="action_search">Search</string>
-    <string name="action_download">Download</string>
+    <string name="action_download">Download Image</string>
+    <string name="action_report">Report Issue</string>
 
 
     <!-- ////////////  Snack Bars   \\\\\\\\\\\\\ -->
 
     <!-- Download Image -->
-    <string name="downloadImageText">Image was downloaded in the folder Places.</string>
+    <string name="downloadImageText">Image was downloaded.</string>9
     <string name="downloadImageAction">Open</string>
 
     <!-- Download Layout -->
@@ -53,44 +47,30 @@
          \n • Download images
          \n • Download this page with all info
     </string>
-
-
-    <!-- ////////////   DIALOGS   \\\\\\\\\\\\\ -->
-
-    <!-- Filter Dialog -->
-
-    <!-- Sight Dialog -->
-
-    <!-- Columns Dialog -->
-
-    <!-- Filter Dialog -->
+    <string name="storagePositive">Ok</string>
+    <string name="storageNegative">No</string>
 
 
     <!-- ////////////   APP SECTIONS   \\\\\\\\\\\\\ -->
 
     <!-- JSONS -->
 
-    <!--GOOGLE DRIVE
+    <!--GOOGLE DRIVE JSON LINK
     https://drive.google.com/file/d/0B6ky9fzTGl9XNFBhTTlxU2hhQmM/view?usp=sharing
-
     https://drive.google.com/uc?id=  0B6ky9fzTGl9XNFBhTTlxU2hhQmM
     -->
 
-
     <string name="Places_JSON">https://drive.google.com/uc?id=0B6ky9fzTGl9XNFBhTTlxU2hhQmM</string>
 
-    <!-- Places -->
-
-    <!-- Submit -->
-
-    <!-- Support -->
+    <!-- LAUNCH INTENT-->
+    <string name="launch_word_search">"http://www.google.com/search?q="</string>
 
 
-    <!-- Other App Strings -->
-    <string name="app_name">Places</string>
-
-    <!-- TODO: Remove or change this placeholder url -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <!-- E-MAIL INTENT-->
+    <string name="mail_adress">chvent94@googlemail.com</string>
+    <string name="mail_subject">Places Report</string>
+    <string name="mail_text">Please describe your issue.</string>
+    <string name="mail_title">Send E-Mail Report with</string>
+    <string name="mail_uri">"mailto:"</string>
 
 </resources>

@@ -15,7 +15,7 @@ public class FilterLogic {
         ArrayList<Place> filterPlaces = new ArrayList<>();
         ArrayList<Place> filterBookmarks = new ArrayList<>();
 
-        if (!key.equals("All")) {
+        if (!key.equals(Constants.NO_FILTER)) {
             int x = 0;
             int y = 0;
             for (int j = 0; j < FragmentBookmarks.bookmarks.size(); j++) {

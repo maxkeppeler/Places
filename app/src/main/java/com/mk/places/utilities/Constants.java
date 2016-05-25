@@ -17,6 +17,17 @@ public class Constants {
     // Permission request IDs
     public static final int PERMISSIONS_REQUEST_ID_WRITE_EXTERNAL_STORAGE = 42;
 
+    // Tab Layout
+    public static final String TAB_PLACES = "Places";
+    public static final String TAB_BOOKMARKS = "Bookmarks";
+    public static final String TAB_SINS = "Sins";
+    public static final String TAB_GOOD_ACTS = "Good Acts";
+    public static final String TAB_PEOPLE = "People";
+    public static final String TAB_WEBSITES = "Websites";
+
+    // Drawer Filter Misc
+    public static final String NO_FILTER = "Nope";
+
     // Sights for Drawer Filter
     public static final String SIGHT = "Sight";
     public static final String SIGHT_CITY = "City";
@@ -39,6 +50,12 @@ public class Constants {
     public static final String CONTINENT_NORTH_AMERICA = "North America";
     public static final String CONTINENT_SOUTH_AMERICA = "South America";
 
-
+    // Material Drawer Sections
+    public static final String DRAWER_PLACES = "Places";
+    public static final String DRAWER_NATURE = "Nature";
+    public static final String DRAWER_HALL = "Hall of Honor";
+    public static final String DRAWER_ABOUT = "About";
+    public static final String DRAWER_SETTINGS = "Settings";
+    public static final String DRAWER_WRONG = "Where are you?";
 
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -12,10 +13,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +43,7 @@ import com.mk.places.fragment.FragmentBookmarks;
 import com.mk.places.models.CreditsItem;
 import com.mk.places.models.DetailsItem;
 import com.mk.places.models.Place;
+import com.mk.places.utilities.Dialogs;
 import com.mk.places.utilities.Utils;
 
 import butterknife.Bind;
@@ -50,6 +54,8 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
     @Bind(R.id.fab) FloatingActionButton fab;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.collapsingToolbarLayout) CollapsingToolbarLayout collapsingToolbarLayout;
+    @Bind(R.id.creditsCardView) CardView creditsCardView;
+    @Bind(R.id.infoCardView) CardView infoCardView;
     @Bind(R.id.tvDescTitle) TextView tvDescTitle;
     @Bind(R.id.tvDescText) TextView tvDescText;
     @Bind(R.id.tvInfoTitle) TextView tvInfoTitle;
@@ -102,6 +108,7 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
         creditsTitle = item.getCreditsTitle().split("\\|");
         creditsDesc = item.getCreditsDesc().split("\\|");
 
+
         Glide.with(context)
                 .load(url[0])
                 .asBitmap()
@@ -142,16 +149,13 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
                 })
                 .into(toolbarImage);
 
-
         tvDescText.setText(desc);
         collapsingToolbarLayout.setTitle(place);
-
 
         final IconicsDrawable drawable = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_collections_bookmark).color(getResources().getColor(R.color.white)).sizeDp(24);
         fab.setVisibility(View.INVISIBLE);
         fab.setImageDrawable(drawable);
         fab.setOnClickListener(this);
-
 
         final Typeface typeTitles = Utils.customTypeface(context, 1);
         final Typeface typeTexts = Utils.customTypeface(context, 2);
@@ -163,12 +167,17 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
         tvCreditsTitle.setTypeface(typeTitles);
         tvDescText.setTypeface(typeTexts);
 
-
-        createCreditsCard();
-
-        createDetailsCard();
-
         createGallery();
+
+        if (item.getInfoTitle().length() > 2) {
+            infoCardView.setVisibility(View.VISIBLE);
+            createDetailsCard();
+        }
+
+        if (item.getCredits().length() > 2) {
+            creditsCardView.setVisibility(View.VISIBLE);
+            createCreditsCard();
+        }
 
     }
 
@@ -207,7 +216,7 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
 
                 } else {
                     Intent intent = new Intent(context, GalleryView.class);
-                    intent.putExtra("url", url);
+                    intent.putExtra("urls", url);
                     intent.putExtra("index", index);
                     intent.putExtra("place", place);
                     startActivity(intent);
@@ -216,7 +225,11 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
             }
         });
 
-        galleryRecycler.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false));
+        if (url.length <= 4)
+            galleryRecycler.setLayoutManager(new GridLayoutManager(context, 2, LinearLayoutManager.VERTICAL, false));
+        else
+            galleryRecycler.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false));
+
         galleryRecycler.setAdapter(galleryAdapter);
         galleryRecycler.setHasFixedSize(true);
 
@@ -240,17 +253,12 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
             case android.R.id.home:
                 close();
                 break;
-            case R.id.share:
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("*/*");
-                intent.putExtra(Intent.EXTRA_EMAIL, "chvent94@gmail.com");
-                intent.putExtra(Intent.EXTRA_SUBJECT, "Places - Support Mail");
-                intent.putExtra(Intent.EXTRA_TEXT, desc);
-                startActivity(Intent.createChooser(intent, "Send Email with"));
+            case R.id.launch:
+                Utils.customChromeTab(context, getResources().getString(R.string.launch_word_search) + place, color);
                 break;
 
-            case R.id.launch:
-                Utils.customChromeTab(context, "http://www.google.com/search?q=" + place, color);
+            case R.id.report:
+                Dialogs.mailReport(context);
                 break;
         }
         return true;
@@ -262,7 +270,6 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
         else finish();
     }
 
-
     @Override
     public void onClick(View v) {
 
@@ -271,11 +278,8 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
         else
             Utils.simpleSnackBar(context, Utils.colorVariant(color, 1.07f), R.id.coordinatorLayout, R.string.removedPlace, Snackbar.LENGTH_LONG);
 
-
-        Inquiry.deinit();
-
         FragmentBookmarks.loadBookmarks(context);
-
+        Inquiry.deinit();
 
 
     }

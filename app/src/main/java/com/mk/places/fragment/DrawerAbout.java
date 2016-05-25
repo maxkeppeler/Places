@@ -49,8 +49,9 @@ public class DrawerAbout extends Fragment implements View.OnClickListener {
 
         ButtonLayout.setAmount(aBtnNames.length);
 
-        for (int j = 0; j < aBtnNames.length; j++)
+        for (int j = 0; j < aBtnNames.length; j++) {
             ButtonLayout.addButton(aBtnNames[j], aBtnLinks[j], true);
+        }
 
         for (int i = 0; i < ButtonLayout.getChildCount(); i++)
             ButtonLayout.getChildAt(i).setOnClickListener(this);

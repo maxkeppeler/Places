@@ -10,7 +10,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -36,7 +35,6 @@ import com.mk.places.utilities.Constants;
 import com.mk.places.utilities.Dialogs;
 import com.mk.places.utilities.FilterLogic;
 import com.mk.places.utilities.Preferences;
-import com.mk.places.utilities.Utils;
 
 import java.util.Random;
 
@@ -44,29 +42,17 @@ import static com.mikepenz.google_material_typeface_library.GoogleMaterial.Icon;
 
 public class MainActivity extends AppCompatActivity {
 
-
-
-
     public static Drawer drawer = null;
     public static Drawer drawerFilter = null;
     public static TabLayout tabLayout;
     private static AppCompatActivity context;
-    private static String drawerPlaces, drawerNature, drawerHall, drawerAbout, drawerSettings, drawerWrong;
     private static TabLayout.Tab tab1, tab2;
     private Toolbar toolbar;
     private AccountHeader drawerHeader;
     private String[] drawerHeaderURLS;
     public static int drawerIndex;
 
-    public static void updateTabTexts(int discover, int bookmarks) {
-        tab1.setText("Discover" + " (" + discover + ")");
-        tab2.setText("Bookmarks" + " (" + bookmarks + ")");
-    }
 
-    public static void setTabTexts(String nameTab1, String nameTab2) {
-        tab1.setText(nameTab1);
-        tab2.setText(nameTab2);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,16 +90,8 @@ public class MainActivity extends AppCompatActivity {
 
         drawerHeaderURLS = getResources().getStringArray(R.array.headerUrl);
 
-        drawerPlaces = getResources().getString(R.string.app_places);
-        drawerNature = getResources().getString(R.string.app_nature);
-        drawerHall = getResources().getString(R.string.app_hall);
-        drawerAbout = getResources().getString(R.string.app_about);
-        drawerSettings = getResources().getString(R.string.app_settings);
-        drawerWrong = getResources().getString(R.string.app_wrong);
-
         drawerHeader = new AccountHeaderBuilder().withActivity(this)
                 .withSelectionFirstLine("Beautiful Places").withSelectionSecondLine("on our Earth")
-                .withTypeface(Utils.customTypeface(context, 1))
                 .withHeightDp(330)
                 .build();
         drawerHeader();
@@ -125,12 +103,12 @@ public class MainActivity extends AppCompatActivity {
                 .withSelectedItem(0)
                 .withToolbar(toolbar)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName(drawerPlaces).withIcon(Icon.gmd_terrain).withIdentifier(0).withBadgeStyle(new BadgeStyle()),
-                        new PrimaryDrawerItem().withName(drawerNature).withIcon(Icon.gmd_public).withIdentifier(1),
-                        new PrimaryDrawerItem().withName(drawerHall).withIcon(Icon.gmd_card_giftcard).withIdentifier(2),
+                        new PrimaryDrawerItem().withName(Constants.DRAWER_PLACES).withIcon(Icon.gmd_terrain).withIdentifier(0).withBadgeStyle(new BadgeStyle()),
+                        new PrimaryDrawerItem().withName(Constants.DRAWER_NATURE).withIcon(Icon.gmd_public).withIdentifier(1),
+                        new PrimaryDrawerItem().withName(Constants.DRAWER_HALL).withIcon(Icon.gmd_card_giftcard).withIdentifier(2),
                         new SectionDrawerItem().withName("Various"),
-                        new SecondaryDrawerItem().withName(drawerAbout).withIcon(Icon.gmd_person).withIdentifier(3),
-                        new SecondaryDrawerItem().withName(drawerSettings).withIcon(Icon.gmd_settings).withIdentifier(4).withSelectable(false)
+                        new SecondaryDrawerItem().withName(Constants.DRAWER_ABOUT).withIcon(Icon.gmd_person).withIdentifier(3),
+                        new SecondaryDrawerItem().withName(Constants.DRAWER_SETTINGS).withIcon(Icon.gmd_settings).withIdentifier(4).withSelectable(false)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -143,21 +121,22 @@ public class MainActivity extends AppCompatActivity {
                                 FragmentTransaction transaction = manager.beginTransaction();
                                 Fragment fragment = null;
                                 Intent intent = null;
-
+                                DrawerLayout drawerLayout = drawer.getDrawerLayout();
                                 drawerIndex = (int) drawerItem.getIdentifier();
 
                                 switch ((int) drawerItem.getIdentifier()) {
 
                                     case 0: fragment = new DrawerPlacesTabs();
+                                        if (Places.getPlacesList() != null && FragmentBookmarks.bookmarks != null)
                                         MainActivity.updateTabTexts(Places.getPlacesList().size(), FragmentBookmarks.bookmarks.size());
                                         break;
 
                                     case 1: fragment = new DrawerPlacesTabs();
-                                        MainActivity.setTabTexts("Sins", "Good Acts");
+                                        MainActivity.setTabTexts(Constants.TAB_SINS, Constants.TAB_GOOD_ACTS);
                                         break;
 
                                     case 2: fragment = new DrawerPlacesTabs();
-                                        MainActivity.setTabTexts("People", "Websites");
+                                        MainActivity.setTabTexts(Constants.TAB_PEOPLE, Constants.TAB_WEBSITES);
                                         break;
 
                                     case 3: fragment = new DrawerAbout();
@@ -170,32 +149,28 @@ public class MainActivity extends AppCompatActivity {
                                 }
 
                                 if (fragment != null) {
-                                    fragment.setRetainInstance(true);
+//                                    fragment.setRetainInstance(true); TODO: WHAT IS THIS DOING?
                                     transaction.replace(R.id.container, fragment);
                                     transaction.commit();
                                     toolbar.setTitle(toolbarTitle(drawerIndex));
 
-                                } else if (intent != null && fragment == null) {
+                                } else if (intent != null) {
                                     startActivity(intent);
                                     drawer.setSelection(0);
                                 }
 
-                                DrawerLayout drawerLayout = drawer.getDrawerLayout();
-
-                                Log.d("MainActivity", "onItemClick: Drawer: " + drawerIndex);
-
                                 if (drawerFilter != null)
                                     drawerFilter.setSelection(0);
 
-                                if (drawerIndex == 0 || drawerIndex < 3)
-                                    tabLayout.setVisibility(View.VISIBLE);
+                                if (drawerIndex > 2)
+                                    tabLayout.setVisibility(View.GONE);
+                                else tabLayout.setVisibility(View.VISIBLE);
 
-                                else tabLayout.setVisibility(View.GONE);
-
-                                if (drawerIndex == 0)
-                                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
-                                else
+                                if (drawerIndex > 0)
                                     drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
+
+                                else
+                                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED, Gravity.RIGHT);
 
                             }
                         }
@@ -277,11 +252,11 @@ public class MainActivity extends AppCompatActivity {
                                 case 207: FilterLogic.filterList(Constants.CONTINENT_SOUTH_AMERICA);
                                     break;
                                 case 999:
-                                    FilterLogic.filterList("All");
+                                    FilterLogic.filterList(Constants.NO_FILTER);
                                     drawerFilter.setSelection(0);
                                     break;
                                 default:
-                                    FilterLogic.filterList("All");
+                                    FilterLogic.filterList(Constants.NO_FILTER);
                                     drawerFilter.setSelection(0);
                                     break;
                             }
@@ -296,21 +271,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     public String toolbarTitle(int index) {
 
         switch (index) {
-            case 0:
-                return drawerPlaces;
-            case 1:
-                return drawerNature;
-            case 2:
-                return drawerHall;
-            case 3:
-                return drawerAbout;
-            case 4:
-                return drawerSettings;
-            default:
-                return drawerWrong;
+
+            case 0: return Constants.DRAWER_PLACES;
+            case 1: return Constants.DRAWER_NATURE;
+            case 2: return Constants.DRAWER_HALL;
+            case 3: return Constants.DRAWER_ABOUT;
+            case 4: return Constants.DRAWER_SETTINGS;
+
+            default: return Constants.DRAWER_WRONG;
         }
     }
 
@@ -330,6 +302,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public static void updateTabTexts(int discover, int bookmarks) {
+        tab1.setText(Constants.TAB_PLACES + "   ⋗ " + discover + " ⋖");
+        tab2.setText(Constants.TAB_BOOKMARKS + "   ⋗ " + bookmarks + " ⋖");
+    }
+
+    public static void setTabTexts(String nameTab1, String nameTab2) {
+        tab1.setText(nameTab1);
+        tab2.setText(nameTab2);
+    }
+
     public AccountHeader drawerHeader() {
 
         final ImageView cover = drawerHeader.getHeaderBackgroundView();
@@ -338,7 +320,7 @@ public class MainActivity extends AppCompatActivity {
 
         Glide.with(context)
                 .load(randomURL)
-                .override(1512, 1288)
+                .override(1012, 788)
                 .centerCrop()
                 .into(cover);
 

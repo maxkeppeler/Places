@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 
 public class DrawerPlacesTabs extends Fragment {
 
-    private static final String TAG = DrawerPlacesTabs.class.getName();
+    private static final String TAG = "DrawerPlacesTabs";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,18 +50,21 @@ public class DrawerPlacesTabs extends Fragment {
                 2. Hide System Soft Keyboard automatically
                 */
 
-                if (tab.getPosition() == 1)
-                    if (FragmentPlaces.filter != null && !FragmentPlaces.sv.isIconified()) {
-                        FragmentPlaces.updateLayout(false, null);
-                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    }
-                if (tab.getPosition() == 0) {
-                    if (FragmentBookmarks.filter != null && !FragmentBookmarks.sv.isIconified()) {
-                        FragmentBookmarks.updateLayout(false, null);
-                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                if (MainActivity.drawerIndex == 0) {
+
+
+                    if (tab.getPosition() == 1)
+                        if (FragmentPlaces.filter != null && !FragmentPlaces.sv.isIconified()) {
+                            FragmentPlaces.updateLayout(false, null);
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        }
+                    if (tab.getPosition() == 0) {
+                        if (FragmentBookmarks.filter != null && !FragmentBookmarks.sv.isIconified()) {
+                            FragmentBookmarks.updateLayout(false, null);
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        }
                     }
                 }
-
             }
 
             @Override

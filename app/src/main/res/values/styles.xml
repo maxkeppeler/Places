@@ -26,9 +26,7 @@
         <item name="material_drawer_divider">@color/material_drawer_divider</item>
         <item name="material_drawer_selected">@color/material_drawer_selected</item>
         <item name="material_drawer_selected_text">@color/material_drawer_selected_text</item>
-        <item name="material_drawer_header_selection_text">
-            @color/material_drawer_header_selection_text
-        </item>
+        <item name="material_drawer_header_selection_text">@color/material_drawer_header_selection_text</item>
     </style>
 
     <style name="DetailView" parent="Theme.AppCompat.Light.NoActionBar">
@@ -46,11 +44,7 @@
     </style>
 
     <style name="GalleryView" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowTranslucentNavigation">true</item>
-        <item name="android:windowContentOverlay">@null</item>
         <item name="android:colorBackground">@color/backgroundColorDarker</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
@@ -64,6 +58,9 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
 
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowNoTitle">true</item>
 
         <!--ANDROID N BACKGROUND COLOR WHEN RESIZING-->
         <!--<item name="android:windowBackgroundFallback">@color/navigationBarColor</item>-->
