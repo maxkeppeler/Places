@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import com.mk.places.activities.MainActivity;
 import com.mk.places.fragment.DrawerEmpty;
 import com.mk.places.fragment.FragmentBookmarks;
+import com.mk.places.fragment.FragmentDisasters;
+import com.mk.places.fragment.FragmentGoodActs;
 import com.mk.places.fragment.FragmentPlaces;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
@@ -35,11 +37,13 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
         if (MainActivity.drawerIndex == 1) {
 
+
             switch (position) {
+
                 case 0:
-                    return new DrawerEmpty();
+                    return new FragmentDisasters();
                 case 1:
-                    return new DrawerEmpty();
+                    return new FragmentGoodActs();
                 default:
                     return null;
             }

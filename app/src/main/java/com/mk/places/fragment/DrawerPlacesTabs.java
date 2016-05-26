@@ -51,8 +51,6 @@ public class DrawerPlacesTabs extends Fragment {
                 */
 
                 if (MainActivity.drawerIndex == 0) {
-
-
                     if (tab.getPosition() == 1)
                         if (FragmentPlaces.filter != null && !FragmentPlaces.sv.isIconified()) {
                             FragmentPlaces.updateLayout(false, null);

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
@@ -62,13 +63,13 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
                 city = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_location_city).color(color).sizeDp(size),
                 country = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_terrain).color(color).sizeDp(size),
                 nationalPark = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_nature).color(color).sizeDp(size),
-                park = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_nature_people).color(color).sizeDp(size),
                 misc = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_more).color(color).sizeDp(size);
 
 
         Glide.with(context)
-                .load(url[0])
-                .override(1000, 800)
+                .load(url[0] != null ? url[0] :  place.getUrl())
+                .override(1000, 700)
+                .priority(Priority.IMMEDIATE)
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
                     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
@@ -96,23 +97,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
         if (Utils.compareStrings(sight, Constants.SIGHT_NATIONAL_PARK))
             holder.drawable.setBackground(nationalPark);
 
-        if (Utils.compareStrings(sight, Constants.SIGHT_PARK))
-            holder.drawable.setBackground(park);
-
-        if (Utils.compareStrings(sight, Constants.SIGHT_BEACH))
-            holder.drawable.setBackground(misc);
-
-        if (Utils.compareStrings(sight, Constants.SIGHT_LAKE))
-            holder.drawable.setBackground(misc);
-
-        if (Utils.compareStrings(sight, Constants.SIGHT_DESERT))
-            holder.drawable.setBackground(misc);
-
-        if (Utils.compareStrings(sight, Constants.SIGHT_GEYSER))
-            holder.drawable.setBackground(misc);
-
-        if (Utils.compareStrings(sight, Constants.SIGHT_LANDFORM))
-            holder.drawable.setBackground(misc);
+        else holder.drawable.setBackground(misc);
     }
 
     @Override

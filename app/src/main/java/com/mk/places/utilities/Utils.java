@@ -63,8 +63,8 @@ public class Utils extends Activity {
 
     public static boolean stringIsContained(String string_1, String string_2) {
 
-        return string_1.toLowerCase().replace(" ", "").replace(",", "")
-                .contains(string_2.toLowerCase().replace(" ", "").replace(",", ""));
+        return string_2.toLowerCase().replace(" ", "").replace(",", " ")
+                .contains(string_1.toLowerCase().replace(" ", "").replace(",", " "));
     }
 
     public static Typeface customTypeface(Context context, int index) {
@@ -119,13 +119,22 @@ public class Utils extends Activity {
 
     public static int colorFromPalette(Context context, Palette palette) {
 
+//        final int defaultColor = context.getResources().getColor(R.color.colorPrimary);
+//        int mutedLight = palette.getLightMutedColor(defaultColor);
+//        int vibrantLight = palette.getLightVibrantColor(mutedLight);
+//        int mutedDark = palette.getDarkMutedColor(vibrantLight);
+//        int muted = palette.getMutedColor(mutedDark);
+//        int vibrantDark = palette.getDarkVibrantColor(muted);
+//        return palette.getVibrantColor(vibrantDark);
+
+
         final int defaultColor = context.getResources().getColor(R.color.colorPrimary);
         int mutedLight = palette.getLightMutedColor(defaultColor);
         int vibrantLight = palette.getLightVibrantColor(mutedLight);
-        int mutedDark = palette.getDarkMutedColor(vibrantLight);
-        int muted = palette.getMutedColor(mutedDark);
-        int vibrantDark = palette.getDarkVibrantColor(muted);
-        return palette.getVibrantColor(vibrantDark);
+        int muted = palette.getMutedColor(vibrantLight);
+        int virbrant = palette.getVibrantColor(muted);
+        int mutedDark = palette.getDarkMutedColor(virbrant);
+        return palette.getDarkVibrantColor(mutedDark);
     }
 
     public static void simpleSnackBar(Activity activity, int color, int view, int text, int length) {

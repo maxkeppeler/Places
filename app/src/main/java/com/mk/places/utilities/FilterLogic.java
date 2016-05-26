@@ -28,8 +28,8 @@ public class FilterLogic {
             }
 
             for (int j = 0; j < Places.getPlacesList().size(); j++) {
-                if (key.equals(Places.getPlacesList().get(j).getSight())
-                        || key.equals(Places.getPlacesList().get(j).getContinent())) {
+                if (Utils.stringIsContained(key, Places.getPlacesList().get(j).getSight()) || Utils.stringIsContained(key, Places.getPlacesList().get(j).getContinent())) {
+
                     filterPlaces.add(y, Places.getPlacesList().get(j));
                     y++;
                 }
@@ -44,7 +44,6 @@ public class FilterLogic {
 
             FragmentPlaces.updateLayout(false, null);
             FragmentBookmarks.updateLayout(false, null);
-
             MainActivity.updateTabTexts(Places.getPlacesList().size(), FragmentBookmarks.bookmarks.size());
         }
 

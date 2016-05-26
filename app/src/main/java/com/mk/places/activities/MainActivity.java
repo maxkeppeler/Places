@@ -52,8 +52,6 @@ public class MainActivity extends AppCompatActivity {
     private String[] drawerHeaderURLS;
     public static int drawerIndex;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,21 +120,23 @@ public class MainActivity extends AppCompatActivity {
                                 Fragment fragment = null;
                                 Intent intent = null;
                                 DrawerLayout drawerLayout = drawer.getDrawerLayout();
+
                                 drawerIndex = (int) drawerItem.getIdentifier();
 
-                                switch ((int) drawerItem.getIdentifier()) {
+                                switch (drawerIndex) {
 
                                     case 0: fragment = new DrawerPlacesTabs();
+                                        setTabTexts(Constants.TAB_DISASTERS, Constants.TAB_GOOD_ACTS);
                                         if (Places.getPlacesList() != null && FragmentBookmarks.bookmarks != null)
-                                        MainActivity.updateTabTexts(Places.getPlacesList().size(), FragmentBookmarks.bookmarks.size());
+                                        updateTabTexts(Places.getPlacesList().size(), FragmentBookmarks.bookmarks.size());
                                         break;
 
                                     case 1: fragment = new DrawerPlacesTabs();
-                                        MainActivity.setTabTexts(Constants.TAB_SINS, Constants.TAB_GOOD_ACTS);
+                                        setTabTexts(Constants.TAB_DISASTERS, Constants.TAB_GOOD_ACTS);
                                         break;
 
                                     case 2: fragment = new DrawerPlacesTabs();
-                                        MainActivity.setTabTexts(Constants.TAB_PEOPLE, Constants.TAB_WEBSITES);
+                                        setTabTexts(Constants.TAB_PEOPLE, Constants.TAB_WEBSITES);
                                         break;
 
                                     case 3: fragment = new DrawerAbout();
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
 
                                 if (fragment != null) {
-//                                    fragment.setRetainInstance(true); TODO: WHAT IS THIS DOING?
+                                    fragment.setRetainInstance(true);
                                     transaction.replace(R.id.container, fragment);
                                     transaction.commit();
                                     toolbar.setTitle(toolbarTitle(drawerIndex));
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
 
                                 if (drawerFilter != null)
-                                    drawerFilter.setSelection(0);
+                                    drawerFilter.setSelection(Constants.NO_SELECTION);
 
                                 if (drawerIndex > 2)
                                     tabLayout.setVisibility(View.GONE);
@@ -190,76 +190,64 @@ public class MainActivity extends AppCompatActivity {
                 .addDrawerItems(
 
                         new SectionDrawerItem().withName(Constants.SIGHT).withDivider(false),
-                        new SecondaryDrawerItem().withName(Constants.SIGHT_CITY).withLevel(2).withIcon(Icon.gmd_location_city).withIdentifier(101),
-                        new SecondaryDrawerItem().withName(Constants.SIGHT_COUNTRY).withLevel(2).withIcon(Icon.gmd_terrain).withIdentifier(102),
-                        new SecondaryDrawerItem().withName(Constants.SIGHT_NATIONAL_PARK).withLevel(2).withIcon(Icon.gmd_nature).withIdentifier(103),
-                        new SecondaryDrawerItem().withName(Constants.SIGHT_PARK).withLevel(2).withIcon(Icon.gmd_nature_people).withIdentifier(104),
-                        new SecondaryDrawerItem().withName(Constants.SIGHT_BEACH).withLevel(2).withIcon(Icon.gmd_beach_access).withIdentifier(105),
-                        new SecondaryDrawerItem().withName(Constants.SIGHT_LAKE).withLevel(2).withIcon(Icon.gmd_more).withIdentifier(106),
-                        new SecondaryDrawerItem().withName(Constants.SIGHT_GEYSER).withLevel(2).withIcon(Icon.gmd_more).withIdentifier(107),
-                        new SecondaryDrawerItem().withName(Constants.SIGHT_LANDFORM).withLevel(2).withIcon(Icon.gmd_more).withIdentifier(108),
-                        new SecondaryDrawerItem().withName(Constants.SIGHT_DESERT).withLevel(2).withIcon(Icon.gmd_more).withIdentifier(109),
+                        new SecondaryDrawerItem().withName(Constants.SIGHT_CITY).withLevel(2).withIcon(Icon.gmd_location_city).withIdentifier(Constants.ID_CITY),
+                        new SecondaryDrawerItem().withName(Constants.SIGHT_COUNTRY).withLevel(2).withIcon(Icon.gmd_terrain).withIdentifier(Constants.ID_COUNTRY),
+                        new SecondaryDrawerItem().withName(Constants.SIGHT_ISLAND).withLevel(2).withIcon(Icon.gmd_more).withIdentifier(Constants.ID_ISLAND),
+                        new SecondaryDrawerItem().withName(Constants.SIGHT_NATIONAL_PARK).withLevel(2).withIcon(Icon.gmd_nature).withIdentifier(Constants.ID_NATIONALR_PARK),
+                        new SecondaryDrawerItem().withName(Constants.SIGHT_GARDEN).withLevel(2).withIcon(Icon.gmd_more).withIdentifier(Constants.ID_GARDEN),
+                        new SecondaryDrawerItem().withName(Constants.SIGHT_CAVE).withLevel(2).withIcon(Icon.gmd_more).withIdentifier(Constants.ID_CAVE),
+                        new SecondaryDrawerItem().withName(Constants.SIGHT_BEACH).withLevel(2).withIcon(Icon.gmd_beach_access).withIdentifier(Constants.ID_BEACH),
+                        new SecondaryDrawerItem().withName(Constants.SIGHT_LAKE).withLevel(2).withIcon(Icon.gmd_more).withIdentifier(Constants.ID_LAKE),
+                        new SecondaryDrawerItem().withName(Constants.SIGHT_RIVER).withLevel(2).withIcon(Icon.gmd_more).withIdentifier(Constants.ID_RIVER),
+                        new SecondaryDrawerItem().withName(Constants.SIGHT_GEYSER).withLevel(2).withIcon(Icon.gmd_more).withIdentifier(Constants.ID_GEYSER),
+                        new SecondaryDrawerItem().withName(Constants.SIGHT_LANDFORM).withLevel(2).withIcon(Icon.gmd_more).withIdentifier(Constants.ID_LANDFORM),
+                        new SecondaryDrawerItem().withName(Constants.SIGHT_DESERT).withLevel(2).withIcon(Icon.gmd_more).withIdentifier(Constants.ID_DESERT),
 
                         new SectionDrawerItem().withName(Constants.CONTINENT).withDivider(false),
-                        new SecondaryDrawerItem().withName(Constants.CONTINENT_AFRICA).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(201),
-                        new SecondaryDrawerItem().withName(Constants.CONTINENT_ANTARCTICA).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(202),
-                        new SecondaryDrawerItem().withName(Constants.CONTINENT_ASIA).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(203),
-                        new SecondaryDrawerItem().withName(Constants.CONTINENT_AUSTRALIA).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(204),
-                        new SecondaryDrawerItem().withName(Constants.CONTINENT_EUROPE).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(205),
-                        new SecondaryDrawerItem().withName(Constants.CONTINENT_NORTH_AMERICA).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(206),
-                        new SecondaryDrawerItem().withName(Constants.CONTINENT_SOUTH_AMERICA).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(207)
+                        new SecondaryDrawerItem().withName(Constants.CONTINENT_AFRICA).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(Constants.ID_AFRICA),
+                        new SecondaryDrawerItem().withName(Constants.CONTINENT_ANTARCTICA).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(Constants.ID_ANTARCTICA),
+                        new SecondaryDrawerItem().withName(Constants.CONTINENT_ASIA).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(Constants.ID_ASIA),
+                        new SecondaryDrawerItem().withName(Constants.CONTINENT_AUSTRALIA).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(Constants.ID_AUSTRALIA),
+                        new SecondaryDrawerItem().withName(Constants.CONTINENT_EUROPE).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(Constants.ID_EUROPE),
+                        new SecondaryDrawerItem().withName(Constants.CONTINENT_NORTH_AMERICA).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(Constants.ID_NORTH_AMERICA),
+                        new SecondaryDrawerItem().withName(Constants.CONTINENT_SOUTH_AMERICA).withLevel(2).withIcon(Icon.gmd_map).withIdentifier(Constants.ID_SOUTH_AMERICA)
 
                 ).addStickyDrawerItems(
-                        new PrimaryDrawerItem().withName("Reset Filter").withSelectable(false).withIcon(Icon.gmd_clear_all).withIdentifier(999)
+                        new PrimaryDrawerItem().withName("Reset Filter").withSelectable(false).withIcon(Icon.gmd_clear_all).withIdentifier(Constants.ID_ALL)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if (drawerItem instanceof Nameable) {
 
-                            switch ((int) drawerItem.getIdentifier()) {
+                            long pos = drawerItem.getIdentifier();
 
-                                case 101: FilterLogic.filterList(Constants.SIGHT_CITY);
-                                    break;
-                                case 102: FilterLogic.filterList(Constants.SIGHT_COUNTRY);
-                                    break;
-                                case 103: FilterLogic.filterList(Constants.SIGHT_NATIONAL_PARK);
-                                    break;
-                                case 104: FilterLogic.filterList(Constants.SIGHT_PARK);
-                                    break;
-                                case 105: FilterLogic.filterList(Constants.SIGHT_BEACH);
-                                    break;
-                                case 106: FilterLogic.filterList(Constants.SIGHT_LAKE);
-                                    break;
-                                case 107: FilterLogic.filterList(Constants.SIGHT_GEYSER);
-                                    break;
-                                case 108: FilterLogic.filterList(Constants.SIGHT_LANDFORM);
-                                    break;
-                                case 109: FilterLogic.filterList(Constants.SIGHT_DESERT);
-                                    break;
-                                case 201: FilterLogic.filterList(Constants.CONTINENT_AFRICA);
-                                    break;
-                                case 202: FilterLogic.filterList(Constants.CONTINENT_ANTARCTICA);
-                                    break;
-                                case 203: FilterLogic.filterList(Constants.CONTINENT_ASIA);
-                                    break;
-                                case 204: FilterLogic.filterList(Constants.CONTINENT_AUSTRALIA);
-                                    break;
-                                case 205: FilterLogic.filterList(Constants.CONTINENT_EUROPE);
-                                    break;
-                                case 206: FilterLogic.filterList(Constants.CONTINENT_NORTH_AMERICA);
-                                    break;
-                                case 207: FilterLogic.filterList(Constants.CONTINENT_SOUTH_AMERICA);
-                                    break;
-                                case 999:
-                                    FilterLogic.filterList(Constants.NO_FILTER);
-                                    drawerFilter.setSelection(0);
-                                    break;
-                                default:
-                                    FilterLogic.filterList(Constants.NO_FILTER);
-                                    drawerFilter.setSelection(0);
-                                    break;
+                            if (pos == Constants.ID_CITY) FilterLogic.filterList(Constants.SIGHT_CITY);
+                            if (pos == Constants.ID_COUNTRY) FilterLogic.filterList(Constants.SIGHT_COUNTRY);
+                            if (pos == Constants.ID_NATIONALR_PARK) FilterLogic.filterList(Constants.SIGHT_NATIONAL_PARK);
+                            if (pos == Constants.ID_GARDEN) FilterLogic.filterList(Constants.SIGHT_GARDEN);
+                            if (pos == Constants.ID_CAVE) FilterLogic.filterList(Constants.SIGHT_CAVE);
+                            if (pos == Constants.ID_BEACH) FilterLogic.filterList(Constants.SIGHT_BEACH);
+                            if (pos == Constants.ID_LAKE) FilterLogic.filterList(Constants.SIGHT_LAKE);
+                            if (pos == Constants.ID_RIVER) FilterLogic.filterList(Constants.SIGHT_RIVER);
+                            if (pos == Constants.ID_DESERT) FilterLogic.filterList(Constants.SIGHT_DESERT);
+                            if (pos == Constants.ID_GEYSER) FilterLogic.filterList(Constants.SIGHT_GEYSER);
+                            if (pos == Constants.ID_LANDFORM) FilterLogic.filterList(Constants.SIGHT_LANDFORM);
+                            if (pos == Constants.ID_ISLAND) FilterLogic.filterList(Constants.SIGHT_ISLAND);
+
+                            if (pos == Constants.ID_AFRICA) FilterLogic.filterList(Constants.CONTINENT_AFRICA);
+                            if (pos == Constants.ID_ANTARCTICA) FilterLogic.filterList(Constants.CONTINENT_ANTARCTICA);
+                            if (pos == Constants.ID_ASIA) FilterLogic.filterList(Constants.CONTINENT_ASIA);
+                            if (pos == Constants.ID_AUSTRALIA) FilterLogic.filterList(Constants.CONTINENT_AUSTRALIA);
+                            if (pos == Constants.ID_EUROPE) FilterLogic.filterList(Constants.CONTINENT_EUROPE);
+                            if (pos == Constants.ID_NORTH_AMERICA) FilterLogic.filterList(Constants.CONTINENT_NORTH_AMERICA);
+                            if (pos == Constants.ID_SOUTH_AMERICA) FilterLogic.filterList(Constants.CONTINENT_SOUTH_AMERICA);
+
+                            if (pos == Constants.ID_ALL) {
+                                FilterLogic.filterList(Constants.NO_FILTER);
+                                drawerFilter.setSelection(Constants.NO_SELECTION);
                             }
+
                         }
                         return false;
                     }
@@ -267,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
                 .withDrawerGravity(Gravity.END)
                 .append(drawer);
 
-        if (drawerFilter != null) drawerFilter.setSelection(0);
+        if (drawerFilter != null) drawerFilter.setSelection(Constants.NO_SELECTION);
 
     }
 
@@ -303,8 +291,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void updateTabTexts(int discover, int bookmarks) {
-        tab1.setText(Constants.TAB_PLACES + "   ⋗ " + discover + " ⋖");
-        tab2.setText(Constants.TAB_BOOKMARKS + "   ⋗ " + bookmarks + " ⋖");
+        tab1.setText(Constants.TAB_PLACES + " (" + discover + ")");
+        tab2.setText(Constants.TAB_BOOKMARKS + " (" + bookmarks + ")" );
     }
 
     public static void setTabTexts(String nameTab1, String nameTab2) {

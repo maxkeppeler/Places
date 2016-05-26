@@ -15,21 +15,21 @@
 
     <string-array name="appButtonNames">
         <item>Rate Places</item>
-        <item>Website</item>
-        <item>Facebook</item>
+        <!--<item>Website</item>-->
+        <!--<item>Facebook</item>-->
     </string-array>
 
     <string-array name="appButtonLinks">
         <item>https://play.google.com/store/apps/dev?id=9187145836369403051</item>
-        <item>https://www.places.com</item>
-        <item>https://www.facebook.com/places</item>
+        <!--<item>https://www.places.com</item>-->
+        <!--<item>https://www.facebook.com/places</item>-->
     </string-array>
 
 
     <!-- ////////////   TEAM MEMBERS & SUPPORTERS   \\\\\\\\\\\\\ -->
 
     <array name="mImage">
-        <item>https://lh3.googleusercontent.com/96tq0BPXUzmiJrgCZQqKlBj-qbk6-Tc7mE4jDp8k_OIzC0HYH7gxEZ4E18EZvJTpThQXViAzFUx27zF4_nrxzwKIxG8R6ouiXS3drBNJG_3hmhR1I9K3cumXNovwLNoCx9oc4z0Km1Ly0gsPUsPquQnoQaDP2BDa1L4ffy3igqdAFlf-xr6bkyVHFnXQqCygHG8PYK5SW9C_PxdH-2c2FdbWRvvo2iHzNV1BFSSDnbZs0-6ybO2uNl_JtSXOGmO71orEBKk0g-vlRLYL-Wwg6DI0tBtgAmFcuJlox0NtxxhYcNaSsiSk-55tsJ1GlWPjW7gpxuXxZ19feP6ut0X0ZwlRJsWEiflOAs2uxMigxmdyljipzKNPpqhz5o8QqKO7vnuwPJibHnkusgrz82SHAFxDTzuR35y2GferPBpgZq_BU35JOnpkohoe39pRnz_FOMElRzM_8jlyZ-g61X69LOntOL6KdWEP9mnJpplngYM0W4NGEcu3mRnRsXzlqU2XLZHtcUdx_Y0-qWGXtNtcQoyE1WkiGOJRCi740Ny63SmgPUBolW77gvTQnl5HhslR004rbc34uBuj5cdTpoDq55hpdrqc0FiF=s1522-no</item>
+        <item>https://lh3.googleusercontent.com/t87ehz0aDkpEi7WH9DsqyjjKC34h9cTE7dBLJ1aWxRPkFXVpRSwXC-KwpBBgIgUWPPzTGMHdB8ByYdifMZQlPVo7Ee8JWzZxi5TXr68zlkevfWz1B2mCPP4rwuuJIyef5aZTVcPcJAb35bihP2YKv-yeZfUbQ1ui2RCW3JivDFQwf-ywAvCP_g33M-llXw4evDJve_6EcOWc4_sK-RoAzA7TABxdtZLjLlI_nfqt0bZOUc2arfaibSsgQLxP9_0b7NuWMEy3A76xEu-p6H9IaA9_WbjFKOrAhFKdyPdlmPrSD-2yRa_dk_KaRoK1m87KpJ9AihhmY7tM4G8LMvI1hRLTy54-TEH1L-cD6aHAfva_ISAWaEet_uTKlwBJfvCs92L0G8ec2DjZfKUw_kB2gn2UxxDxvgvfJg2wDMzr2r0mohh4Nh4Vkct_Dz8xPnTnrSExBET-bKPLRyIiFXxETY7iJryrAvOP8eBfTZ7_3TgJy0B0FxSsyG_aBIX26KhJwB3vh5m2aLWTT5MmsKhBqNHN3gYb0Dpl2KjQuy7QQDuslvdO-ETavEytM9E2aUmx8erYr7jrdxLlokU7HLBDxMwiGPSgUWD_=s334-no</item>
         <item>https://lh3.googleusercontent.com/5dOaLh_fdXXLAjrKKTnddqCL7Q-r4F_0r-myj-t6gIj872QH3eKQYwB7W3372WGzy5kTyylzOw=w6337-h3961-rw-no</item>
         <item>https://lh3.googleusercontent.com/-IspNqtIzYEs/AAAAAAAAAAI/AAAAAAAAkvk/_YzeYcLmB2I/s133-p-rw-no/photo.jpg</item>
         <item>https://lh3.googleusercontent.com/-mMe9cCCcm3Q/AAAAAAAAAAI/AAAAAAABFQs/1AaLkd3li4U/s282-p-k-rw-no/photo.jpg</item>

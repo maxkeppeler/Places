@@ -20,25 +20,29 @@ public class Constants {
     // Tab Layout
     public static final String TAB_PLACES = "Places";
     public static final String TAB_BOOKMARKS = "Bookmarks";
-    public static final String TAB_SINS = "Sins";
+    public static final String TAB_DISASTERS = "disasters";
     public static final String TAB_GOOD_ACTS = "Good Acts";
     public static final String TAB_PEOPLE = "People";
     public static final String TAB_WEBSITES = "Websites";
 
     // Drawer Filter Misc
     public static final String NO_FILTER = "Nope";
+    public static final int NO_SELECTION = 99999999;
 
     // Sights for Drawer Filter
     public static final String SIGHT = "Sight";
     public static final String SIGHT_CITY = "City";
     public static final String SIGHT_COUNTRY = "Country";
     public static final String SIGHT_NATIONAL_PARK = "National Park";
-    public static final String SIGHT_PARK = "Park";
+    public static final String SIGHT_GARDEN = "Garden";
+    public static final String SIGHT_CAVE = "Cave";
     public static final String SIGHT_BEACH = "Beach";
     public static final String SIGHT_LAKE = "Lake";
+    public static final String SIGHT_RIVER = "River";
     public static final String SIGHT_DESERT = "Desert";
     public static final String SIGHT_GEYSER = "Geyser";
     public static final String SIGHT_LANDFORM = "Landform";
+    public static final String SIGHT_ISLAND = "Island";
 
     // Continents for Drawer Filter
     public static final String CONTINENT = "Continent";
@@ -57,5 +61,30 @@ public class Constants {
     public static final String DRAWER_ABOUT = "About";
     public static final String DRAWER_SETTINGS = "Settings";
     public static final String DRAWER_WRONG = "Where are you?";
+
+    public static final long ID_CITY = 0;
+    public static final long ID_COUNTRY = 1;
+    public static final long ID_NATIONALR_PARK = 2;
+    public static final long ID_GARDEN = 3;
+    public static final long ID_CAVE = 4;
+    public static final long ID_BEACH = 5;
+    public static final long ID_LAKE = 6;
+    public static final long ID_RIVER = 7;
+    public static final long ID_DESERT = 8;
+    public static final long ID_GEYSER = 9;
+    public static final long ID_LANDFORM = 10;
+    public static final long ID_ISLAND = 11;
+
+    public static final long ID_AFRICA = 200;
+    public static final long ID_ANTARCTICA = 201;
+    public static final long ID_ASIA = 202;
+    public static final long ID_AUSTRALIA = 203;
+    public static final long ID_EUROPE = 204;
+    public static final long ID_NORTH_AMERICA = 205;
+    public static final long ID_SOUTH_AMERICA = 206;
+
+    public static final long ID_ALL = 9999999;
+
+
 
 }

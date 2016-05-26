@@ -33,7 +33,7 @@ public class CreditsAdapter extends RecyclerView.Adapter<CreditsAdapter.ViewHold
         holder.creditsTitle.setText(credtisData[index].getTitle());
         holder.creditsDesc.setText(credtisData[index].getDesc());
 
-        holder.creditsTitle.setTypeface(Utils.customTypeface(context, 3));
+        holder.creditsTitle.setTypeface(Utils.customTypeface(context, 2));
         holder.creditsDesc.setTypeface(Utils.customTypeface(context, 2));
 
         holder.creditsLayout.setTag(credtisData[index].getTag());

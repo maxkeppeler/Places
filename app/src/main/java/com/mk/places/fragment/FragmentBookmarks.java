@@ -27,6 +27,7 @@ import com.mk.places.activities.PlaceView;
 import com.mk.places.adapters.PlaceAdapter;
 import com.mk.places.models.Place;
 import com.mk.places.models.Places;
+import com.mk.places.utilities.Constants;
 
 import java.util.ArrayList;
 
@@ -206,6 +207,6 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
     public void onRefresh() {
         mRecyclerView.setVisibility(View.INVISIBLE);
         loadBookmarks(context);
-        MainActivity.drawerFilter.setSelection(0);
+        MainActivity.drawerFilter.setSelection(Constants.NO_SELECTION);
     }
 }

@@ -24,7 +24,8 @@ import com.mk.places.activities.PlaceView;
 import com.mk.places.adapters.PlaceAdapter;
 import com.mk.places.models.Place;
 import com.mk.places.models.Places;
-import com.mk.places.threads.ParsePlacesJSON;
+import com.mk.places.threads.PlacesJSON;
+import com.mk.places.utilities.Constants;
 import com.mk.places.utilities.Preferences;
 
 import java.util.ArrayList;
@@ -88,7 +89,7 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
 
     public static void loadPlacesList(Activity context) {
 
-        new ParsePlacesJSON(context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new PlacesJSON(context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
     }
 
@@ -179,9 +180,11 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
 
     @Override
     public void onRefresh() {
+        mAdapter.notifyDataSetChanged();
         mRecyclerView.setVisibility(View.INVISIBLE);
         loadPlacesList(context);
-        MainActivity.drawerFilter.setSelection(0);
+        MainActivity.drawerFilter.setSelection(Constants.NO_SELECTION);
+
     }
 
 }

@@ -18,14 +18,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class ParsePlacesJSON extends AsyncTask<Void, Void, Void> {
+public class PlacesJSON extends AsyncTask<Void, Void, Void> {
 
     private final static ArrayList<Place> places = new ArrayList<>();
-    private static final String TAG = ParsePlacesJSON.class.getName();
+    private static final String TAG = "PlacesJSON";
     private long startTime;
     private Activity context;
 
-    public ParsePlacesJSON(Activity context) {
+    public PlacesJSON(Activity context) {
         this.context = context;
     }
 
@@ -74,7 +74,7 @@ public class ParsePlacesJSON extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void args) {
-        Log.d(TAG, "Task took " + String.valueOf((System.currentTimeMillis() - startTime) / 1000) + " seconds");
+        Log.d(TAG, "Task took " + String.valueOf((System.currentTimeMillis() - startTime) / 1000) + " seconds. Loaded Places: " + Places.getPlacesList().size());
 
         FragmentPlaces.updateLayout(false, null);
 

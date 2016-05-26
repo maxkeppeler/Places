@@ -33,7 +33,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
         if (!url[index].isEmpty() || url.length > 3)
         Glide.with(context)
                 .load(url[index])
-                .override(800, 800)
+                .override(400, 400)
                 .centerCrop()
                 .into(holder.viewImage);
     }

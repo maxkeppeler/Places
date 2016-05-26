@@ -50,17 +50,9 @@
     <string name="storagePositive">Ok</string>
     <string name="storageNegative">No</string>
 
-
-    <!-- ////////////   APP SECTIONS   \\\\\\\\\\\\\ -->
-
-    <!-- JSONS -->
-
-    <!--GOOGLE DRIVE JSON LINK
-    https://drive.google.com/file/d/0B6ky9fzTGl9XNFBhTTlxU2hhQmM/view?usp=sharing
-    https://drive.google.com/uc?id=  0B6ky9fzTGl9XNFBhTTlxU2hhQmM
-    -->
-
-    <string name="Places_JSON">https://drive.google.com/uc?id=0B6ky9fzTGl9XNFBhTTlxU2hhQmM</string>
+    <!-- ////////////   JSONS   \\\\\\\\\\\\\ -->
+    <string name="Places_JSON">http://www.maximiliankeppeler.com/JSON/Places.json</string>
+    <string name="Sins_JSON">http://www.maximiliankeppeler.com/JSON/Nature.json</string>
 
     <!-- LAUNCH INTENT-->
     <string name="launch_word_search">"http://www.google.com/search?q="</string>
