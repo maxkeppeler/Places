@@ -78,10 +78,10 @@ public class PlacesJSON extends AsyncTask<Void, Void, Void> {
 
         FragmentPlaces.updateLayout(false, null);
 
-        if (FragmentPlaces.mRefreshLayout != null)
-            FragmentPlaces.mRefreshLayout.setRefreshing(false);
+        if (FragmentPlaces.refreshLayout != null)
+            FragmentPlaces.refreshLayout.setRefreshing(false);
 
-        FragmentPlaces.mRecyclerView.setVisibility(View.VISIBLE);
+        FragmentPlaces.recyclerView.setVisibility(View.VISIBLE);
 
         FragmentBookmarks.loadBookmarks(context);
     }

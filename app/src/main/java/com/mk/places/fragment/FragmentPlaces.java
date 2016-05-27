@@ -32,11 +32,11 @@ import java.util.ArrayList;
 public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "FragmentPlaces";
-    public static SwipeRefreshLayout mRefreshLayout;
+    public static SwipeRefreshLayout refreshLayout;
     public static ArrayList<Place> filter = new ArrayList<>();
     public static SearchView searchView;
-    public static RecyclerView mRecyclerView;
-    private static PlaceAdapter mAdapter;
+    public static RecyclerView recyclerView;
+    private static PlaceAdapter placeAdapter;
     private static Activity context;
     private Menu placesMenu;
 
@@ -48,7 +48,7 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
 
                 @Override
                 public void run() {
-                    mAdapter = new PlaceAdapter(context, new PlaceAdapter.ClickListener() {
+                    placeAdapter = new PlaceAdapter(context, new PlaceAdapter.ClickListener() {
 
                         @Override
                         public void onClick(PlaceAdapter.PlacesViewHolder v, final int position) {
@@ -65,16 +65,16 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
                     if (filtering) {
 
                         if (searchFiltering != null) {
-                            mAdapter.setData(searchFiltering);
-                            mRecyclerView.setAdapter(mAdapter);
+                            placeAdapter.setData(searchFiltering);
+                            recyclerView.setAdapter(placeAdapter);
                         } else {
-                            mAdapter.setData(filter);
-                            mRecyclerView.setAdapter(mAdapter);
+                            placeAdapter.setData(filter);
+                            recyclerView.setAdapter(placeAdapter);
                         }
 
                     } else {
-                        mAdapter.setData(Places.getPlacesList());
-                        mRecyclerView.setAdapter(mAdapter);
+                        placeAdapter.setData(Places.getPlacesList());
+                        recyclerView.setAdapter(placeAdapter);
                     }
 
                 }
@@ -109,6 +109,8 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
         super.onCreateOptionsMenu(menu, inflater);
 
         placesMenu = menu;
+
+//        TODO: ADD ALL DRAWABLES AS ICONICS LIBRARY
 
         inflater.inflate(R.menu.actions_places, menu);
 
@@ -163,14 +165,14 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
 
         context = getActivity();
 
-        mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.placeRefresh);
-        mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        mRefreshLayout.setOnRefreshListener(this);
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.placeRefresh);
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        refreshLayout.setOnRefreshListener(this);
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.placesRecyclerView);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(context, 1));
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setHasFixedSize(true);
+        recyclerView = (RecyclerView) view.findViewById(R.id.placesRecyclerView);
+        recyclerView.setLayoutManager(new GridLayoutManager(context, 1));
+        recyclerView.setAdapter(placeAdapter);
+        recyclerView.setHasFixedSize(true);
 
         updateLayout(false, null);
         return view;
@@ -178,8 +180,8 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
 
     @Override
     public void onRefresh() {
-        mAdapter.notifyDataSetChanged();
-        mRecyclerView.setVisibility(View.INVISIBLE);
+        placeAdapter.notifyDataSetChanged();
+        recyclerView.setVisibility(View.INVISIBLE);
         loadPlacesList(context);
         MainActivity.drawerFilter.setSelection(Constants.NO_SELECTION);
 

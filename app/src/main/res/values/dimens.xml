@@ -1,14 +1,17 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_margin">16dp</dimen>
-    <dimen name="activity_margin_little">8dp</dimen>
+
+    <dimen name="spacing_4">4dp</dimen>
+    <dimen name="spacing_8">8dp</dimen>
+    <dimen name="spacing_16">16dp</dimen>
+    <dimen name="spacing_32">32dp</dimen>
+    <dimen name="spacing_64">64dp</dimen>
 
     <dimen name="card_elevation">2dp</dimen>
     <dimen name="card_radius">2dp</dimen>
 
-    <dimen name="textSizeDisplay2">45dp</dimen>
-    <dimen name="textSizeHeadline">24dp</dimen>
-    <dimen name="textSizeTitle">20dp</dimen>
-    <dimen name="textSizeSubheading">16dp</dimen>
-    <dimen name="textSizeBody">14dp</dimen>
+    <dimen name="textSizeDisplay2">45sp</dimen>
+    <dimen name="textSizeHeadline">24sp</dimen>
+    <dimen name="textSizeTitle">20sp</dimen>
+    <dimen name="textSizeSubheading">16sp</dimen>
+    <dimen name="textSizeBody">14sp</dimen>
 </resources>

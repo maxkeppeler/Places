@@ -99,7 +99,7 @@
     <style name="FabStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_margin">@dimen/activity_margin</item>
+        <item name="android:layout_margin">@dimen/spacing_16</item>
         <item name="borderWidth">0dp</item>
         <item name="elevation">6dp</item>
         <item name="pressedTranslationZ">12dp</item>
@@ -116,20 +116,20 @@
     <style name="LinearLayoutForTexts">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingTop">@dimen/activity_margin</item>
-        <item name="android:paddingBottom">@dimen/activity_margin</item>
-        <item name="android:paddingLeft">@dimen/activity_margin</item>
-        <item name="android:paddingRight">@dimen/activity_margin</item>
+        <item name="android:paddingTop">@dimen/spacing_16</item>
+        <item name="android:paddingBottom">@dimen/spacing_16</item>
+        <item name="android:paddingLeft">@dimen/spacing_16</item>
+        <item name="android:paddingRight">@dimen/spacing_16</item>
         <item name="android:orientation">vertical</item>
     </style>
 
     <style name="LinearLayoutForViews">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingTop">@dimen/activity_margin_little</item>
-        <item name="android:paddingBottom">@dimen/activity_margin_little</item>
-        <item name="android:paddingLeft">@dimen/activity_margin_little</item>
-        <item name="android:paddingRight">@dimen/activity_margin_little</item>
+        <item name="android:paddingTop">@dimen/spacing_8</item>
+        <item name="android:paddingBottom">@dimen/spacing_8</item>
+        <item name="android:paddingLeft">@dimen/spacing_8</item>
+        <item name="android:paddingRight">@dimen/spacing_8</item>
         <item name="android:orientation">vertical</item>
 
     </style>

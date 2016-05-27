@@ -46,9 +46,6 @@ public class FragmentGoodActs extends Fragment implements SwipeRefreshLayout.OnR
                         }
                     });
 
-//                    Preferences mPref = new Preferences(context);
-//                    mPref.setPlacesSize(Places.getPlacesList().size());
-
                     sinsAdapter.setData(GoodActs.getGoodActsList());
                     recyclerView.setAdapter(sinsAdapter);
 

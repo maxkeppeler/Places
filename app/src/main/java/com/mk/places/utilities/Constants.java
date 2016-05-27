@@ -9,7 +9,7 @@ public class Constants {
 
     // Database
     public static final String DATABASE_NAME = "BOOKMARKS";
-    public static final int DATABASE_VERSION = 6;
+    public static final int DATABASE_VERSION = 42;
 
     // Permissions
     public static final String PERMISSION_WRITE_EXTERNAL_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -27,7 +27,7 @@ public class Constants {
 
     // Drawer Filter Misc
     public static final String NO_FILTER = "Nope";
-    public static final int NO_SELECTION = 99999999;
+    public static final int NO_SELECTION = 42424242;
 
     // Sights for Drawer Filter
     public static final String SIGHT = "Sight";
@@ -54,14 +54,7 @@ public class Constants {
     public static final String CONTINENT_NORTH_AMERICA = "North America";
     public static final String CONTINENT_SOUTH_AMERICA = "South America";
 
-    // Material Drawer Sections
-    public static final String DRAWER_PLACES = "Places";
-    public static final String DRAWER_NATURE = "Nature";
-    public static final String DRAWER_HALL = "Hall of Honor";
-    public static final String DRAWER_ABOUT = "About";
-    public static final String DRAWER_SETTINGS = "Settings";
-    public static final String DRAWER_WRONG = "Where are you?";
-
+    // Identifiers of Drawer Filters
     public static final long ID_CITY = 0;
     public static final long ID_COUNTRY = 1;
     public static final long ID_NATIONALR_PARK = 2;
@@ -83,8 +76,22 @@ public class Constants {
     public static final long ID_NORTH_AMERICA = 205;
     public static final long ID_SOUTH_AMERICA = 206;
 
-    public static final long ID_ALL = 9999999;
+    public static final long ID_ALL = 424242424;
 
+    // Material Drawer Sections
+    public static final String DRAWER_PLACES = "Places";
+    public static final String DRAWER_NATURE = "Nature";
+    public static final String DRAWER_HALL = "Hall of Honor";
+    public static final String DRAWER_ABOUT = "About";
+    public static final String DRAWER_SETTINGS = "Settings";
+    public static final String DRAWER_WRONG = "Where are you?";
+
+    // Identifier Material Drawer Sections
+    public static final int ID_DRAWER_PLACES = 0;
+    public static final int ID_DRAWER_NATURE = 1;
+    public static final int ID_DRAWER_HALL = 2;
+    public static final int ID_DRAWER_ABOUT = 3;
+    public static final int ID_DRAWER_SETTINGS = 4;
 
 
 }

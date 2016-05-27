@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     public static Drawer drawerFilter = null;
     public static TabLayout tabLayout;
     private static AppCompatActivity context;
-    private static TabLayout.Tab tab1, tab2, tab3;
+    private static TabLayout.Tab tab1, tab2;
     private Toolbar toolbar;
     private AccountHeader drawerHeader;
     private String[] drawerHeaderURLS;
@@ -104,12 +104,12 @@ public class MainActivity extends AppCompatActivity {
                 .withSelectedItem(0)
                 .withToolbar(toolbar)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName(Constants.DRAWER_PLACES).withIcon(Icon.gmd_terrain).withIdentifier(0).withBadgeStyle(new BadgeStyle()),
-                        new PrimaryDrawerItem().withName(Constants.DRAWER_NATURE).withIcon(Icon.gmd_public).withIdentifier(1),
-                        new PrimaryDrawerItem().withName(Constants.DRAWER_HALL).withIcon(Icon.gmd_card_giftcard).withIdentifier(2),
+                        new PrimaryDrawerItem().withName(Constants.DRAWER_PLACES).withIcon(Icon.gmd_terrain).withIdentifier(Constants.ID_DRAWER_PLACES).withBadgeStyle(new BadgeStyle()),
+                        new PrimaryDrawerItem().withName(Constants.DRAWER_NATURE).withIcon(Icon.gmd_public).withIdentifier(Constants.ID_DRAWER_NATURE),
+                        new PrimaryDrawerItem().withName(Constants.DRAWER_HALL).withIcon(Icon.gmd_card_giftcard).withIdentifier(Constants.ID_DRAWER_HALL),
                         new SectionDrawerItem().withName("Various"),
-                        new SecondaryDrawerItem().withName(Constants.DRAWER_ABOUT).withIcon(Icon.gmd_person).withIdentifier(3),
-                        new SecondaryDrawerItem().withName(Constants.DRAWER_SETTINGS).withIcon(Icon.gmd_settings).withIdentifier(4).withSelectable(false)
+                        new SecondaryDrawerItem().withName(Constants.DRAWER_ABOUT).withIcon(Icon.gmd_person).withIdentifier(Constants.ID_DRAWER_ABOUT),
+                        new SecondaryDrawerItem().withName(Constants.DRAWER_SETTINGS).withIcon(Icon.gmd_settings).withIdentifier(Constants.ID_DRAWER_SETTINGS).withSelectable(false)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 } else if (intent != null) {
                                     startActivity(intent);
-                                    drawer.setSelection(0);
+                                    drawer.setSelection(Constants.ID_DRAWER_PLACES);
                                 }
 
                                 if (drawerFilter != null)
@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .build();
 
-        if (drawer != null) drawer.setSelection(0);
+        if (drawer != null) drawer.setSelection(Constants.ID_DRAWER_PLACES);
 
         drawerFilter = new DrawerBuilder()
                 .withActivity(this)
@@ -278,11 +278,11 @@ public class MainActivity extends AppCompatActivity {
 
         switch (index) {
 
-            case 0: return Constants.DRAWER_PLACES;
-            case 1: return Constants.DRAWER_NATURE;
-            case 2: return Constants.DRAWER_HALL;
-            case 3: return Constants.DRAWER_ABOUT;
-            case 4: return Constants.DRAWER_SETTINGS;
+            case Constants.ID_DRAWER_PLACES: return Constants.DRAWER_PLACES;
+            case Constants.ID_DRAWER_NATURE: return Constants.DRAWER_NATURE;
+            case Constants.ID_DRAWER_HALL: return Constants.DRAWER_HALL;
+            case Constants.ID_DRAWER_ABOUT: return Constants.DRAWER_ABOUT;
+            case Constants.ID_DRAWER_SETTINGS: return Constants.DRAWER_SETTINGS;
 
             default: return Constants.DRAWER_WRONG;
         }
@@ -316,8 +316,8 @@ public class MainActivity extends AppCompatActivity {
         if (drawer != null && drawer.isDrawerOpen())
             drawer.closeDrawer();
 
-        else if (drawer != null && drawer.getCurrentSelection() != 0)
-            drawer.setSelection(0);
+        else if (drawer != null && drawer.getCurrentSelection() != Constants.ID_DRAWER_PLACES)
+            drawer.setSelection(Constants.ID_DRAWER_PLACES);
 
         else if (drawer != null)
             super.onBackPressed();

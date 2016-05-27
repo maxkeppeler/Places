@@ -21,12 +21,12 @@ import android.widget.SearchView;
 
 import com.afollestad.inquiry.Inquiry;
 import com.mk.places.R;
-import com.mk.places.utilities.Bookmarks;
 import com.mk.places.activities.MainActivity;
 import com.mk.places.activities.PlaceView;
 import com.mk.places.adapters.PlaceAdapter;
 import com.mk.places.models.Place;
 import com.mk.places.models.Places;
+import com.mk.places.utilities.Bookmarks;
 import com.mk.places.utilities.Constants;
 
 import java.util.ArrayList;
@@ -34,10 +34,10 @@ import java.util.ArrayList;
 public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "FragmentBookmarks";
-    private static ArrayList<Place> bookmarks = new ArrayList<>();
-    public static SwipeRefreshLayout mRefreshLayout;
+    public static SwipeRefreshLayout refreshLayout;
     public static ArrayList<Place> filter;
     public static SearchView searchView;
+    private static ArrayList<Place> bookmarks = new ArrayList<>();
     private static PlaceAdapter mAdapter;
     private static RecyclerView mRecyclerView;
     private static Activity context;
@@ -137,7 +137,7 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
 
         updateLayout(false, null);
 
-        if (mRefreshLayout != null) mRefreshLayout.setRefreshing(false);
+        if (refreshLayout != null) refreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -198,9 +198,9 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
 
         View view = inflater.inflate(R.layout.fragment_bookmarks, container, false);
 
-        mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.bookmarksRefresh);
-        mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        mRefreshLayout.setOnRefreshListener(this);
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.bookmarksRefresh);
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        refreshLayout.setOnRefreshListener(this);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.bookmarksRecyclerView);
         mRecyclerView.setLayoutManager(new GridLayoutManager(context, 1));
