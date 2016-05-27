@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.mk.places.R;
+import com.mk.places.activities.MainActivity;
 import com.mk.places.fragment.FragmentDisasters;
 import com.mk.places.models.Disaster;
 import com.mk.places.models.Disasters;
@@ -17,14 +18,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class SinsJSON extends AsyncTask<Void, Void, Void> {
+public class DisastersJSON extends AsyncTask<Void, Void, Void> {
 
     private final static ArrayList<Disaster> DISASTERs = new ArrayList<>();
-    private static final String TAG = "SinsJSON";
+    private static final String TAG = "DisastersJSON";
     private long startTime;
     private Activity context;
 
-    public SinsJSON(Activity context) {
+    public DisastersJSON(Activity context) {
         this.context = context;
     }
 
@@ -73,6 +74,8 @@ public class SinsJSON extends AsyncTask<Void, Void, Void> {
             FragmentDisasters.refreshLayout.setRefreshing(false);
 
         FragmentDisasters.recyclerView.setVisibility(View.VISIBLE);
+
+        MainActivity.updateTabTexts(1, Disasters.getDisastersList().size(), 0);
 
     }
 

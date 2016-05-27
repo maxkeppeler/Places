@@ -3,14 +3,15 @@ package com.mk.places.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
@@ -18,7 +19,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -152,7 +152,7 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
         tvDescText.setText(desc);
         collapsingToolbarLayout.setTitle(place);
 
-        final IconicsDrawable drawable = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_collections_bookmark).color(getResources().getColor(R.color.white)).sizeDp(24);
+        final IconicsDrawable drawable = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_bookmark_border).color(getResources().getColor(R.color.white)).sizeDp(24);
         fab.setVisibility(View.INVISIBLE);
         fab.setImageDrawable(drawable);
         fab.setOnClickListener(this);
@@ -220,7 +220,6 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
                     intent.putExtra("index", index);
                     intent.putExtra("place", place);
                     startActivity(intent);
-                    finish();
                 }
             }
         });
@@ -266,7 +265,7 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
 
     private void close() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            supportFinishAfterTransition();
+            this.supportFinishAfterTransition();
         else finish();
     }
 
@@ -274,9 +273,9 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
     public void onClick(View v) {
 
         if (Bookmarks.favoriteItem(item.getId()))
-            Utils.simpleSnackBar(context, Utils.colorVariant(color, 1.07f), R.id.coordinatorLayout, R.string.bookmarkedPlace, Snackbar.LENGTH_LONG);
+            Utils.showSnackBar(context, Utils.colorVariant(color, 1.07f), R.id.coordinatorLayout, R.string.bookmarkedPlace, Snackbar.LENGTH_LONG);
         else
-            Utils.simpleSnackBar(context, Utils.colorVariant(color, 1.07f), R.id.coordinatorLayout, R.string.removedPlace, Snackbar.LENGTH_LONG);
+            Utils.showSnackBar(context, Utils.colorVariant(color, 1.07f), R.id.coordinatorLayout, R.string.removedPlace, Snackbar.LENGTH_LONG);
 
         FragmentBookmarks.loadBookmarks(context);
         Inquiry.deinit();

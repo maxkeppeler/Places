@@ -6,7 +6,9 @@ import android.util.Log;
 import android.view.View;
 
 import com.mk.places.R;
+import com.mk.places.activities.MainActivity;
 import com.mk.places.fragment.FragmentGoodActs;
+import com.mk.places.models.Disasters;
 import com.mk.places.models.GoodAct;
 import com.mk.places.models.GoodActs;
 import com.mk.places.utilities.JSONParser;
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 public class GoodActsJSON extends AsyncTask<Void, Void, Void> {
 
     private final static ArrayList<GoodAct> goodActs = new ArrayList<>();
-    private static final String TAG = "SinsJSON";
+    private static final String TAG = "DisastersJSON";
     private long startTime;
     private Activity context;
 
@@ -74,6 +76,7 @@ public class GoodActsJSON extends AsyncTask<Void, Void, Void> {
 
         FragmentGoodActs.recyclerView.setVisibility(View.VISIBLE);
 
+        MainActivity.updateTabTexts(1, 0, GoodActs.getGoodActsList().size());
     }
 
 

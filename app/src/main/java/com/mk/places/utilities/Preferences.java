@@ -30,8 +30,7 @@ public class Preferences {
 
     private static final String
             PREFS_NAME = "DASHBOARD_PREFERENCES",
-            FIRST_START = "START",
-            PLACES_AMOUNT = "PLACES";
+            FIRST_START = "START";
 
     private final Context context;
 
@@ -51,7 +50,4 @@ public class Preferences {
         getSharedPreferences().edit().putBoolean(FIRST_START, state).apply();
     }
 
-    public void setPlacesSize(int size) {
-        getSharedPreferences().edit().putInt(PLACES_AMOUNT, size).apply();
-    }
 }

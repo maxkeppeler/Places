@@ -1,27 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout"
+    android:visibility="invisible"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
-    <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/thumbRipple"
+    <ImageView
+        android:id="@+id/thumbImage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:mrl_rippleColor="@color/md_white_1000"
-        app:mrl_rippleDuration="450"
-        app:mrl_rippleFadeDuration="475"
-        app:mrl_rippleHover="true"
-        app:mrl_rippleOverlay="true">
-
-        <ImageView
-            android:id="@+id/thumbImage"
-            android:layout_width="match_parent"
-            android:layout_height="320dp"
-            android:scaleType="centerCrop" />
-
-    </com.balysv.materialripple.MaterialRippleLayout>
+        android:layout_height="320dp"
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:id="@+id/thumbShadow"
@@ -29,8 +17,7 @@
         android:layout_height="100dp"
         android:layout_gravity="bottom"
         android:background="@drawable/shadow_gradient"
-        android:orientation="horizontal"
-        android:visibility="invisible" />
+        android:orientation="horizontal" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -85,10 +72,9 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/continentIcon"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:background="@drawable/ic_continent" />
+                        android:id="@+id/thumbContinentDrawable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
                     <TextView
                         android:id="@+id/thumbContinent"
@@ -106,16 +92,15 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_gravity="center"
-            android:padding="16dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
 
             <ImageView
                 android:id="@+id/bookmarkIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:background="@drawable/ic_launch" />
+                android:layout_margin="16dp" />
 
         </LinearLayout>
 

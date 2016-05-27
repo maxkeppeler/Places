@@ -3,6 +3,8 @@ package com.mk.places.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.mk.places.utilities.Utils;
+
 public class Disaster implements Parcelable {
 
     public static final Creator<Disaster> CREATOR = new Creator<Disaster>() {
@@ -32,6 +34,12 @@ public class Disaster implements Parcelable {
     }
 
 
+    public Disaster(String title, String images, String url) {
+        this.title = Utils.convertEntitiesCharsHTML(title);
+        this.images = images;
+        this.url = url;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 
@@ -43,12 +51,6 @@ public class Disaster implements Parcelable {
     @Override
     public int describeContents() {
         return Disasters.getDisastersList().size();
-    }
-
-    public Disaster(String title, String images, String url) {
-        this.title = title;
-        this.images = images;
-        this.url = url;
     }
 
     public String getTitle() {

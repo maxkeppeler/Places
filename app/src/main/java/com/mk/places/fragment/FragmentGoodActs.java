@@ -8,6 +8,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -60,15 +62,15 @@ public class FragmentGoodActs extends Fragment implements SwipeRefreshLayout.OnR
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        View view = inflater.inflate(R.layout.fragment_good_acts, null);
+        View view = inflater.inflate(R.layout.fragment_nature_good_acts, null);
 
         context = getActivity();
 
-        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.goodActsRefresh);
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.disastersRefresh);
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
         refreshLayout.setOnRefreshListener(this);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.goodActsRecyclerView);
+        recyclerView = (RecyclerView) view.findViewById(R.id.disastersRecyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
         recyclerView.setAdapter(sinsAdapter);
 
@@ -88,6 +90,12 @@ public class FragmentGoodActs extends Fragment implements SwipeRefreshLayout.OnR
 
         new GoodActsJSON(context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
     }
 
 }

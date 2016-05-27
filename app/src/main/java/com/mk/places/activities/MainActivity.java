@@ -1,6 +1,7 @@
 package com.mk.places.activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -30,6 +31,8 @@ import com.mk.places.fragment.DrawerAbout;
 import com.mk.places.fragment.DrawerPlacesTabs;
 import com.mk.places.fragment.FragmentBookmarks;
 import com.mk.places.fragment.FragmentPlaces;
+import com.mk.places.models.Disasters;
+import com.mk.places.models.GoodActs;
 import com.mk.places.models.Places;
 import com.mk.places.utilities.Constants;
 import com.mk.places.utilities.Dialogs;
@@ -46,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     public static Drawer drawerFilter = null;
     public static TabLayout tabLayout;
     private static AppCompatActivity context;
-    private static TabLayout.Tab tab1, tab2;
+    private static TabLayout.Tab tab1, tab2, tab3;
     private Toolbar toolbar;
     private AccountHeader drawerHeader;
     private String[] drawerHeaderURLS;
@@ -127,12 +130,18 @@ public class MainActivity extends AppCompatActivity {
 
                                     case 0: fragment = new DrawerPlacesTabs();
                                         setTabTexts(Constants.TAB_DISASTERS, Constants.TAB_GOOD_ACTS);
+
                                         if (Places.getPlacesList() != null && FragmentBookmarks.bookmarks != null)
-                                        updateTabTexts(Places.getPlacesList().size(), FragmentBookmarks.bookmarks.size());
+                                        updateTabTexts(0, Places.getPlacesList().size(), FragmentBookmarks.bookmarks.size());
+
                                         break;
 
                                     case 1: fragment = new DrawerPlacesTabs();
                                         setTabTexts(Constants.TAB_DISASTERS, Constants.TAB_GOOD_ACTS);
+
+                                        if (Disasters.getDisastersList() != null && GoodActs.getGoodActsList() != null)
+                                            updateTabTexts(1, Disasters.getDisastersList().size(), GoodActs.getGoodActsList().size());
+
                                         break;
 
                                     case 2: fragment = new DrawerPlacesTabs();
@@ -274,6 +283,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public static void updateTabTexts(int index, int valueTab1, int valueTab2) {
+
+        if (index == 0) {
+            tab1.setText(Constants.TAB_PLACES + " (" + valueTab1 + ")");
+            tab2.setText(Constants.TAB_BOOKMARKS + " (" + valueTab2 + ")");
+        }
+
+        if (index == 1) {
+            if (valueTab1 > 0)
+                tab1.setText(Constants.TAB_DISASTERS + " (" + valueTab1 + ")");
+            if (valueTab2 > 0)
+                tab2.setText(Constants.TAB_GOOD_ACTS + " (" + valueTab2 + ")");
+        }
+
+    }
+
     @Override
     public void onBackPressed() {
 
@@ -288,11 +313,6 @@ public class MainActivity extends AppCompatActivity {
 
         else super.onBackPressed();
 
-    }
-
-    public static void updateTabTexts(int discover, int bookmarks) {
-        tab1.setText(Constants.TAB_PLACES + " (" + discover + ")");
-        tab2.setText(Constants.TAB_BOOKMARKS + " (" + bookmarks + ")" );
     }
 
     public static void setTabTexts(String nameTab1, String nameTab2) {
@@ -313,6 +333,20 @@ public class MainActivity extends AppCompatActivity {
                 .into(cover);
 
         return drawerHeader;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            getWindow().setNavigationBarColor(ContextCompat.getColor(context, R.color.md_black_1000));
+        }
+
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            getWindow().setNavigationBarColor(ContextCompat.getColor(context, R.color.backgroundColor));
+        }
+
     }
 
 }

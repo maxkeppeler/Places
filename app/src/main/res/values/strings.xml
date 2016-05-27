@@ -51,8 +51,8 @@
     <string name="storageNegative">No</string>
 
     <!-- ////////////   JSONS   \\\\\\\\\\\\\ -->
-    <string name="Places_JSON">http://www.maximiliankeppeler.com/JSON/Places.json</string>
-    <string name="Sins_JSON">http://www.maximiliankeppeler.com/JSON/Nature.json</string>
+    <string name="Places_JSON">http://www.maximiliankeppeler.com//apps/Jsons/Places.json</string>
+    <string name="Sins_JSON">http://www.maximiliankeppeler.com/apps/Jsons/Nature.json</string>
 
     <!-- LAUNCH INTENT-->
     <string name="launch_word_search">"http://www.google.com/search?q="</string>

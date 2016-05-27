@@ -6,16 +6,18 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.mk.places.R;
 import com.mk.places.adapters.DisastersAdapter;
 import com.mk.places.models.Disasters;
-import com.mk.places.threads.SinsJSON;
+import com.mk.places.threads.DisastersJSON;
 import com.mk.places.utilities.Utils;
 
 public class FragmentDisasters extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
@@ -25,8 +27,6 @@ public class FragmentDisasters extends Fragment implements SwipeRefreshLayout.On
     public static RecyclerView recyclerView;
     private static DisastersAdapter disastersAdapter;
     private static Activity context;
-
-
 
     public static void updateLayout() {
 
@@ -46,9 +46,6 @@ public class FragmentDisasters extends Fragment implements SwipeRefreshLayout.On
                         }
                     });
 
-//                    Preferences mPref = new Preferences(context);
-//                    mPref.setPlacesSize(Places.getPlacesList().size());
-
                     disastersAdapter.setData(Disasters.getDisastersList());
                     recyclerView.setAdapter(disastersAdapter);
 
@@ -62,15 +59,15 @@ public class FragmentDisasters extends Fragment implements SwipeRefreshLayout.On
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        View view = inflater.inflate(R.layout.fragment_sins, null);
+        View view = inflater.inflate(R.layout.fragment_nature_disasters, null);
 
         context = getActivity();
 
-        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.goodActsRefresh);
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.disastersRefresh);
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
         refreshLayout.setOnRefreshListener(this);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.goodActsRecyclerView);
+        recyclerView = (RecyclerView) view.findViewById(R.id.disastersRecyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
         recyclerView.setAdapter(disastersAdapter);
 
@@ -88,8 +85,18 @@ public class FragmentDisasters extends Fragment implements SwipeRefreshLayout.On
 
     public static void loadSinsList(Activity context) {
 
-        new SinsJSON(context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new DisastersJSON(context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.actions_places, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
 }

@@ -63,6 +63,7 @@ public final class Bookmarks {
         init(context);
 
         Inquiry.get().dropTable(Constants.DATABASE_NAME);
+
         Inquiry.deinit();
     }
 
@@ -77,9 +78,7 @@ public final class Bookmarks {
                     .where("_id = ?", id)
                     .run();
             return true;
-        }
-
-        favoriteItem(id);
+        } else favoriteItem(id);
 
         return false;
     }

@@ -27,13 +27,13 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder vH, int index) {
+    public void onBindViewHolder(ViewHolder holder, int index) {
 
-        vH.detailsTitle.setText(detailsData[index].getTitle());
-        vH.detailsText.setText(detailsData[index].getText());
+        holder.detailsTitle.setText(detailsData[index].getTitle());
+        holder.detailsText.setText(detailsData[index].getText());
 
-        vH.detailsTitle.setTypeface(Utils.customTypeface(context, 2));
-        vH.detailsText.setTypeface(Utils.customTypeface(context, 2));
+        holder.detailsTitle.setTypeface(Utils.customTypeface(context, 2));
+        holder.detailsText.setTypeface(Utils.customTypeface(context, 2));
 
     }
 

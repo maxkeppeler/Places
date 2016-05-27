@@ -7,11 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.RequestListener;
@@ -52,12 +52,13 @@ public class GoodActsAdapter extends RecyclerView.Adapter<GoodActsAdapter.SinsVi
         final String[] url = sin.getImages().replace(" ", "").split("\\|");
 
         holder.title.setText(sin.getTitle());
+        holder.title.setTypeface(Utils.customTypeface(context, 2));
+
 
         Glide.with(context)
-                .load(url[0] != null ? url[0] :  sin.getImages())
+                .load(url[0] != null ? url[0] : sin.getImages())
                 .asBitmap()
                 .override(1000, 700)
-                .priority(Priority.IMMEDIATE)
                 .listener(new RequestListener<String, Bitmap>() {
                     @Override
                     public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
@@ -72,8 +73,10 @@ public class GoodActsAdapter extends RecyclerView.Adapter<GoodActsAdapter.SinsVi
                             public void onGenerated(Palette palette) {
 
                                 if (palette == null) return;
-                                int color = Utils.colorFromPalette(context, palette);
-                                holder.coloredBackground.setBackgroundColor(color);
+                                holder.coloredBackground.setBackgroundColor(Utils.colorFromPalette(context, palette));
+
+                                holder.layout.setVisibility(View.VISIBLE);
+
                             }
                         });
 
@@ -95,19 +98,22 @@ public class GoodActsAdapter extends RecyclerView.Adapter<GoodActsAdapter.SinsVi
 
     public class SinsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+
+        private final FrameLayout layout;
         private final ImageView image;
         private final TextView title;
         private final LinearLayout coloredBackground;
-        private final MaterialRippleLayout ripple;
 
         SinsViewHolder(View v) {
             super(v);
 
+
             coloredBackground = (LinearLayout) v.findViewById(R.id.coloredBackground);
-            ripple = (MaterialRippleLayout) v.findViewById(R.id.thumbRipple);
-            image = (ImageView) v.findViewById(R.id.sinsImage);
-            title = (TextView) v.findViewById(R.id.thumbSin);
-            ripple.setOnClickListener(this);
+            image = (ImageView) v.findViewById(R.id.image);
+            title = (TextView) v.findViewById(R.id.title);
+
+            layout = (FrameLayout) v.findViewById(R.id.layout);
+            layout.setOnClickListener(this);
         }
 
 

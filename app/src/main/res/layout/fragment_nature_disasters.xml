@@ -2,7 +2,7 @@
 <android.support.v4.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/goodActsRefresh"
+    android:id="@+id/disastersRefresh"
 
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
@@ -14,7 +14,7 @@
         tools:context=".activities.MainActivity">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/goodActsRecyclerView"
+            android:id="@+id/disastersRecyclerView"
             style="@style/RecyclerView" />
 
     </RelativeLayout>

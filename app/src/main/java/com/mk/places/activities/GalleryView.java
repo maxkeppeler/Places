@@ -93,6 +93,7 @@ public class GalleryView extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 close();
+                super.onBackPressed();
                 break;
 
             case R.id.save:
@@ -111,6 +112,8 @@ public class GalleryView extends AppCompatActivity {
             supportFinishAfterTransition();
         else finish();
     }
+
+
 
     public void downloadImage(String location, int index) {
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
     public static RecyclerView mRecyclerView;
     private static PlaceAdapter mAdapter;
     private static Activity context;
+    private Menu placesMenu;
 
     public static void updateLayout(final boolean filtering, final ArrayList<Place> searchFiltering) {
 
@@ -62,9 +64,6 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
 
                         }
                     });
-
-                    Preferences mPref = new Preferences(context);
-                    mPref.setPlacesSize(Places.getPlacesList().size());
 
                     if (filtering) {
 
@@ -105,12 +104,15 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
         }
         updateLayout(true, null);
 
-        MainActivity.updateTabTexts(filter.size(), FragmentBookmarks.bookmarks.size());
+        MainActivity.updateTabTexts(0, filter.size(), FragmentBookmarks.bookmarks.size());
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+
+        placesMenu = menu;
+
         inflater.inflate(R.menu.actions_places, menu);
 
         MenuItem item = menu.findItem(R.id.search);
@@ -139,7 +141,6 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
             }
 
         });
-
     }
 
     @Override
@@ -187,4 +188,11 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (placesMenu != null)
+        placesMenu.clear();
+    }
 }

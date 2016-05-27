@@ -3,6 +3,8 @@ package com.mk.places.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.mk.places.utilities.Utils;
+
 public class GoodAct implements Parcelable {
 
     public static final Creator<GoodAct> CREATOR = new Creator<GoodAct>() {
@@ -32,6 +34,12 @@ public class GoodAct implements Parcelable {
     }
 
 
+    public GoodAct(String title, String images, String url) {
+        this.title = Utils.convertEntitiesCharsHTML(title);
+        this.images = images;
+        this.url = url;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 
@@ -43,12 +51,6 @@ public class GoodAct implements Parcelable {
     @Override
     public int describeContents() {
         return GoodActs.getGoodActsList().size();
-    }
-
-    public GoodAct(String title, String images, String url) {
-        this.title = title;
-        this.images = images;
-        this.url = url;
     }
 
     public String getTitle() {

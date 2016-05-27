@@ -41,6 +41,7 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
     private static PlaceAdapter mAdapter;
     private static RecyclerView mRecyclerView;
     private static Activity context;
+    private Menu bookmarksMenu;
 
     public static void updateLayout(final boolean filtering, final ArrayList<Place> searchFiltering) {
 
@@ -97,7 +98,7 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
         }
         updateLayout(true, null);
 
-        MainActivity.updateTabTexts(Places.getPlacesList().size(), filter.size());
+        MainActivity.updateTabTexts(0, Places.getPlacesList().size(), filter.size());
     }
 
     public static void loadBookmarks(final Activity context) {
@@ -128,7 +129,7 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
 
         Inquiry.deinit();
 
-        MainActivity.updateTabTexts(Places.getPlacesList().size(), bookmarks.size());
+        MainActivity.updateTabTexts(0, Places.getPlacesList().size(), bookmarks.size());
 
         updateLayout(false, null);
 
@@ -139,6 +140,8 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.actions_places, menu);
+
+        bookmarksMenu = menu;
 
         MenuItem item = menu.findItem(R.id.search);
         sv = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
@@ -209,4 +212,13 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
         loadBookmarks(context);
         MainActivity.drawerFilter.setSelection(Constants.NO_SELECTION);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (bookmarksMenu != null)
+        bookmarksMenu.clear();
+    }
+
 }
