@@ -1,53 +1,19 @@
-/*
- * Copyright (c) 2016.  Jahir Fiquitiva
- *
- * Licensed under the CreativeCommons Attribution-ShareAlike
- * 4.0 International License. You may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
- *
- *    http://creativecommons.org/licenses/by-sa/4.0/legalcode
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * Big thanks to the project contributors. Check them in the repository.
- *
- */
-
-/*
- *
- */
-
 package com.mk.places.utilities;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.app.DownloadManager;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.XmlResourceParser;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Build;
-import android.support.annotation.DrawableRes;
 import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
-import android.text.Html;
 import android.view.View;
-import android.view.animation.PathInterpolator;
 
 import com.mk.places.R;
 
@@ -58,7 +24,12 @@ import java.util.regex.Pattern;
 
 public class Utils extends Activity {
 
-    public static String convertEntitiesCharsHTML(String string) {
+    /**
+     * Filter all enitities out of a string.
+     * @param string
+     * @return string (cleaned)
+     */
+    public static String cleanString(String string) {
 
         string = string.replace("\\n ", "\n");
         string = Normalizer.normalize(string, Normalizer.Form.NFD);
@@ -76,18 +47,36 @@ public class Utils extends Activity {
 
     }
 
-    public static boolean compareStrings(String string_1, String string_2) {
+    /**
+     * Compare two strings with each other.
+     * @param string1
+     * @param string2
+     * @return boolean (true if equal)
+     */
+    public static boolean equalStrings(String string1, String string2) {
 
-        return string_1.toLowerCase().replace(" ", "").replace(",", "")
-                .equals(string_2.toLowerCase().replace(" ", "").replace(",", ""));
+        return string1.toLowerCase().replace(" ", "").replace(",", "")
+                .equals(string2.toLowerCase().replace(" ", "").replace(",", ""));
     }
 
-    public static boolean stringIsContained(String string_1, String string_2) {
+    /**
+     * Check if the first string contains the second string.
+     * @param string1
+     * @param string2
+     * @return boolean (true if equal)
+     */
+    public static boolean stringIsContained(String string1, String string2) {
 
-        return string_2.toLowerCase().replace(" ", "").replace(",", "")
-                .contains(string_1.toLowerCase().replace(" ", "").replace(",", ""));
+        return string2.toLowerCase().replace(" ", "").replace(",", "")
+                .contains(string1.toLowerCase().replace(" ", "").replace(",", ""));
     }
 
+    /**
+     * Custom Typefaces
+     * @param context
+     * @param index
+     * @return
+     */
     public static Typeface customTypeface(Context context, int index) {
 
         Typeface typeface = null;
@@ -102,7 +91,8 @@ public class Utils extends Activity {
         return typeface;
     }
 
-    public static void customChromeTab(Context context, String link, int color) {
+
+    public static void openChromeTab(Context context, String link, int color) {
         final CustomTabsClient[] mClient = new CustomTabsClient[1];
         final CustomTabsSession[] mCustomTabsSession = new CustomTabsSession[1];
 
@@ -120,7 +110,7 @@ public class Utils extends Activity {
             }
         };
 
-        if (color == 0) color = context.getResources().getColor(R.color.cardBackground);
+        if (color == 0) color = ContextCompat.getColor(context, R.color.cardBackground);
 
         CustomTabsClient.bindCustomTabsService(context, "com.android.chrome", mCustomTabsServiceConnection);
         CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder(mCustomTabsSession[0])
@@ -130,9 +120,16 @@ public class Utils extends Activity {
                 .build();
 
         customTabsIntent.launchUrl((Activity) context, Uri.parse(link));
-        context.unbindService(mCustomTabsServiceConnection);
+
+        context.unbindService(mCustomTabsServiceConnection); // important
     }
 
+    /**
+     * Depending on the given intensity, the given color will be darken or brighten.
+     * @param color
+     * @param intensity
+     * @return colorVariant
+     */
     public static int colorVariant(int color, float intensity) {
         float[] hsv = new float[3];
         Color.colorToHSV(color, hsv);
@@ -141,6 +138,12 @@ public class Utils extends Activity {
         return color;
     }
 
+    /**
+     * Try to get the respective color out of the palette.
+     * @param context
+     * @param palette
+     * @return
+     */
     public static int colorFromPalette(Context context, Palette palette) {
 
         final int defaultColor = context.getResources().getColor(R.color.colorPrimary);
@@ -151,24 +154,24 @@ public class Utils extends Activity {
         int vibrantDark = palette.getDarkVibrantColor(muted);
         return palette.getVibrantColor(vibrantDark);
 
-
-//        final int defaultColor = context.getResources().getColor(R.color.colorPrimary);
-//        int mutedLight = palette.getLightMutedColor(defaultColor);
-//        int vibrantLight = palette.getLightVibrantColor(mutedLight);
-//        int muted = palette.getMutedColor(vibrantLight);
-//        int virbrant = palette.getVibrantColor(muted);
-//        int mutedDark = palette.getDarkMutedColor(virbrant);
-//        return palette.getDarkVibrantColor(mutedDark);
     }
 
-    public static void showSnackBar(Activity activity, int color, int view, int text, int length) {
+    /**
+     * Show simple snack bar.
+     * @param context
+     * @param color
+     * @param view
+     * @param text
+     * @param length
+     */
+    public static void showSnackBar(Activity context, int color, int view, int text, int length) {
 
-        View layout = activity.findViewById(view);
+        View layout = context.findViewById(view);
         Snackbar snackbar = Snackbar.make(layout, text, length)
-                .setActionTextColor(activity.getResources().getColor(R.color.white));
+                .setActionTextColor(context.getResources().getColor(R.color.white));
 
         View snackBarView = snackbar.getView();
-        if (color == 0) color = activity.getResources().getColor(R.color.colorPrimary);
+        if (color == 0) color = ContextCompat.getColor(context, R.color.backgroundColor);
         snackBarView.setBackgroundColor(color);
         snackbar.show();
     }

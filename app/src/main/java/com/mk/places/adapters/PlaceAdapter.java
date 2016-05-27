@@ -2,7 +2,6 @@ package com.mk.places.adapters;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -22,7 +21,7 @@ import com.bumptech.glide.request.target.Target;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mk.places.R;
-import com.mk.places.activities.Bookmarks;
+import com.mk.places.utilities.Bookmarks;
 import com.mk.places.activities.MainActivity;
 import com.mk.places.fragment.FragmentBookmarks;
 import com.mk.places.models.Place;
@@ -81,13 +80,13 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
         holder.sight.setTypeface(Utils.customTypeface(context, 2));
         holder.continent.setTypeface(Utils.customTypeface(context, 2));
 
-        if (Utils.compareStrings(sight, Constants.SIGHT_CITY))
+        if (Utils.equalStrings(sight, Constants.SIGHT_CITY))
             holder.drawableSight.setBackground(city);
 
-        else if (Utils.compareStrings(sight, Constants.SIGHT_COUNTRY))
+        else if (Utils.equalStrings(sight, Constants.SIGHT_COUNTRY))
             holder.drawableSight.setBackground(country);
 
-        else if (Utils.compareStrings(sight, Constants.SIGHT_NATIONAL_PARK))
+        else if (Utils.equalStrings(sight, Constants.SIGHT_NATIONAL_PARK))
             holder.drawableSight.setBackground(nationalPark);
 
         else holder.drawableSight.setBackground(misc);
@@ -153,26 +152,23 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
             drawableContinent = (ImageView) v.findViewById(R.id.thumbContinentDrawable);
 
             drawableBookmark = (ImageView) v.findViewById(R.id.bookmarkIcon);
-            drawableBookmark.setBackground(new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_bookmark_border).color(Color.WHITE).sizeDp(24));
-
-            final boolean tab1 = MainActivity.tabLayout.getTabAt(0).isSelected();
-            final boolean tab2 = MainActivity.tabLayout.getTabAt(1).isSelected();
+            drawableBookmark.setBackground(new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_bookmark).color(Color.WHITE).sizeDp(24));
 
             drawableBookmark.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    if (tab1) {
+                    if (MainActivity.tabLayout.getTabAt(0).isSelected()) {
 
-                        if (Bookmarks.favoriteItem(Places.getPlacesList().get(getLayoutPosition()).getId())) {
+                        if (Bookmarks.bookmarkItem(Places.getPlacesList().get(getLayoutPosition()).getId())) {
                             Utils.showSnackBar(context, ContextCompat.getColor(context, R.color.cardBackground), R.id.coordinatorLayout, R.string.bookmarkedPlace, Snackbar.LENGTH_LONG);
                         } else
                             Utils.showSnackBar(context, ContextCompat.getColor(context, R.color.cardBackground), R.id.coordinatorLayout, R.string.removedPlace, Snackbar.LENGTH_LONG);
                     }
 
-                    if (tab2) {
+                    if (MainActivity.tabLayout.getTabAt(1).isSelected()) {
 
-                        if (Bookmarks.favoriteItem(FragmentBookmarks.bookmarks.get(getLayoutPosition()).getId())) {
+                        if (Bookmarks.bookmarkItem(FragmentBookmarks.bookmarks.get(getLayoutPosition()).getId())) {
                             Utils.showSnackBar(context, ContextCompat.getColor(context, R.color.cardBackground), R.id.coordinatorLayout, R.string.bookmarkedPlace, Snackbar.LENGTH_LONG);
                         } else
                             Utils.showSnackBar(context, ContextCompat.getColor(context, R.color.cardBackground), R.id.coordinatorLayout, R.string.removedPlace, Snackbar.LENGTH_LONG);

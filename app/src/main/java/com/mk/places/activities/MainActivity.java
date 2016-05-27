@@ -269,6 +269,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Set the correct title, depending on the position in the drawer.
+     * @param index
+     * @return
+     */
     public String toolbarTitle(int index) {
 
         switch (index) {
@@ -283,18 +288,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static void updateTabTexts(int index, int valueTab1, int valueTab2) {
+    /**
+     * Depending on index (position of drawer), texts for tabs are set. In addition the sizes of the arrays are set.
+     * @param index
+     * @param value1
+     * @param value2
+     */
+    public static void updateTabTexts(int index, int value1, int value2) {
 
         if (index == 0) {
-            tab1.setText(Constants.TAB_PLACES + " (" + valueTab1 + ")");
-            tab2.setText(Constants.TAB_BOOKMARKS + " (" + valueTab2 + ")");
+            tab1.setText(Constants.TAB_PLACES + " (" + value1 + ")");
+            tab2.setText(Constants.TAB_BOOKMARKS + " (" + value2 + ")");
         }
 
         if (index == 1) {
-            if (valueTab1 > 0)
-                tab1.setText(Constants.TAB_DISASTERS + " (" + valueTab1 + ")");
-            if (valueTab2 > 0)
-                tab2.setText(Constants.TAB_GOOD_ACTS + " (" + valueTab2 + ")");
+            if (value1 > 0)
+                tab1.setText(Constants.TAB_DISASTERS + " (" + value1 + ")");
+            if (value2 > 0)
+                tab2.setText(Constants.TAB_GOOD_ACTS + " (" + value2 + ")");
         }
 
     }
@@ -315,11 +326,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Set texts for current tabs
+     * @param nameTab1
+     * @param nameTab2
+     */
     public static void setTabTexts(String nameTab1, String nameTab2) {
         tab1.setText(nameTab1);
         tab2.setText(nameTab2);
     }
 
+    /**
+     * Pick random another image for the drawer header
+     * @return drawerHeader
+     */
     public AccountHeader drawerHeader() {
 
         final ImageView cover = drawerHeader.getHeaderBackgroundView();
@@ -328,6 +348,7 @@ public class MainActivity extends AppCompatActivity {
 
         Glide.with(context)
                 .load(randomURL)
+                .crossFade()
                 .override(1012, 788)
                 .centerCrop()
                 .into(cover);
@@ -339,6 +360,7 @@ public class MainActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
+        // When the device is in landscape mode, always set the navigation bar color to black.
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             getWindow().setNavigationBarColor(ContextCompat.getColor(context, R.color.md_black_1000));
         }

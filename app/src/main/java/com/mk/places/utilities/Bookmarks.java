@@ -1,15 +1,14 @@
-package com.mk.places.activities;
+package com.mk.places.utilities;
 
 import android.app.Activity;
-import android.content.Context;
-import android.util.Log;
 
 import com.afollestad.inquiry.Inquiry;
 import com.afollestad.inquiry.annotations.Column;
 import com.mk.places.utilities.Constants;
 
-import java.util.Arrays;
-
+/**
+ *  Thanks Aidan Follestad
+ */
 public final class Bookmarks {
 
     private static Activity context;
@@ -33,7 +32,7 @@ public final class Bookmarks {
     /**
      * Returns true if the item was favorited successfully.
      */
-    public static boolean favoriteItem(String id) {
+    public static boolean bookmarkItem(String id) {
 
         init(context);
 
@@ -43,7 +42,7 @@ public final class Bookmarks {
                     .values(new BookmarksDB(id))
                     .run();
             return true;
-        } else unfavoriteItem(id);
+        } else unbookmarkItem(id);
 
         return false;
     }
@@ -71,14 +70,14 @@ public final class Bookmarks {
     /**
      * Returns true if the item was unfavorited successfully.
      */
-    public static boolean unfavoriteItem(String id) {
+    public static boolean unbookmarkItem(String id) {
         if (isFavorited(id)) {
             Inquiry.get()
                     .deleteFrom(Constants.DATABASE_NAME, BookmarksDB.class)
                     .where("_id = ?", id)
                     .run();
             return true;
-        } else favoriteItem(id);
+        } else bookmarkItem(id);
 
         return false;
     }

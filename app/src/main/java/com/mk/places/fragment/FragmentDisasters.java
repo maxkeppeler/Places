@@ -41,7 +41,7 @@ public class FragmentDisasters extends Fragment implements SwipeRefreshLayout.On
                         @Override
                         public void onClick(DisastersAdapter.SinsViewHolder v, final int position) {
 
-                            Utils.customChromeTab(context, Disasters.getDisastersList().get(position).getUrl(), 0);
+                            Utils.openChromeTab(context, Disasters.getDisastersList().get(position).getUrl(), 0);
 
                         }
                     });

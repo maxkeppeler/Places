@@ -20,47 +20,36 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         this.tabAmount = tabAmount;
     }
 
+
+    /**
+     * Depending on the drawerIndex from the main activity, other tabs will be shown.
+     * @param index
+     * @return
+     */
     @Override
-    public Fragment getItem(int position) {
+    public Fragment getItem(int index) {
 
-        if (MainActivity.drawerIndex == 0) {
-
-            switch (position) {
-                case 0:
-                    return new FragmentPlaces();
-                case 1:
-                    return new FragmentBookmarks();
-                default:
-                    return null;
+        // Drawer Places
+        if (MainActivity.drawerIndex == 0)
+            switch (index) {
+                case 0: return new FragmentPlaces();
+                case 1: return new FragmentBookmarks();
             }
-        }
-
-        if (MainActivity.drawerIndex == 1) {
 
 
-            switch (position) {
-
-                case 0:
-                    return new FragmentDisasters();
-                case 1:
-                    return new FragmentGoodActs();
-                default:
-                    return null;
+        // Drawer Nature
+        if (MainActivity.drawerIndex == 1)
+            switch (index) {
+                case 0: return new FragmentDisasters();
+                case 1: return new FragmentGoodActs();
             }
-        }
 
-
-        if (MainActivity.drawerIndex == 2) {
-
-            switch (position) {
-                case 0:
-                    return new DrawerEmpty();
-                case 1:
-                    return new DrawerEmpty();
-                default:
-                    return null;
+        // Drawer Hall of Honor
+        if (MainActivity.drawerIndex == 2)
+            switch (index) {
+                case 0: return new DrawerEmpty();
+                case 1: return new DrawerEmpty();
             }
-        }
 
         return null;
 

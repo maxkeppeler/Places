@@ -9,9 +9,6 @@ import android.view.ViewGroup;
 
 import com.mk.places.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class DrawerEmpty extends Fragment {
 
 

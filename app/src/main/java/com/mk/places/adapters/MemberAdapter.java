@@ -41,15 +41,15 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int index) {
 
-        holder.memberName.setText(memberData[index].getmName());
-        holder.memberTitle.setText(memberData[index].getmTitle());
-        holder.memberDesc.setText(memberData[index].getmDesc());
+        holder.name.setText(memberData[index].getmName());
+        holder.title.setText(memberData[index].getmTitle());
+        holder.desc.setText(memberData[index].getmDesc());
 
-        holder.memberName.setTypeface(Utils.customTypeface(context, 3));
-        holder.memberTitle.setTypeface(Utils.customTypeface(context, 1));
-        holder.memberDesc.setTypeface(Utils.customTypeface(context, 2));
+        holder.name.setTypeface(Utils.customTypeface(context, 3));
+        holder.title.setTypeface(Utils.customTypeface(context, 1));
+        holder.desc.setTypeface(Utils.customTypeface(context, 2));
 
-        holder.memberButtonLayout.setAmount(memberData[index].getmButtomNames().length);
+        holder.buttonLayout.setAmount(memberData[index].getmButtomNames().length);
 
         Glide.with(context)
                 .load(memberData[index].getmImage())
@@ -57,7 +57,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
                 .override(500, 500)
                 .centerCrop()
                 .skipMemoryCache(true)
-                .into(new BitmapImageViewTarget(holder.memberImage) {
+                .into(new BitmapImageViewTarget(holder.image) {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                         super.onResourceReady(resource, glideAnimation);
@@ -65,25 +65,25 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
                         RoundedBitmapDrawable circularBitmapDrawable = RoundedBitmapDrawableFactory.create(context.getResources(), resource);
                         circularBitmapDrawable.setCircular(true);
 
-                        holder.memberImage.setImageDrawable(circularBitmapDrawable);
+                        holder.image.setImageDrawable(circularBitmapDrawable);
 
                         Palette palette = new Palette.Builder(resource).generate();
 
                         color = Utils.colorFromPalette(context, palette);
 
-                        holder.memberCard.setCardBackgroundColor(color);
-                        holder.memberLinearLayout.setBackgroundColor(Utils.colorVariant(color, 0.9f));
-                        holder.memberButtonLayout.setBackgroundColor(Utils.colorVariant(color, 0.9f));
+                        holder.cardView.setCardBackgroundColor(color);
+                        holder.linearLayout.setBackgroundColor(Utils.colorVariant(color, 0.9f));
+                        holder.buttonLayout.setBackgroundColor(Utils.colorVariant(color, 0.9f));
 
 
                     }
                 });
 
         for (int j = 0; j < memberData[index].getmButtomNames().length; j++)
-            holder.memberButtonLayout.addButton(memberData[index].getmButtomNames()[j], memberData[index].getmButtomLinks()[j], true);
+            holder.buttonLayout.addButton(memberData[index].getmButtomNames()[j], memberData[index].getmButtomLinks()[j], true);
 
-        for (int i = 0; i < holder.memberButtonLayout.getChildCount(); i++)
-            holder.memberButtonLayout.getChildAt(i).setOnClickListener(MemberAdapter.this);
+        for (int i = 0; i < holder.buttonLayout.getChildCount(); i++)
+            holder.buttonLayout.getChildAt(i).setOnClickListener(MemberAdapter.this);
 
     }
 
@@ -95,28 +95,29 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     @Override
     public void onClick(View v) {
 
-        Utils.customChromeTab(context, (String) v.getTag(), 0);
+        // Chrome tab handles links. Either it opens a custom chrome tab if the user does not the respective app installed, or the respective app will be opened.
+        Utils.openChromeTab(context, (String) v.getTag(), 0);
 
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView memberName, memberTitle, memberDesc;
-        private ImageView memberImage;
-        private ButtonLayout memberButtonLayout;
-        private CardView memberCard;
-        private LinearLayout memberLinearLayout;
+        private TextView name, title, desc;
+        private ImageView image;
+        private ButtonLayout buttonLayout;
+        private CardView cardView;
+        private LinearLayout linearLayout;
 
         public ViewHolder(View v) {
             super(v);
 
-            memberName = (TextView) v.findViewById(R.id.memberName);
-            memberTitle = (TextView) v.findViewById(R.id.memberTitle);
-            memberDesc = (TextView) v.findViewById(R.id.memberDesc);
-            memberImage = (ImageView) v.findViewById(R.id.memberImage);
-            memberCard = (CardView) v.findViewById(R.id.memberCard);
-            memberButtonLayout = (ButtonLayout) v.findViewById(R.id.memberButtonLayout);
-            memberLinearLayout = (LinearLayout) v.findViewById(R.id.memberLinearLayout);
+            name = (TextView) v.findViewById(R.id.mName);
+            title = (TextView) v.findViewById(R.id.mTitle);
+            desc = (TextView) v.findViewById(R.id.mDesc);
+            image = (ImageView) v.findViewById(R.id.mImage);
+            cardView = (CardView) v.findViewById(R.id.cardView);
+            buttonLayout = (ButtonLayout) v.findViewById(R.id.buttonLayout);
+            linearLayout = (LinearLayout) v.findViewById(R.id.linearLayout);
         }
     }
 

@@ -9,6 +9,9 @@ import android.widget.LinearLayout;
 
 import com.mk.places.R;
 
+/**
+ *  Thanks Aidan Follestad
+ */
 public class ButtonLayout extends LinearLayout {
 
     public ButtonLayout(Context context) {

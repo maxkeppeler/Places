@@ -28,7 +28,7 @@ import com.mk.places.utilities.Constants;
 public class GalleryView extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private Activity context = this;
+    private Activity context;
     private String[] urls;
     private int position;
     private String location;
@@ -39,16 +39,16 @@ public class GalleryView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.place_item_gallery_view);
-        Intent intent = getIntent();
+//        TODO: Translucent Navigation Bar while Snackbar will still be displayed over it.
 
+        context = this;
+
+        Intent intent = getIntent();
         int index = intent.getIntExtra("index", 0);
         int userPosition = index + 1;
-
         urls = intent.getStringArrayExtra("urls");
         location = intent.getStringExtra("place");
         layout = (ViewPager) findViewById(R.id.viewPager);
-
-//        TODO: Translucent Navigation Bar while Snackbar will still be displayed over it.
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_close);
@@ -83,7 +83,7 @@ public class GalleryView extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.clear();
+        menu.clear(); // clear previous menu from the last activity
         getMenuInflater().inflate(R.menu.action_place_image, menu);
         return true;
     }
@@ -91,9 +91,9 @@ public class GalleryView extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
             case android.R.id.home:
                 close();
-                super.onBackPressed();
                 break;
 
             case R.id.save:
@@ -107,6 +107,9 @@ public class GalleryView extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Close current activity correctly
+     */
     private void close() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             supportFinishAfterTransition();
@@ -114,11 +117,14 @@ public class GalleryView extends AppCompatActivity {
     }
 
 
-
+    /**
+     * Download image at specific index in a new async task. Image will be named after the location.
+     * @param location
+     * @param index
+     */
     public void downloadImage(String location, int index) {
 
-        final DownloadImage downloadTask = new DownloadImage(context, location, ContextCompat.getColor(context, R.color.transparentBit));
-        downloadTask.execute(urls[index]);
+        new DownloadImage(context, location, ContextCompat.getColor(context, R.color.transparentBit)).execute(urls[index]);
 
     }
 

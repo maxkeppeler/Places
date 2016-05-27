@@ -35,7 +35,7 @@ public class Disaster implements Parcelable {
 
 
     public Disaster(String title, String images, String url) {
-        this.title = Utils.convertEntitiesCharsHTML(title);
+        this.title = Utils.cleanString(title);
         this.images = images;
         this.url = url;
     }

@@ -41,7 +41,7 @@ public class FragmentGoodActs extends Fragment implements SwipeRefreshLayout.OnR
                         @Override
                         public void onClick(GoodActsAdapter.SinsViewHolder v, final int position) {
 
-                            Utils.customChromeTab(context, Disasters.getDisastersList().get(position).getUrl(), 0);
+                            Utils.openChromeTab(context, Disasters.getDisastersList().get(position).getUrl(), 0);
 
                         }
                     });

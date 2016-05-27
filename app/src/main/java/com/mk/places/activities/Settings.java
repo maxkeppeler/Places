@@ -17,6 +17,7 @@ import android.widget.ListView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mk.places.R;
+import com.mk.places.utilities.Bookmarks;
 import com.mk.places.utilities.Dialogs;
 import com.mk.places.utilities.Utils;
 
@@ -29,6 +30,8 @@ public class Settings extends PreferenceActivity {
         super.onCreate(savedInstanceState);
 
         context = this;
+
+//        TODO VERY MUCH TODO
 
         LinearLayout root = (LinearLayout) findViewById(android.R.id.list).getParent().getParent().getParent();
         Toolbar toolbar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.component_settings_toolbar, root, false);

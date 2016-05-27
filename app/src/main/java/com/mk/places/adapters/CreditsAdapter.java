@@ -48,7 +48,7 @@ public class CreditsAdapter extends RecyclerView.Adapter<CreditsAdapter.ViewHold
 
     @Override
     public void onClick(View view) {
-        Utils.customChromeTab(context, (String) view.getTag(), 0);
+        Utils.openChromeTab(context, (String) view.getTag(), 0);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

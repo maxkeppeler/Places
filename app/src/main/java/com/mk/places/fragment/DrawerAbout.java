@@ -18,13 +18,16 @@ import com.mk.places.models.MemberItem;
 import com.mk.places.utilities.Utils;
 import com.mk.places.views.ButtonLayout;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class DrawerAbout extends Fragment implements View.OnClickListener {
 
 
-    private static String TAG = DrawerAbout.class.getName();
+    private static String TAG = "DrawerAbout";
     private static Activity context;
+
+    @Bind(R.id.recyclerViewMember) RecyclerView recyclerViewMember;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,24 +40,21 @@ public class DrawerAbout extends Fragment implements View.OnClickListener {
         TextView aboutTitle = ButterKnife.findById(view, R.id.aboutTitle);
         TextView aboutDesc = ButterKnife.findById(view, R.id.aboutDesc);
 
-        RecyclerView recyclerViewMember = ButterKnife.findById(view, R.id.recyclerViewMember);
-
         aboutTitle.setTypeface(Utils.customTypeface(context, 1));
         aboutDesc.setTypeface(Utils.customTypeface(context, 2));
 
         final String[] aBtnNames = getResources().getStringArray(R.array.appButtonNames);
         final String[] aBtnLinks = getResources().getStringArray(R.array.appButtonLinks);
 
-        final ButtonLayout ButtonLayout = (ButtonLayout) view.findViewById(R.id.buttonLayoutApp);
+        final ButtonLayout buttonLayout = ButterKnife.findById(view, R.id.buttonLayoutApp);
 
-        ButtonLayout.setAmount(aBtnNames.length);
+        buttonLayout.setAmount(aBtnNames.length);
 
-        for (int j = 0; j < aBtnNames.length; j++) {
-            ButtonLayout.addButton(aBtnNames[j], aBtnLinks[j], true);
-        }
+        for (int j = 0; j < aBtnNames.length; j++)
+            buttonLayout.addButton(aBtnNames[j], aBtnLinks[j], true);
 
-        for (int i = 0; i < ButtonLayout.getChildCount(); i++)
-            ButtonLayout.getChildAt(i).setOnClickListener(this);
+        for (int i = 0; i < buttonLayout.getChildCount(); i++)
+            buttonLayout.getChildAt(i).setOnClickListener(this);
 
         final String[] mImage = getResources().getStringArray(R.array.mImage);
         final String[] mName = getResources().getStringArray(R.array.mName);
@@ -70,7 +70,6 @@ public class DrawerAbout extends Fragment implements View.OnClickListener {
         final String[][] mBtnLinksN = new String[mBtnLinks.length][];
         for (int i = 0; i < mBtnLinks.length; i++)
             mBtnLinksN[i] = mBtnLinks[i].split("\\|");
-
 
         final MemberItem[] membersData = new MemberItem[mName.length];
 
@@ -101,6 +100,6 @@ public class DrawerAbout extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
 
-        Utils.customChromeTab(context, (String) view.getTag(), 0);
+        Utils.openChromeTab(context, (String) view.getTag(), 0);
     }
 }

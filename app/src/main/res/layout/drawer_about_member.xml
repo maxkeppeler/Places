@@ -7,7 +7,7 @@
 
 
     <android.support.v7.widget.CardView
-        android:id="@+id/memberCard"
+        android:id="@+id/cardView"
         style="@style/Card"
         android:layout_marginTop="4dp"
         app:cardUseCompatPadding="true">
@@ -18,14 +18,14 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/memberLinearLayout"
+                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/cardBackgroundDarker"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/memberImage"
+                    android:id="@+id/mImage"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="start"
@@ -42,7 +42,7 @@
                     android:paddingTop="16dp">
 
                     <TextView
-                        android:id="@+id/memberName"
+                        android:id="@+id/mName"
                         android:name="Placeholder Name"
                         style="@style/TextViewTitle"
                         android:layout_width="match_parent"
@@ -51,7 +51,7 @@
                         android:textColor="@color/white" />
 
                     <TextView
-                        android:id="@+id/memberTitle"
+                        android:id="@+id/mTitle"
                         android:name="Placeholder Text"
                         style="@style/TextViewBody1"
                         android:layout_width="match_parent"
@@ -70,7 +70,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/memberDesc"
+                    android:id="@+id/mDesc"
                     android:name="Placeholder Motivation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
                     <!--android:layout_height="wrap_content">-->
 
                     <com.mk.places.views.ButtonLayout
-                        android:id="@+id/memberButtonLayout"
+                        android:id="@+id/buttonLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"

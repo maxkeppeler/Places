@@ -8,29 +8,29 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mk.places.R;
-import com.mk.places.models.DetailsItem;
+import com.mk.places.models.InfosItem;
 import com.mk.places.utilities.Utils;
 
-public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHolder> {
+public class InfosAdapter extends RecyclerView.Adapter<InfosAdapter.ViewHolder> {
 
-    private DetailsItem[] detailsData;
+    private InfosItem[] infosData;
     private Context context;
 
-    public DetailsAdapter(DetailsItem[] detailsData, Context context) {
-        this.detailsData = detailsData;
+    public InfosAdapter(InfosItem[] infosData, Context context) {
+        this.infosData = infosData;
         this.context = context;
     }
 
     @Override
-    public DetailsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public InfosAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.place_item_details_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int index) {
 
-        holder.detailsTitle.setText(detailsData[index].getTitle());
-        holder.detailsText.setText(detailsData[index].getText());
+        holder.detailsTitle.setText(infosData[index].getTitle());
+        holder.detailsText.setText(infosData[index].getText());
 
         holder.detailsTitle.setTypeface(Utils.customTypeface(context, 2));
         holder.detailsText.setTypeface(Utils.customTypeface(context, 2));
@@ -39,7 +39,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return detailsData.length;
+        return infosData.length;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

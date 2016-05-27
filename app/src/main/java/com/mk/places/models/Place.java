@@ -51,16 +51,17 @@ public class Place implements Parcelable {
     }
 
     public Place(String id, String place, String sight, String continent, String infoTitle, String info, String creditsTitle, String creditsDesc, String credits, String description, String url) {
-        this.id = Utils.convertEntitiesCharsHTML(id);
-        this.place = Utils.convertEntitiesCharsHTML(place);
-        this.sight = Utils.convertEntitiesCharsHTML(sight);
-        this.continent = Utils.convertEntitiesCharsHTML(continent);
-        this.infoTitle = Utils.convertEntitiesCharsHTML(infoTitle);
-        this.info = Utils.convertEntitiesCharsHTML(info);
-        this.creditsTitle = Utils.convertEntitiesCharsHTML(creditsTitle);
-        this.creditsDesc = Utils.convertEntitiesCharsHTML(creditsDesc);
+
+        this.id = Utils.cleanString(id);
+        this.place = Utils.cleanString(place);
+        this.sight = Utils.cleanString(sight);
+        this.continent = Utils.cleanString(continent);
+        this.infoTitle = Utils.cleanString(infoTitle);
+        this.info = Utils.cleanString(info);
+        this.creditsTitle = Utils.cleanString(creditsTitle);
+        this.creditsDesc = Utils.cleanString(creditsDesc);
         this.credits = credits.replace(" ", "");
-        this.description = Utils.convertEntitiesCharsHTML(description);
+        this.description = Utils.cleanString(description);
         this.url = url.replace(" ", "");
     }
 

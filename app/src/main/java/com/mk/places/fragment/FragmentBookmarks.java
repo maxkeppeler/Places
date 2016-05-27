@@ -21,7 +21,7 @@ import android.widget.SearchView;
 
 import com.afollestad.inquiry.Inquiry;
 import com.mk.places.R;
-import com.mk.places.activities.Bookmarks;
+import com.mk.places.utilities.Bookmarks;
 import com.mk.places.activities.MainActivity;
 import com.mk.places.activities.PlaceView;
 import com.mk.places.adapters.PlaceAdapter;
@@ -33,7 +33,7 @@ import java.util.ArrayList;
 
 public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private static final String TAG = FragmentBookmarks.class.getName();
+    private static final String TAG = "FragmentBookmarks";
     public static ArrayList<Place> bookmarks = new ArrayList<>();
     public static SwipeRefreshLayout mRefreshLayout;
     public static ArrayList<Place> filter;

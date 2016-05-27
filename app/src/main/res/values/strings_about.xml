@@ -8,21 +8,17 @@
     <string name="appDescription">Places was created to help people to spot the most unique places on our earth. You will be surprised what kind of places exist.
         Bookmark your personal most interesting places - and swear to yourself to visit them in your life time.
         \n \n
-        Places sets in addition focus on nature conservation. You receive information about how to support our earth - for example against Global Warming. \n\nThe most active environmental activist are honored in this app, check them out and read their motivations.
+        Places sets in addition focus on the nature. You receive information about the last disasters and good acts from humanity. \n\nThe most active environmental activist are honored in this app, check them out and read their motivations.
 
     </string>
 
 
     <string-array name="appButtonNames">
         <item>Rate Places</item>
-        <!--<item>Website</item>-->
-        <!--<item>Facebook</item>-->
     </string-array>
 
     <string-array name="appButtonLinks">
         <item>https://play.google.com/store/apps/dev?id=9187145836369403051</item>
-        <!--<item>https://www.places.com</item>-->
-        <!--<item>https://www.facebook.com/places</item>-->
     </string-array>
 
 
@@ -46,7 +42,7 @@
     </array>
 
     <array name="mTitle">
-        <item>Founder</item>
+        <item>A bit of Developer and Designer.</item>
         <item>Developer</item>
         <item>Designer</item>
         <item>Developer</item>

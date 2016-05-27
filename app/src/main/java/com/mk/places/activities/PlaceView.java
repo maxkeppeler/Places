@@ -3,7 +3,6 @@ package com.mk.places.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -11,7 +10,6 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
@@ -37,12 +35,13 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mk.places.R;
 import com.mk.places.adapters.CreditsAdapter;
-import com.mk.places.adapters.DetailsAdapter;
+import com.mk.places.adapters.InfosAdapter;
 import com.mk.places.adapters.GalleryAdapter;
 import com.mk.places.fragment.FragmentBookmarks;
 import com.mk.places.models.CreditsItem;
-import com.mk.places.models.DetailsItem;
+import com.mk.places.models.InfosItem;
 import com.mk.places.models.Place;
+import com.mk.places.utilities.Bookmarks;
 import com.mk.places.utilities.Dialogs;
 import com.mk.places.utilities.Utils;
 
@@ -81,10 +80,8 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
 
         setContentView(R.layout.place_item);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window = this.getWindow();
-            window.setStatusBarColor(getResources().getColor(R.color.transparent));
-        }
+        window = this.getWindow();
+        window.setStatusBarColor(getResources().getColor(R.color.transparent));
 
         context = this;
         ButterKnife.bind(this);
@@ -95,15 +92,13 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
         toolbar.setNavigationIcon(R.drawable.ic_close);
 
         item = getIntent().getParcelableExtra("item");
-
         place = item.getPlace();
         desc = item.getDescription();
 
+        // Make strings to arrays
         url = item.getUrl().split("\\|");
-
         info = item.getInfo().split("\\|");
         infoTitle = item.getInfoTitle().split("\\|");
-
         credits = item.getCredits().split("\\|");
         creditsTitle = item.getCreditsTitle().split("\\|");
         creditsDesc = item.getCreditsDesc().split("\\|");
@@ -169,11 +164,13 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
 
         createGallery();
 
+        // Just display the card, when there's content
         if (item.getInfoTitle().length() > 2) {
             infoCardView.setVisibility(View.VISIBLE);
-            createDetailsCard();
+            createInfosCard();
         }
 
+        // Just display the card, when there's content
         if (item.getCredits().length() > 2) {
             creditsCardView.setVisibility(View.VISIBLE);
             createCreditsCard();
@@ -181,6 +178,9 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
 
     }
 
+    /**
+     *  Setup the card for giving credits to the sources of the place.
+     */
     private void createCreditsCard() {
 
         CreditsItem[] creditsCard = new CreditsItem[creditsTitle.length];
@@ -192,18 +192,24 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
         creditsRecycler.setHasFixedSize(true);
     }
 
-    private void createDetailsCard() {
+    /**
+     *  Setup the card for giving users info about the place.
+     */
+    private void createInfosCard() {
 
-        DetailsItem[] detailsCard = new DetailsItem[infoTitle.length];
+        InfosItem[] infosCard = new InfosItem[infoTitle.length];
         for (int i = 0; i < infoTitle.length; i++)
-            detailsCard[i] = new DetailsItem(infoTitle[i], info[i]);
+            infosCard[i] = new InfosItem(infoTitle[i], info[i]);
 
         infoRecycler.setLayoutManager(new LinearLayoutManager(context));
-        infoRecycler.setAdapter(new DetailsAdapter(detailsCard, context));
+        infoRecycler.setAdapter(new InfosAdapter(infosCard, context));
         infoRecycler.setHasFixedSize(true);
 
     }
 
+    /**
+     *  Setup the image gallery
+     */
     private void createGallery() {
 
         final GalleryAdapter galleryAdapter = new GalleryAdapter(context, url, new GalleryAdapter.ClickListener() {
@@ -249,30 +255,40 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
+
+            case android.R.id.home:  // Back (close) button
                 close();
                 break;
-            case R.id.launch:
-                Utils.customChromeTab(context, getResources().getString(R.string.launch_word_search) + place, color);
+
+            case R.id.launch:       // Search in a chrome tab after the location without a specific link
+                Utils.openChromeTab(context, getResources().getString(R.string.launch_word_search) + place, color);
                 break;
 
-            case R.id.report:
+            case R.id.report:       // Let users report any issues on the respective place
                 Dialogs.mailReport(context);
                 break;
         }
         return true;
     }
 
+    /**
+     * Close current activity correctly
+     */
     private void close() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             this.supportFinishAfterTransition();
         else finish();
     }
 
+    /**
+     *  Fab onClick listener
+     * @param v
+     */
     @Override
     public void onClick(View v) {
 
-        if (Bookmarks.favoriteItem(item.getId()))
+        // Bookmark current item with the respective id. (If item is already bookmarked, it will be removed.)
+        if (Bookmarks.bookmarkItem(item.getId()))
             Utils.showSnackBar(context, Utils.colorVariant(color, 1.07f), R.id.coordinatorLayout, R.string.bookmarkedPlace, Snackbar.LENGTH_LONG);
         else
             Utils.showSnackBar(context, Utils.colorVariant(color, 1.07f), R.id.coordinatorLayout, R.string.removedPlace, Snackbar.LENGTH_LONG);
