@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class DisastersJSON extends AsyncTask<Void, Void, Void> {
 
-    private final static ArrayList<Disaster> DISASTERs = new ArrayList<>();
+    private final static ArrayList<Disaster> disasters = new ArrayList<>();
     private static final String TAG = "DisastersJSON";
     private long startTime;
     private Activity context;
@@ -48,14 +48,14 @@ public class DisastersJSON extends AsyncTask<Void, Void, Void> {
 
                     json = jsonarray.getJSONObject(i);
 
-                    DISASTERs.add(new Disaster(
+                    disasters.add(new Disaster(
                             json.getString("title"),
                             json.getString("images"),
                             json.getString("url")
                     ));
                 }
 
-                Disasters.createDisastersList(DISASTERs);
+                Disasters.createDisastersList(disasters);
 
             } catch (JSONException e) {
                 Log.e(TAG, " Problem with the JSON API", e);
