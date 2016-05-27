@@ -65,7 +65,7 @@
                             android:paddingRight="16dp"
                             android:paddingTop="16dp"
                             android:text="@string/appDescription"
-                            android:textColor="@color/primaryText" />
+                            android:textColor="@color/textLevel1" />
 
                     </LinearLayout>
 

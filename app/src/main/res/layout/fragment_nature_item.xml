@@ -38,7 +38,7 @@
                     android:minLines="3"
                     android:padding="8dp"
                     android:text="Sin Title"
-                    android:textColor="@color/textPrimary" />
+                    android:textColor="@color/textLevel1" />
 
             </LinearLayout>
 

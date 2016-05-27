@@ -90,7 +90,7 @@ public class Settings extends PreferenceActivity {
                 new MaterialDialog.Builder(context)
                         .content("Are you sure you want to delete all bookmarked Places?")
                         .typeface(Utils.customTypeface(context, 3), Utils.customTypeface(context, 2))
-                        .contentColor(ContextCompat.getColor(context, R.color.primaryText))
+                        .contentColor(ContextCompat.getColor(context, R.color.textLevel1))
                         .backgroundColor(context.getResources().getColor(R.color.cardBackground))
                         .negativeText("Yes")
                         .positiveText("No")

@@ -30,21 +30,20 @@ public class ButtonLayout extends LinearLayout {
         setWeightSum(amount);
     }
 
-    public void addButton(String bText, String bLink, boolean horizontal) {
+    public void addButton(String text, String link, boolean horizontal) {
 
-        if (horizontal)
-        setOrientation(HORIZONTAL);
+        if (horizontal) setOrientation(HORIZONTAL);
         else setOrientation(VERTICAL);
 
-        final Button nButton = (Button) LayoutInflater.from(getContext()).inflate(R.layout.component_borderless_button, this, false);
+        final Button button = (Button) LayoutInflater.from(getContext()).inflate(R.layout.component_borderless_button, this, false);
 
         final LinearLayout.LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.weight = 1;
 
-        nButton.setText(bText);
-        nButton.setTag(bLink);
+        button.setText(text);
+        button.setTag(link);
 
-        addView(nButton, params);
+        addView(button, params);
 
     }
 

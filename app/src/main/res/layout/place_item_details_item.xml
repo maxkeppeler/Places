@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="Info Title"
         android:textAllCaps="true"
-        android:textColor="@color/secondaryText"
+        android:textColor="@color/textLevel2"
         android:textSize="12sp"
         android:layout_gravity="center_vertical" />
 
@@ -31,7 +31,7 @@
             android:layout_marginStart="10dp"
             android:lineSpacingExtra="3dp"
             android:text="Info"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/textLevel1"
             android:layout_gravity="top" />
 
     </LinearLayout>

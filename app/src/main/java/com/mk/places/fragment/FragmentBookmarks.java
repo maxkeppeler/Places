@@ -34,14 +34,18 @@ import java.util.ArrayList;
 public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "FragmentBookmarks";
-    public static ArrayList<Place> bookmarks = new ArrayList<>();
+    private static ArrayList<Place> bookmarks = new ArrayList<>();
     public static SwipeRefreshLayout mRefreshLayout;
     public static ArrayList<Place> filter;
-    public static SearchView sv;
+    public static SearchView searchView;
     private static PlaceAdapter mAdapter;
     private static RecyclerView mRecyclerView;
     private static Activity context;
     private Menu bookmarksMenu;
+
+    public static ArrayList<Place> getBookmarks() {
+        return bookmarks;
+    }
 
     public static void updateLayout(final boolean filtering, final ArrayList<Place> searchFiltering) {
 
@@ -144,18 +148,18 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
         bookmarksMenu = menu;
 
         MenuItem item = menu.findItem(R.id.search);
-        sv = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
-        MenuItemCompat.setActionView(item, sv);
-        sv.setQueryHint("Berlin, Germany");
-        sv.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        sv.setOnCloseListener(new SearchView.OnCloseListener() {
+        searchView = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
+        MenuItemCompat.setActionView(item, searchView);
+        searchView.setQueryHint(getResources().getString(R.string.searchTextHint));
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
                 updateLayout(false, null);
                 return false;
             }
         });
-        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String key) {
                 return false;
@@ -164,7 +168,7 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
             @Override
             public boolean onQueryTextChange(String key) {
                 searchFilter(key);
-                MainActivity.drawerFilter.setSelection(0);
+                MainActivity.drawerFilter.setSelection(Constants.NO_SELECTION);
                 return false;
             }
 

@@ -3,13 +3,10 @@ package com.mk.places.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -52,12 +49,12 @@ public class DrawerPlacesTabs extends Fragment {
 
                 if (MainActivity.drawerIndex == 0) {
                     if (tab.getPosition() == 1)
-                        if (FragmentPlaces.filter != null && !FragmentPlaces.sv.isIconified()) {
+                        if (FragmentPlaces.filter != null && !FragmentPlaces.searchView.isIconified()) {
                             FragmentPlaces.updateLayout(false, null);
                             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                         }
                     if (tab.getPosition() == 0) {
-                        if (FragmentBookmarks.filter != null && !FragmentBookmarks.sv.isIconified()) {
+                        if (FragmentBookmarks.filter != null && !FragmentBookmarks.searchView.isIconified()) {
                             FragmentBookmarks.updateLayout(false, null);
                             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                         }

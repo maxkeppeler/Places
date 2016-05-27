@@ -105,7 +105,7 @@
                             android:id="@+id/tvDescText"
                             style="@style/TextViewBody1"
                             android:layout_marginTop="16dp"
-                            android:textColor="@color/primaryText" />
+                            android:textColor="@color/textLevel1" />
 
                     </LinearLayout>
 

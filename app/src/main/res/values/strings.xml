@@ -2,6 +2,13 @@
 
     <string name="app_name">Places</string>
 
+
+    <!-- ////////////   OTHER APP STRINGS   \\\\\\\\\\\\\ -->
+
+    <!-- Fragment Places / Fragment Bookmarks -->
+    <string name="searchTextHint"> </string>
+
+
     <!-- ////////////   MATERIAL DRAWER   \\\\\\\\\\\\\ -->
 
     <!-- Header Images (URLs) -->
@@ -17,7 +24,6 @@
         <item>http://bit.ly/1YHiphC</item>
     </string-array>
 
-
     <!-- ////////////  Toolbar   \\\\\\\\\\\\\ -->
 
     <!--  Toolbar Texts -->
@@ -27,7 +33,6 @@
     <string name="action_search">Search</string>
     <string name="action_download">Download Image</string>
     <string name="action_report">Report Issue</string>
-
 
     <!-- ////////////  Snack Bars   \\\\\\\\\\\\\ -->
 
@@ -40,13 +45,8 @@
     <string name="removedPlace">Place has been removed from your bookmarks.</string>
 
 
-    <!-- ////////////   PERMISSION DIALOGS   \\\\\\\\\\\\\ -->
-    <string name="storageContent">
-        Following features need access to your storage in order to work:
-         \n
-         \n • Download images
-         \n • Download this page with all info
-    </string>
+    <!-- ////////////   PERMISSION DIALOG STORAGE   \\\\\\\\\\\\\ -->
+    <string name="storageContent">For downloading images, Places need access to the storage.</string>
     <string name="storagePositive">Ok</string>
     <string name="storageNegative">No</string>
 
@@ -56,7 +56,6 @@
 
     <!-- LAUNCH INTENT-->
     <string name="launch_word_search">"http://www.google.com/search?q="</string>
-
 
     <!-- E-MAIL INTENT-->
     <string name="mail_adress">chvent94@googlemail.com</string>

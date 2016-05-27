@@ -20,7 +20,7 @@ public class Dialogs {
         new MaterialDialog.Builder(context)
 
                 .typeface(Utils.customTypeface(context, 2), Utils.customTypeface(context, 2))
-                .contentColor(ContextCompat.getColor(context, R.color.primaryText))
+                .contentColor(ContextCompat.getColor(context, R.color.textLevel1))
                 .backgroundColor(ContextCompat.getColor(context, R.color.cardBackground))
                 .title(R.string.changelogTitle)
                 .content(Html.fromHtml(context.getResources().getString(R.string.changelogContent)))

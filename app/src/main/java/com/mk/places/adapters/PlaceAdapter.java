@@ -168,7 +168,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
 
                     if (MainActivity.tabLayout.getTabAt(1).isSelected()) {
 
-                        if (Bookmarks.bookmarkItem(FragmentBookmarks.bookmarks.get(getLayoutPosition()).getId())) {
+                        if (Bookmarks.bookmarkItem(FragmentBookmarks.getBookmarks().get(getLayoutPosition()).getId())) {
                             Utils.showSnackBar(context, ContextCompat.getColor(context, R.color.cardBackground), R.id.coordinatorLayout, R.string.bookmarkedPlace, Snackbar.LENGTH_LONG);
                         } else
                             Utils.showSnackBar(context, ContextCompat.getColor(context, R.color.cardBackground), R.id.coordinatorLayout, R.string.removedPlace, Snackbar.LENGTH_LONG);

@@ -18,10 +18,10 @@ public class FilterLogic {
         if (!key.equals(Constants.NO_FILTER)) {
             int x = 0;
             int y = 0;
-            for (int j = 0; j < FragmentBookmarks.bookmarks.size(); j++) {
-                if (Utils.stringIsContained(key, FragmentBookmarks.bookmarks.get(j).getSight()) || Utils.stringIsContained(key, FragmentBookmarks.bookmarks.get(j).getContinent())) {
+            for (int j = 0; j < FragmentBookmarks.getBookmarks().size(); j++) {
+                if (Utils.stringIsContained(key, FragmentBookmarks.getBookmarks().get(j).getSight()) || Utils.stringIsContained(key, FragmentBookmarks.getBookmarks().get(j).getContinent())) {
 
-                    filterBookmarks.add(x, FragmentBookmarks.bookmarks.get(j));
+                    filterBookmarks.add(x, FragmentBookmarks.getBookmarks().get(j));
                     x++;
                 }
             }
@@ -43,7 +43,7 @@ public class FilterLogic {
 
             FragmentPlaces.updateLayout(false, null);
             FragmentBookmarks.updateLayout(false, null);
-            MainActivity.updateTabTexts(0, Places.getPlacesList().size(), FragmentBookmarks.bookmarks.size());
+            MainActivity.updateTabTexts(0, Places.getPlacesList().size(), FragmentBookmarks.getBookmarks().size());
         }
 
 

@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Website"
-        android:textColor="@color/primaryText" />
+        android:textColor="@color/textLevel1" />
 
     <TextView
         style="@style/TextViewBody1"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="4dp"
         android:text="Website Description"
-        android:textColor="@color/secondaryText" />
+        android:textColor="@color/textLevel2" />
 
 </LinearLayout>
 

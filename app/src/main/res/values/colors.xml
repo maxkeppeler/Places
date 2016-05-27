@@ -3,144 +3,61 @@
 
     <!-- ////////////  DEFAULT COLORS   \\\\\\\\\\\\\ -->
 
-    <!--<color name="colorPrimary">#142f37</color>-->
-    <!--<color name="colorPrimaryDark">#0f2830</color>-->
-    <!--<color name="colorAccent">#10404e</color>-->
-    <!--<color name="colorAccent2">#196074</color>-->
-
     <color name="colorPrimary">@color/md_blue_500</color>
     <color name="colorPrimaryDark">@color/md_blue_600</color>
+    <color name="colorPrimaryLight">@color/md_blue_400</color>
     <color name="colorAccent">@color/md_light_blue_500</color>
 
-    <color name="imageViewToolbar">#44000000</color>
+    <color name="translucentToolbar">#44000000</color>
+
+    <!-- OTHER APP COLORS -->
+    <color name="rippleFab">@color/white</color>
 
 
-
-
-    <!-- Other colors -->
-    <color name="fabRipple">#aeffffff</color>
-    <!--<color name="appBackgroundColor">#000</color>-->
 
     <!-- ////////////  TEXT COLORS   \\\\\\\\\\\\\ -->
 
-    <!--Light -->
-    <color name="primaryText">#DEFFFFFF</color>
-    <color name="secondaryText">#8AFFFFFF</color>
+    <color name="textLevel1">#DEFFFFFF</color>
+    <color name="textLevel2">#8AFFFFFF</color>
+    <color name="textHint">#42FFFFFF</color>
+
 
 
     <!-- ////////////  APP SECTION COLORS  \\\\\\\\\\\\\ -->
 
-    <!--<color name="backgroundColor">#303030</color>-->
     <color name="backgroundColor">#292f37</color>
     <color name="backgroundColorDarker">#191d21</color>
-    <!--<color name="cardBackground">#424242</color>-->
-    <!--<color name="cardBackground">#464646</color>-->
-    <color name="cardBackgroundLighter">#4e5968</color>
+
     <color name="cardBackground">#3c4550</color>
-    <!--<color name="cardBackgroundDarker">#414141</color>-->
+    <color name="cardBackgroundLighter">#4e5968</color>
     <color name="cardBackgroundDarker">#37404a</color>
-    <color name="textPrimary">#fff</color>
-    <!--<color name="default_app_bg">#1b1c1f</color>-->
+
 
 
     <!-- ////////////  OTHER COLORS   \\\\\\\\\\\\\ -->
 
     <color name="white">#fff</color>
-    <color name="transparent">#00ffffff</color>
-    <color name="transparentBit">#33000000</color>
+    <color name="black">#000</color>
+    <color name="fullTransparent">#00ffffff</color>
+    <color name="transparent1">#33000000</color>
 
 
     <!--////////////  MATERIAL DRAWER   \\\\\\\\\\\\\ -->
 
     <color name="material_drawer_primary">@color/colorPrimary</color>
     <color name="material_drawer_primary_dark">@color/colorPrimaryDark</color>
-    <!--<color name="material_drawer_primary_light">@color/colorPrimaryLight</color>-->
+    <color name="material_drawer_primary_light">@color/colorPrimaryLight</color>
     <color name="material_drawer_accent">@color/colorAccent</color>
 
-    <!--<color name="material_drawer_selected">#202020</color>-->
     <color name="material_drawer_selected">#1f242a</color>
-    <!--<color name="material_drawer_selected_text">#fff</color>-->
-    <color name="material_drawer_selected_text">@color/colorPrimary</color>
+    <color name="material_drawer_selected_text">@color/colorPrimaryLight</color>
     <color name="material_drawer_header_selection_text">#FFF</color>
     <color name="material_drawer_background">#292f37</color>
-    <!--<color name="material_drawer_background">#303030</color>-->
 
-    <!-- Text Colors -->
     <color name="material_drawer_primary_text">#8AFFFFFF</color>
-    <!--<color name="material_drawer_primary_text">#DEFFFFFF</color>-->
     <color name="material_drawer_primary_icon">#8AFFFFFF</color>
     <color name="material_drawer_secondary_text">#8AFFFFFF</color>
     <color name="material_drawer_hint_text">#42FFFFFF</color>
     <color name="material_drawer_divider">#1FFFFFFF</color>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- Google Plus Red -->
-
-    <!-- Google Plus Red -->
-
-    <!--reds-->
-
-    <!-- pinks -->
-
-    <!-- purples -->
-
-    <!-- deep purples -->
-
-    <!-- indigo -->
-
-    <!--blue-->
-    <color name="md_blue_500">#2196F3</color>
-    <color name="md_blue_600">#1E88E5</color>
-
-    <!-- light blue-->
-    <color name="md_light_blue_500">#03A9F4</color>
-
-    <!-- cyan -->
-
-    <!-- teal -->
-
-    <!-- green -->
-
-    <!--light green-->
-
-    <!-- lime-->
-
-    <!--yellow -->
-
-    <!--amber-->
-
-    <!--orange-->
-
-    <!--deep orange-->
-
-    <!--brown -->
-
-    <!--grey-->
-    <color name="md_white_1000">#ffffff</color>
-
-    <!--blue grey-->
 
 </resources>

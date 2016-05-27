@@ -81,7 +81,7 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.place_item);
 
         window = this.getWindow();
-        window.setStatusBarColor(getResources().getColor(R.color.transparent));
+        window.setStatusBarColor(getResources().getColor(R.color.fullTransparent));
 
         context = this;
         ButterKnife.bind(this);

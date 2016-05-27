@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,7 +26,6 @@ import com.mk.places.models.Place;
 import com.mk.places.models.Places;
 import com.mk.places.threads.PlacesJSON;
 import com.mk.places.utilities.Constants;
-import com.mk.places.utilities.Preferences;
 
 import java.util.ArrayList;
 
@@ -36,7 +34,7 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
     private static final String TAG = "FragmentPlaces";
     public static SwipeRefreshLayout mRefreshLayout;
     public static ArrayList<Place> filter = new ArrayList<>();
-    public static SearchView sv;
+    public static SearchView searchView;
     public static RecyclerView mRecyclerView;
     private static PlaceAdapter mAdapter;
     private static Activity context;
@@ -45,7 +43,6 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
     public static void updateLayout(final boolean filtering, final ArrayList<Place> searchFiltering) {
 
         if (Places.getPlacesList() != null && Places.getPlacesList().size() > 0) {
-
 
             context.runOnUiThread(new Runnable() {
 
@@ -104,7 +101,7 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
         }
         updateLayout(true, null);
 
-        MainActivity.updateTabTexts(0, filter.size(), FragmentBookmarks.bookmarks.size());
+        MainActivity.updateTabTexts(0, filter.size(), FragmentBookmarks.getBookmarks().size());
     }
 
     @Override
@@ -116,18 +113,18 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
         inflater.inflate(R.menu.actions_places, menu);
 
         MenuItem item = menu.findItem(R.id.search);
-        sv = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
-        MenuItemCompat.setActionView(item, sv);
-        sv.setQueryHint("Berlin, Germany");
-        sv.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        sv.setOnCloseListener(new SearchView.OnCloseListener() {
+        searchView = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
+        MenuItemCompat.setActionView(item, searchView);
+        searchView.setQueryHint(getResources().getString(R.string.searchTextHint));
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
                 updateLayout(false, null);
                 return false;
             }
         });
-        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String key) {
                 return false;
@@ -136,7 +133,7 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
             @Override
             public boolean onQueryTextChange(String key) {
                 searchFilter(key);
-                MainActivity.drawerFilter.setSelection(0);
+                MainActivity.drawerFilter.setSelection(Constants.NO_SELECTION);
                 return false;
             }
 

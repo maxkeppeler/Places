@@ -3,7 +3,6 @@
     <dimen name="activity_margin">16dp</dimen>
     <dimen name="activity_margin_little">8dp</dimen>
 
-
     <dimen name="card_elevation">2dp</dimen>
     <dimen name="card_radius">2dp</dimen>
 

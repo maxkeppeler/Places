@@ -103,7 +103,7 @@
         <item name="borderWidth">0dp</item>
         <item name="elevation">6dp</item>
         <item name="pressedTranslationZ">12dp</item>
-        <item name="rippleColor">@color/fabRipple</item>
+        <item name="rippleColor">@color/rippleFab</item>
     </style>
 
     <style name="RecyclerView">

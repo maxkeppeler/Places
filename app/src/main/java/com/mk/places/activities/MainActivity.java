@@ -131,8 +131,8 @@ public class MainActivity extends AppCompatActivity {
                                     case 0: fragment = new DrawerPlacesTabs();
                                         setTabTexts(Constants.TAB_DISASTERS, Constants.TAB_GOOD_ACTS);
 
-                                        if (Places.getPlacesList() != null && FragmentBookmarks.bookmarks != null)
-                                        updateTabTexts(0, Places.getPlacesList().size(), FragmentBookmarks.bookmarks.size());
+                                        if (Places.getPlacesList() != null && FragmentBookmarks.getBookmarks() != null)
+                                        updateTabTexts(0, Places.getPlacesList().size(), FragmentBookmarks.getBookmarks().size());
 
                                         break;
 
