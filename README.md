@@ -35,5 +35,5 @@ The app is far away from being finished. Currently I make a break, because I hav
 - <a href="https://plus.google.com/+KevinAguilarC/posts" target="_blank">Kevin Aguilar</a> 
 
 # Translations
-When the app is completely finished, we are going to start translating the app and the json files with the places to the main languages.
+When the app is completely finished, we are going to start translating the app and the json files to the most important languages.
 
