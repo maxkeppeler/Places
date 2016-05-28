@@ -9,6 +9,9 @@ The most active environmental activist are honored in this app, check them out a
 
 Open Beta: <a href="https://play.google.com/apps/testing/com.mk.places﻿" target="_blank">Google Play opt-in</a>
 
+# Current State
+The app is far away from being finished. Currently I make a break, because I have to learn for my many exams. 
+
 # Content of Places
 - Places: (Places, Bookmarked Places)
 - Nature: (Disasters, Good Acts of Humanity)
@@ -18,6 +21,8 @@ Open Beta: <a href="https://play.google.com/apps/testing/com.mk.places﻿" targe
 - Bookmark places
 - Search function for places and boomarked places
 - Filter function for places and bookmarked places - filter after sights or continents
+- Beautiful material inspired design
+- Small app size - Data are loaded from various jsons. (Cloud Based)
  
 # Developed by Maximilian Keppeler
 - <a href="https://plus.google.com/+MaxKeppeler/posts" target="_blank">Google Plus</a>
@@ -28,3 +33,7 @@ Open Beta: <a href="https://play.google.com/apps/testing/com.mk.places﻿" targe
 - <a href="https://plus.google.com/+JahirFiquitivaJDev/posts" target="_blank">Jahir Fiquitiva</a>
 - <a href="https://plus.google.com/+AidanFollestad/posts" target="_blank">Aidan Follestad</a> 
 - <a href="https://plus.google.com/+KevinAguilarC/posts" target="_blank">Kevin Aguilar</a> 
+
+# Translations
+When the app is completely finished, we are going to start translating the app and the json files with the places to the main languages.
+
