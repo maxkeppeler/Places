@@ -37,3 +37,7 @@ The app is far away from being finished. Currently I make a break, because I hav
 # Translations
 When the app is completely finished, we are going to start translating the app and the json files to the most important languages.
 
+# License
+- <a href="https://github.com/MaximilianKeppeler/Places/blob/master/LICENSE.md" target="_blank">LICENSE.md</a>
+
+
