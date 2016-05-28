@@ -7,11 +7,11 @@ android {
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
-        applicationId "com.mk.placesdrawer"
+        applicationId "com.mk.places"
         minSdkVersion 21
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 105
+        versionName "0.05 Beta"
         multiDexEnabled true
     }
     buildTypes {
