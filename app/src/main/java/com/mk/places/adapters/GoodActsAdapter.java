@@ -58,7 +58,7 @@ public class GoodActsAdapter extends RecyclerView.Adapter<GoodActsAdapter.SinsVi
         Glide.with(context)
                 .load(url[0] != null ? url[0] : sin.getImages())
                 .asBitmap()
-                .override(1000, 700)
+                .override(1000, 1000)
                 .listener(new RequestListener<String, Bitmap>() {
                     @Override
                     public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
@@ -74,6 +74,7 @@ public class GoodActsAdapter extends RecyclerView.Adapter<GoodActsAdapter.SinsVi
 
                                 if (palette == null) return;
                                 holder.coloredBackground.setBackgroundColor(Utils.colorFromPalette(context, palette));
+                                holder.coloredBackground.setAlpha(0.9f);
 
                                 holder.layout.setVisibility(View.VISIBLE);
 

@@ -57,7 +57,7 @@ public class DisastersAdapter extends RecyclerView.Adapter<DisastersAdapter.Sins
         Glide.with(context)
                 .load(url[0] != null ? url[0] : disaster.getImages())
                 .asBitmap()
-                .override(1000, 700)
+                .override(1000, 1000)
                 .listener(new RequestListener<String, Bitmap>() {
                     @Override
                     public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
@@ -74,6 +74,7 @@ public class DisastersAdapter extends RecyclerView.Adapter<DisastersAdapter.Sins
                                 if (palette == null) return;
                                 int color = Utils.colorFromPalette(context, palette);
                                 holder.coloredBackground.setBackgroundColor(color);
+                                holder.coloredBackground.setAlpha(0.9f);
 
                                 holder.layout.setVisibility(View.VISIBLE);
                             }
