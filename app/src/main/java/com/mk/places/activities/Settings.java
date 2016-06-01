@@ -8,6 +8,7 @@ import android.preference.SwitchPreference;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +18,17 @@ import android.widget.ListView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mk.places.R;
+import com.mk.places.fragment.FragmentPlaces;
 import com.mk.places.utilities.Bookmarks;
+import com.mk.places.utilities.Constants;
 import com.mk.places.utilities.Dialogs;
+import com.mk.places.utilities.Preferences;
 import com.mk.places.utilities.Utils;
 
 public class Settings extends PreferenceActivity {
 
     private Context context;
+    private static final String TAG = "Settings";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +36,16 @@ public class Settings extends PreferenceActivity {
 
         context = this;
 
-//        TODO VERY MUCH TODO
-
         LinearLayout root = (LinearLayout) findViewById(android.R.id.list).getParent().getParent().getParent();
         Toolbar toolbar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.component_settings_toolbar, root, false);
 
+        // Fixes the odd paddings in portrait and landscape
         ListView lv = (ListView) findViewById(android.R.id.list);
         ViewGroup parent = (ViewGroup) lv.getParent();
         parent.setPadding(0, 0, 0, 0);
         root.setPadding(0, 0, 0, 0);
 
-        toolbar.setTitle("Settings");
+        toolbar.setTitle(Constants.DRAWER_SETTINGS);
         toolbar.setElevation(15);
         toolbar.setNavigationIcon(R.drawable.ic_close);
         toolbar.setTitleTextColor(ContextCompat.getColor(context, R.color.white));
@@ -55,20 +59,35 @@ public class Settings extends PreferenceActivity {
 
         addPreferencesFromResource(R.xml.preference);
 
-        final SwitchPreference prefDownloadType = (SwitchPreference) findPreference("download_mobile_data");
-        prefDownloadType.setDefaultValue(true);
-        prefDownloadType.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        Preference prefSuggestPlaces = findPreference("pref_suggest_places");
+        prefSuggestPlaces.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
+
+                // TODO: Activity for the input instead of a intent
+
                 return true;
             }
         });
 
-
-        SwitchPreference prefNotifications = (SwitchPreference) findPreference("pref_notifications");
-        prefNotifications.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        Preference prefSuggestNatureEvents = findPreference("pref_suggest_nature_events");
+        prefSuggestNatureEvents.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
+
+                // TODO: Activity for the input instead of a intent
+
+                return true;
+            }
+        });
+
+        Preference prefSuggestionsHall = findPreference("pref_suggest_hall_of_honor");
+        prefSuggestionsHall.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+
+                // TODO: Activity for the input instead of a intent
+
                 return true;
             }
         });
