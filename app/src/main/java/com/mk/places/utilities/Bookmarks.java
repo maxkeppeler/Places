@@ -4,7 +4,6 @@ import android.app.Activity;
 
 import com.afollestad.inquiry.Inquiry;
 import com.afollestad.inquiry.annotations.Column;
-import com.mk.places.utilities.Constants;
 
 /**
  *  Thanks Aidan Follestad
@@ -22,7 +21,7 @@ public final class Bookmarks {
     /**
      * Returns true if the item is currently favorited.
      */
-    public static boolean isFavorited(String id) {
+    public static boolean isBookmarked(String id) {
         return Inquiry.get()
                 .selectFrom(Constants.DATABASE_NAME, BookmarksDB.class)
                 .where("_id = ?", id)
@@ -36,7 +35,7 @@ public final class Bookmarks {
 
         init(context);
 
-        if (!isFavorited(id)) {
+        if (!isBookmarked(id)) {
             Inquiry.get()
                     .insertInto(Constants.DATABASE_NAME, BookmarksDB.class)
                     .values(new BookmarksDB(id))
@@ -71,7 +70,7 @@ public final class Bookmarks {
      * Returns true if the item was unfavorited successfully.
      */
     public static boolean unbookmarkItem(String id) {
-        if (isFavorited(id)) {
+        if (isBookmarked(id)) {
             Inquiry.get()
                     .deleteFrom(Constants.DATABASE_NAME, BookmarksDB.class)
                     .where("_id = ?", id)
