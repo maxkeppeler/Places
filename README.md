@@ -7,7 +7,7 @@ Places sets in addition focus on the nature. You receive information about the l
 
 The most active environmental activist are honored in this app, check them out and read their motivations.
 
-Open Beta: <a href="https://play.google.com/apps/testing/com.mk.places﻿" target="_blank">Google Play opt-in</a>
+Open Beta: <a href="https://play.google.com/apps/testing/com.mk.places" target="_blank">Google Play opt-in</a>
 
 # Current State
 The app is far away from being finished. Currently I make a break, because I have to learn for my many exams. 
