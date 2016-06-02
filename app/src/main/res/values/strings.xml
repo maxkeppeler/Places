@@ -29,6 +29,7 @@
     <!--  Toolbar Texts -->
     <string name="action_share">Share</string>
     <string name="action_launch">Launch Browser</string>
+    <string name="action_bookmark">Bookmark</string>
     <string name="action_filter">Filter</string>
     <string name="action_search">Search</string>
     <string name="action_download">Download Image</string>
