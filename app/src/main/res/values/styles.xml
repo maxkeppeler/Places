@@ -31,6 +31,7 @@
 
     <style name="DetailView" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:navigationBarColor">@color/backgroundColor</item>
+        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowActionBarOverlay">true</item>
