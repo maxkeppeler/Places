@@ -2,22 +2,33 @@ package com.mk.places.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.mk.places.R;
 import com.mk.places.activities.MainActivity;
 import com.mk.places.activities.PlaceView;
@@ -26,8 +37,10 @@ import com.mk.places.models.Place;
 import com.mk.places.models.Places;
 import com.mk.places.threads.PlacesJSON;
 import com.mk.places.utilities.Constants;
+import com.mk.places.utilities.Utils;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -57,6 +70,7 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
                             if (filtering) intent.putExtra("item", filter.get(position));
                             else intent.putExtra("item", Places.getPlacesList().get(position));
                             intent.putExtra("pos", position);
+                            intent.putExtra("color", Places.getPlacesList().get(position).getColor());
                             context.startActivity(intent);
 
                         }

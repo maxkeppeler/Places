@@ -1,13 +1,20 @@
 package com.mk.places.adapters;
 
 import android.app.Activity;
+import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -93,21 +100,36 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
 
         holder.drawableContinent.setBackground(map);
 
+        final int pos = index;
+
         Glide.with(context.getApplicationContext())
                 .load(url[0] != null ? url[0] :  place.getUrl())
+                .asBitmap()
                 .override(1000, 700)
                 .fitCenter()
                 .priority(Priority.IMMEDIATE)
-                .listener(new RequestListener<String, GlideDrawable>() {
+                .listener(new RequestListener<String, Bitmap>() {
                     @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                    public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                        Log.d("PlaceView", "Toolbar Image onException: ");
                         return false;
                     }
 
                     @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-
+                    public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
                         holder.layout.setVisibility(View.VISIBLE);
+
+                        new Palette.Builder(resource).generate(new Palette.PaletteAsyncListener() {
+                            @Override
+                            public void onGenerated(Palette palette) {
+
+                                if (palette == null) return;
+                                int color = Utils.colorFromPalette(context, palette);
+                                Places.getPlacesList().get(pos).setColor(color);
+                            }
+                        });
+
+
 
                         return false;
                     }

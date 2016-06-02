@@ -2,16 +2,13 @@ package com.mk.places.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,22 +18,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.inquiry.Inquiry;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.Priority;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mk.places.R;
 import com.mk.places.adapters.CreditsAdapter;
-import com.mk.places.adapters.InfosAdapter;
 import com.mk.places.adapters.GalleryAdapter;
+import com.mk.places.adapters.InfosAdapter;
 import com.mk.places.fragment.FragmentBookmarks;
 import com.mk.places.models.CreditsItem;
 import com.mk.places.models.InfosItem;
@@ -48,9 +42,8 @@ import com.mk.places.utilities.Utils;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class PlaceView extends AppCompatActivity implements View.OnClickListener {
+public class PlaceView extends AppCompatActivity {
 
-    @Bind(R.id.fab) FloatingActionButton fab;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.collapsingToolbarLayout) CollapsingToolbarLayout collapsingToolbarLayout;
     @Bind(R.id.creditsCardView) CardView creditsCardView;
@@ -62,7 +55,6 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
     @Bind(R.id.infoRecycler) RecyclerView infoRecycler;
     @Bind(R.id.creditsRecycler) RecyclerView creditsRecycler;
     @Bind(R.id.galleryRecyler) RecyclerView galleryRecycler;
-    @Bind(R.id.shadow) LinearLayout shadow;
     @Bind(R.id.toolbarImage) ImageView toolbarImage;
 
     private int color;
@@ -81,7 +73,6 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.place_item);
 
         window = this.getWindow();
-        window.setStatusBarColor(getResources().getColor(R.color.fullTransparent));
 
         context = this;
         ButterKnife.bind(this);
@@ -102,55 +93,25 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
         credits = item.getCredits().split("\\|");
         creditsTitle = item.getCreditsTitle().split("\\|");
         creditsDesc = item.getCreditsDesc().split("\\|");
+        color = getIntent().getIntExtra("color", -1);
 
+                Glide.with(context)
+                        .load(url[0])
+                        .asBitmap()
+                        .override(900, 900)
+                        .centerCrop()
+                        .into(toolbarImage);
 
-        Glide.with(context)
-                .load(url[0])
-                .asBitmap()
-                .override(1000, 1000)
-                .fitCenter()
-                .listener(new RequestListener<String, Bitmap>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
-                        return false;
-                    }
+        collapsingToolbarLayout.setContentScrimColor(color);
+        collapsingToolbarLayout.setStatusBarScrimColor((Utils.colorVariant(color, 0.92f)));
 
-                    @Override
-                    public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        shadow.setVisibility(View.VISIBLE);
-
-                        new Palette.Builder(resource).generate(new Palette.PaletteAsyncListener() {
-                            @Override
-                            public void onGenerated(Palette palette) {
-
-                                if (palette == null) return;
-                                color = Utils.colorFromPalette(context, palette);
-                                fab.setBackgroundTintList(ColorStateList.valueOf(color));
-                                fab.setVisibility(View.VISIBLE);
-                                Animation animation = AnimationUtils.loadAnimation(context, R.anim.scale_up);
-                                fab.startAnimation(animation);
-                                collapsingToolbarLayout.setContentScrimColor(color);
-                                collapsingToolbarLayout.setStatusBarScrimColor((Utils.colorVariant(color, 0.92f)));
-
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                    window.setNavigationBarColor(color);
-                                    window.setWindowAnimations(R.style.navBarAnim);
-                                }
-                            }
-                        });
-
-                        return false;
-                    }
-                })
-                .into(toolbarImage);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setNavigationBarColor(color);
+            window.setWindowAnimations(R.style.navBarAnim);
+        }
 
         tvDescText.setText(desc);
         collapsingToolbarLayout.setTitle(place);
-
-        final IconicsDrawable drawable = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_bookmark_border).color(getResources().getColor(R.color.white)).sizeDp(24);
-        fab.setVisibility(View.INVISIBLE);
-        fab.setImageDrawable(drawable);
-        fab.setOnClickListener(this);
 
         final Typeface typeTitles = Utils.customTypeface(context, 1);
         final Typeface typeTexts = Utils.customTypeface(context, 2);
@@ -249,6 +210,18 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.clear();
         getMenuInflater().inflate(R.menu.action_place, menu);
+
+        Bookmarks.init(context);
+
+        if (Bookmarks.isBookmarked(item.getId()))
+            menu.findItem(R.id.bookmark).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_bookmark).color(Color.WHITE).sizeDp(20));
+        else menu.findItem(R.id.bookmark).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_bookmark_border).color(Color.WHITE).sizeDp(20));
+
+        Inquiry.deinit();
+
+        menu.findItem(R.id.launch).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_launch).color(Color.WHITE).sizeDp(20));
+        menu.findItem(R.id.report).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_bug_report).color(Color.WHITE).sizeDp(20));
+
         return true;
     }
 
@@ -258,6 +231,10 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
 
             case android.R.id.home:  // Back (close) button
                 close();
+                break;
+
+            case R.id.bookmark:       // Bookmark function
+                bookmark();
                 break;
 
             case R.id.launch:       // Search in a chrome tab after the location without a specific link
@@ -272,6 +249,24 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
     }
 
     /**
+     * Bookmark the respective Place. Drawable transition between the bookmark states.
+     */
+    private void bookmark() {
+
+//        TODO: Drawable Transition
+
+        // Bookmark current item with the respective id. (If item is already bookmarked, it will be removed.)
+        if (Bookmarks.bookmarkItem(item.getId()))
+            Utils.showSnackBar(context, Utils.colorVariant(color, 1.07f), R.id.coordinatorLayout, R.string.bookmarkedPlace, Snackbar.LENGTH_LONG);
+        else Utils.showSnackBar(context, Utils.colorVariant(color, 1.07f), R.id.coordinatorLayout, R.string.removedPlace, Snackbar.LENGTH_LONG);
+
+        FragmentBookmarks.loadBookmarks(context);
+
+        Inquiry.deinit();
+
+    }
+
+    /**
      * Close current activity correctly
      */
     private void close() {
@@ -280,22 +275,4 @@ public class PlaceView extends AppCompatActivity implements View.OnClickListener
         else finish();
     }
 
-    /**
-     *  Fab onClick listener
-     * @param v
-     */
-    @Override
-    public void onClick(View v) {
-
-        // Bookmark current item with the respective id. (If item is already bookmarked, it will be removed.)
-        if (Bookmarks.bookmarkItem(item.getId()))
-            Utils.showSnackBar(context, Utils.colorVariant(color, 1.07f), R.id.coordinatorLayout, R.string.bookmarkedPlace, Snackbar.LENGTH_LONG);
-        else
-            Utils.showSnackBar(context, Utils.colorVariant(color, 1.07f), R.id.coordinatorLayout, R.string.removedPlace, Snackbar.LENGTH_LONG);
-
-        FragmentBookmarks.loadBookmarks(context);
-        Inquiry.deinit();
-
-
-    }
 }

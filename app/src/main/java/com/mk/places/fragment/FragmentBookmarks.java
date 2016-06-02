@@ -63,6 +63,7 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
                                         intent.putExtra("item", filter.get(position));
                                     else intent.putExtra("item", bookmarks.get(position));
                                     intent.putExtra("pos", position);
+                                    intent.putExtra("color", Places.getPlacesList().get(position).getColor());
                                     context.startActivity(intent);
 
                                 }
@@ -119,7 +120,7 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
 
                     if (Places.getPlacesList().get(j).getId().equals(Bookmarks.getDB()[i].getID())) {
 
-                        if (Bookmarks.isFavorited(Bookmarks.getDB()[i].getID())) {
+                        if (Bookmarks.isBookmarked(Bookmarks.getDB()[i].getID())) {
 
                             bookmarks.add(Places.getPlacesList().get(j));
                             Log.i(TAG, "Bookmarked Place: " + Bookmarks.getDB()[i].getID());

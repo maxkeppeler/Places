@@ -19,6 +19,8 @@ public class Place implements Parcelable {
         }
     };
 
+    private int color;
+
     private String
             id,
             place,
@@ -138,4 +140,11 @@ public class Place implements Parcelable {
         return creditsDesc;
     }
 
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
 }
