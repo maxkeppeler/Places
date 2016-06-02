@@ -149,10 +149,9 @@ public class Utils extends Activity {
         final int defaultColor = context.getResources().getColor(R.color.colorPrimary);
         int mutedLight = palette.getLightMutedColor(defaultColor);
         int vibrantLight = palette.getLightVibrantColor(mutedLight);
-        int mutedDark = palette.getDarkMutedColor(vibrantLight);
-        int muted = palette.getMutedColor(mutedDark);
-        int vibrantDark = palette.getDarkVibrantColor(muted);
-        return palette.getVibrantColor(vibrantDark);
+        int muted = palette.getMutedColor(vibrantLight);
+        int mutedDark = palette.getDarkMutedColor(muted);
+        return palette.getDarkVibrantColor(mutedDark);
 
     }
 
