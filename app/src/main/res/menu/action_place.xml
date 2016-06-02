@@ -3,15 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/bookmark"
+        android:orderInCategory="-1"
+        android:title="@string/action_launch"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/launch"
-        android:icon="@drawable/ic_launch"
         android:orderInCategory="-1"
         android:title="@string/action_launch"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/report"
-        android:icon="@drawable/ic_report"
+        android:orderInCategory="-1"
         android:title="@string/action_report"
         app:showAsAction="never" />
 
