@@ -8,6 +8,18 @@
     <string name="changelogContent" >
         <![CDATA[
 
+     <font
+        <font color="#42A5F5"><strong>
+        0.6 Beta (Closed)
+        </strong></font>
+
+        <br />• Colors are generated form the thumbnail images of the respective place. As a result, the GUI colors are shown directly/ is build directly without waiting for the image to load.
+        <br />• IconicsDrawable instead of local drawables
+        <br />• Search and Filter function fixed
+        <br />• Code clean-up
+        <br />
+        <br />
+
         <font
         <font color="#42A5F5"><strong>
         0.5 Beta (Closed)
@@ -15,7 +27,6 @@
 
         <br />• Places on Google Play (Beta Closed)
         <br />• Public repository for Places
-        <br />• Code clean-up
         <br />
         <br />
 
