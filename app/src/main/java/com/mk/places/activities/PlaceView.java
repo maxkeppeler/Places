@@ -214,8 +214,8 @@ public class PlaceView extends AppCompatActivity {
         Bookmarks.init(context);
 
         if (Bookmarks.isBookmarked(item.getId()))
-            menu.findItem(R.id.bookmark).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_bookmark).color(Color.WHITE).sizeDp(20));
-        else menu.findItem(R.id.bookmark).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_bookmark_border).color(Color.WHITE).sizeDp(20));
+            menu.findItem(R.id.bookmark).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_bookmark).color(Color.WHITE).actionBar());
+        else menu.findItem(R.id.bookmark).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_bookmark_border).color(Color.WHITE).actionBar());
 
         Inquiry.deinit();
 
