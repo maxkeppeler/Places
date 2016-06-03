@@ -219,8 +219,8 @@ public class PlaceView extends AppCompatActivity {
 
         Inquiry.deinit();
 
-        menu.findItem(R.id.launch).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_launch).color(Color.WHITE).sizeDp(20));
-        menu.findItem(R.id.report).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_bug_report).color(Color.WHITE).sizeDp(20));
+        menu.findItem(R.id.launch).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_launch).color(Color.WHITE).actionBar());
+        menu.findItem(R.id.report).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_bug_report).color(Color.WHITE).actionBar());
 
         return true;
     }
@@ -255,7 +255,6 @@ public class PlaceView extends AppCompatActivity {
 
 //        TODO: Drawable Transition
 
-        // Bookmark current item with the respective id. (If item is already bookmarked, it will be removed.)
         if (Bookmarks.bookmarkItem(item.getId()))
             Utils.showSnackBar(context, Utils.colorVariant(color, 1.07f), R.id.coordinatorLayout, R.string.bookmarkedPlace, Snackbar.LENGTH_LONG);
         else Utils.showSnackBar(context, Utils.colorVariant(color, 1.07f), R.id.coordinatorLayout, R.string.removedPlace, Snackbar.LENGTH_LONG);
