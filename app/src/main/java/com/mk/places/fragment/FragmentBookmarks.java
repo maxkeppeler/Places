@@ -150,7 +150,7 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
 
         inflater.inflate(R.menu.actions_places, menu);
 
-        menu.findItem(R.id.drawer).setIcon(new IconicsDrawable(context, GoogleMaterial.Icon.gmd_filter_list).color(Color.WHITE).sizeDp(20));
+        menu.findItem(R.id.drawer).setIcon(new IconicsDrawable(context, GoogleMaterial.Icon.gmd_filter_list).color(Color.WHITE).sizeDp(20).actionBar());
 
         bookmarksMenu = menu;
 

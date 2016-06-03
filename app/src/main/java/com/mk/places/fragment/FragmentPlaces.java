@@ -126,7 +126,7 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
 
         inflater.inflate(R.menu.actions_places, menu);
 
-        menu.findItem(R.id.drawer).setIcon(new IconicsDrawable(context, GoogleMaterial.Icon.gmd_filter_list).color(Color.WHITE).sizeDp(20));
+        menu.findItem(R.id.drawer).setIcon(new IconicsDrawable(context, GoogleMaterial.Icon.gmd_filter_list).color(Color.WHITE).actionBar());
 
         MenuItem item = menu.findItem(R.id.search);
         searchView = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());

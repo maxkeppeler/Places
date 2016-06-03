@@ -3,6 +3,7 @@ package com.mk.places.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,8 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.mk.places.R;
 import com.mk.places.adapters.GalleryItemAdapter;
 import com.mk.places.threads.DownloadImage;
@@ -85,6 +88,8 @@ public class GalleryView extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.clear(); // clear previous menu from the last activity
         getMenuInflater().inflate(R.menu.action_place_image, menu);
+
+        menu.findItem(R.id.save).setIcon(new IconicsDrawable(context, GoogleMaterial.Icon.gmd_save).color(Color.WHITE).actionBar());
         return true;
     }
 

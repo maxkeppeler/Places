@@ -4,18 +4,7 @@
 
     <item
         android:id="@+id/save"
-        android:icon="@drawable/ic_save"
         android:title="@string/action_download"
         app:showAsAction="ifRoom" />
-
-
-
-
-    <!--<item-->
-    <!--android:id="@+id/apply"-->
-    <!--android:icon="@drawable/ic_filter"-->
-    <!--android:orderInCategory="-1"-->
-    <!--android:title="@string/action_apply"-->
-    <!--app:showAsAction="ifRoom" />-->
 
 </menu>
