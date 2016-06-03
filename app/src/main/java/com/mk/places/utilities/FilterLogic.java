@@ -1,5 +1,7 @@
 package com.mk.places.utilities;
 
+import android.util.Log;
+
 import com.mk.places.activities.MainActivity;
 import com.mk.places.fragment.FragmentBookmarks;
 import com.mk.places.fragment.FragmentPlaces;

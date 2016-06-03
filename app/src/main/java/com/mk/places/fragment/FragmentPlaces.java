@@ -29,6 +29,8 @@ import android.widget.SearchView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.mk.places.R;
 import com.mk.places.activities.MainActivity;
 import com.mk.places.activities.PlaceView;
@@ -37,10 +39,8 @@ import com.mk.places.models.Place;
 import com.mk.places.models.Places;
 import com.mk.places.threads.PlacesJSON;
 import com.mk.places.utilities.Constants;
-import com.mk.places.utilities.Utils;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -67,7 +67,7 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
                         public void onClick(PlaceAdapter.PlacesViewHolder v, final int position) {
 
                             Intent intent = new Intent(context, PlaceView.class);
-                            if (filtering) intent.putExtra("item", filter.get(position));
+                            if (filtering) intent.putExtra("item", searchFiltering.get(position));
                             else intent.putExtra("item", Places.getPlacesList().get(position));
                             intent.putExtra("pos", position);
                             intent.putExtra("color", Places.getPlacesList().get(position).getColor());
@@ -113,7 +113,7 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
                 filter.add(Places.getPlacesList().get(j));
             }
         }
-        updateLayout(true, null);
+        updateLayout(true, filter);
 
         MainActivity.updateTabTexts(0, filter.size(), FragmentBookmarks.getBookmarks().size());
     }
@@ -124,9 +124,9 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
 
         placesMenu = menu;
 
-//        TODO: ADD ALL DRAWABLES AS ICONICS LIBRARY
-
         inflater.inflate(R.menu.actions_places, menu);
+
+        menu.findItem(R.id.drawer).setIcon(new IconicsDrawable(context, GoogleMaterial.Icon.gmd_filter_list).color(Color.WHITE).sizeDp(20));
 
         MenuItem item = menu.findItem(R.id.search);
         searchView = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());

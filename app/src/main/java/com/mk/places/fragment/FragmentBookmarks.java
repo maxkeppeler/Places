@@ -3,6 +3,7 @@ package com.mk.places.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
@@ -20,6 +21,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
 
 import com.afollestad.inquiry.Inquiry;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.mk.places.R;
 import com.mk.places.activities.MainActivity;
 import com.mk.places.activities.PlaceView;
@@ -60,7 +63,7 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
 
                                     Intent intent = new Intent(context, PlaceView.class);
                                     if (filtering)
-                                        intent.putExtra("item", filter.get(position));
+                                        intent.putExtra("item", searchFiltering.get(position));
                                     else intent.putExtra("item", bookmarks.get(position));
                                     intent.putExtra("pos", position);
                                     intent.putExtra("color", Places.getPlacesList().get(position).getColor());
@@ -101,7 +104,7 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
                 x++;
             }
         }
-        updateLayout(true, null);
+        updateLayout(true, filter);
 
         MainActivity.updateTabTexts(0, Places.getPlacesList().size(), filter.size());
     }
@@ -144,7 +147,10 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+
         inflater.inflate(R.menu.actions_places, menu);
+
+        menu.findItem(R.id.drawer).setIcon(new IconicsDrawable(context, GoogleMaterial.Icon.gmd_filter_list).color(Color.WHITE).sizeDp(20));
 
         bookmarksMenu = menu;
 
