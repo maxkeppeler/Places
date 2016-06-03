@@ -23,7 +23,7 @@ public class Constants {
     public static final String TAB_DISASTERS = "disasters";
     public static final String TAB_GOOD_ACTS = "Good Acts";
     public static final String TAB_PEOPLE = "People";
-    public static final String TAB_WEBSITES = "Websites";
+    public static final String TAB_WEBSITES = "Misc";
 
     // Drawer Filter Misc
     public static final String NO_FILTER = "Nope";
