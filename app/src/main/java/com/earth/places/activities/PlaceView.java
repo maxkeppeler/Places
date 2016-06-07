@@ -212,13 +212,13 @@ public class PlaceView extends AppCompatActivity {
         Bookmarks.init(context);
 
         if (Bookmarks.isBookmarked(item.getId()))
-            menu.findItem(R.id.bookmark).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_bookmark).color(Color.WHITE).actionBar());
-        else menu.findItem(R.id.bookmark).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_bookmark_border).color(Color.WHITE).actionBar());
+            menu.findItem(R.id.bookmark).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_bookmark).paddingDp(1).color(Color.WHITE).sizeDp(24));
+        else menu.findItem(R.id.bookmark).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_bookmark_border).paddingDp(1).color(Color.WHITE).sizeDp(24));
 
         Inquiry.deinit();
 
-        menu.findItem(R.id.launch).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_launch).color(Color.WHITE).actionBar());
-        menu.findItem(R.id.report).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_bug_report).color(Color.WHITE).actionBar());
+        menu.findItem(R.id.launch).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_open_in_browser).paddingDp(1).color(Color.WHITE).actionBar());
+        menu.findItem(R.id.report).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_bug_report).paddingDp(1).color(Color.WHITE).actionBar());
 
         return true;
     }
