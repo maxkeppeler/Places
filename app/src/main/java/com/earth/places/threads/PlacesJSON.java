@@ -76,12 +76,12 @@ public class PlacesJSON extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void args) {
         Log.d(TAG, "Task took " + String.valueOf((System.currentTimeMillis() - startTime) / 1000) + " seconds. Loaded Places: " + Places.getPlacesList().size());
 
-        FragmentPlaces.updateLayout(false, null);
+        if (FragmentPlaces.refreshLayout != null && FragmentPlaces.recyclerView != null) {
 
-        if (FragmentPlaces.refreshLayout != null)
+            FragmentPlaces.updateLayout(false, null);
             FragmentPlaces.refreshLayout.setRefreshing(false);
-
-        FragmentPlaces.recyclerView.setVisibility(View.VISIBLE);
+            FragmentPlaces.recyclerView.setVisibility(View.VISIBLE);
+        }
 
         FragmentBookmarks.loadBookmarks(context);
     }

@@ -71,7 +71,13 @@ public class FragmentDisasters extends Fragment implements SwipeRefreshLayout.On
         recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
         recyclerView.setAdapter(disastersAdapter);
 
-        FragmentDisasters.loadSinsList(context);
+        // If list is null, load disasters, show recyclerView and update layout
+        if (Disasters.getDisastersList() == null)
+            loadDisastersList(context);
+        else {
+            recyclerView.setVisibility(View.VISIBLE);
+            updateLayout();
+        }
 
         return view;
     }
@@ -80,10 +86,10 @@ public class FragmentDisasters extends Fragment implements SwipeRefreshLayout.On
     public void onRefresh() {
         disastersAdapter.notifyDataSetChanged();
         recyclerView.setVisibility(View.INVISIBLE);
-        loadSinsList(context);
+        loadDisastersList(context);
     }
 
-    public static void loadSinsList(Activity context) {
+    public static void loadDisastersList(Activity context) {
 
         new DisastersJSON(context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 

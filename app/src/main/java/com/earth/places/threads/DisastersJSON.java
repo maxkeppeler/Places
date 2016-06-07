@@ -68,12 +68,12 @@ public class DisastersJSON extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void args) {
         Log.d(TAG, "Task took " + String.valueOf((System.currentTimeMillis() - startTime) / 1000) + " seconds. Loaded Disasters: " + Disasters.getDisastersList().size());
 
-        FragmentDisasters.updateLayout();
+        if (FragmentDisasters.refreshLayout != null && FragmentDisasters.recyclerView != null) {
 
-        if (FragmentDisasters.refreshLayout != null)
+            FragmentDisasters.updateLayout();
             FragmentDisasters.refreshLayout.setRefreshing(false);
-
-        FragmentDisasters.recyclerView.setVisibility(View.VISIBLE);
+            FragmentDisasters.recyclerView.setVisibility(View.VISIBLE);
+        }
 
         MainActivity.updateTabTexts(1, Disasters.getDisastersList().size(), 0);
 

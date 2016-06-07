@@ -3,6 +3,7 @@ package com.earth.places.activities;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +17,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.earth.places.fragment.FragmentDisasters;
+import com.earth.places.fragment.FragmentGoodActs;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -41,6 +44,8 @@ import com.earth.places.utilities.Preferences;
 
 import java.util.Random;
 
+import butterknife.Bind;
+
 import static com.mikepenz.google_material_typeface_library.GoogleMaterial.Icon;
 
 public class MainActivity extends AppCompatActivity {
@@ -54,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
     private AccountHeader drawerHeader;
     private String[] drawerHeaderURLS;
     public static int drawerIndex;
+    @Bind(R.id.appBarLayout)
+    AppBarLayout appBarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +72,10 @@ public class MainActivity extends AppCompatActivity {
 
         Preferences pref = new Preferences(context);
 
+        // Load all lists directly at the start of the app
         FragmentPlaces.loadPlacesList(context);
+        FragmentDisasters.loadDisastersList(context);
+        FragmentGoodActs.loadGoodActsList(context);
 
 //        TODO: If user has no WIFI, ask if we can use the mobile internet. Inform user that much data will be loaded. Afterwards load places list
 
@@ -93,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
 
         drawerHeader = new AccountHeaderBuilder().withActivity(this)
                 .withSelectionFirstLine("Beautiful Places").withSelectionSecondLine("on our Earth")
-                .withHeightDp(330)
                 .build();
         drawerHeader();
 
@@ -129,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                                 switch (drawerIndex) {
 
                                     case 0: fragment = new DrawerPlacesTabs();
-                                        setTabTexts(Constants.TAB_DISASTERS, Constants.TAB_GOOD_ACTS);
+//                                        setTabTexts(Constants.TAB_DISASTERS, Constants.TAB_GOOD_ACTS);
 
                                         if (Places.getPlacesList() != null && FragmentBookmarks.getBookmarks() != null)
                                         updateTabTexts(0, Places.getPlacesList().size(), FragmentBookmarks.getBookmarks().size());
@@ -137,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                                         break;
 
                                     case 1: fragment = new DrawerPlacesTabs();
-                                        setTabTexts(Constants.TAB_DISASTERS, Constants.TAB_GOOD_ACTS);
+//                                        setTabTexts(Constants.TAB_DISASTERS, Constants.TAB_GOOD_ACTS);
 
                                         if (Disasters.getDisastersList() != null && GoodActs.getGoodActsList() != null)
                                             updateTabTexts(1, Disasters.getDisastersList().size(), GoodActs.getGoodActsList().size());
@@ -157,16 +166,24 @@ public class MainActivity extends AppCompatActivity {
                                     default: fragment = new FragmentPlaces();
                                 }
 
+
+
                                 if (fragment != null) {
                                     fragment.setRetainInstance(true);
                                     transaction.replace(R.id.container, fragment);
                                     transaction.commit();
                                     toolbar.setTitle(toolbarTitle(drawerIndex));
 
+                                    // Expand AppBarLayout (Scroll layout flags hides components)
+                                    if (appBarLayout != null)
+                                        appBarLayout.setExpanded(true);
+
                                 } else if (intent != null) {
                                     startActivity(intent);
                                     drawer.setSelection(Constants.ID_DRAWER_PLACES);
                                 }
+
+
 
                                 if (drawerFilter != null)
                                     drawerFilter.setSelection(Constants.NO_SELECTION);

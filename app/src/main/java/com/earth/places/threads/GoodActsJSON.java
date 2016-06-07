@@ -68,12 +68,12 @@ public class GoodActsJSON extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void args) {
         Log.d(TAG, "Task took " + String.valueOf((System.currentTimeMillis() - startTime) / 1000) + " seconds. Loaded Good Acts: " + GoodActs.getGoodActsList().size());
 
-        FragmentGoodActs.updateLayout();
+        if (FragmentGoodActs.refreshLayout != null && FragmentGoodActs.recyclerView != null) {
 
-        if (FragmentGoodActs.refreshLayout != null)
+            FragmentGoodActs.updateLayout();
             FragmentGoodActs.refreshLayout.setRefreshing(false);
-
-        FragmentGoodActs.recyclerView.setVisibility(View.VISIBLE);
+            FragmentGoodActs.recyclerView.setVisibility(View.VISIBLE);
+        }
 
         MainActivity.updateTabTexts(1, 0, GoodActs.getGoodActsList().size());
     }

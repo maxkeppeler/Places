@@ -71,7 +71,14 @@ public class FragmentGoodActs extends Fragment implements SwipeRefreshLayout.OnR
         recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
         recyclerView.setAdapter(sinsAdapter);
 
-        FragmentGoodActs.loadSinsList(context);
+        // If list is null, load disasters, show recyclerView and update layout
+        if (GoodActs.getGoodActsList() == null)
+            loadGoodActsList(context);
+        else {
+            recyclerView.setVisibility(View.VISIBLE);
+            updateLayout();
+        }
+
 
         return view;
     }
@@ -80,10 +87,10 @@ public class FragmentGoodActs extends Fragment implements SwipeRefreshLayout.OnR
     public void onRefresh() {
         sinsAdapter.notifyDataSetChanged();
         recyclerView.setVisibility(View.INVISIBLE);
-        loadSinsList(context);
+        loadGoodActsList(context);
     }
 
-    public static void loadSinsList(Activity context) {
+    public static void loadGoodActsList(Activity context) {
 
         new GoodActsJSON(context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
