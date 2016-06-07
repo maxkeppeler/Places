@@ -24,7 +24,7 @@
             app:expandedTitleMarginStart="24dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <com.mk.places.views.SquareImageView
+            <com.earth.places.views.SquareImageView
                 android:id="@+id/toolbarImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

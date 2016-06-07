@@ -7,11 +7,11 @@ android {
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
-        applicationId "com.mk.places"
+        applicationId "com.earth.places"
         minSdkVersion 21
         targetSdkVersion 23
-        versionCode 105
-        versionName "0.05 Beta"
+        versionCode 106
+        versionName "0.06 Beta"
         multiDexEnabled true
     }
     buildTypes {
@@ -43,4 +43,5 @@ dependencies {
     compile 'com.balysv:material-ripple:1.0.2'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.github.afollestad:inquiry:2.0.1'
+
 }
