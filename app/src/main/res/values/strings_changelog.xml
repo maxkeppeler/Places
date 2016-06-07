@@ -8,7 +8,19 @@
     <string name="changelogContent" >
         <![CDATA[
 
-     <font
+        <font
+        <font color="#42A5F5"><strong>
+         0.7 Open Beta
+        </strong></font>
+
+        <br />• Drawable of Open In Browser was changed
+        <br />• Drawables have now hopefully the correct padding and size
+        <br />• Content will be loaded faster and just once at the start, except you refresh the content
+        <br />
+        <br />
+
+
+        <font
         <font color="#42A5F5"><strong>
          0.6 Open Beta
         </strong></font>
@@ -25,7 +37,7 @@
         0.5 Open Beta
         </strong></font>
 
-        <br />• Places on Google Play (Beta Closed)
+        <br />• Places on Google Play
         <br />• Public repository for Places
         <br />
         <br />
