@@ -8,6 +8,13 @@
     <color name="colorPrimaryLight">@color/md_blue_400</color>
     <color name="colorAccent">@color/md_light_blue_500</color>
 
+
+    <!-- TAB LAYOUT -->
+    <color name="tabIndicator">@color/white</color>
+    <color name="tabTextSelected">@color/white</color>
+    <color name="tabTextNotSelected">#125caf</color>
+
+
     <color name="translucentToolbar">#44000000</color>
 
     <!-- OTHER APP COLORS -->

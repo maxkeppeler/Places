@@ -14,6 +14,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,10 @@ import android.widget.TextView;
 
 import com.afollestad.inquiry.Inquiry;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.earth.places.R;
@@ -95,9 +100,10 @@ public class PlaceView extends AppCompatActivity {
 
                 Glide.with(context)
                         .load(url[0])
-                        .asBitmap()
+                        .crossFade()
                         .override(900, 900)
                         .centerCrop()
+                        .priority(Priority.HIGH)
                         .into(toolbarImage);
 
         collapsingToolbarLayout.setContentScrimColor(color);

@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.earth.places.R;
 import com.earth.places.activities.MainActivity;
 import com.earth.places.adapters.PagerAdapter;
+import com.earth.places.utilities.Constants;
 
 import butterknife.ButterKnife;
 
@@ -47,7 +48,7 @@ public class DrawerPlacesTabs extends Fragment {
                 2. Hide System Soft Keyboard automatically
                 */
 
-                if (MainActivity.drawerIndex == 0) {
+                if (MainActivity.index == Constants.ID_DRAWER_PLACES) {
                     if (tab.getPosition() == 1)
                         if (FragmentPlaces.filter != null && !FragmentPlaces.searchView.isIconified()) {
                             FragmentPlaces.updateLayout(false, null);

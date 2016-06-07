@@ -10,6 +10,7 @@ import com.earth.places.fragment.FragmentBookmarks;
 import com.earth.places.fragment.FragmentDisasters;
 import com.earth.places.fragment.FragmentGoodActs;
 import com.earth.places.fragment.FragmentPlaces;
+import com.earth.places.utilities.Constants;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
@@ -22,7 +23,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
 
     /**
-     * Depending on the drawerIndex from the main activity, other tabs will be shown.
+     * Depending on the index from the main activity, other tabs will be shown.
      * @param index
      * @return
      */
@@ -30,7 +31,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int index) {
 
         // Drawer Places
-        if (MainActivity.drawerIndex == 0)
+        if (MainActivity.index == Constants.ID_DRAWER_PLACES)
             switch (index) {
                 case 0: return new FragmentPlaces();
                 case 1: return new FragmentBookmarks();
@@ -38,14 +39,14 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
 
         // Drawer Nature
-        if (MainActivity.drawerIndex == 1)
+        if (MainActivity.index == Constants.ID_DRAWER_NATURE)
             switch (index) {
                 case 0: return new FragmentDisasters();
                 case 1: return new FragmentGoodActs();
             }
 
         // Drawer Hall of Honor
-        if (MainActivity.drawerIndex == 2)
+        if (MainActivity.index == Constants.ID_DRAWER_HALL)
             switch (index) {
                 case 0: return new DrawerEmpty();
                 case 1: return new DrawerEmpty();
