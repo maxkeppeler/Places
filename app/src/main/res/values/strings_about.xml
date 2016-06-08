@@ -25,13 +25,12 @@
     <!-- ////////////   TEAM MEMBERS & SUPPORTERS   \\\\\\\\\\\\\ -->
 
     <array name="mImage">
-        <item>https://lh3.googleusercontent.com/t87ehz0aDkpEi7WH9DsqyjjKC34h9cTE7dBLJ1aWxRPkFXVpRSwXC-KwpBBgIgUWPPzTGMHdB8ByYdifMZQlPVo7Ee8JWzZxi5TXr68zlkevfWz1B2mCPP4rwuuJIyef5aZTVcPcJAb35bihP2YKv-yeZfUbQ1ui2RCW3JivDFQwf-ywAvCP_g33M-llXw4evDJve_6EcOWc4_sK-RoAzA7TABxdtZLjLlI_nfqt0bZOUc2arfaibSsgQLxP9_0b7NuWMEy3A76xEu-p6H9IaA9_WbjFKOrAhFKdyPdlmPrSD-2yRa_dk_KaRoK1m87KpJ9AihhmY7tM4G8LMvI1hRLTy54-TEH1L-cD6aHAfva_ISAWaEet_uTKlwBJfvCs92L0G8ec2DjZfKUw_kB2gn2UxxDxvgvfJg2wDMzr2r0mohh4Nh4Vkct_Dz8xPnTnrSExBET-bKPLRyIiFXxETY7iJryrAvOP8eBfTZ7_3TgJy0B0FxSsyG_aBIX26KhJwB3vh5m2aLWTT5MmsKhBqNHN3gYb0Dpl2KjQuy7QQDuslvdO-ETavEytM9E2aUmx8erYr7jrdxLlokU7HLBDxMwiGPSgUWD_=s334-no</item>
+        <item>https://lh3.googleusercontent.com/eUjtM3Tb8WTCQW4ihN3JsQ99BCSkYj6ujwyXGMuzRfhbTxo9ZhhpOduwYbHaD2-rMC1cEub5EOF0KttqzBWLOCdwn-nZJz5ie3eRCrhiVnJPKPomCNyFwtg2B9SFe0bkNSbBEAbiflmD97cVl7tT6j6yR8u-W7PJGan0waN0CVKXaZ7UC6FRvXOiMRwtURZZOtGZuJrahLt61uDlDLX5v8boQh1NQvT6F7_aT-mJex3nMMEUCWfStKpsi0MhH0QRmNIdh6MeYkJI3mEy5NQCKhvW8_OSTIdjHMXh2pbHEEunlwJP3z7F0VLhQYTcwiScT8k3UcS96Nmdl2dI-Op6ump6OH1SGcX6utcQdpni3J-Hb6a1a7wa94_PC6UvS9ciqPp-7zOi-hbx_wl_bA8bCXIB90dwZIWGx4Ha9a_qPebPS3YS1jndeBjKKupKZwRcZ4fH85ShStK0cjnGgQQqyNk6ihL9dgNiZJNYtUev3rldxdynzxwxPIUmA38Ptpr315zdKfCnnH_3WHXSwhHF-kyPoZMAyfCkXHmn5Qtm5pYqlJhKEOZoVQBXlX2XTu0dX1aFnwJK18XR07P5OJpV5CJZHJRtt1Li=s1610-no</item>
         <item>https://lh3.googleusercontent.com/5dOaLh_fdXXLAjrKKTnddqCL7Q-r4F_0r-myj-t6gIj872QH3eKQYwB7W3372WGzy5kTyylzOw=w6337-h3961-rw-no</item>
         <item>https://lh3.googleusercontent.com/-IspNqtIzYEs/AAAAAAAAAAI/AAAAAAAAkvk/_YzeYcLmB2I/s133-p-rw-no/photo.jpg</item>
         <item>https://lh3.googleusercontent.com/-mMe9cCCcm3Q/AAAAAAAAAAI/AAAAAAABFQs/1AaLkd3li4U/s282-p-k-rw-no/photo.jpg</item>
         <item>https://lh3.googleusercontent.com/-3dZLUEjal04/AAAAAAAAAAI/AAAAAAAAQgI/Cdj33SuO0aw/s133-p-rw-no/photo.jpg</item>
     </array>
-
 
     <array name="mName">
         <item>Maximilian Keppeler</item>
@@ -42,11 +41,11 @@
     </array>
 
     <array name="mTitle">
-        <item>A bit of Developer and Designer.</item>
+        <item>Developer | Designer</item>
         <item>Developer</item>
         <item>Designer</item>
         <item>Developer</item>
-        <item>Developer</item>
+        <item>Developer | Designer</item>
     </array>
 
     <array name="mDesc">
@@ -59,7 +58,7 @@
     </array>
 
     <string-array name="profileButtonNames">
-        <item>Website | Google+ | Twitter | Play</item>
+        <item>Website | Google+ | Twitter</item>
         <item>Play Store | Google+</item>
         <item>Google+</item>
         <item>Website | Google+ | Twitter</item>
@@ -67,7 +66,7 @@
     </string-array>
 
     <string-array name="profileButtonLinks">
-        <item>http://www.maximiliankeppeler.com/|https://plus.google.com/+MaxKeppeler/posts|https://twitter.com/maxKeppeler|https://play.google.com/store/apps/dev?id=9187145836369403051</item>
+        <item>http://www.maximiliankeppeler.com/|https://plus.google.com/+MaxKeppeler/posts|https://twitter.com/maxKeppeler</item>
         <item>https://play.google.com/store/apps/dev?id=4984669254809771046|https://plus.google.com/+OliverNitzschkee</item>
         <item>https://plus.google.com/u/0/+KevinAguilarC/posts</item>
         <item>https://aidanfollestad.com/|https://plus.google.com/+AidanFollestad|https://twitter.com/afollestad</item>
