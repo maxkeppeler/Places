@@ -12,7 +12,7 @@
         android:id="@+id/launch"
         android:orderInCategory="-1"
         android:title="@string/action_open"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/report"
