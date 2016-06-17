@@ -10,8 +10,8 @@ android {
         applicationId "com.earth.places"
         minSdkVersion 21
         targetSdkVersion 23
-        versionCode 107
-        versionName "0.07 Beta"
+        versionCode 108
+        versionName "0.08 Beta"
         multiDexEnabled true
     }
     buildTypes {
