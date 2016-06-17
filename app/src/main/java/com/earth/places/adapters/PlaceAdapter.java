@@ -15,34 +15,49 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.afollestad.inquiry.Inquiry;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.mikepenz.google_material_typeface_library.GoogleMaterial;
-import com.mikepenz.iconics.IconicsDrawable;
 import com.earth.places.R;
-import com.earth.places.utilities.Bookmarks;
 import com.earth.places.activities.MainActivity;
 import com.earth.places.fragment.FragmentBookmarks;
 import com.earth.places.models.Place;
 import com.earth.places.models.Places;
+import com.earth.places.utilities.Bookmarks;
 import com.earth.places.utilities.Constants;
 import com.earth.places.utilities.Utils;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 
 import java.util.ArrayList;
 
 public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHolder> {
 
-
     private ClickListener clickListener;
     private ArrayList<Place> placesList;
     private Activity context;
+    private IconicsDrawable iconBookmark;
+    private IconicsDrawable iconBookmarkBorder;
+
+    private IconicsDrawable city, country, nationalPark, map, misc;
 
     public PlaceAdapter(Activity context, ClickListener clickListener) {
         this.context = context;
         this.clickListener = clickListener;
+
+        // Create Drawables just one time when the Adapter is initialized, not for each PlacesViewHolder
+        iconBookmark = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_bookmark).color(Color.WHITE).sizeDp(24);
+        iconBookmarkBorder = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_bookmark_border).color(Color.WHITE).sizeDp(24);
+
+        final int size = 18;
+        final int color = ContextCompat.getColor(context, R.color.white);
+        city = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_location_city).color(color).sizeDp(size);
+        country = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_terrain).color(color).sizeDp(size);
+        nationalPark = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_nature).color(color).sizeDp(size);
+        map = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_map).color(color).sizeDp(size);
+        misc = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_more).color(color).sizeDp(size);
+
     }
 
     @Override
@@ -57,22 +72,56 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
     }
 
     @Override
-    public void onBindViewHolder(final PlacesViewHolder holder, int index) {
+    public void onBindViewHolder(final PlacesViewHolder holder, final int index) {
+
+        if (MainActivity.tabLayout.getTabAt(0).isSelected()) {
+            Bookmarks.init(context);
+            boolean state = Bookmarks.isBookmarked(Places.getPlacesList().get(index).getId());
+            holder.stateReaction(state, false);
+        }
+
+        if (MainActivity.tabLayout.getTabAt(1).isSelected())
+            holder.drawableBookmark.setImageDrawable(iconBookmark);
+
 
         final Place place = placesList.get(index);
         final String sight = place.getSight();
 
         final String[] url = place.getUrl().replace(" ", "").split("\\|");
 
-        final int size = 18;
-        final int color = ContextCompat.getColor(context, R.color.white);
 
-        final IconicsDrawable city = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_location_city).color(color).sizeDp(size);
-        final IconicsDrawable country = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_terrain).color(color).sizeDp(size);
-        final IconicsDrawable nationalPark = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_nature).color(color).sizeDp(size);
-        final IconicsDrawable map = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_map).color(color).sizeDp(size);
+        Glide.with(context.getApplicationContext())
+                .load(url[0] != null ? url[0] :  place.getUrl())
+                .asBitmap()
+                .override(800, 500)
+                .fitCenter()
+                .priority(Priority.IMMEDIATE)
+                .listener(new RequestListener<String, Bitmap>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                        Log.d("PlaceView", "Toolbar Image onException: ");
+                        return false;
+                    }
 
-        final IconicsDrawable misc = new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_more).color(color).sizeDp(size);
+                    @Override
+                    public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        holder.layout.setVisibility(View.VISIBLE);
+
+                        new Palette.Builder(resource).generate(new Palette.PaletteAsyncListener() {
+                            @Override
+                            public void onGenerated(Palette palette) {
+
+                                if (palette == null) return;
+                                int color = Utils.colorFromPalette(context, palette);
+                                Places.getPlacesList().get(index).setColor(color);
+                            }
+                        });
+
+                        return false;
+                    }
+                })
+                .into(holder.image);
+
 
         holder.sight.setText(sight);
         holder.place.setText(place.getPlace());
@@ -94,44 +143,6 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
         else holder.drawableSight.setBackground(misc);
 
         holder.drawableContinent.setBackground(map);
-
-        final int pos = index;
-
-        Glide.with(context.getApplicationContext())
-                .load(url[0] != null ? url[0] :  place.getUrl())
-                .asBitmap()
-                .override(1000, 700)
-                .fitCenter()
-                .priority(Priority.IMMEDIATE)
-                .listener(new RequestListener<String, Bitmap>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
-                        Log.d("PlaceView", "Toolbar Image onException: ");
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        holder.layout.setVisibility(View.VISIBLE);
-
-                        new Palette.Builder(resource).generate(new Palette.PaletteAsyncListener() {
-                            @Override
-                            public void onGenerated(Palette palette) {
-
-                                if (palette == null) return;
-                                int color = Utils.colorFromPalette(context, palette);
-                                Places.getPlacesList().get(pos).setColor(color);
-                            }
-                        });
-
-
-
-                        return false;
-                    }
-                })
-                .into(holder.image);
-
-
 
     }
 
@@ -169,39 +180,47 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
             drawableContinent = (ImageView) v.findViewById(R.id.thumbContinentDrawable);
 
             drawableBookmark = (ImageView) v.findViewById(R.id.bookmarkIcon);
-            drawableBookmark.setBackground(new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_bookmark).color(Color.WHITE).sizeDp(24));
+
+
 
             drawableBookmark.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    if (MainActivity.tabLayout.getTabAt(0).isSelected()) {
+                    if (MainActivity.tabLayout.getTabAt(0).isSelected())
+                        stateReaction(Bookmarks.bookmark(Places.getPlacesList().get(getLayoutPosition()).getId()), true);
 
-                        if (Bookmarks.bookmarkItem(Places.getPlacesList().get(getLayoutPosition()).getId())) {
-                            Utils.showSnackBar(context, ContextCompat.getColor(context, R.color.cardBackground), R.id.coordinatorLayout, R.string.bookmarkedPlace, Snackbar.LENGTH_LONG);
-                        } else
-                            Utils.showSnackBar(context, ContextCompat.getColor(context, R.color.cardBackground), R.id.coordinatorLayout, R.string.removedPlace, Snackbar.LENGTH_LONG);
-                    }
-
-                    if (MainActivity.tabLayout.getTabAt(1).isSelected()) {
-
-                        if (Bookmarks.bookmarkItem(FragmentBookmarks.getBookmarks().get(getLayoutPosition()).getId())) {
-                            Utils.showSnackBar(context, ContextCompat.getColor(context, R.color.cardBackground), R.id.coordinatorLayout, R.string.bookmarkedPlace, Snackbar.LENGTH_LONG);
-                        } else
-                            Utils.showSnackBar(context, ContextCompat.getColor(context, R.color.cardBackground), R.id.coordinatorLayout, R.string.removedPlace, Snackbar.LENGTH_LONG);
-                    }
-
+                    if (MainActivity.tabLayout.getTabAt(1).isSelected())
+                        stateReaction(Bookmarks.bookmark(FragmentBookmarks.getBookmarks().get(getLayoutPosition()).getId()), true);
 
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             FragmentBookmarks.loadBookmarks(context);
-                            Inquiry.deinit();
                         }
                     }).run();
 
                 }
             });
+
+        }
+
+        private void stateReaction(boolean state, boolean showSnackBar) {
+
+            if(state) {
+
+                if (showSnackBar)
+                Utils.showSnackBar(context, ContextCompat.getColor(context, R.color.cardBackground), R.id.coordinatorLayout, R.string.bookmarkedPlace, Snackbar.LENGTH_LONG);
+
+                drawableBookmark.setImageDrawable(iconBookmark);
+            }
+
+            else {
+                if (showSnackBar)
+                Utils.showSnackBar(context, ContextCompat.getColor(context, R.color.cardBackground), R.id.coordinatorLayout, R.string.removedPlace, Snackbar.LENGTH_LONG);
+
+                drawableBookmark.setImageDrawable(iconBookmarkBorder);
+            }
 
         }
 
