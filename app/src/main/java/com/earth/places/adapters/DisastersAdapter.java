@@ -73,7 +73,6 @@ public class DisastersAdapter extends RecyclerView.Adapter<DisastersAdapter.Sins
                                 if (palette == null) return;
                                 int color = Utils.colorFromPalette(context, palette);
                                 holder.coloredBackground.setBackgroundColor(color);
-                                holder.coloredBackground.setAlpha(0.9f);
 
                                 holder.layout.setVisibility(View.VISIBLE);
                             }

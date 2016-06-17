@@ -73,7 +73,6 @@ public class GoodActsAdapter extends RecyclerView.Adapter<GoodActsAdapter.SinsVi
 
                                 if (palette == null) return;
                                 holder.coloredBackground.setBackgroundColor(Utils.colorFromPalette(context, palette));
-                                holder.coloredBackground.setAlpha(0.9f);
 
                                 holder.layout.setVisibility(View.VISIBLE);
 
