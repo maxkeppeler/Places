@@ -31,7 +31,7 @@ public final class Bookmarks {
     /**
      * Returns true if the item was favorited successfully.
      */
-    public static boolean bookmarkItem(String id) {
+    public static boolean bookmark(String id) {
 
         init(context);
 
@@ -41,7 +41,7 @@ public final class Bookmarks {
                     .values(new BookmarksDB(id))
                     .run();
             return true;
-        } else unbookmarkItem(id);
+        } else unbookmark(id);
 
         return false;
     }
@@ -50,6 +50,7 @@ public final class Bookmarks {
      * Returns Array with all IDs
      */
     public static BookmarksDB[] getDB() {
+
         return Inquiry.get().selectFrom(Constants.DATABASE_NAME, BookmarksDB.class).all();
     }
 
@@ -69,14 +70,14 @@ public final class Bookmarks {
     /**
      * Returns true if the item was unfavorited successfully.
      */
-    public static boolean unbookmarkItem(String id) {
+    public static boolean unbookmark(String id) {
         if (isBookmarked(id)) {
             Inquiry.get()
                     .deleteFrom(Constants.DATABASE_NAME, BookmarksDB.class)
                     .where("_id = ?", id)
                     .run();
             return true;
-        } else bookmarkItem(id);
+        } else bookmark(id);
 
         return false;
     }
