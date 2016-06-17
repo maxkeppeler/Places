@@ -14,7 +14,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,9 +24,6 @@ import android.widget.TextView;
 import com.afollestad.inquiry.Inquiry;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.earth.places.R;
@@ -68,7 +64,7 @@ public class PlaceView extends AppCompatActivity {
     private Activity context;
     private String[] url;
     private Place item;
-
+    private Menu menuToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -213,6 +209,9 @@ public class PlaceView extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.clear();
+
+        menuToolbar = menu;
+
         getMenuInflater().inflate(R.menu.action_place, menu);
 
         Bookmarks.init(context);
@@ -259,9 +258,17 @@ public class PlaceView extends AppCompatActivity {
 
 //        TODO: Drawable Transition
 
-        if (Bookmarks.bookmarkItem(item.getId()))
+        Bookmarks.init(context);
+
+        if (Bookmarks.bookmark(item.getId())) {
             Utils.showSnackBar(context, Utils.colorVariant(color, 1.07f), R.id.coordinatorLayout, R.string.bookmarkedPlace, Snackbar.LENGTH_LONG);
-        else Utils.showSnackBar(context, Utils.colorVariant(color, 1.07f), R.id.coordinatorLayout, R.string.removedPlace, Snackbar.LENGTH_LONG);
+            menuToolbar.findItem(R.id.bookmark).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_bookmark).paddingDp(1).color(Color.WHITE).sizeDp(24));
+        }
+
+        else {
+            Utils.showSnackBar(context, Utils.colorVariant(color, 1.07f), R.id.coordinatorLayout, R.string.removedPlace, Snackbar.LENGTH_LONG);
+            menuToolbar.findItem(R.id.bookmark).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_bookmark_border).paddingDp(1).color(Color.WHITE).sizeDp(24));
+        }
 
         FragmentBookmarks.loadBookmarks(context);
 
