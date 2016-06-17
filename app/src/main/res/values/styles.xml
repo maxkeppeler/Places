@@ -46,7 +46,8 @@
 
     <style name="GalleryView" parent="Theme.AppCompat.NoActionBar">
         <item name="android:colorBackground">@color/backgroundColorDarker</item>
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
     <style name="ToolbarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
