@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -43,7 +44,7 @@ public class GalleryView extends AppCompatActivity {
 
         setContentView(R.layout.place_item_gallery_view);
 //        TODO: Translucent Navigation Bar while Snackbar will still be displayed over it.
-
+        
         context = this;
 
         Intent intent = getIntent();
@@ -55,7 +56,7 @@ public class GalleryView extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_close);
-        toolbar.setTitle("Image " + userPosition + "/" + urls.length);
+        toolbar.setTitle(userPosition + " of " + urls.length);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -73,7 +74,7 @@ public class GalleryView extends AppCompatActivity {
             public void onPageSelected(int i) {
                 position = i;
                 int userPosition = i + 1;
-                toolbar.setTitle("Image " + userPosition + "/" + urls.length);
+                toolbar.setTitle(userPosition + " of " + urls.length);
             }
 
             @Override
