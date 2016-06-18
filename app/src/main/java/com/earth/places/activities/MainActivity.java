@@ -1,8 +1,11 @@
 package com.earth.places.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
@@ -82,11 +85,34 @@ public class MainActivity extends AppCompatActivity {
         Preferences pref = new Preferences(context);
 
         // Load all lists directly at the start of the app
-        FragmentPlaces.loadPlacesList(context);
-        FragmentDisasters.loadDisastersList(context);
-        FragmentGoodActs.loadGoodActsList(context);
+//        FragmentPlaces.loadPlacesList(context);
+//        FragmentDisasters.loadDisastersList(context);
+//        FragmentGoodActs.loadGoodActsList(context);
 
 //        TODO: If user has no WIFI, ask if we can use the mobile internet. Inform user that much data will be loaded. Afterwards load places list
+
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (activeNetwork != null) { // connected to the internet
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
+                // connected to wifi
+                // Load all lists directly at the start of the app
+                FragmentPlaces.loadPlacesList(context);
+                FragmentDisasters.loadDisastersList(context);
+                FragmentGoodActs.loadGoodActsList(context);
+            } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
+                // connected to the mobile provider's data plan
+                if (Dialogs.showMobileData(this))
+                {
+                    FragmentPlaces.loadPlacesList(context);
+                    FragmentDisasters.loadDisastersList(context);
+                    FragmentGoodActs.loadGoodActsList(context);
+                }
+            }
+        } else {
+            // not connected to the internet
+            Dialogs.showNoInternet(this);
+        }
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

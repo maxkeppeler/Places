@@ -65,4 +65,12 @@
     <string name="mail_title">Send E-Mail Report with</string>
     <string name="mail_uri">"mailto:"</string>
 
+    <!--DATA HANDLING-->
+    <string name="no_internet">Internet connectivity unavailable</string>
+    <string name="no_internet_content">Please connect to the Internet and try again</string>
+    <string name="mobile_data_title">Using mobile data</string>
+    <string name="mobile_data_content">A considerable amount of data will be consumed. Do you want to continue using the app on mobile data? </string>
+    <string name="data_positive">Yes</string>
+    <string name="data_negative">No</string>
+
 </resources>
