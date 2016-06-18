@@ -176,18 +176,13 @@ public class PlaceView extends AppCompatActivity {
         final GalleryAdapter galleryAdapter = new GalleryAdapter(context, url, new GalleryAdapter.ClickListener() {
 
             @Override
-            public void onClick(GalleryAdapter.ViewHolder view, int index, boolean longOnClick) {
+            public void onClick(GalleryAdapter.ViewHolder view, int index) {
 
-                if (longOnClick) {
-//                    TODO: For what could the long click be used?
-
-                } else {
                     Intent intent = new Intent(context, GalleryView.class);
                     intent.putExtra("urls", url);
                     intent.putExtra("index", index);
                     intent.putExtra("place", place);
                     startActivity(intent);
-                }
             }
         });
 

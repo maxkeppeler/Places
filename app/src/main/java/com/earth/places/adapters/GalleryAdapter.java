@@ -44,10 +44,10 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
     }
 
     public interface ClickListener {
-        void onClick(ViewHolder view, int index, boolean longOnClick);
+        void onClick(ViewHolder view, int index);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final ImageView viewImage;
 
@@ -55,25 +55,16 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
             super(v);
 
             viewImage = (ImageView) v.findViewById(R.id.viewImage);
-
             viewImage.setOnClickListener(this);
-            viewImage.setOnLongClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             int index = getLayoutPosition();
             if (clickListener != null)
-                clickListener.onClick(this, index, false);
+                clickListener.onClick(this, index);
         }
 
-        @Override
-        public boolean onLongClick(View v) {
-            int index = getLayoutPosition();
-            if (clickListener != null)
-                clickListener.onClick(this, index, true);
-            return true;
-        }
     }
 
 
