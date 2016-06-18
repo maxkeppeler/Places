@@ -57,4 +57,43 @@ public class Dialogs {
         intent.putExtra(Intent.EXTRA_TEXT, context.getResources().getString(R.string.mail_text));
         context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.mail_title)));
     }
+
+    public static void showNoInternet(final Context context) {
+
+        new MaterialDialog.Builder(context)
+                .typeface(Utils.customTypeface(context, 2), Utils.customTypeface(context, 2))
+                .contentColor(ContextCompat.getColor(context, R.color.textLevel1))
+                .backgroundColor(ContextCompat.getColor(context, R.color.cardBackground))
+                .title(R.string.no_internet)
+                .content(R.string.no_internet_content)
+                .positiveText(R.string.changelogPositive)
+                .show();
+    }
+
+    public static boolean showMobileData(final Context context) {
+
+        final boolean[] networkPermission = new boolean[1];
+        new MaterialDialog.Builder(context)
+                .typeface(Utils.customTypeface(context, 2), Utils.customTypeface(context, 2))
+                .contentColor(ContextCompat.getColor(context, R.color.textLevel1))
+                .backgroundColor(ContextCompat.getColor(context, R.color.cardBackground))
+                .title(R.string.mobile_data_title)
+                .content(R.string.mobile_data_content)
+                .positiveText(R.string.data_positive)
+                .negativeText(R.string.data_negative)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        networkPermission[0] = true;
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        networkPermission[0] = false;
+                    }
+                })
+                .show();
+        return networkPermission[0];
+    }
 }
