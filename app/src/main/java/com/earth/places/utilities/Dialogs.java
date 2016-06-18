@@ -1,5 +1,6 @@
 package com.earth.places.utilities;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -59,7 +60,7 @@ public class Dialogs {
         context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.mail_title)));
     }
 
-    public static void showNoInternet(final Context context) {
+    public static void showNoInternet(final Activity context) {
 
         new MaterialDialog.Builder(context)
                 .typeface(Utils.customTypeface(context, 2), Utils.customTypeface(context, 2))
@@ -71,15 +72,13 @@ public class Dialogs {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        MainActivity.handleInternetConnection();
+                        Utils.handleInternetConnection(context);
                     }
                 })
                 .show();
     }
 
-    public static boolean showMobileData(final Context context) {
-
-        final boolean[] networkPermission = new boolean[1];
+    public static void showMobileData(final Activity context) {
 
         new MaterialDialog.Builder(context)
                 .typeface(Utils.customTypeface(context, 2), Utils.customTypeface(context, 2))
@@ -92,16 +91,9 @@ public class Dialogs {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        networkPermission[0] = true;
-                    }
-                })
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        networkPermission[0] = false;
+                        Utils.loadContent(context);
                     }
                 })
                 .show();
-        return networkPermission[0];
     }
 }

@@ -5,6 +5,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
@@ -17,6 +19,9 @@ import android.text.Html;
 import android.view.View;
 
 import com.earth.places.R;
+import com.earth.places.fragment.FragmentDisasters;
+import com.earth.places.fragment.FragmentGoodActs;
+import com.earth.places.fragment.FragmentPlaces;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -25,6 +30,41 @@ import java.text.Normalizer;
 import java.util.regex.Pattern;
 
 public class Utils extends Activity {
+
+
+    /**
+     *  Handles the different internet connection states and acts respectively with loading the content or showing a message.
+     */
+    public static void handleInternetConnection(Activity context) {
+
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+        if (activeNetwork != null) { // connected to the internet
+
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) { // connected to wifi
+                loadContent(context);
+            }
+
+            else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) { // connected to the mobile provider's data plan
+                Dialogs.showMobileData(context);
+            }
+
+        } else Dialogs.showNoInternet(context); // not connected to the internet
+
+
+    }
+
+    /**
+     *  Load all info from the JSONs and display content
+     */
+    public static void loadContent(Activity context) {
+
+        FragmentPlaces.loadPlacesList(context);
+        FragmentDisasters.loadDisastersList(context);
+        FragmentGoodActs.loadGoodActsList(context);
+    }
+
 
     /**
      * Filter all enitities out of a string.

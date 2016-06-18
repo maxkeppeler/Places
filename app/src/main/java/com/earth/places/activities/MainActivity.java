@@ -15,7 +15,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -39,6 +38,7 @@ import com.earth.places.utilities.Constants;
 import com.earth.places.utilities.Dialogs;
 import com.earth.places.utilities.FilterLogic;
 import com.earth.places.utilities.Preferences;
+import com.earth.places.utilities.Utils;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -78,9 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         context = this;
 
-        Preferences pref = new Preferences(context);
-
-        handleInternetConnection();
+        Utils.handleInternetConnection(context);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -96,23 +94,24 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(context, R.color.tabIndicator));
         tabLayout.setTabTextColors(ContextCompat.getColor(context, R.color.tabTextNotSelected), ContextCompat.getColor(context, R.color.tabTextSelected));
 
-//        TODO: Check if the app was updated
 
-        if (pref.getFirstStart()) {
+        Preferences pref = new Preferences(context);
+
+        if (pref.getFirstStart()) {         // TODO: Check if the app was updated before and show then changelog too
             Dialogs.showChangelog(context);
             pref.setFirstStart(false);
         }
 
         drawerHeaderURLS = getResources().getStringArray(R.array.headerUrl);
 
-        drawerHeader = new AccountHeaderBuilder().withActivity(this)
+        drawerHeader = new AccountHeaderBuilder().withActivity(context)
                 .withSelectionFirstLine("Beautiful Places").withSelectionSecondLine("on our Earth")
                 .withHeightDp(250)
                 .build();
         drawerHeader();
 
         drawer = new DrawerBuilder()
-                .withActivity(this)
+                .withActivity(context)
                 .withAccountHeader(drawerHeader)
                 .withSavedInstance(savedInstanceState)
                 .withSelectedItem(Constants.ID_DRAWER_PLACES)
@@ -205,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
         if (drawer != null) drawer.setSelection(Constants.ID_DRAWER_PLACES);
 
         drawerFilter = new DrawerBuilder()
-                .withActivity(this)
+                .withActivity(context)
                 .withToolbar(toolbar)
                 .withDisplayBelowStatusBar(true)
                 .withSavedInstance(savedInstanceState)
@@ -280,38 +279,6 @@ public class MainActivity extends AppCompatActivity {
         if (drawerFilter != null) drawerFilter.setSelection(Constants.NO_SELECTION);
 
     }
-
-    public static void handleInternetConnection() {
-
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-
-        if (activeNetwork != null) { // connected to the internet
-
-            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) { // connected to wifi
-
-                // Load all lists directly at the start of the app
-                FragmentPlaces.loadPlacesList(context);
-                FragmentDisasters.loadDisastersList(context);
-                FragmentGoodActs.loadGoodActsList(context);
-            }
-
-            else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) { // connected to the mobile provider's data plan
-
-                if (Dialogs.showMobileData(context)) {
-                    FragmentPlaces.loadPlacesList(context);
-                    FragmentDisasters.loadDisastersList(context);
-                    FragmentGoodActs.loadGoodActsList(context);
-                }
-            }
-
-        }
-
-        else Dialogs.showNoInternet(context); // not connected to the internet
-
-
-    }
-
 
     /**
      * Set the correct title, depending on the position in the drawer.
