@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.inquiry.Inquiry;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.RequestListener;
@@ -74,54 +75,60 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
     @Override
     public void onBindViewHolder(final PlacesViewHolder holder, final int index) {
 
+        final Place place = placesList.get(index);
+        final String sight = place.getSight();
+        final String[] url = place.getUrl().replace(" ", "").split("\\|");
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Glide.with(context.getApplicationContext())
+                        .load(url[0])
+                        .asBitmap()
+                        .override(1200, 900)
+                        .centerCrop()
+                        .priority(Priority.IMMEDIATE)
+                        .listener(new RequestListener<String, Bitmap>() {
+                            @Override
+                            public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                                Log.d("PlaceView", "Toolbar Image onException: ");
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                holder.layout.setVisibility(View.VISIBLE);
+
+                                new Palette.Builder(resource).generate(new Palette.PaletteAsyncListener() {
+                                    @Override
+                                    public void onGenerated(Palette palette) {
+
+                                        if (palette == null) return;
+                                        int color = Utils.colorFromPalette(context, palette);
+                                        Places.getPlacesList().get(index).setColor(color);
+                                    }
+                                });
+
+                                return false;
+                            }
+                        })
+                        .into(holder.image);
+            }
+        });
+
+        thread.setPriority(Thread.MAX_PRIORITY);
+        thread.run();
+
+
+
         if (MainActivity.tabLayout.getTabAt(0).isSelected()) {
             Bookmarks.init(context);
-            boolean state = Bookmarks.isBookmarked(Places.getPlacesList().get(index).getId());
-            holder.stateReaction(state, false);
+            holder.stateReaction(Bookmarks.isBookmarked(Places.getPlacesList().get(index).getId()), false);
+            Inquiry.deinit();
         }
 
         if (MainActivity.tabLayout.getTabAt(1).isSelected())
             holder.drawableBookmark.setImageDrawable(iconBookmark);
-
-
-        final Place place = placesList.get(index);
-        final String sight = place.getSight();
-
-        final String[] url = place.getUrl().replace(" ", "").split("\\|");
-
-
-        Glide.with(context.getApplicationContext())
-                .load(url[0] != null ? url[0] :  place.getUrl())
-                .asBitmap()
-                .override(800, 500)
-                .fitCenter()
-                .priority(Priority.IMMEDIATE)
-                .listener(new RequestListener<String, Bitmap>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
-                        Log.d("PlaceView", "Toolbar Image onException: ");
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        holder.layout.setVisibility(View.VISIBLE);
-
-                        new Palette.Builder(resource).generate(new Palette.PaletteAsyncListener() {
-                            @Override
-                            public void onGenerated(Palette palette) {
-
-                                if (palette == null) return;
-                                int color = Utils.colorFromPalette(context, palette);
-                                Places.getPlacesList().get(index).setColor(color);
-                            }
-                        });
-
-                        return false;
-                    }
-                })
-                .into(holder.image);
-
 
         holder.sight.setText(sight);
         holder.place.setText(place.getPlace());
