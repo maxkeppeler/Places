@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="pref_screen">
 
-    <PreferenceCategory android:title="Community Suggestions">
+    <PreferenceCategory android:title="Content Suggestions">
 
         <Preference
             android:key="pref_suggest_places"
@@ -11,28 +11,38 @@
 
         <Preference
             android:key="pref_suggest_nature_events"
-            android:summary="Suggest Disasters and Good Acts"
+            android:summary="Suggest disasters and good acts"
             android:title="Nature Events" />
 
         <Preference
             android:key="pref_suggest_hall_of_honor"
-            android:summary="Suggest People, Websites, Organizations or Apps."
+            android:summary="Suggest people, websites, organizations, apps and more"
             android:title="Hall of Honor" />
-
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="About Places">
 
-        <Preference
-            android:key="pref_changelog"
-            android:summary="Check out the latest changes."
-            android:title="Changelog" />
+    <PreferenceCategory android:title="Options">
 
         <Preference
             android:key="pref_data_base"
-            android:summary="All of your bookmarked Places will be deleted."
+            android:summary="All of your bookmarked Places will be deleted"
             android:title="Delete Bookmarks" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory android:title="Misc">
+
+        <Preference
+            android:key="pref_changelog"
+            android:summary="Check out the latest changes"
+            android:title="Changelog" />
+
+        <Preference
+            android:key="pref_github"
+            android:summary="Places is Open Source"
+            android:title="GitHub" />
 
     </PreferenceCategory>
 

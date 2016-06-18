@@ -73,4 +73,7 @@
     <string name="data_positive">Yes</string>
     <string name="data_negative">No</string>
 
+    <!-- MISC LINKS -->
+    <string name="github">https://github.com/MaximilianKeppeler/Places</string>
+
 </resources>
