@@ -120,6 +120,23 @@ public class Settings extends PreferenceActivity {
                 return true;
             }
         });
+
+
+        Preference prefGitHub = findPreference("pref_github");
+        prefGitHub.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+
+                Utils.openChromeTab(context, getResources().getString(R.string.github), 0);
+
+                return true;
+            }
+        });
+
+
+
+
+
     }
 
 }
