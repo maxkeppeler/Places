@@ -11,6 +11,7 @@ import android.text.Html;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.earth.places.R;
+import com.earth.places.activities.MainActivity;
 
 public class Dialogs {
 
@@ -67,12 +68,19 @@ public class Dialogs {
                 .title(R.string.no_internet)
                 .content(R.string.no_internet_content)
                 .positiveText(R.string.changelogPositive)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        MainActivity.handleInternetConnection();
+                    }
+                })
                 .show();
     }
 
     public static boolean showMobileData(final Context context) {
 
         final boolean[] networkPermission = new boolean[1];
+
         new MaterialDialog.Builder(context)
                 .typeface(Utils.customTypeface(context, 2), Utils.customTypeface(context, 2))
                 .contentColor(ContextCompat.getColor(context, R.color.textLevel1))

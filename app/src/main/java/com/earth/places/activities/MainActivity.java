@@ -3,7 +3,6 @@ package com.earth.places.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -40,7 +39,6 @@ import com.earth.places.utilities.Constants;
 import com.earth.places.utilities.Dialogs;
 import com.earth.places.utilities.FilterLogic;
 import com.earth.places.utilities.Preferences;
-import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -53,8 +51,6 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.Bind;
 
@@ -84,35 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         Preferences pref = new Preferences(context);
 
-        // Load all lists directly at the start of the app
-//        FragmentPlaces.loadPlacesList(context);
-//        FragmentDisasters.loadDisastersList(context);
-//        FragmentGoodActs.loadGoodActsList(context);
-
-//        TODO: If user has no WIFI, ask if we can use the mobile internet. Inform user that much data will be loaded. Afterwards load places list
-
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        if (activeNetwork != null) { // connected to the internet
-            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
-                // connected to wifi
-                // Load all lists directly at the start of the app
-                FragmentPlaces.loadPlacesList(context);
-                FragmentDisasters.loadDisastersList(context);
-                FragmentGoodActs.loadGoodActsList(context);
-            } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
-                // connected to the mobile provider's data plan
-                if (Dialogs.showMobileData(this))
-                {
-                    FragmentPlaces.loadPlacesList(context);
-                    FragmentDisasters.loadDisastersList(context);
-                    FragmentGoodActs.loadGoodActsList(context);
-                }
-            }
-        } else {
-            // not connected to the internet
-            Dialogs.showNoInternet(this);
-        }
+        handleInternetConnection();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -310,6 +278,37 @@ public class MainActivity extends AppCompatActivity {
                 .append(drawer);
 
         if (drawerFilter != null) drawerFilter.setSelection(Constants.NO_SELECTION);
+
+    }
+
+    public static void handleInternetConnection() {
+
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+        if (activeNetwork != null) { // connected to the internet
+
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) { // connected to wifi
+
+                // Load all lists directly at the start of the app
+                FragmentPlaces.loadPlacesList(context);
+                FragmentDisasters.loadDisastersList(context);
+                FragmentGoodActs.loadGoodActsList(context);
+            }
+
+            else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) { // connected to the mobile provider's data plan
+
+                if (Dialogs.showMobileData(context)) {
+                    FragmentPlaces.loadPlacesList(context);
+                    FragmentDisasters.loadDisastersList(context);
+                    FragmentGoodActs.loadGoodActsList(context);
+                }
+            }
+
+        }
+
+        else Dialogs.showNoInternet(context); // not connected to the internet
+
 
     }
 
