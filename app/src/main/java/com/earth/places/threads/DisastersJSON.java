@@ -75,6 +75,7 @@ public class DisastersJSON extends AsyncTask<Void, Void, Void> {
             FragmentDisasters.recyclerView.setVisibility(View.VISIBLE);
         }
 
+        if (MainActivity.tabLayout.getTabAt(1).isSelected())
         MainActivity.updateTabTexts(1, Disasters.getDisastersList().size(), 0);
 
     }

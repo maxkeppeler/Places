@@ -75,6 +75,7 @@ public class GoodActsJSON extends AsyncTask<Void, Void, Void> {
             FragmentGoodActs.recyclerView.setVisibility(View.VISIBLE);
         }
 
+        if (MainActivity.tabLayout.getTabAt(1).isSelected())
         MainActivity.updateTabTexts(1, 0, GoodActs.getGoodActsList().size());
     }
 
