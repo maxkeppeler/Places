@@ -43,8 +43,7 @@ public class GalleryView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.place_item_gallery_view);
-//        TODO: Translucent Navigation Bar while Snackbar will still be displayed over it.
-        
+
         context = this;
 
         Intent intent = getIntent();

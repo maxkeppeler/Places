@@ -13,12 +13,14 @@ import android.support.customtabs.CustomTabsSession;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
+import android.text.Html;
 import android.view.View;
 
 import com.earth.places.R;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.Normalizer;
 import java.util.regex.Pattern;
 
@@ -31,7 +33,11 @@ public class Utils extends Activity {
      */
     public static String cleanString(String string) {
 
+        // TODO: Convert HTML entities and characters correctly. Haven't found a solution yet.
+
         string = string.replace("\\n ", "\n");
+        string =  Html.fromHtml(string).toString();
+
         string = Normalizer.normalize(string, Normalizer.Form.NFD);
 
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
@@ -67,8 +73,8 @@ public class Utils extends Activity {
      */
     public static boolean stringIsContained(String string1, String string2) {
 
-        return string2.toLowerCase().replace(" ", "").replace(",", "")
-                .contains(string1.toLowerCase().replace(" ", "").replace(",", ""));
+        return string1.toLowerCase().replace(" ", "").replace(",", "")
+                .contains(string2.toLowerCase().replace(" ", "").replace(",", ""));
     }
 
     /**

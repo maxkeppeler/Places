@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(context, R.color.tabIndicator));
         tabLayout.setTabTextColors(ContextCompat.getColor(context, R.color.tabTextNotSelected), ContextCompat.getColor(context, R.color.tabTextSelected));
 
-//        TODO: Check if app was updated and had then the first start
+//        TODO: Check if the app was updated
 
         if (pref.getFirstStart()) {
             Dialogs.showChangelog(context);
