@@ -30,6 +30,7 @@
         <item>https://lh3.googleusercontent.com/-IspNqtIzYEs/AAAAAAAAAAI/AAAAAAAAkvk/_YzeYcLmB2I/s133-p-rw-no/photo.jpg</item>
         <item>https://lh3.googleusercontent.com/-mMe9cCCcm3Q/AAAAAAAAAAI/AAAAAAABFQs/1AaLkd3li4U/s282-p-k-rw-no/photo.jpg</item>
         <item>https://lh3.googleusercontent.com/-3dZLUEjal04/AAAAAAAAAAI/AAAAAAAAQgI/Cdj33SuO0aw/s133-p-rw-no/photo.jpg</item>
+        <item>https://avatars0.githubusercontent.com/u/12984845</item>
     </array>
 
     <array name="mName">
@@ -38,6 +39,7 @@
         <item>Kevin Aguilar - 221 Pixels</item>
         <item>Aidan Follestad</item>
         <item>Jahir Fiquitiva</item>
+        <item>Subhrajyoti Sen</item>
     </array>
 
     <array name="mTitle">
@@ -46,6 +48,7 @@
         <item>Designer</item>
         <item>Developer</item>
         <item>Developer | Designer</item>
+        <item>Developer</item>
     </array>
 
     <array name="mDesc">
@@ -55,6 +58,7 @@
         <item>Known Icon Pack Designer. I made the beautiful Places icon.</item>
         <item>Software developer and car enthusiast.</item>
         <item>Graphic Design &amp; Android Development Enthusiast.</item>
+        <item>Android Developer and Open Source Enthusiast</item>
     </array>
 
     <string-array name="profileButtonNames">
@@ -63,6 +67,7 @@
         <item>Google+</item>
         <item>Website | Google+ | Twitter</item>
         <item>Website | Google+</item>
+        <item>Website | Google+ | Twitter</item>
     </string-array>
 
     <string-array name="profileButtonLinks">
@@ -71,6 +76,7 @@
         <item>https://plus.google.com/u/0/+KevinAguilarC/posts</item>
         <item>https://aidanfollestad.com/|https://plus.google.com/+AidanFollestad|https://twitter.com/afollestad</item>
         <item>http://www.jahirfiquitiva.net/|https://plus.google.com/+JahirFiquitivaJDev</item>
+        <item>http://subhrajyotisen.github.io/|https://plus.google.com/+subhrajyotisen12/|http://twitter.com/iamsubhrajyoti</item>
     </string-array>
 
 
