@@ -77,11 +77,6 @@
                     android:padding="16dp"
                     android:textColor="@color/textLevel1" />
 
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/memberButton"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content">-->
-
                     <com.earth.places.views.ButtonLayout
                         android:id="@+id/buttonLayout"
                         android:layout_width="match_parent"
@@ -89,8 +84,6 @@
                         android:orientation="horizontal"
                         android:paddingEnd="8dp"
                         android:paddingStart="8dp" />
-
-                <!--</LinearLayout>-->
 
             </LinearLayout>
 
