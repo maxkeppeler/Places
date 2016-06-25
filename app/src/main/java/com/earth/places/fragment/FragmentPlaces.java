@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,12 +18,13 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
 
+import com.earth.places.adapters.ParallaxAdapter;
+import com.earth.places.views.ParallaxRecyclerView;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.earth.places.R;
 import com.earth.places.activities.MainActivity;
 import com.earth.places.activities.PlaceView;
-import com.earth.places.adapters.PlaceAdapter;
 import com.earth.places.models.Place;
 import com.earth.places.models.Places;
 import com.earth.places.threads.PlacesJSON;
@@ -39,8 +39,8 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
     public static SwipeRefreshLayout refreshLayout;
     public static ArrayList<Place> filter = new ArrayList<>();
     public static SearchView searchView;
-    public static RecyclerView recyclerView;
-    private static PlaceAdapter placeAdapter;
+    public static ParallaxRecyclerView recyclerView;
+    private static ParallaxAdapter placeAdapter;
     private static Activity context;
     private Menu placesMenu;
 
@@ -52,10 +52,10 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
 
                 @Override
                 public void run() {
-                    placeAdapter = new PlaceAdapter(context, new PlaceAdapter.ClickListener() {
+                    placeAdapter = new ParallaxAdapter(context, new ParallaxAdapter.ClickListener() {
 
                         @Override
-                        public void onClick(PlaceAdapter.PlacesViewHolder v, final int position) {
+                        public void onClick(ParallaxAdapter.ParallaxViewHolder v, final int position) {
 
                             Intent intent = new Intent(context, PlaceView.class);
                             if (filtering) intent.putExtra("item", searchFiltering.get(position));
@@ -177,7 +177,7 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
         refreshLayout.setOnRefreshListener(this);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.placesRecyclerView);
+        recyclerView = (ParallaxRecyclerView) view.findViewById(R.id.placesRecyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(context, 1));
         recyclerView.setAdapter(placeAdapter);
         recyclerView.setHasFixedSize(true);
@@ -202,4 +202,6 @@ public class FragmentPlaces extends Fragment implements SwipeRefreshLayout.OnRef
         if (placesMenu != null)
         placesMenu.clear();
     }
+
+
 }

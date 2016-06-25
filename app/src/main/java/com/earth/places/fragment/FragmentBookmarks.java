@@ -21,12 +21,12 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
 
 import com.afollestad.inquiry.Inquiry;
+import com.earth.places.adapters.ParallaxAdapter;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.earth.places.R;
 import com.earth.places.activities.MainActivity;
 import com.earth.places.activities.PlaceView;
-import com.earth.places.adapters.PlaceAdapter;
 import com.earth.places.models.Place;
 import com.earth.places.models.Places;
 import com.earth.places.utilities.Bookmarks;
@@ -42,7 +42,7 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
     public static ArrayList<Place> filter;
     public static SearchView searchView;
     private static ArrayList<Place> bookmarks = new ArrayList<>();
-    private static PlaceAdapter mAdapter;
+    private static ParallaxAdapter mAdapter;
     private static RecyclerView mRecyclerView;
     private static Activity context;
     private Menu bookmarksMenu;
@@ -57,10 +57,10 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
             context.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mAdapter = new PlaceAdapter(context,
-                            new PlaceAdapter.ClickListener() {
+                    mAdapter = new ParallaxAdapter(context,
+                            new ParallaxAdapter.ClickListener() {
                                 @Override
-                                public void onClick(PlaceAdapter.PlacesViewHolder v, int position) {
+                                public void onClick(ParallaxAdapter.ParallaxViewHolder v, int position) {
 
                                     Intent intent = new Intent(context, PlaceView.class);
                                     if (filtering)

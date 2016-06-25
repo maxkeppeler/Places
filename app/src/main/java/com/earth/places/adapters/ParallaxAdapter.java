@@ -3,6 +3,7 @@ package com.earth.places.adapters;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
@@ -28,12 +29,15 @@ import com.earth.places.models.Places;
 import com.earth.places.utilities.Bookmarks;
 import com.earth.places.utilities.Constants;
 import com.earth.places.utilities.Utils;
+import com.earth.places.views.ParallaxImageView;
+import com.earth.places.views.ParallaxViewHolder;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
 import java.util.ArrayList;
 
-public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHolder> {
+public class ParallaxAdapter extends RecyclerView.Adapter<ParallaxAdapter.ParallaxViewHolder> {
+
 
     private ClickListener clickListener;
     private ArrayList<Place> placesList;
@@ -43,7 +47,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
 
     private IconicsDrawable city, country, nationalPark, map, misc;
 
-    public PlaceAdapter(Activity context, ClickListener clickListener) {
+    public ParallaxAdapter(Activity context, ClickListener clickListener) {
         this.context = context;
         this.clickListener = clickListener;
 
@@ -62,8 +66,8 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
     }
 
     @Override
-    public PlacesViewHolder onCreateViewHolder(ViewGroup parent, int index) {
-        return new PlacesViewHolder(LayoutInflater.from(context).inflate(R.layout.fragment_places_item, parent, false));
+    public ParallaxViewHolder onCreateViewHolder(ViewGroup parent, int index) {
+        return new ParallaxViewHolder(LayoutInflater.from(context).inflate(R.layout.fragment_places_item, parent, false));
     }
 
     public void setData(ArrayList<Place> placesList) {
@@ -73,7 +77,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
     }
 
     @Override
-    public void onBindViewHolder(final PlacesViewHolder holder, final int index) {
+    public void onBindViewHolder(final ParallaxViewHolder holder, final int index) {
 
         final Place place = placesList.get(index);
         final String sight = place.getSight();
@@ -113,11 +117,24 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
                             }
                         })
                         .into(holder.image);
+                ViewGroup.LayoutParams params =  holder.image.getLayoutParams();
+                params.height = 700 ;
+                holder.image.setLayoutParams(params);
+
             }
         });
 
         thread.setPriority(Thread.MAX_PRIORITY);
         thread.run();
+
+        Matrix matrix = holder.image.getImageMatrix();
+        matrix.postTranslate(0, -100);
+        holder.image.setImageMatrix(matrix);
+
+        holder.itemView.setTag(holder);
+
+        holder.getBackgroundImage().reuse();
+
 
 
 
@@ -159,23 +176,29 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
     }
 
     public interface ClickListener {
-        void onClick(PlacesViewHolder v, int index);
+        void onClick(ParallaxViewHolder v, int index);
     }
 
-    public class PlacesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ParallaxViewHolder extends com.earth.places.views.ParallaxViewHolder implements View.OnClickListener {
 
         private final FrameLayout layout;
-        private final ImageView image;
+        public final ParallaxImageView image;
         private final TextView place, sight, continent;
         private final ImageView drawableSight, drawableContinent;
         private final ImageView drawableBookmark;
 
-        PlacesViewHolder(View v) {
+
+        @Override
+        public int getParallaxImageId() {
+            return R.id.thumbImage;
+        }
+
+        ParallaxViewHolder(View v) {
             super(v);
 
             layout = (FrameLayout) v.findViewById(R.id.layout);
 
-            image = (ImageView) v.findViewById(R.id.thumbImage);
+            image = (ParallaxImageView) v.findViewById(R.id.thumbImage);
 
             image.setOnClickListener(this);
 
@@ -217,14 +240,14 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
             if(state) {
 
                 if (showSnackBar)
-                Utils.showSnackBar(context, ContextCompat.getColor(context, R.color.cardBackground), R.id.coordinatorLayout, R.string.bookmarkedPlace, Snackbar.LENGTH_LONG);
+                    Utils.showSnackBar(context, ContextCompat.getColor(context, R.color.cardBackground), R.id.coordinatorLayout, R.string.bookmarkedPlace, Snackbar.LENGTH_LONG);
 
                 drawableBookmark.setImageDrawable(iconBookmark);
             }
 
             else {
                 if (showSnackBar)
-                Utils.showSnackBar(context, ContextCompat.getColor(context, R.color.cardBackground), R.id.coordinatorLayout, R.string.removedPlace, Snackbar.LENGTH_LONG);
+                    Utils.showSnackBar(context, ContextCompat.getColor(context, R.color.cardBackground), R.id.coordinatorLayout, R.string.removedPlace, Snackbar.LENGTH_LONG);
 
                 drawableBookmark.setImageDrawable(iconBookmarkBorder);
             }
@@ -240,5 +263,14 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlacesViewHo
 
     }
 
+    @Override
+    public void onViewRecycled(ParallaxViewHolder parallaxViewHolder) {
+        super.onViewRecycled(parallaxViewHolder);
+        parallaxViewHolder.image.setScaleType(ImageView.ScaleType.MATRIX);
+        Matrix matrix = parallaxViewHolder.image.getImageMatrix();
+        // this is set manually to show to the center
+        matrix.reset();
+        parallaxViewHolder.image.setImageMatrix(matrix);
 
+    }
 }

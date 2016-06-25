@@ -5,11 +5,12 @@
     android:layout_height="wrap_content"
     android:visibility="invisible">
 
-    <ImageView
+    <com.earth.places.views.ParallaxImageView
         android:id="@+id/thumbImage"
         android:layout_width="match_parent"
         android:layout_height="320dp"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        />
 
     <LinearLayout
         android:id="@+id/thumbShadow"

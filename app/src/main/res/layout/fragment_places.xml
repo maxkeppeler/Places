@@ -13,7 +13,7 @@
         android:orientation="vertical"
         tools:context=".activities.MainActivity">
 
-        <android.support.v7.widget.RecyclerView
+        <com.earth.places.views.ParallaxRecyclerView
             android:id="@+id/placesRecyclerView"
             style="@style/RecyclerView" />
 
