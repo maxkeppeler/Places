@@ -188,7 +188,7 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
 
         switch (id) {
             case R.id.shuffle:
-                ArrayList<Place> shuffled = Places.getPlacesList();
+                ArrayList<Place> shuffled = bookmarks;
                 Collections.shuffle(shuffled);
                 updateLayout(true, shuffled);
                 break;
