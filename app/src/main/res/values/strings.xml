@@ -30,6 +30,7 @@
     <string name="action_share">Share</string>
     <string name="action_open">Open In Browser</string>
     <string name="action_bookmark">Bookmark</string>
+    <string name="action_shuffle">Shuffle</string>
     <string name="action_filter">Filter</string>
     <string name="action_search">Search</string>
     <string name="action_download">Download Image</string>

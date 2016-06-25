@@ -33,6 +33,7 @@ import com.earth.places.utilities.Bookmarks;
 import com.earth.places.utilities.Constants;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -150,14 +151,11 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
 
         inflater.inflate(R.menu.actions_places, menu);
 
-        menu.findItem(R.id.drawer).setIcon(new IconicsDrawable(context, GoogleMaterial.Icon.gmd_filter_list).paddingDp(1).color(Color.WHITE).sizeDp(20).actionBar());
-
         bookmarksMenu = menu;
 
         MenuItem item = menu.findItem(R.id.search);
         searchView = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
         MenuItemCompat.setActionView(item, searchView);
-        searchView.setQueryHint(getResources().getString(R.string.searchTextHint));
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
@@ -187,7 +185,13 @@ public class FragmentBookmarks extends Fragment implements SwipeRefreshLayout.On
     public boolean onOptionsItemSelected(MenuItem menu) {
 
         int id = menu.getItemId();
+
         switch (id) {
+            case R.id.shuffle:
+                ArrayList<Place> shuffled = Places.getPlacesList();
+                Collections.shuffle(shuffled);
+                updateLayout(true, shuffled);
+                break;
             case R.id.drawer:
                 MainActivity.drawerFilter.openDrawer();
                 break;

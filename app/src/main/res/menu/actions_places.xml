@@ -9,8 +9,16 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/shuffle"
+        android:orderInCategory="-1"
+        android:icon="@drawable/ic_shuffle"
+        android:title="@string/action_shuffle"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/drawer"
         android:orderInCategory="-1"
+        android:icon="@drawable/ic_drawer"
         android:title="@string/action_filter"
         app:showAsAction="ifRoom" />
 
