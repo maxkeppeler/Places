@@ -89,7 +89,7 @@ public class ParallaxAdapter extends RecyclerView.Adapter<ParallaxAdapter.Parall
                 Glide.with(context.getApplicationContext())
                         .load(url[0])
                         .asBitmap()
-                        .override(1200, 900)
+                        .override(1200, 1200)
                         .centerCrop()
                         .priority(Priority.IMMEDIATE)
                         .listener(new RequestListener<String, Bitmap>() {
@@ -118,7 +118,7 @@ public class ParallaxAdapter extends RecyclerView.Adapter<ParallaxAdapter.Parall
                         })
                         .into(holder.image);
                 ViewGroup.LayoutParams params =  holder.image.getLayoutParams();
-                params.height = 700 ;
+                params.height = 900 ;
                 holder.image.setLayoutParams(params);
 
             }
